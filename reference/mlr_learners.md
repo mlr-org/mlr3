@@ -115,7 +115,7 @@ mlr_learners$get("classif.featureless")
 #> • Encapsulation: none (fallback: -)
 #> • Properties: featureless, importance, missings, multiclass, selected_features,
 #> twoclass, and weights
-#> • Other settings: use_weights = 'use'
+#> • Other settings: use_weights = 'use', predict_raw = 'FALSE'
 lrn("classif.rpart")
 #> 
 #> ── <LearnerClassifRpart> (classif.rpart): Classification Tree ──────────────────
@@ -127,5 +127,5 @@ lrn("classif.rpart")
 #> • Encapsulation: none (fallback: -)
 #> • Properties: importance, missings, multiclass, selected_features, twoclass,
 #> and weights
-#> • Other settings: use_weights = 'use'
+#> • Other settings: use_weights = 'use', predict_raw = 'FALSE'
 ```

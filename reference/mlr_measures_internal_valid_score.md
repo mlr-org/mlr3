@@ -146,6 +146,6 @@ rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3), rsmp("holdout")
 rr$score(msr("internal_valid_score", select = "acc"))
 #>    task_id    learner_id resampling_id iteration       acc
 #>     <char>        <char>        <char>     <int>     <num>
-#> 1:    iris classif.debug       holdout         1 0.3333333
+#> 1:    iris classif.debug       holdout         1 0.4666667
 #> Hidden columns: task, learner, resampling, prediction_test
 ```

@@ -138,10 +138,10 @@ rr = resample(task, learner, rsmp("cv", folds = 5))
 rr$score(measure)
 #>    task_id          learner_id resampling_id iteration debug_classif
 #>     <char>              <char>        <char>     <int>         <num>
-#> 1:    wine classif.featureless            cv         1            36
+#> 1:    wine classif.featureless            cv         1            NA
 #> 2:    wine classif.featureless            cv         2            NA
 #> 3:    wine classif.featureless            cv         3            36
-#> 4:    wine classif.featureless            cv         4            35
-#> 5:    wine classif.featureless            cv         5            35
+#> 4:    wine classif.featureless            cv         4            NA
+#> 5:    wine classif.featureless            cv         5            NA
 #> Hidden columns: task, learner, resampling, prediction_test
 ```

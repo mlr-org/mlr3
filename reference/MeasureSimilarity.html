@@ -31,7 +31,7 @@ mlr_measures, prefixed with "sim.".'><meta property="og:image" content="https://
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -204,8 +204,10 @@ Supported by <code>mlr3</code>:</p><ul><li><p><code>"requires_task"</code> (requ
 <li><p><code>"requires_train_set"</code> (requires the training indices from the <a href="Resampling.html">Resampling</a>),</p></li>
 <li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>),</p></li>
 <li><p><code>"weights"</code> (support weighted scoring using sample weights from task, column role <code>weights_measure</code>), and</p></li>
-<li><p><code>"primary_iters"</code> (the measure explictly handles resamplings that only use a subset of their iterations for the point estimate)</p></li>
-<li><p><code>"requires_no_prediction"</code> (No prediction is required; This usually means that the measure extracts some information from the learner state.).</p></li>
+<li><p><code>"primary_iters"</code> (the measure explicitly handles resamplings
+that only use a subset of their iterations for the point estimate)</p></li>
+<li><p><code>"requires_no_prediction"</code> (No prediction is required;
+This usually means that the measure extracts some information from the learner state.).</p></li>
 </ul></dd>
 
 
@@ -274,8 +276,8 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">msrs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.ce"</span>, <span class="st">"sim.jaccard"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       nr  task_id learner_id resampling_id iters classif.ce sim.jaccard</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt;   &lt;char&gt;     &lt;char&gt;        &lt;char&gt; &lt;int&gt;      &lt;num&gt;       &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1 penguins         r1            cv     3  0.2093822   1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2 penguins         r2            cv     3  0.0581490   0.7777778</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1 penguins         r1            cv     3 0.23249428   0.3333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2 penguins         r2            cv     3 0.06389525   0.5555556</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Hidden columns: resample_result</span>
 </code></pre></div>
     </div>

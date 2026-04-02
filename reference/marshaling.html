@@ -16,14 +16,16 @@ Which takes in a model and returns it in marshaled form.
 This means, that the resulting object can be serialized and de-serialized without loss of information.
 If a model is serializable anyway, nothing has to be implemented and the generic will fall back to the
 default implementation of marshal_model, which is to return the object as-is.
-Otherwise, the marshaled object should be a list with named elements marshaled and packages, where the former contains
+Otherwise, the marshaled object should be a list with named elements marshaled and
+packages, where the former contains
 the marshaled object, and the latter the package that contains the packages required to unmarshal.
 Most importantly, this list should contain the package that contains the unmarshal_model method.
 The returned object should have the classes of the original object with the suffix "_marshaled" appended and the
 root class should be set to "marshaled".
 the S3 generic unmarshal_model(model, inplace ...).
 Which takes in the marshaled model and returns it in unmarshaled form.
-The generic takes care that the packages specified during "marshal" are loaded, and errs if they are not available.
+The generic takes care that the packages specified during "marshal" are loaded,
+and errs if they are not available.
 Calling this function on a marshaled model should reconstruct the original model, i.e.
 unmarshal_model(marshal_model(x)) should return x.
 The default implementation of this generic returns x as-is.
@@ -47,14 +49,16 @@ Which takes in a model and returns it in marshaled form.
 This means, that the resulting object can be serialized and de-serialized without loss of information.
 If a model is serializable anyway, nothing has to be implemented and the generic will fall back to the
 default implementation of marshal_model, which is to return the object as-is.
-Otherwise, the marshaled object should be a list with named elements marshaled and packages, where the former contains
+Otherwise, the marshaled object should be a list with named elements marshaled and
+packages, where the former contains
 the marshaled object, and the latter the package that contains the packages required to unmarshal.
 Most importantly, this list should contain the package that contains the unmarshal_model method.
 The returned object should have the classes of the original object with the suffix "_marshaled" appended and the
 root class should be set to "marshaled".
 the S3 generic unmarshal_model(model, inplace ...).
 Which takes in the marshaled model and returns it in unmarshaled form.
-The generic takes care that the packages specified during "marshal" are loaded, and errs if they are not available.
+The generic takes care that the packages specified during "marshal" are loaded,
+and errs if they are not available.
 Calling this function on a marshaled model should reconstruct the original model, i.e.
 unmarshal_model(marshal_model(x)) should return x.
 The default implementation of this generic returns x as-is.
@@ -75,7 +79,7 @@ Note that the input and output can still share references, even when inplace is 
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,14 +125,16 @@ Which takes in a model and returns it in marshaled form.
 This means, that the resulting object can be serialized and de-serialized without loss of information.
 If a model is serializable anyway, nothing has to be implemented and the generic will fall back to the
 default implementation of <code>marshal_model</code>, which is to return the object as-is.
-Otherwise, the marshaled object should be a list with named elements <code>marshaled</code> and <code>packages</code>, where the former contains
+Otherwise, the marshaled object should be a list with named elements <code>marshaled</code> and
+<code>packages</code>, where the former contains
 the marshaled object, and the latter the package that contains the packages required to unmarshal.
 Most importantly, this list should contain the package that contains the <code>unmarshal_model</code> method.
 The returned object should have the classes of the original object with the suffix <code>"_marshaled"</code> appended and the
 root class should be set to <code>"marshaled"</code>.</p></li>
 <li><p>the S3 generic <code>unmarshal_model(model, inplace ...)</code>.
 Which takes in the marshaled model and returns it in unmarshaled form.
-The generic takes care that the packages specified during <code>"marshal"</code> are loaded, and errs if they are not available.
+The generic takes care that the packages specified during <code>"marshal"</code> are loaded,
+and errs if they are not available.
 Calling this function on a marshaled model should reconstruct the original model, i.e.
 <code>unmarshal_model(marshal_model(x))</code> should return <code>x</code>.
 The default implementation of this generic returns <code>x</code> as-is.</p></li>
@@ -190,7 +196,8 @@ Whether to marshal in-place.</p></dd>
 methods for the class of the learner's model and tag the learner with the <code>"marshal"</code> property.
 To make marshaling accessible in an R6-manner, you should also add the public methods <code>$marshal()</code>, <code>$unmarshal()</code>
 and the active binding <code>$marshaled</code>.
-To make this as convenient as possible, the functions <code>learner_marshal(.learner, ...)</code>, <code>learner_unmarshal(.learner, ...)</code>
+To make this as convenient as possible, the functions <code>learner_marshal(.learner, ...)</code>,
+<code>learner_unmarshal(.learner, ...)</code>
 and <code>learner_marshaled(.learner)</code> are provided and can be called from the public methods.</p>
 <p>You can verify whether you have correctly implemented marshaling by using the internal test helper
 <code>expect_marshalable_learner(learner, task)</code>. This is also run by <code>expect_learner()</code> if a task is provided.</p>

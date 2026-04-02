@@ -54,8 +54,8 @@ This is especially useful for learners such as `AutoTuner` of
 [mlr3tuning](https://CRAN.R-project.org/package=mlr3tuning) or
 `GraphLearner` of
 [mlr3pipelines](https://CRAN.R-project.org/package=mlr3pipelines) which
-have multiple levels of `$validate` fields., where the `$validate`
-fields need to be configured on multiple levels.
+have multiple levels of `$validate` fields, where the `$validate` fields
+need to be configured on multiple levels.
 
 ## Usage
 
@@ -151,7 +151,7 @@ lrn("classif.rpart", cp = 0.1, predict_type = "prob")
 #> • Encapsulation: none (fallback: -)
 #> • Properties: importance, missings, multiclass, selected_features, twoclass,
 #> and weights
-#> • Other settings: use_weights = 'use'
+#> • Other settings: use_weights = 'use', predict_raw = 'FALSE'
 
 # multiple learners with predict type 'prob'
 lrns(c("classif.featureless", "classif.rpart"), predict_type = "prob")
@@ -167,7 +167,7 @@ lrns(c("classif.featureless", "classif.rpart"), predict_type = "prob")
 #> • Encapsulation: none (fallback: -)
 #> • Properties: featureless, importance, missings, multiclass, selected_features,
 #> twoclass, and weights
-#> • Other settings: use_weights = 'use'
+#> • Other settings: use_weights = 'use', predict_raw = 'FALSE'
 #> 
 #> $classif.rpart
 #> 
@@ -180,7 +180,7 @@ lrns(c("classif.featureless", "classif.rpart"), predict_type = "prob")
 #> • Encapsulation: none (fallback: -)
 #> • Properties: importance, missings, multiclass, selected_features, twoclass,
 #> and weights
-#> • Other settings: use_weights = 'use'
+#> • Other settings: use_weights = 'use', predict_raw = 'FALSE'
 #> 
 learner = lrn("classif.debug")
 set_validate(learner, 0.2)

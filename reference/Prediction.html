@@ -31,7 +31,7 @@ Note that this object is usually constructed via a derived classes, e.g. Predict
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -161,6 +161,15 @@ This is <code>NULL</code> if no weights are present.</p></dd>
 List of extra data stored in the prediction object.</p></dd>
 
 
+<dt><code>raw</code></dt>
+<dd><p>(any)<br>
+Raw prediction object from the upstream model.
+Only available if the learner's <code>predict_raw</code> flag was set to <code>TRUE</code> and the learner implementation
+supports it.
+The object is stored as-is, without validation or subsetting during filtering.
+When multiple predictions are combined via <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>, the individual raw objects are collected into a <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.</p></dd>
+
+
 </dl><p></p></div>
     </div>
     <div class="section level2">
@@ -261,9 +270,12 @@ Measure(s) to calculate.</p></dd>
 </div><p></p><hr><a id="method-Prediction-obs_loss"></a><div class="section">
 <h3 id="method-obs-loss-">Method <code>obs_loss()</code><a class="anchor" aria-label="anchor" href="#method-obs-loss-"></a></h3>
 <p>Calculates the observation-wise loss via the <a href="Measure.html">Measure</a>'s <code>obs_loss</code> method.
-Returns a <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table()</a></code> with the columns of the matching Prediction object plus one additional numeric column for each measure, named with the respective measure id.
+Returns a <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table()</a></code> with the columns of the matching Prediction object plus one additional numeric column
+for each measure, named with the respective measure id.
 If there is no observation-wise loss function for the measure, the column is filled with <code>NA_real_</code> values.
-Note that some measures such as RMSE, do have an <code>$obs_loss</code>, but they require an additional transformation after aggregation, in this example taking the square-root.</p><div class="section">
+Note that some measures such as RMSE, do have an <code>$obs_loss</code>,
+but they require an additional transformation after aggregation,
+in this example taking the square-root.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Prediction</span><span class="op">$</span><span class="fu">obs_loss</span><span class="op">(</span>measures <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>

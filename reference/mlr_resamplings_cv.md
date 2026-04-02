@@ -130,9 +130,9 @@ cv$instantiate(task)
 
 # Individual sets:
 cv$train_set(1)
-#> [1]  1  2  7  3  5 10
+#> [1] 3 4 7 1 2 6
 cv$test_set(1)
-#> [1] 4 6 8 9
+#> [1]  5  8  9 10
 
 # Disjunct sets:
 intersect(cv$train_set(1), cv$test_set(1))
@@ -143,14 +143,14 @@ cv$instance # table
 #> Key: <fold>
 #>     row_id  fold
 #>      <int> <int>
-#>  1:      4     1
-#>  2:      6     1
-#>  3:      8     1
-#>  4:      9     1
-#>  5:      1     2
-#>  6:      2     2
+#>  1:      5     1
+#>  2:      8     1
+#>  3:      9     1
+#>  4:     10     1
+#>  5:      3     2
+#>  6:      4     2
 #>  7:      7     2
-#>  8:      3     3
-#>  9:      5     3
-#> 10:     10     3
+#>  8:      1     3
+#>  9:      2     3
+#> 10:      6     3
 ```

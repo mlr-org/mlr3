@@ -20,7 +20,9 @@ msrs() for a list of Measures from mlr_measures.
 
 
 Helper function to configure the $validate field(s) of a Learner.
-This is especially useful for learners such as AutoTuner of mlr3tuning or GraphLearner of mlr3pipelines which have multiple levels of $validate fields.,
+This is especially useful for learners such as AutoTuner of mlr3tuning
+or GraphLearner of mlr3pipelines
+which have multiple levels of $validate fields,
 where the $validate fields need to be configured on multiple levels."><meta property="og:description" content="Functions to retrieve objects, set hyperparameters and assign to fields in one go.
 Relies on mlr3misc::dictionary_sugar_get() to extract objects from the respective mlr3misc::Dictionary:
 tsk() for a Task from mlr_tasks.
@@ -36,7 +38,9 @@ msrs() for a list of Measures from mlr_measures.
 
 
 Helper function to configure the $validate field(s) of a Learner.
-This is especially useful for learners such as AutoTuner of mlr3tuning or GraphLearner of mlr3pipelines which have multiple levels of $validate fields.,
+This is especially useful for learners such as AutoTuner of mlr3tuning
+or GraphLearner of mlr3pipelines
+which have multiple levels of $validate fields,
 where the $validate fields need to be configured on multiple levels."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
@@ -45,7 +49,7 @@ where the $validate fields need to be configured on multiple levels."><meta prop
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,7 +97,9 @@ Relies on <code><a href="https://mlr3misc.mlr-org.com/reference/dictionary_sugar
 <li><p><code>msr()</code> for a <a href="Measure.html">Measure</a> from <a href="mlr_measures.html">mlr_measures</a>.</p></li>
 <li><p><code>msrs()</code> for a list of <a href="Measure.html">Measure</a>s from <a href="mlr_measures.html">mlr_measures</a>.</p></li>
 </ul><p>Helper function to configure the <code>$validate</code> field(s) of a <code><a href="Learner.html">Learner</a></code>.</p>
-<p>This is especially useful for learners such as <code>AutoTuner</code> of <a href="https://CRAN.R-project.org/package=mlr3tuning" class="external-link"><span class="pkg">mlr3tuning</span></a> or <code>GraphLearner</code> of <a href="https://CRAN.R-project.org/package=mlr3pipelines" class="external-link"><span class="pkg">mlr3pipelines</span></a> which have multiple levels of <code>$validate</code> fields.,
+<p>This is especially useful for learners such as <code>AutoTuner</code> of <a href="https://CRAN.R-project.org/package=mlr3tuning" class="external-link"><span class="pkg">mlr3tuning</span></a>
+or <code>GraphLearner</code> of <a href="https://CRAN.R-project.org/package=mlr3pipelines" class="external-link"><span class="pkg">mlr3pipelines</span></a>
+which have multiple levels of <code>$validate</code> fields,
 where the <code>$validate</code> fields need to be configured on multiple levels.</p>
     </div>
 
@@ -185,7 +191,7 @@ or a list of <a href="https://r6.r-lib.org/reference/R6Class.html" class="extern
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Encapsulation: none (fallback: -)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Properties: importance, missings, multiclass, selected_features, twoclass,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> and weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • Other settings: use_weights = 'use'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Other settings: use_weights = 'use', predict_raw = 'FALSE'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># multiple learners with predict type 'prob'</span></span></span>
 <span class="r-in"><span><span class="fu">lrns</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.featureless"</span>, <span class="st">"classif.rpart"</span><span class="op">)</span>, predict_type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span></span></span>
@@ -201,7 +207,7 @@ or a list of <a href="https://r6.r-lib.org/reference/R6Class.html" class="extern
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Encapsulation: none (fallback: -)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Properties: featureless, importance, missings, multiclass, selected_features,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> twoclass, and weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • Other settings: use_weights = 'use'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Other settings: use_weights = 'use', predict_raw = 'FALSE'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $classif.rpart</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -214,7 +220,7 @@ or a list of <a href="https://r6.r-lib.org/reference/R6Class.html" class="extern
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Encapsulation: none (fallback: -)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Properties: importance, missings, multiclass, selected_features, twoclass,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> and weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • Other settings: use_weights = 'use'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Other settings: use_weights = 'use', predict_raw = 'FALSE'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"classif.debug"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">set_validate</span><span class="op">(</span><span class="va">learner</span>, <span class="fl">0.2</span><span class="op">)</span></span></span>

@@ -1,6 +1,22 @@
 # Changelog
 
+## mlr3 1.6.0
+
+- feat: `Learner` gains a `predict_raw` flag and `Prediction` gains a
+  `raw` field to store the raw prediction object from the upstream model
+  alongside standardized predictions.
+- fix: IDs containing `%` (e.g., from `deparse1(substitute(x))` with
+  pipe expressions) now produce a clear error instead of causing cryptic
+  `sprintf` failures downstream
+  ([\#1461](https://github.com/mlr-org/mlr3/issues/1461)).
+- fix: `Learner$predict_newdata()` now preserves the target’s factor
+  level ordering from training, fixing inverted probabilities for binary
+  classification when the positive class was not the first alphabetical
+  level ([\#1459](https://github.com/mlr-org/mlr3/issues/1459)).
+
 ## mlr3 1.5.0
+
+CRAN release: 2026-02-27
 
 - feat: Replace messages with conditions in logs.
 
@@ -37,7 +53,7 @@ CRAN release: 2025-12-03
 - perf: Use [`attr()`](https://rdrr.io/r/base/attr.html) instead of
   [`attributes()`](https://rdrr.io/r/base/attributes.html) for
   extracting single attributes.
-- test: Use more specialised test functions.
+- test: Use more specialized test functions.
 - fix: `weights_measure` now work with `stratum`.
 - fix: Encapsulation loads loaded packages on the workers.
 - fix: Learners can handle new factor levels.

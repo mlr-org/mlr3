@@ -116,6 +116,17 @@ Other Prediction:
   ([`list()`](https://rdrr.io/r/base/list.html))  
   List of extra data stored in the prediction object.
 
+- `raw`:
+
+  (any)  
+  Raw prediction object from the upstream model. Only available if the
+  learner's `predict_raw` flag was set to `TRUE` and the learner
+  implementation supports it. The object is stored as-is, without
+  validation or subsetting during filtering. When multiple predictions
+  are combined via [`c()`](https://rdrr.io/r/base/c.html), the
+  individual raw objects are collected into a
+  [`list()`](https://rdrr.io/r/base/list.html).
+
 ## Methods
 
 ### Public methods

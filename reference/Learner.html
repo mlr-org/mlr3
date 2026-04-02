@@ -8,7 +8,8 @@
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Learner Class — Learner"><meta name="description" content="This is the abstract base class for learner objects like LearnerClassif and LearnerRegr.
 Learners are built around the three following key parts:
 Methods $train() and $predict() which call internal methods or private methods $.train()/$.predict()).
-A paradox::ParamSet which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
+A paradox::ParamSet which stores meta-information about available hyperparameters,
+and also stores hyperparameter settings.
 Meta-information about the requirements and capabilities of the learner.
 The fitted model stored in field $model, available after calling $train().
 
@@ -18,14 +19,18 @@ e.g. classif.rpart or regr.rpart.
 More classification and regression learners are implemented in the add-on package mlr3learners.
 Learners for survival analysis (or more general, for probabilistic regression) can be found in mlr3proba.
 Unsupervised cluster algorithms are implemented in mlr3cluster.
-The dictionary mlr_learners gets automatically populated with the new learners as soon as the respective packages are loaded.
-More (experimental) learners can be found in the GitHub repository: https://github.com/mlr-org/mlr3extralearners.
-A guide on how to extend mlr3 with custom learners can be found in the mlr3book.
+The dictionary mlr_learners gets automatically populated with the new learners
+as soon as the respective packages are loaded.
+More (experimental) learners can be found in the GitHub repository:
+https://github.com/mlr-org/mlr3extralearners.
+A guide on how to extend mlr3 with custom learners can be found in the
+mlr3book.
 To combine the learner with preprocessing operations like factor encoding, mlr3pipelines is recommended.
 Hyperparameters stored in the param_set can be tuned with mlr3tuning."><meta property="og:description" content="This is the abstract base class for learner objects like LearnerClassif and LearnerRegr.
 Learners are built around the three following key parts:
 Methods $train() and $predict() which call internal methods or private methods $.train()/$.predict()).
-A paradox::ParamSet which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
+A paradox::ParamSet which stores meta-information about available hyperparameters,
+and also stores hyperparameter settings.
 Meta-information about the requirements and capabilities of the learner.
 The fitted model stored in field $model, available after calling $train().
 
@@ -35,9 +40,12 @@ e.g. classif.rpart or regr.rpart.
 More classification and regression learners are implemented in the add-on package mlr3learners.
 Learners for survival analysis (or more general, for probabilistic regression) can be found in mlr3proba.
 Unsupervised cluster algorithms are implemented in mlr3cluster.
-The dictionary mlr_learners gets automatically populated with the new learners as soon as the respective packages are loaded.
-More (experimental) learners can be found in the GitHub repository: https://github.com/mlr-org/mlr3extralearners.
-A guide on how to extend mlr3 with custom learners can be found in the mlr3book.
+The dictionary mlr_learners gets automatically populated with the new learners
+as soon as the respective packages are loaded.
+More (experimental) learners can be found in the GitHub repository:
+https://github.com/mlr-org/mlr3extralearners.
+A guide on how to extend mlr3 with custom learners can be found in the
+mlr3book.
 To combine the learner with preprocessing operations like factor encoding, mlr3pipelines is recommended.
 Hyperparameters stored in the param_set can be tuned with mlr3tuning."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -47,7 +55,7 @@ Hyperparameters stored in the param_set can be tuned with mlr3tuning."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,7 +93,8 @@ Hyperparameters stored in the param_set can be tuned with mlr3tuning."><meta pro
     <div class="ref-description section level2">
     <p>This is the abstract base class for learner objects like <a href="LearnerClassif.html">LearnerClassif</a> and <a href="LearnerRegr.html">LearnerRegr</a>.</p>
 <p>Learners are built around the three following key parts:</p><ul><li><p>Methods <code>$train()</code> and <code>$predict()</code> which call internal methods or private methods <code>$.train()</code>/<code>$.predict()</code>).</p></li>
-<li><p>A <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a> which stores meta-information about available hyperparameters, and also stores hyperparameter settings.</p></li>
+<li><p>A <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a> which stores meta-information about available hyperparameters,
+and also stores hyperparameter settings.</p></li>
 <li><p>Meta-information about the requirements and capabilities of the learner.</p></li>
 <li><p>The fitted model stored in field <code>$model</code>, available after calling <code>$train()</code>.</p></li>
 </ul><p>Predefined learners are stored in the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="mlr_learners.html">mlr_learners</a>,
@@ -93,9 +102,12 @@ e.g. <code><a href="mlr_learners_classif.rpart.html">classif.rpart</a></code> or
 <p>More classification and regression learners are implemented in the add-on package <a href="https://CRAN.R-project.org/package=mlr3learners" class="external-link"><span class="pkg">mlr3learners</span></a>.
 Learners for survival analysis (or more general, for probabilistic regression) can be found in <a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link"><span class="pkg">mlr3proba</span></a>.
 Unsupervised cluster algorithms are implemented in <a href="https://CRAN.R-project.org/package=mlr3cluster" class="external-link"><span class="pkg">mlr3cluster</span></a>.
-The dictionary <a href="mlr_learners.html">mlr_learners</a> gets automatically populated with the new learners as soon as the respective packages are loaded.</p>
-<p>More (experimental) learners can be found in the GitHub repository: <a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">https://github.com/mlr-org/mlr3extralearners</a>.
-A guide on how to extend <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a> with custom learners can be found in the <a href="https://mlr3book.mlr-org.com" class="external-link">mlr3book</a>.</p>
+The dictionary <a href="mlr_learners.html">mlr_learners</a> gets automatically populated with the new learners
+as soon as the respective packages are loaded.</p>
+<p>More (experimental) learners can be found in the GitHub repository:
+<a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">https://github.com/mlr-org/mlr3extralearners</a>.
+A guide on how to extend <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a> with custom learners can be found in the
+<a href="https://mlr3book.mlr-org.com" class="external-link">mlr3book</a>.</p>
 <p>To combine the learner with preprocessing operations like factor encoding, <a href="https://CRAN.R-project.org/package=mlr3pipelines" class="external-link"><span class="pkg">mlr3pipelines</span></a> is recommended.
 Hyperparameters stored in the <code>param_set</code> can be tuned with <a href="https://CRAN.R-project.org/package=mlr3tuning" class="external-link"><span class="pkg">mlr3tuning</span></a>.</p>
     </div>
@@ -131,13 +143,16 @@ If the learner is not trained yet, this returns <code>NULL</code>.</p></li>
 
 
 <p>Many learners support observation weights, indicated by their property <code>"weights"</code>.
-The weights are stored in the <a href="Task.html">Task</a> where the column role <code>weights_learner</code> needs to be assigned to a single numeric column.
+The weights are stored in the <a href="Task.html">Task</a> where the column role <code>weights_learner</code> needs to be assigned
+to a single numeric column.
 If a task has weights and the learner supports them, they are used automatically.
 If a task has weights but the learner does not support them, an error is thrown by default.
 Both of these behaviors can be disabled by setting the <code>use_weights</code> field to <code>"ignore"</code>.
 See the description of <code>use_weights</code> for more information.</p>
-<p>If the learner is set-up to use weights but the task does not have a designated weight column, samples are considered to have equal weight.
-When weights are being used, they are passed down to the learner directly; the effect of weights depends on the specific learner.
+<p>If the learner is set-up to use weights but the task does not have a designated weight column,
+samples are considered to have equal weight.
+When weights are being used, they are passed down to the learner directly;
+the effect of weights depends on the specific learner.
 Generally, weights do not need to sum up to 1.</p>
 <p>When implementing a Learner that uses weights, the <code>"weights"</code> property should be set.
 The <code>$.train()</code>-method should then call the <code>$.get_weights()</code>-method to retrieve the weights from the task.
@@ -155,9 +170,11 @@ To set hyperparameters, call the <code>set_values()</code> method on the <code>p
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>lrn <span class="ot">=</span> <span class="fu">lrn</span>(<span class="st">"classif.rpart"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>lrn<span class="sc">$</span>param_set<span class="sc">$</span><span class="fu">set_values</span>(<span class="at">minsplit =</span> <span class="dv">3</span>, <span class="at">cp =</span> <span class="fl">0.01</span>)</span></code></pre><p></p></div>
 <p>Note that this operation replaces all previously set hyperparameter values.
-If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function <code><a href="https://mlr3misc.mlr-org.com/reference/insert_named.html" class="external-link">mlr3misc::insert_named()</a></code>:</p>
+If you only intend to change one specific hyperparameter value and leave the others as-is,
+you can use the helper function <code><a href="https://mlr3misc.mlr-org.com/reference/insert_named.html" class="external-link">mlr3misc::insert_named()</a></code>:</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>lrn<span class="sc">$</span>param_set<span class="sc">$</span>values <span class="ot">=</span> mlr3misc<span class="sc">::</span><span class="fu">insert_named</span>(lrn<span class="sc">$</span>param_set<span class="sc">$</span>values, <span class="fu">list</span>(<span class="at">cp =</span> <span class="fl">0.001</span>))</span></code></pre><p></p></div>
-<p>If the learner has additional hyperparameters which are not encoded in the <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">ParamSet</a>, you can easily extend the learner.
+<p>If the learner has additional hyperparameters which are not encoded in the
+<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">ParamSet</a>, you can easily extend the learner.
 Here, we add a factor hyperparameter with id <code>"foo"</code> and possible levels <code>"a"</code> and <code>"b"</code>:</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>lrn<span class="sc">$</span>param_set<span class="sc">$</span><span class="fu">add</span>(paradox<span class="sc">::</span>ParamFct<span class="sc">$</span><span class="fu">new</span>(<span class="st">"foo"</span>, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>)))</span></code></pre><p></p></div>
     </div>
@@ -199,7 +216,8 @@ Internal tuning <em>can</em> therefore rely on the internal validation data, but
 <p>In order to be able to combine this internal hyperparameter tuning with the standard hyperparameter optimization
 implemented via <a href="https://CRAN.R-project.org/package=mlr3tuning" class="external-link"><span class="pkg">mlr3tuning</span></a>, one must:</p><ul><li><p>annotate the learner with the <code>"internal_tuning"</code> property</p></li>
 <li><p>implement the active binding <code>$internal_tuned_values</code> (see section <em>Optional Extractors</em>) as well as the
-private method <code>$.extract_internal_tuned_values()</code> which extracts the internally tuned values from the <code>Learner</code>'s
+private method <code>$.extract_internal_tuned_values()</code> which extracts the internally tuned values
+from the <code>Learner</code>'s
 model and returns them as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
 If the model is not trained yet, this method should return <code>NULL</code>.</p></li>
 <li><p>Have at least one parameter tagged with <code>"internal_tuning"</code>, which requires to also provide a <code>in_tune_fn</code> and
@@ -220,7 +238,8 @@ to implement how they should be (un)-marshaled. See <code><a href="marshaling.ht
 
 <p>Some <code>Learner</code>s can compute the out-of-bag error during training.
 In order to do this, the learner must:</p><ul><li><p>annotate the learner with the <code>"oob_error"</code> property</p></li>
-<li><p>implement the private method <code>$.extract_oob_error()</code> which extracts the out-of-bag error from the <code>Learner</code>'s model and returns it as a <code>numeric(1)</code>.</p></li>
+<li><p>implement the private method <code>$.extract_oob_error()</code> which extracts the out-of-bag error
+from the <code>Learner</code>'s model and returns it as a <code>numeric(1)</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -271,9 +290,12 @@ Only available for <code>Learner</code>s with the property <code>"weights"</code
 <li><p><code>"ignore"</code>: do not use weights.</p></li>
 <li><p><code>"error"</code>: throw an error if weights are present in the training <code>Task</code>.</p></li>
 </ul><p>For <code>Learner</code>s with the property <code>"weights"</code>, this is initialized as <code>"use"</code>.
-For <code>Learner</code>s that do not support weights, i.e. without the <code>"weights"</code> property, this is initialized as <code>"error"</code>.
-The latter behavior is to avoid cases where a user erroneously assumes that a <code>Learner</code> supports weights when it does not.
-For <code>Learner</code>s that do not support weights, <code>use_weights</code> needs to be set to <code>"ignore"</code> if tasks with weights should be handled (by dropping the weights).
+For <code>Learner</code>s that do not support weights, i.e. without the <code>"weights"</code> property,
+this is initialized as <code>"error"</code>.
+The latter behavior is to avoid cases where a user erroneously assumes that a <code>Learner</code>
+supports weights when it does not.
+For <code>Learner</code>s that do not support weights, <code>use_weights</code> needs to be set to <code>"ignore"</code>
+if tasks with weights should be handled (by dropping the weights).
 See Section 'weights' for more details.</p></dd>
 
 
@@ -287,8 +309,10 @@ The fitted model. Only available after <code>$train()</code> has been called.</p
 The native model object from the upstream package.
 For most learners, this is identical to <code>$model</code>.
 However, some learners store additional information beyond the model from the upstream package.
-In such cases, <code>$model</code> contains a named list with the native model stored in element <code>model</code> along with additional information.
-The <code>$native_model</code> field can be overwritten by the learner to return the actual model object from the upstream package.
+In such cases, <code>$model</code> contains a named list with the native model stored in element <code>model</code>
+along with additional information.
+The <code>$native_model</code> field can be overwritten by the learner to return the actual model object
+from the upstream package.
 The default returns <code>$model</code>.</p></dd>
 
 
@@ -322,12 +346,15 @@ Logged error condition objects.</p></dd>
 <dt><code>hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Hash (unique identifier) for this object.
-The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.</p></dd>
+The hash is calculated based on the learner id, the parameter settings,
+the predict type, the fallback hash, the parallel predict setting,
+the validate setting, the predict sets, and the predict raw setting.</p></dd>
 
 
 <dt><code>phash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
-Hash (unique identifier) for this partial object, excluding some components which are varied systematically during tuning (parameter values).</p></dd>
+Hash (unique identifier) for this partial object, excluding some components
+which are varied systematically during tuning (parameter values).</p></dd>
 
 
 <dt><code>predict_type</code></dt>
@@ -335,7 +362,8 @@ Hash (unique identifier) for this partial object, excluding some components whic
 Stores the currently active predict type, e.g. <code>"response"</code>.
 Must be an element of <code>$predict_types</code>.
 A few learners already use the predict type during training.
-So there is no guarantee that changing the predict type after training will have any effect or does not lead to errors.</p></dd>
+So there is no guarantee that changing the predict type after training will have any effect
+or does not lead to errors.</p></dd>
 
 
 <dt><code>param_set</code></dt>
@@ -368,7 +396,8 @@ If set to <code>"all"</code> the complete feature set is returned.</p></dd>
 <dt><code>predict_types</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Stores the possible predict types the learner is capable of.
-A complete list of candidate predict types, grouped by task type, is stored in <code><a href="mlr_reflections.html">mlr_reflections$learner_predict_types</a></code>.
+A complete list of candidate predict types, grouped by task type,
+is stored in <code><a href="mlr_reflections.html">mlr_reflections$learner_predict_types</a></code>.
 This field is read-only.</p></dd>
 
 
@@ -394,13 +423,15 @@ see <code><a href="mlr_reflections.html">mlr_reflections$task_types$type</a></co
 <dt><code>feature_types</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Stores the feature types the learner can handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.
-A complete list of candidate feature types, grouped by task type, is stored in <code><a href="mlr_reflections.html">mlr_reflections$task_feature_types</a></code>.</p></dd>
+A complete list of candidate feature types, grouped by task type,
+is stored in <code><a href="mlr_reflections.html">mlr_reflections$task_feature_types</a></code>.</p></dd>
 
 
 <dt><code>properties</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Stores a set of properties/capabilities the learner has.
-A complete list of candidate properties, grouped by task type, is stored in <code><a href="mlr_reflections.html">mlr_reflections$learner_properties</a></code>.</p></dd>
+A complete list of candidate properties, grouped by task type,
+is stored in <code><a href="mlr_reflections.html">mlr_reflections$learner_properties</a></code>.</p></dd>
 
 
 <dt><code>packages</code></dt>
@@ -432,6 +463,16 @@ and has no effect during <code><a href="resample.html">resample()</a></code> or 
 to parallelize.</p>
 <p>Note that the recorded time required for prediction reports the time required to predict
 is not properly defined and depends on the parallelization backend.</p></dd>
+
+
+<dt><code>predict_raw</code></dt>
+<dd><p>(<code>logical(1)</code>)<br>
+If set to <code>TRUE</code>, the raw prediction object from the upstream model is stored in the
+<a href="Prediction.html">Prediction</a> object (default: <code>FALSE</code>).
+The raw prediction is stored as-is, without validation or subsetting during filtering.
+When multiple predictions are combined via <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>, the individual raw objects are collected into a <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
+Individual learner implementations must support this flag by including a <code>raw</code> element in the list returned
+by <code>$.predict()</code>.</p></dd>
 
 
 <dt><code>timeout</code></dt>
@@ -636,7 +677,8 @@ the object in its previous state.</p>
 
 </div><p></p><hr><a id="method-Learner-predict"></a><div class="section">
 <h3 id="method-predict-">Method <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code><a class="anchor" aria-label="anchor" href="#method-predict-"></a></h3>
-<p>Uses the fitted model stored in <code>$state</code> to generate predictions for a set of observations from the provided <code>task</code>.
+<p>Uses the fitted model stored in <code>$state</code> to generate predictions for a set of observations
+from the provided <code>task</code>.
 This method requires that the learner has been previously trained using <code>$train()</code>.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
@@ -678,11 +720,13 @@ For a simple train-test split, see <code><a href="partition.html">partition()</a
 Object <code>task</code> is the task used during <code>$train()</code> and required for conversion of <code>newdata</code>.
 If the learner's <code>$train()</code> method has been called, there is a (size reduced) version
 of the training task stored in the learner.
-If the learner has been fitted via <code><a href="resample.html">resample()</a></code> or <code><a href="benchmark.html">benchmark()</a></code>, you need to pass the corresponding task stored
-in the <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a>, respectively.
+If the learner has been fitted via <code><a href="resample.html">resample()</a></code> or <code><a href="benchmark.html">benchmark()</a></code>,
+you need to pass the corresponding task stored in the <a href="ResampleResult.html">ResampleResult</a> or
+<a href="BenchmarkResult.html">BenchmarkResult</a>, respectively.
 Further, <code><a href="auto_convert.html">auto_convert</a></code> is used for type-conversions to ensure compatibility
 of features between <code>$train()</code> and <code>$predict()</code>.</p>
-<p>If the stored training task has a <code>weights_measure</code> column, <em>and</em> if <code>newdata</code> contains a column with the same name,
+<p>If the stored training task has a <code>weights_measure</code> column,
+<em>and</em> if <code>newdata</code> contains a column with the same name,
 that column must be numeric with no missing values and is used as measure weights column.
 Otherwise, no measure weights are used.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
@@ -774,15 +818,25 @@ Output is printed to the console and not logged.</p></li>
 <li><p><code>"evaluate"</code>: Uses the package <a href="https://CRAN.R-project.org/package=evaluate" class="external-link"><span class="pkg">evaluate</span></a> to call the learner, measure time and do the logging.</p></li>
 <li><p><code>"callr"</code>: Uses the package <a href="https://CRAN.R-project.org/package=callr" class="external-link"><span class="pkg">callr</span></a> to call the learner, measure time and do the logging.
 This encapsulation spawns a separate R session in which the learner is called.
-While this comes with a considerable overhead, it also guards your session from being torn down by segfaults.</p></li>
-<li><p><code>"mirai"</code>: Uses the package <a href="https://CRAN.R-project.org/package=mirai" class="external-link"><span class="pkg">mirai</span></a> to call the learner, measure time and do the logging.
+While this comes with a considerable overhead,
+it also guards your session from being torn down by segfaults.</p></li>
+<li><p><code>"mirai"</code>: Uses the package <a href="https://CRAN.R-project.org/package=mirai" class="external-link"><span class="pkg">mirai</span></a> to call the learner,
+measure time and do the logging.
 This encapsulation calls the function in a <code>mirai</code> on a <code>daemon</code>.
-The <code>daemon</code> can be pre-started via <code>daemons(1, .compute = "mlr3_encapsulation")</code>, otherwise a new R session will be created for each encapsulated call.
-If a <code>daemon</code> is already running with compute profile <code>"mlr3_encapsulation"</code>, it will be used to execute all calls.
-Using <code>mirai"</code> is similarly safe as <code>callr</code> but much faster if several learners are encapsulated one after the other on the same daemon.</p></li>
-</ul><p>The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
-If the training step or the predict step of the original learner fails, the fallback is used to make the predictions.
-If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some <code>NA</code> predictions), these missing predictions are imputed by the fallback.
+The <code>daemon</code> can be pre-started via <code>daemons(1, .compute = "mlr3_encapsulation")</code>,
+otherwise a new R session will be created for each encapsulated call.
+If a <code>daemon</code> is already running with compute profile <code>"mlr3_encapsulation"</code>,
+it will be used to execute all calls.
+Using <code>mirai"</code> is similarly safe as <code>callr</code> but much faster if several learners
+are encapsulated one after the other on the same daemon.</p></li>
+</ul><p>The fallback learner is fitted to create valid predictions in case that either the
+model fitting or the prediction of the original learner fails.
+If the training step or the predict step of the original learner fails,
+the fallback is used to make the predictions.
+If the original learner only partially fails during predict step
+(usually in the form of missing to predict some observations or producing
+some <code>NA</code> predictions),
+these missing predictions are imputed by the fallback.
 Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
 If the training step fails, the <code>$model</code> field of the original learner is <code>NULL</code>.
 The results are reproducible across the different encapsulation methods.</p>

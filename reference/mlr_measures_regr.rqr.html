@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,8 @@
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>\(R^1(\alpha)\) is defined as $$
-  1 - \frac{\sum_{i=1}^n \rho_\alpha \left( t_i - r_i(\alpha) \right)}{\sum_{i=1}^n \rho_\alpha \left( t_i - q_{\alpha} \right)},
+  1 - \frac{\sum_{i=1}^n \rho_\alpha \left( t_i - r_i(\alpha) \right)}{
+    \sum_{i=1}^n \rho_\alpha \left( t_i - q_{\alpha} \right)},
 $$
 where for a quantile \(\alpha\), \(\rho_\alpha\) is the pinball function, \(r_i(\alpha)\) are the predictions
 for the quantile and \(q_{\alpha}\) is the empirical \(\alpha\)-quantile of the test or training data.</p>

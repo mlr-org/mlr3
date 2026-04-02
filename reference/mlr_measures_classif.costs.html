@@ -9,11 +9,13 @@
 True labels must be arranged in columns, predicted labels must be arranged  in rows.
 The cost matrix is stored as slot $costs.
 For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
-The costs are then summed up (and potentially divided by the number of observations if normalize is set to TRUE (default))."><meta property="og:description" content="Uses a cost matrix to create a classification measure.
+The costs are then summed up (and potentially divided by the number of observations
+if normalize is set to TRUE (default))."><meta property="og:description" content="Uses a cost matrix to create a classification measure.
 True labels must be arranged in columns, predicted labels must be arranged  in rows.
 The cost matrix is stored as slot $costs.
 For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
-The costs are then summed up (and potentially divided by the number of observations if normalize is set to TRUE (default))."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"></head><body>
+The costs are then summed up (and potentially divided by the number of observations
+if normalize is set to TRUE (default))."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -21,7 +23,7 @@ The costs are then summed up (and potentially divided by the number of observati
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +63,8 @@ The costs are then summed up (and potentially divided by the number of observati
 True labels must be arranged in columns, predicted labels must be arranged  in rows.
 The cost matrix is stored as slot <code>$costs</code>.</p>
 <p>For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
-The costs are then summed up (and potentially divided by the number of observations if <code>normalize</code> is set to <code>TRUE</code> (default)).</p>
+The costs are then summed up (and potentially divided by the number of observations
+if <code>normalize</code> is set to <code>TRUE</code> (default)).</p>
     </div>
 
 
@@ -242,7 +245,7 @@ Matrix of costs (truth in columns, predicted response in rows).</p></dd>
 <span class="r-in"><span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span>, <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span>, folds <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> german_credit_costs </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 334 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 322 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

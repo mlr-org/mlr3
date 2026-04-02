@@ -8,7 +8,8 @@ package.
 
 These files can be sourced with the following line of code:
 
-    lapply(list.files(system.file("testthat", package = "mlr3"), pattern = "^helper.*\\.[rR]", full.names = TRUE), source)
+    lapply(list.files(system.file("testthat", package = "mlr3"),
+      pattern = "^helper.*\\.[rR]", full.names = TRUE), source)
 
 Other extension packages such as `mlr3proba` have similar files that can
 be sourced accordingly.
@@ -49,7 +50,7 @@ repositories such as mlr3learners. More information can be found in the
 - `predict_types`
   ([`character()`](https://rdrr.io/r/base/character.html))  
   The predict types of the learner to check. Defaults to all predict
-  typpes of the learner.
+  types of the learner.
 
 - `check_replicable` (`logical(1)`)  
   Whether to check that running the learner twice with the same seed

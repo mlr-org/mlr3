@@ -21,7 +21,7 @@ probability is chosen. In case of ties, a label is selected randomly."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,7 +90,8 @@ Note that it is possible that either none or multiple ratios are greater than 1 
 Anyway, the class label with maximum ratio is selected.
 In case of ties in the ratio, one of the tied class labels is selected randomly.</p>
 <p>Note that there are the following edge cases for threshold equal to <code>0</code> which are handled specially:</p><ol><li><p>With threshold 0 the resulting ratio gets <code>Inf</code> and thus gets always selected.
-If there are multiple ratios with value <code>Inf</code>, one is selected according to <code>ties_method</code> (randomly per default).</p></li>
+If there are multiple ratios with value <code>Inf</code>, one is selected according to <code>ties_method</code>
+(randomly per default).</p></li>
 <li><p>If additionally the predicted probability is also 0, the ratio <code>0/0</code> results in <code>NaN</code> values.
 These are simply replaced by <code>0</code> and thus will never get selected.</p></li>
 </ol></li>
@@ -159,7 +160,8 @@ Truth is in columns, predicted response is in rows.</p></dd>
 <span>  prob <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  check <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  extra <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  extra <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  raw <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -211,6 +213,11 @@ If <code>TRUE</code>, performs some argument checks and predict type conversions
 <dt><code>extra</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 List of extra data to be stored in the prediction object.</p></dd>
+
+
+<dt><code>raw</code></dt>
+<dd><p>(any)<br>
+Raw prediction object from the upstream model. Stored as-is without validation.</p></dd>
 
 
 </dl><p></p></div>

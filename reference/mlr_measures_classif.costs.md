@@ -213,5 +213,5 @@ learner = lrn("classif.rpart")
 rr = resample(task, learner, rsmp("cv", folds = 3))
 rr$aggregate(m)
 #> german_credit_costs 
-#>                 334 
+#>                 322 
 ```

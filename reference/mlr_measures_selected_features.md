@@ -144,7 +144,7 @@ scores = rr$score(msr("selected_features"))
 scores[, c("iteration", "selected_features")]
 #>    iteration selected_features
 #>        <int>             <num>
-#> 1:         1                12
-#> 2:         2                 7
-#> 3:         3                 7
+#> 1:         1                 8
+#> 2:         2                11
+#> 3:         3                 9
 ```

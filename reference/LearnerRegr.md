@@ -27,8 +27,8 @@ problems:
 
 - `"quantiles"`: Predicts quantile estimates for each observation in the
   test set. Set `$quantiles` to specify the quantiles to predict and
-  `$quantile_response` to specify the response quantile. See mlr3book
-  [section](https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-quantile-regression)
+  `$quantile_response` to specify the response quantile. See the
+  [mlr3book](https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html)
   on quantile regression for more details.
 
 Predefined learners can be found in the
@@ -339,18 +339,17 @@ mlr_learners$get("regr.rpart")
 #> • Feature Types: logical, integer, numeric, factor, and ordered
 #> • Encapsulation: none (fallback: -)
 #> • Properties: importance, missings, selected_features, and weights
-#> • Other settings: use_weights = 'use'
-lrn("classif.featureless")
+#> • Other settings: use_weights = 'use', predict_raw = 'FALSE'
+lrn("regr.featureless")
 #> 
-#> ── <LearnerClassifFeatureless> (classif.featureless): Featureless Classification
+#> ── <LearnerRegrFeatureless> (regr.featureless): Featureless Regression Learner ─
 #> • Model: -
-#> • Parameters: method=mode
-#> • Packages: mlr3
-#> • Predict Types: [response] and prob
+#> • Parameters: robust=FALSE
+#> • Packages: mlr3 and stats
+#> • Predict Types: [response], se, and quantiles
 #> • Feature Types: logical, integer, numeric, character, factor, ordered,
 #> POSIXct, and Date
 #> • Encapsulation: none (fallback: -)
-#> • Properties: featureless, importance, missings, multiclass, selected_features,
-#> twoclass, and weights
-#> • Other settings: use_weights = 'use'
+#> • Properties: featureless, importance, missings, selected_features, and weights
+#> • Other settings: use_weights = 'use', predict_raw = 'FALSE'
 ```

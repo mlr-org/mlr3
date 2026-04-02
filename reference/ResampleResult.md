@@ -599,60 +599,60 @@ rr$prediction()
 #> 
 #> ── <PredictionClassif> for 344 observations: ───────────────────────────────────
 #>  row_ids     truth  response
-#>        1    Adelie    Adelie
 #>        2    Adelie    Adelie
-#>        3    Adelie    Adelie
+#>        4    Adelie    Adelie
+#>        5    Adelie    Adelie
 #>      ---       ---       ---
-#>      339 Chinstrap Chinstrap
-#>      340 Chinstrap Chinstrap
-#>      341 Chinstrap    Adelie
+#>      333 Chinstrap Chinstrap
+#>      335 Chinstrap Chinstrap
+#>      344 Chinstrap Chinstrap
 rr$predictions()
 #> [[1]]
 #> 
 #> ── <PredictionClassif> for 115 observations: ───────────────────────────────────
 #>  row_ids     truth  response
-#>        1    Adelie    Adelie
 #>        2    Adelie    Adelie
-#>        3    Adelie    Adelie
+#>        4    Adelie    Adelie
+#>        5    Adelie    Adelie
 #>      ---       ---       ---
-#>      337 Chinstrap Chinstrap
-#>      338 Chinstrap Chinstrap
+#>      337 Chinstrap    Gentoo
+#>      339 Chinstrap Chinstrap
 #>      343 Chinstrap    Gentoo
 #> 
 #> [[2]]
 #> 
 #> ── <PredictionClassif> for 115 observations: ───────────────────────────────────
 #>  row_ids     truth  response
-#>        4    Adelie    Adelie
-#>        8    Adelie    Adelie
-#>        9    Adelie    Adelie
+#>        1    Adelie    Adelie
+#>       10    Adelie    Adelie
+#>       11    Adelie    Adelie
 #>      ---       ---       ---
-#>      336 Chinstrap Chinstrap
+#>      340 Chinstrap    Gentoo
+#>      341 Chinstrap    Adelie
 #>      342 Chinstrap Chinstrap
-#>      344 Chinstrap Chinstrap
 #> 
 #> [[3]]
 #> 
 #> ── <PredictionClassif> for 114 observations: ───────────────────────────────────
 #>  row_ids     truth  response
-#>        6    Adelie    Adelie
-#>       13    Adelie    Adelie
+#>        3    Adelie    Adelie
 #>       18    Adelie    Adelie
+#>       25    Adelie    Adelie
 #>      ---       ---       ---
-#>      339 Chinstrap Chinstrap
-#>      340 Chinstrap Chinstrap
-#>      341 Chinstrap    Adelie
+#>      333 Chinstrap Chinstrap
+#>      335 Chinstrap Chinstrap
+#>      344 Chinstrap Chinstrap
 #> 
 
 # folds scored separately, then aggregated (macro)
 rr$aggregate(msr("classif.acc"))
 #> classif.acc 
-#>   0.9390033 
+#>   0.9332062 
 
 # predictions first combined, then scored (micro)
 rr$prediction()$score(msr("classif.acc"))
 #> classif.acc 
-#>   0.9389535 
+#>   0.9331395 
 
 # check for warnings and errors
 rr$warnings
@@ -668,13 +668,13 @@ rr$prediction()
 #> 
 #> ── <PredictionClassif> for 344 observations: ───────────────────────────────────
 #>  row_ids     truth  response
-#>        1    Adelie    Adelie
 #>        2    Adelie    Adelie
-#>        3    Adelie    Adelie
+#>        4    Adelie    Adelie
+#>        5    Adelie    Adelie
 #>      ---       ---       ---
-#>      339 Chinstrap Chinstrap
-#>      340 Chinstrap Chinstrap
-#>      341 Chinstrap    Adelie
+#>      333 Chinstrap Chinstrap
+#>      335 Chinstrap Chinstrap
+#>      344 Chinstrap Chinstrap
 
 ## ------------------------------------------------
 ## Method `ResampleResult$predictions`
@@ -685,37 +685,37 @@ rr$predictions()
 #> 
 #> ── <PredictionClassif> for 115 observations: ───────────────────────────────────
 #>  row_ids     truth  response
-#>        1    Adelie    Adelie
 #>        2    Adelie    Adelie
-#>        3    Adelie    Adelie
+#>        4    Adelie    Adelie
+#>        5    Adelie    Adelie
 #>      ---       ---       ---
-#>      337 Chinstrap Chinstrap
-#>      338 Chinstrap Chinstrap
+#>      337 Chinstrap    Gentoo
+#>      339 Chinstrap Chinstrap
 #>      343 Chinstrap    Gentoo
 #> 
 #> [[2]]
 #> 
 #> ── <PredictionClassif> for 115 observations: ───────────────────────────────────
 #>  row_ids     truth  response
-#>        4    Adelie    Adelie
-#>        8    Adelie    Adelie
-#>        9    Adelie    Adelie
+#>        1    Adelie    Adelie
+#>       10    Adelie    Adelie
+#>       11    Adelie    Adelie
 #>      ---       ---       ---
-#>      336 Chinstrap Chinstrap
+#>      340 Chinstrap    Gentoo
+#>      341 Chinstrap    Adelie
 #>      342 Chinstrap Chinstrap
-#>      344 Chinstrap Chinstrap
 #> 
 #> [[3]]
 #> 
 #> ── <PredictionClassif> for 114 observations: ───────────────────────────────────
 #>  row_ids     truth  response
-#>        6    Adelie    Adelie
-#>       13    Adelie    Adelie
+#>        3    Adelie    Adelie
 #>       18    Adelie    Adelie
+#>       25    Adelie    Adelie
 #>      ---       ---       ---
-#>      339 Chinstrap Chinstrap
-#>      340 Chinstrap Chinstrap
-#>      341 Chinstrap    Adelie
+#>      333 Chinstrap Chinstrap
+#>      335 Chinstrap Chinstrap
+#>      344 Chinstrap Chinstrap
 #> 
 
 ## ------------------------------------------------
@@ -725,8 +725,8 @@ rr$predictions()
 rr$score(msr("classif.acc"))
 #>     task_id    learner_id resampling_id iteration classif.acc
 #>      <char>        <char>        <char>     <int>       <num>
-#> 1: penguins classif.rpart            cv         1   0.9391304
-#> 2: penguins classif.rpart            cv         2   0.9217391
+#> 1: penguins classif.rpart            cv         1   0.9130435
+#> 2: penguins classif.rpart            cv         2   0.9304348
 #> 3: penguins classif.rpart            cv         3   0.9561404
 #> Hidden columns: task, learner, resampling, prediction_test
 
@@ -737,17 +737,17 @@ rr$score(msr("classif.acc"))
 rr$obs_loss(msr("classif.acc"))
 #>      iteration row_ids     truth  response classif.acc
 #>          <int>   <int>    <fctr>    <fctr>       <int>
-#>   1:         1       1    Adelie    Adelie           1
-#>   2:         1       2    Adelie    Adelie           1
-#>   3:         1       3    Adelie    Adelie           1
-#>   4:         1       5    Adelie    Adelie           1
+#>   1:         1       2    Adelie    Adelie           1
+#>   2:         1       4    Adelie    Adelie           1
+#>   3:         1       5    Adelie    Adelie           1
+#>   4:         1       6    Adelie    Adelie           1
 #>   5:         1       7    Adelie    Adelie           1
 #>  ---                                                  
-#> 340:         3     332 Chinstrap Chinstrap           1
-#> 341:         3     334 Chinstrap Chinstrap           1
-#> 342:         3     339 Chinstrap Chinstrap           1
-#> 343:         3     340 Chinstrap Chinstrap           1
-#> 344:         3     341 Chinstrap    Adelie           0
+#> 340:         3     325 Chinstrap Chinstrap           1
+#> 341:         3     327 Chinstrap Chinstrap           1
+#> 342:         3     333 Chinstrap Chinstrap           1
+#> 343:         3     335 Chinstrap Chinstrap           1
+#> 344:         3     344 Chinstrap Chinstrap           1
 
 ## ------------------------------------------------
 ## Method `ResampleResult$aggregate`
@@ -755,7 +755,7 @@ rr$obs_loss(msr("classif.acc"))
 
 rr$aggregate(msr("classif.acc"))
 #> classif.acc 
-#>   0.9390033 
+#>   0.9332062 
 
 ## ------------------------------------------------
 ## Method `ResampleResult$filter`
@@ -785,12 +785,12 @@ rr$set_threshold(0.6)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 2905f64c-7fd7-4c75-98df-3411169a6138         1 <learner_state[8]>  <list[1]>
-#> 2: 2905f64c-7fd7-4c75-98df-3411169a6138         2 <learner_state[8]>  <list[1]>
-#> 3: 2905f64c-7fd7-4c75-98df-3411169a6138         3 <learner_state[8]>  <list[1]>
+#> 1: 745b36bb-a88e-4903-866b-9f8b121b674d         1 <learner_state[8]>  <list[1]>
+#> 2: 745b36bb-a88e-4903-866b-9f8b121b674d         2 <learner_state[8]>  <list[1]>
+#> 3: 745b36bb-a88e-4903-866b-9f8b121b674d         3 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 667ca7804cbe810f 062d5c9e3bac138b a2121f0bf1b9c2f6 fb4fd3525746a553
-#> 2: 667ca7804cbe810f 062d5c9e3bac138b a2121f0bf1b9c2f6 fb4fd3525746a553
-#> 3: 667ca7804cbe810f 062d5c9e3bac138b a2121f0bf1b9c2f6 fb4fd3525746a553
+#> 1: 2099aa995d4e20f7 062d5c9e3bac138b 5b2c800eb8611508 9c305b322d6fd7d3
+#> 2: 2099aa995d4e20f7 062d5c9e3bac138b 5b2c800eb8611508 9c305b322d6fd7d3
+#> 3: 2099aa995d4e20f7 062d5c9e3bac138b 5b2c800eb8611508 9c305b322d6fd7d3
 ```
