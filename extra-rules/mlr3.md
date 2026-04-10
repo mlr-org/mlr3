@@ -59,6 +59,32 @@ There is a distinction between `default` and `init` values:
 - A parameter tagged `"required"` causes an error if not set. A required parameter cannot have a `default` (that would be contradictory).
 - paradox does type-checking and range-checking automatically; `get_values()` checks that required params are present. Additional feasibility checks are rarely needed.
 
+#### Public fields as active bindings
+
+Public fields on R6 classes are exposed as active bindings backed by a private `.field`.
+
+For mutable fields, the binding returns the private value when called without arguments and validates the new value with an `assert_*()` call when set:
+
+```r
+id = function(rhs) {
+  if (missing(rhs)) {
+    return(private$.id)
+  }
+  private$.id = assert_id(rhs)
+},
+```
+
+For read-only fields, call `assert_ro_binding(rhs)` to raise an error on any assignment attempt:
+
+```r
+task_type = function(rhs) {
+  assert_ro_binding(rhs)
+  private$.data$task_type
+},
+```
+
+The private slot must be declared in the `private` list as `.id = NULL` (or an appropriate default).
+
 #### Core dependencies
 
 `data.table`, `checkmate`, `mlr3misc`, `paradox`, `R6`, and `cli` are imported wholesale. Use their functions directly without `::`. Key mlr3misc utilities: `map()`, `map_chr()`, `invoke()`, `calculate_hash()`, `str_collapse()`, `%nin%`, `%??%`.
