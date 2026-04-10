@@ -4,6 +4,8 @@
 
 ## mlr3 1.6.0
 
+CRAN release: 2026-04-02
+
 - feat: `Learner` gains a `predict_raw` flag and `Prediction` gains a
   `raw` field to store the raw prediction object from the upstream model
   alongside standardized predictions.

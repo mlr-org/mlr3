@@ -89,6 +89,7 @@ Rscript -e "devtools::check()"</code></pre>
 <li>User-facing API (exported functions, public R6 methods) must have <code>checkmate</code> <code>assert_*()</code> argument checks. For internal code, match the existing level of defensiveness.</li>
 <li>Use these mlr3misc utilities when appropriate: <code>map()</code>, <code>map_chr()</code>, <code>invoke()</code>, <code>calculate_hash()</code>, <code>str_collapse()</code>, <code>%nin%</code>, <code>%??%</code>.</li>
 <li>Before implementing something, read similar existing files first to match the established patterns.</li>
+<li>Always use <code>#nolint next</code> to disable linters for the next line instead of <code># nolint</code> on the same line.</li>
 </ul></div>
 <div class="section level2">
 <h2 id="file-structure-and-naming">File structure and naming<a class="anchor" aria-label="anchor" href="#file-structure-and-naming"></a></h2>
@@ -121,13 +122,20 @@ Rscript -e "devtools::check()"</code></pre>
 <ul><li>Every user-facing function should be exported and have roxygen2 documentation.</li>
 <li>Wrap roxygen comments at 120 characters.</li>
 <li>Write one sentence per line.</li>
-<li>If a sentence exceeds the limit, break at a comma or other appropriate point.</li>
+<li>If a sentence exceeds the limit, break at a comma, “and”, “or”, “but”, or other appropriate point.</li>
 <li>Internal functions should not have roxygen documentation.</li>
 <li>Always re-document the package after changing a roxygen2 comment.</li>
 <li>Don’t hand-edit generated artifacts: <code>man/</code>, or <code>NAMESPACE</code>.</li>
-<li>Roxygen templates live in <code>man-roxygen/</code>
-</li>
+<li>Never edit <code>README.md</code> directly – it is generated from <code>README.Rmd</code>. Always edit <code>README.Rmd</code> and then run <code>devtools::build_readme()</code> to regenerate <code>README.md</code>.</li>
+<li>When adding a new S3 method (such as <code>print.&lt;ClassName&gt;</code>), always run <code>devtools::document()</code> afterwards to re-generate the NAMESPACE.</li>
+<li>Environment variables and options are documented in package-level documentation (typically <code>R/package.R</code>).</li>
+<li>Roxygen templates live in <code>man-roxygen/</code>. Use <code>@template</code> to avoid duplicating common parameter descriptions. Only create new templates for sections that will likely be re-used.</li>
+<li>For functions, always document the return value (section <code>#' @return</code>).</li>
 <li>Bibliographic references go in <code>R/bibentries.R</code> and are cited with <code>`r format_bib("key")`</code>.</li>
+</ul></div>
+<div class="section level2">
+<h2 id="pkgdown">Pkgdown<a class="anchor" aria-label="anchor" href="#pkgdown"></a></h2>
+<ul><li>When adding a new exported function, ensure it’s in the <code>_pkgdown.yml</code> file.</li>
 </ul></div>
 <div class="section level2">
 <h2 id="newsmd"><code>NEWS.md</code><a class="anchor" aria-label="anchor" href="#newsmd"></a></h2>
@@ -151,7 +159,7 @@ Rscript -e "devtools::check()"</code></pre>
 </ul></div>
 <div class="section level2">
 <h2 id="further-agents-files">Further agents files<a class="anchor" aria-label="anchor" href="#further-agents-files"></a></h2>
-<ul><li>Read and respect all files in the <code>.agents</code> folder</li>
+<ul><li>Read and respect all files in the <code>extra-rules</code> folder</li>
 </ul></div>
 </div>
 
