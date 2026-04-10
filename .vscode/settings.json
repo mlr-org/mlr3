@@ -17,7 +17,7 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "Posit.air-vscode",
     // disable hover for R, to remove visual noise
-    "editor.hover.enabled": false
+    "editor.hover.enabled": "off"
   },
 
   // ********** settings for C / C++ **********
