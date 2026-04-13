@@ -60,7 +60,7 @@ LearnerRegrRpart = R6Class(
       if (is.null(self$model)) {
         error_learner("No model stored")
       }
-      # importance is only present if there is at least on split
+      # importance is only present if there is at least one split
       sort(self$model$variable.importance %??% set_names(numeric()), decreasing = TRUE)
     },
 
