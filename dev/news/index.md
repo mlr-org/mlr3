@@ -2,6 +2,8 @@
 
 ## mlr3 (development version)
 
+- refactor: Removed unused `task_prototype` from the learner state.
+
 ## mlr3 1.6.0
 
 CRAN release: 2026-04-02
