@@ -193,7 +193,8 @@ type conversions, encapsulation, and logging.
 The learner must be trained before calling this method.
 
 Unlike \verb{$predict_newdata()}, this method does not return a \link{Prediction} object.
-Instead, it returns a list with either a \code{"response"} or \code{"prob"} element, depending on the prediction type.
+Instead, it returns a list with either a \code{"response"}, \code{"se"}, or \code{"quantiles"} element,
+depending on the prediction type.
 
 Note that \code{state$predict_time} and \code{state$log} will remain empty after using this method.
 Some learners may not support this method and may fail when it is called.
