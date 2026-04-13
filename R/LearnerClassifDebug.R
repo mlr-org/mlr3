@@ -140,7 +140,7 @@ LearnerClassifDebug = R6Class(
     #' @return Named `numeric()`.
     importance = function() {
       if (is.null(self$model)) {
-        error_input("No model stored")
+        error_learner("No model stored")
       }
       fns = self$state$feature_names
       set_names(rep(0, length(fns)), fns)
@@ -151,7 +151,7 @@ LearnerClassifDebug = R6Class(
     #' @return `character()`.
     selected_features = function() {
       if (is.null(self$model)) {
-        error_input("No model stored")
+        error_learner("No model stored")
       }
       character(0)
     }

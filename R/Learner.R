@@ -733,7 +733,7 @@ Learner = R6Class(
     #' If set to `"error"`, an error is thrown, otherwise all features are returned.
     selected_features = function() {
       if (is.null(self$model)) {
-        error_input("No model stored")
+        error_learner("No model stored")
       }
       if (private$.selected_features_impute == "error") {
         error_input("Learner does not support feature selection")
