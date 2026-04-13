@@ -266,7 +266,8 @@ This method is faster than <code>$predict_newdata()</code> as it skips assertion
 type conversions, encapsulation, and logging.
 The learner must be trained before calling this method.</p>
 <p>Unlike <code>$predict_newdata()</code>, this method does not return a <a href="Prediction.html">Prediction</a> object.
-Instead, it returns a list with either a <code>"response"</code> or <code>"prob"</code> element, depending on the prediction type.</p>
+Instead, it returns a list with either a <code>"response"</code>, <code>"se"</code>, or <code>"quantiles"</code> element,
+depending on the prediction type.</p>
 <p>Note that <code>state$predict_time</code> and <code>state$log</code> will remain empty after using this method.
 Some learners may not support this method and may fail when it is called.
 Prefer <code>$predict_newdata()</code> unless performance is critical.</p>

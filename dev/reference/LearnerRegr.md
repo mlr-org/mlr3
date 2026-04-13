@@ -269,8 +269,8 @@ learner must be trained before calling this method.
 
 Unlike `$predict_newdata()`, this method does not return a
 [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)
-object. Instead, it returns a list with either a `"response"` or
-`"prob"` element, depending on the prediction type.
+object. Instead, it returns a list with either a `"response"`, `"se"`,
+or `"quantiles"` element, depending on the prediction type.
 
 Note that `state$predict_time` and `state$log` will remain empty after
 using this method. Some learners may not support this method and may
