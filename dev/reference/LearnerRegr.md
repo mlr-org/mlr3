@@ -264,7 +264,8 @@ Creates a new instance of this
 
 Predicts outcomes for new data in `newdata` using the model fitted
 during `$train()`. This method is faster than `$predict_newdata()` as it
-skips assertions, type conversions, encapsulation, and logging.
+skips assertions, type conversions, encapsulation, and logging. The
+learner must be trained before calling this method.
 
 Unlike `$predict_newdata()`, this method does not return a
 [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)

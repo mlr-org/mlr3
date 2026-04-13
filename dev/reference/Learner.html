@@ -221,7 +221,7 @@ from the <code>Learner</code>'s
 model and returns them as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
 If the model is not trained yet, this method should return <code>NULL</code>.</p></li>
 <li><p>Have at least one parameter tagged with <code>"internal_tuning"</code>, which requires to also provide a <code>in_tune_fn</code> and
-<code>disable_tune_fn</code>, and <em>should</em> also include a default <code>aggr</code>egation function.</p></li>
+<code>disable_tune_fn</code>, and <em>should</em> also include a default aggregation function (<code>aggr</code>).</p></li>
 </ul><p>For an example how to do this, see <code><a href="mlr_learners_classif.debug.html">LearnerClassifDebug</a></code>.</p>
     </div>
     <div class="section level2">

@@ -209,7 +209,7 @@ the standard hyperparameter optimization implemented via
 
 - Have at least one parameter tagged with `"internal_tuning"`, which
   requires to also provide a `in_tune_fn` and `disable_tune_fn`, and
-  *should* also include a default `aggr`egation function.
+  *should* also include a default aggregation function (`aggr`).
 
 For an example how to do this, see
 [`LearnerClassifDebug`](https://mlr3.mlr-org.com/dev/reference/mlr_learners_classif.debug.md).

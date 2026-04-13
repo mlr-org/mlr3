@@ -59,7 +59,7 @@ via the field $uhash_table."><meta property="og:image" content="https://mlr3.mlr
     </div>
 
     <div class="ref-description section level2">
-    <p>In a <code><a href="BenchmarkResult.html">BenchmarkResult</a></code>, each <a href="ResampleResult.html">ResampleResult</a> is <em>u</em>niquely identified by a <em>hash</em> (<em>uhash</em>).
+    <p>In a <code><a href="BenchmarkResult.html">BenchmarkResult</a></code>, each <a href="ResampleResult.html">ResampleResult</a> is uniquely identified by a <em>hash</em> (<em>uhash</em>).
 Operations that select specific <a href="ResampleResult.html">ResampleResult</a>s from a <a href="BenchmarkResult.html">BenchmarkResult</a> operate using
 these hashes.
 This function allows to obtain uhashes for specific learners, tasks, and resamplings.</p>
@@ -133,19 +133,19 @@ Resampling ID.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   5    iris classif.featureless       holdout     1        0      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   6    iris       classif.rpart       holdout     1        0      0</span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="va">uhashes</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "857d2122-4d0e-4627-96c8-f6d12b62a5b4"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "2226bebb-4c44-4966-8539-73098a6525b7"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "03f79f17-77ce-467b-9d28-a915676889e2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "4a3a8c03-be66-41b8-88c4-204fd6ee8885"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "14af5438-b924-45c1-a6ff-8233bd4ebbc4"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "0e3bd606-66b8-416e-b171-963a70745760"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "fee841b8-6568-4cd4-bed2-0e1aa9f34b14"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "ce487c7d-fbec-4002-bc56-4a28eca13899"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "c5562e83-cf10-4ae2-a42e-759bc25602f6"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "0fc4f2d0-8b35-45b1-bce3-19cc1dceb4ff"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "3ced486f-d1ac-4bc3-9859-27f6a28c0ecd"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "8aa5b8c2-99fa-4dce-ac39-fa23f19b67fd"</span>
 <span class="r-in"><span><span class="fu">uhash</span><span class="op">(</span><span class="va">bmr</span>, learner_id <span class="op">=</span> <span class="st">"classif.debug"</span>, task_id <span class="op">=</span> <span class="st">"sonar"</span>, resampling_id <span class="op">=</span> <span class="st">"holdout"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "857d2122-4d0e-4627-96c8-f6d12b62a5b4"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "fee841b8-6568-4cd4-bed2-0e1aa9f34b14"</span>
 <span class="r-in"><span><span class="fu">uhashes</span><span class="op">(</span><span class="va">bmr</span>, learner_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.debug"</span>, <span class="st">"classif.featureless"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "857d2122-4d0e-4627-96c8-f6d12b62a5b4"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "2226bebb-4c44-4966-8539-73098a6525b7"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "4a3a8c03-be66-41b8-88c4-204fd6ee8885"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "14af5438-b924-45c1-a6ff-8233bd4ebbc4"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "fee841b8-6568-4cd4-bed2-0e1aa9f34b14"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "ce487c7d-fbec-4002-bc56-4a28eca13899"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "0fc4f2d0-8b35-45b1-bce3-19cc1dceb4ff"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "3ced486f-d1ac-4bc3-9859-27f6a28c0ecd"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

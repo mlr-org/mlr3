@@ -263,7 +263,8 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <h3 id="method-predict-newdata-fast-">Method <code>predict_newdata_fast()</code><a class="anchor" aria-label="anchor" href="#method-predict-newdata-fast-"></a></h3>
 <p>Predicts outcomes for new data in <code>newdata</code> using the model fitted during <code>$train()</code>.
 This method is faster than <code>$predict_newdata()</code> as it skips assertions,
-type conversions, encapsulation, and logging.</p>
+type conversions, encapsulation, and logging.
+The learner must be trained before calling this method.</p>
 <p>Unlike <code>$predict_newdata()</code>, this method does not return a <a href="Prediction.html">Prediction</a> object.
 Instead, it returns a list with either a <code>"response"</code> or <code>"prob"</code> element, depending on the prediction type.</p>
 <p>Note that <code>state$predict_time</code> and <code>state$log</code> will remain empty after using this method.

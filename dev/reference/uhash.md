@@ -4,7 +4,7 @@ In a
 [`BenchmarkResult`](https://mlr3.mlr-org.com/dev/reference/BenchmarkResult.md),
 each
 [ResampleResult](https://mlr3.mlr-org.com/dev/reference/ResampleResult.md)
-is *u*niquely identified by a *hash* (*uhash*). Operations that select
+is uniquely identified by a *hash* (*uhash*). Operations that select
 specific
 [ResampleResult](https://mlr3.mlr-org.com/dev/reference/ResampleResult.md)s
 from a
@@ -82,17 +82,17 @@ bmr
 #>   5    iris classif.featureless       holdout     1        0      0
 #>   6    iris       classif.rpart       holdout     1        0      0
 bmr$uhashes
-#> [1] "857d2122-4d0e-4627-96c8-f6d12b62a5b4"
-#> [2] "2226bebb-4c44-4966-8539-73098a6525b7"
-#> [3] "03f79f17-77ce-467b-9d28-a915676889e2"
-#> [4] "4a3a8c03-be66-41b8-88c4-204fd6ee8885"
-#> [5] "14af5438-b924-45c1-a6ff-8233bd4ebbc4"
-#> [6] "0e3bd606-66b8-416e-b171-963a70745760"
+#> [1] "fee841b8-6568-4cd4-bed2-0e1aa9f34b14"
+#> [2] "ce487c7d-fbec-4002-bc56-4a28eca13899"
+#> [3] "c5562e83-cf10-4ae2-a42e-759bc25602f6"
+#> [4] "0fc4f2d0-8b35-45b1-bce3-19cc1dceb4ff"
+#> [5] "3ced486f-d1ac-4bc3-9859-27f6a28c0ecd"
+#> [6] "8aa5b8c2-99fa-4dce-ac39-fa23f19b67fd"
 uhash(bmr, learner_id = "classif.debug", task_id = "sonar", resampling_id = "holdout")
-#> [1] "857d2122-4d0e-4627-96c8-f6d12b62a5b4"
+#> [1] "fee841b8-6568-4cd4-bed2-0e1aa9f34b14"
 uhashes(bmr, learner_ids = c("classif.debug", "classif.featureless"))
-#> [1] "857d2122-4d0e-4627-96c8-f6d12b62a5b4"
-#> [2] "2226bebb-4c44-4966-8539-73098a6525b7"
-#> [3] "4a3a8c03-be66-41b8-88c4-204fd6ee8885"
-#> [4] "14af5438-b924-45c1-a6ff-8233bd4ebbc4"
+#> [1] "fee841b8-6568-4cd4-bed2-0e1aa9f34b14"
+#> [2] "ce487c7d-fbec-4002-bc56-4a28eca13899"
+#> [3] "0fc4f2d0-8b35-45b1-bce3-19cc1dceb4ff"
+#> [4] "3ced486f-d1ac-4bc3-9859-27f6a28c0ecd"
 ```
