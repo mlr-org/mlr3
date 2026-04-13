@@ -81,6 +81,7 @@ LearnerClassif = R6Class(
     #' Predicts outcomes for new data in `newdata` using the model fitted during `$train()`.
     #' This method is faster than `$predict_newdata()` as it skips assertions,
     #' type conversions, encapsulation, and logging.
+    #' The learner must be trained before calling this method.
     #'
     #' Unlike `$predict_newdata()`, this method does not return a [Prediction] object.
     #' Instead, it returns a list with either a `"response"` or `"prob"` element, depending on the prediction type.

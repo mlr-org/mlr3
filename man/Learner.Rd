@@ -157,7 +157,7 @@ from the \code{\link{Learner}}'s
 model and returns them as a named \code{list()}.
 If the model is not trained yet, this method should return \code{NULL}.
 \item Have at least one parameter tagged with \code{"internal_tuning"}, which requires to also provide a \code{in_tune_fn} and
-\code{disable_tune_fn}, and \emph{should} also include a default \code{aggr}egation function.
+\code{disable_tune_fn}, and \emph{should} also include a default aggregation function (\code{aggr}).
 }
 
 For an example how to do this, see \code{\link{LearnerClassifDebug}}.

@@ -190,6 +190,7 @@ The referenced help package can be opened via method \verb{$help()}.}
 Predicts outcomes for new data in \code{newdata} using the model fitted during \verb{$train()}.
 This method is faster than \verb{$predict_newdata()} as it skips assertions,
 type conversions, encapsulation, and logging.
+The learner must be trained before calling this method.
 
 Unlike \verb{$predict_newdata()}, this method does not return a \link{Prediction} object.
 Instead, it returns a list with either a \code{"response"} or \code{"prob"} element, depending on the prediction type.

@@ -32,7 +32,7 @@ Task ID.}
 Resampling ID.}
 }
 \description{
-In a \code{\link{BenchmarkResult}}, each \link{ResampleResult} is \emph{u}niquely identified by a \emph{hash} (\emph{uhash}).
+In a \code{\link{BenchmarkResult}}, each \link{ResampleResult} is uniquely identified by a \emph{hash} (\emph{uhash}).
 Operations that select specific \link{ResampleResult}s from a \link{BenchmarkResult} operate using
 these hashes.
 This function allows to obtain uhashes for specific learners, tasks, and resamplings.
