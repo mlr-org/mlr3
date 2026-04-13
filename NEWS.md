@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* refactor: Removed unused `task_prototype` from the learner state.
+
 # mlr3 1.6.0
 
 * feat: `Learner` gains a `predict_raw` flag and `Prediction` gains a `raw` field to store the raw prediction object from the upstream model alongside standardized predictions.

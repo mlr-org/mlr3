@@ -339,7 +339,6 @@ Learner = R6Class(
       # store data prototype
       proto = task$data(rows = integer())
       self$state$data_prototype = proto
-      self$state$task_prototype = proto
 
       # store the task w/o the data
       self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
