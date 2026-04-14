@@ -3,6 +3,7 @@
 ## mlr3 (development version)
 
 - refactor: Removed unused `task_prototype` from the learner state.
+- fix: Reset range of `MeasureClassifCost`.
 
 ## mlr3 1.6.0
 
