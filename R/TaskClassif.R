@@ -131,14 +131,6 @@ TaskClassif = R6Class(
       }
       lvls[2L]
     }
-  ),
-
-  private = list(
-    # TODO: remove this method in the future, but keep it for now to
-    # be backward compatible
-    .update_class_property = function() {
-      update_classif_property(self, private)
-    }
   )
 )
 
