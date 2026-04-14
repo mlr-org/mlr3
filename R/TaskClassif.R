@@ -116,7 +116,7 @@ TaskClassif = R6Class(
     #'
     #' @return Modified `self`.
     droplevels = function(cols = NULL) {
-      super$droplevels()
+      super$droplevels(cols)
       update_classif_property(self, private)
       invisible(self)
     }
@@ -165,14 +165,6 @@ TaskClassif = R6Class(
         return(NA_character_)
       }
       lvls[2L]
-    }
-  ),
-
-  private = list(
-    # TODO: remove this method in the future, but keep it for now to
-    # be backward compatible
-    .update_class_property = function() {
-      update_classif_property(self, private)
     }
   )
 )

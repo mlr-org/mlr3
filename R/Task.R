@@ -126,55 +126,6 @@ Task = R6Class(
     },
 
     #' @description
-    #' Deprecated.
-    #'
-    #' @param ratio (`numeric(1)`)\cr
-    #'   The proportion of datapoints to use as validation data.
-    #' @param ids (`integer()`)\cr
-    #'   The row ids to use as validation data.
-    #' @param remove (`logical(1)`)\cr
-    #'   If `TRUE` (default), the `row_ids` are removed from the primary task's active `"use"` rows, ensuring a
-    #'   disjoint split between the train and validation data.
-    #'
-    #' @return Modified `Self`.
-    divide = function(ratio = NULL, ids = NULL, remove = TRUE) {
-      .Deprecated("field $internal_valid_task")
-      assert_flag(remove)
-      private$.hash = NULL
-
-      if (!xor(is.null(ratio), is.null(ids))) {
-        error_input("Provide a ratio or ids to create a validation task, but not both (Task '%s').", self$id)
-      }
-
-      valid_ids = if (!is.null(ratio)) {
-        assert_numeric(ratio, lower = 0, upper = 1, any.missing = FALSE)
-        partition(self, ratio = 1 - ratio)$test
-      } else {
-        assert_row_ids(ids, null.ok = FALSE)
-      }
-
-      prev_internal_valid = private$.internal_valid_task
-      if (!is.null(prev_internal_valid)) {
-        lg$debug("Task %s already had an internal validation task that is being overwritten.", self$id)
-        # in case something goes wrong
-        on.exit(
-          {
-            private$.internal_valid_task = prev_internal_valid
-          },
-          add = TRUE
-        )
-        private$.internal_valid_task = NULL
-      }
-      private$.internal_valid_task = self$clone(deep = TRUE)
-      private$.internal_valid_task$row_roles$use = valid_ids
-      if (remove) {
-        self$row_roles$use = setdiff(self$row_roles$use, valid_ids)
-      }
-      on.exit({}, add = FALSE)
-      invisible(self)
-    },
-
-    #' @description
     #' Opens the corresponding help page referenced by field `$man`.
     help = function() {
       open_help(self$man)
@@ -924,7 +875,6 @@ Task = R6Class(
         private$.internal_valid_task = NULL
         return(invisible(private$.internal_valid_task))
       }
-      private$.hash = NULL
 
       if (test_integerish(rhs)) {
         train_ids = setdiff(self$row_ids, rhs)
@@ -968,6 +918,7 @@ Task = R6Class(
     #' The hash is calculated based on the complete task object and `$row_ids`.
     #' If an internal validation task is set, the hash is recalculated.
     hash = function(rhs) {
+      assert_ro_binding(rhs)
       if (is.null(private$.hash)) {
         private$.hash = task_hash(self, self$row_ids, ignore_internal_valid_task = FALSE)
       }
@@ -1562,7 +1513,7 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
   # check weights
   for (role in c("weights_learner", "weights_measure")) {
     if (length(new_roles[[role]]) > 0L) {
-      col = task$backend$data(seq(task$backend$nrow), cols = new_roles[[role]])
+      col = task$backend$data(task$backend$rownames, cols = new_roles[[role]])
       assert_numeric(col[[1L]], lower = 0, any.missing = FALSE, .var.name = names(col))
     }
   }
