@@ -1542,7 +1542,7 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
   # check weights
   for (role in c("weights_learner", "weights_measure")) {
     if (length(new_roles[[role]]) > 0L) {
-      col = task$backend$data(seq(task$backend$nrow), cols = new_roles[[role]])
+      col = task$backend$data(task$backend$rownames, cols = new_roles[[role]])
       assert_numeric(col[[1L]], lower = 0, any.missing = FALSE, .var.name = names(col))
     }
   }
