@@ -38,7 +38,7 @@
 #' @template seealso_measure
 #' @export
 MeasureRegrRQR = R6Class(
-  "MeasureRQR",
+  "MeasureRegrRQR",
   inherit = MeasureRegr,
   public = list(
     #' @description
