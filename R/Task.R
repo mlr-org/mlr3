@@ -948,6 +948,7 @@ Task = R6Class(
     #' The hash is calculated based on the complete task object and `$row_ids`.
     #' If an internal validation task is set, the hash is recalculated.
     hash = function(rhs) {
+      assert_ro_binding(rhs)
       if (is.null(private$.hash)) {
         private$.hash = task_hash(self, self$row_ids, ignore_internal_valid_task = FALSE)
       }
