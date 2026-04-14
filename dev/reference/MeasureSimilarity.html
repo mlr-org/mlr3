@@ -132,7 +132,6 @@ To calculate similarity measures, the <a href="Learner.html">Learner</a> must ha
 <span>  param_set <span class="op">=</span> <span class="fu">ps</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">range</span>,</span>
 <span>  minimize <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  average <span class="op">=</span> <span class="st">"macro"</span>,</span>
 <span>  aggregator <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  predict_type <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
@@ -166,20 +165,6 @@ Both bounds may be infinite.</p></dd>
 Set to <code>TRUE</code> if good predictions correspond to small values,
 and to <code>FALSE</code> if good predictions correspond to large values.
 If set to <code>NA</code> (default), tuning this measure is not possible.</p></dd>
-
-
-<dt><code>average</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-How to average multiple <a href="Prediction.html">Prediction</a>s from a <a href="ResampleResult.html">ResampleResult</a>.</p>
-<p>The default, <code>"macro"</code>, calculates the individual performances scores for each <a href="Prediction.html">Prediction</a> and then uses the
-function defined in <code>$aggregator</code> to average them to a single number.</p>
-<p><code>"macro_weighted"</code> is similar to <code>"macro"</code>, but uses weighted averages.
-Weights are taken from the <code>weights_measure</code> column of the resampled <a href="Task.html">Task</a> if present.
-Note that <code>"macro_weighted"</code> can differ from <code>"macro"</code> even if no weights are present or if <code>$use_weights</code> is set to <code>"ignore"</code>,
-since then aggregation is done using <em>uniform sample weights</em>, which result in non-uniform weights for <a href="Prediction.html">Prediction</a>s if they contain different
-numbers of samples.</p>
-<p>If set to <code>"micro"</code>, the individual <a href="Prediction.html">Prediction</a> objects are first combined into a single new <a href="Prediction.html">Prediction</a> object which is then used to assess the performance.
-The function in <code>$aggregator</code> is not used in this case.</p></dd>
 
 
 <dt><code>aggregator</code></dt>

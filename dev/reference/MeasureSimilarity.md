@@ -92,7 +92,6 @@ Creates a new instance of this
       param_set = ps(),
       range,
       minimize = NA,
-      average = "macro",
       aggregator = NULL,
       properties = character(),
       predict_type = NA_character_,
@@ -126,37 +125,6 @@ Creates a new instance of this
   Set to `TRUE` if good predictions correspond to small values, and to
   `FALSE` if good predictions correspond to large values. If set to `NA`
   (default), tuning this measure is not possible.
-
-- `average`:
-
-  (`character(1)`)  
-  How to average multiple
-  [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)s
-  from a
-  [ResampleResult](https://mlr3.mlr-org.com/dev/reference/ResampleResult.md).
-
-  The default, `"macro"`, calculates the individual performances scores
-  for each
-  [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md) and
-  then uses the function defined in `$aggregator` to average them to a
-  single number.
-
-  `"macro_weighted"` is similar to `"macro"`, but uses weighted
-  averages. Weights are taken from the `weights_measure` column of the
-  resampled [Task](https://mlr3.mlr-org.com/dev/reference/Task.md) if
-  present. Note that `"macro_weighted"` can differ from `"macro"` even
-  if no weights are present or if `$use_weights` is set to `"ignore"`,
-  since then aggregation is done using *uniform sample weights*, which
-  result in non-uniform weights for
-  [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)s if
-  they contain different numbers of samples.
-
-  If set to `"micro"`, the individual
-  [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)
-  objects are first combined into a single new
-  [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)
-  object which is then used to assess the performance. The function in
-  `$aggregator` is not used in this case.
 
 - `aggregator`:
 

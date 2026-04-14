@@ -125,6 +125,7 @@ Creates a new instance of this
 
     LearnerClassif$new(
       id,
+      task_type = "classif",
       param_set = ps(),
       predict_types = "response",
       feature_types = character(),
@@ -140,6 +141,12 @@ Creates a new instance of this
 
   (`character(1)`)  
   Identifier for the new instance.
+
+- `task_type`:
+
+  (`character(1)`)  
+  Type of task, e.g. `"regr"` or `"classif"`. Must be an element of
+  [mlr_reflections\$task_types\$type](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md).
 
 - `param_set`:
 
