@@ -89,7 +89,7 @@ Rscript -e "devtools::check()"</code></pre>
 <li>User-facing API (exported functions, public R6 methods) must have <code>checkmate</code> <code>assert_*()</code> argument checks. For internal code, match the existing level of defensiveness.</li>
 <li>Use these mlr3misc utilities when appropriate: <code>map()</code>, <code>map_chr()</code>, <code>invoke()</code>, <code>calculate_hash()</code>, <code>str_collapse()</code>, <code>%nin%</code>, <code>%??%</code>.</li>
 <li>Before implementing something, read similar existing files first to match the established patterns.</li>
-<li>Always use <code>#nolint next</code> to disable linters for the next line instead of <code># nolint</code> on the same line.</li>
+<li>Always use <code># nolint next</code> to disable linters for the next line instead of <code># nolint</code> on the same line.</li>
 </ul></div>
 <div class="section level2">
 <h2 id="file-structure-and-naming">File structure and naming<a class="anchor" aria-label="anchor" href="#file-structure-and-naming"></a></h2>

@@ -133,12 +133,12 @@ tsk("penguins", id = "penguins2")
 #> 
 #> ── <TaskClassif> (344x8): Palmer Penguins ──────────────────────────────────────
 #> • Target: species
-#> • Target classes: Adelie (44%), Gentoo (36%), Chinstrap (20%)
 #> • Properties: multiclass
 #> • Features (7):
 #>   • int (3): body_mass, flipper_length, year
 #>   • dbl (2): bill_depth, bill_length
 #>   • fct (2): island, sex
+#> • Target classes: Adelie (44%), Gentoo (36%), Chinstrap (20%)
 
 # classification tree with different hyperparameters
 # and predict type set to predict probabilities
