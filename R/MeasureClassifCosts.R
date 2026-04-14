@@ -73,6 +73,7 @@ MeasureClassifCosts = R6Class(
       assert_set_equal(rownames(rhs), colnames(rhs))
       private$.costs = rhs
 
+      self$range = c(-Inf, Inf)
       if (min(rhs) >= 0) {
         self$range[1L] = 0
       }

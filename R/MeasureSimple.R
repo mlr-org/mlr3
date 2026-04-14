@@ -107,7 +107,9 @@ MeasureClassifSimple = R6Class(
 
   private = list(
     .score = function(prediction, task, weights = NULL, ...) {
-      self$fun(
+      invoke(
+        self$fun,
+        .args = self$param_set$get_values(),
         truth = prediction$truth,
         response = prediction$response,
         prob = prediction$prob,
@@ -176,7 +178,9 @@ MeasureRegrSimple = R6Class(
 
   private = list(
     .score = function(prediction, task, weights = NULL, ...) {
-      self$fun(
+      invoke(
+        self$fun,
+        .args = self$param_set$get_values(),
         truth = prediction$truth,
         response = prediction$response,
         se = prediction$se,
