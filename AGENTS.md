@@ -43,7 +43,7 @@ Rscript -e "devtools::check()"
 * Use these mlr3misc utilities when appropriate:
   `map()`, `map_chr()`, `invoke()`, `calculate_hash()`, `str_collapse()`, `%nin%`, `%??%`.
 * Before implementing something, read similar existing files first to match the established patterns.
-* Always use `#nolint next` to disable linters for the next line instead of `# nolint` on the same line.
+* Always use `# nolint next` to disable linters for the next line instead of `# nolint` on the same line.
 
 ## File structure and naming
 
