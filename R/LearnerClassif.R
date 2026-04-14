@@ -19,6 +19,7 @@
 #' Additional learners are implemented in the Github package \url{https://github.com/mlr-org/mlr3extralearners}.
 #'
 #' @template param_id
+#' @template param_task_type
 #' @template param_param_set
 #' @template param_predict_types
 #' @template param_feature_types
@@ -52,6 +53,7 @@ LearnerClassif = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(
       id,
+      task_type = "classif",
       param_set = ps(),
       predict_types = "response",
       feature_types = character(),
@@ -62,7 +64,7 @@ LearnerClassif = R6Class(
     ) {
       super$initialize(
         id = id,
-        task_type = "classif",
+        task_type = task_type,
         param_set = param_set,
         predict_types = predict_types,
         feature_types = feature_types,
