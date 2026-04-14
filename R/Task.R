@@ -954,7 +954,6 @@ Task = R6Class(
         private$.internal_valid_task = NULL
         return(invisible(private$.internal_valid_task))
       }
-      private$.hash = NULL
 
       if (test_integerish(rhs)) {
         train_ids = setdiff(self$row_ids, rhs)
