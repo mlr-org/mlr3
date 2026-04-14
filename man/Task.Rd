@@ -493,7 +493,6 @@ Package version of \code{mlr3} used to create the task.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Task-new}{\code{Task$new()}}
-\item \href{#method-Task-divide}{\code{Task$divide()}}
 \item \href{#method-Task-help}{\code{Task$help()}}
 \item \href{#method-Task-format}{\code{Task$format()}}
 \item \href{#method-Task-print}{\code{Task$print()}}
@@ -549,34 +548,6 @@ Named list of constructor arguments, required for converting task types
 via \code{\link[=convert_task]{convert_task()}}.}
 }
 \if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Task-divide"></a>}}
-\if{latex}{\out{\hypertarget{method-Task-divide}{}}}
-\subsection{Method \code{divide()}}{
-Deprecated.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$divide(ratio = NULL, ids = NULL, remove = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{ratio}}{(\code{numeric(1)})\cr
-The proportion of datapoints to use as validation data.}
-
-\item{\code{ids}}{(\code{integer()})\cr
-The row ids to use as validation data.}
-
-\item{\code{remove}}{(\code{logical(1)})\cr
-If \code{TRUE} (default), the \code{row_ids} are removed from the primary task's active \code{"use"} rows, ensuring a
-disjoint split between the train and validation data.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Modified \code{Self}.
 }
 }
 \if{html}{\out{<hr>}}
