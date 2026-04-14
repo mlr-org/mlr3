@@ -649,7 +649,7 @@ Task = R6Class(
           return(invisible(self))
         }
 
-        row_ids = if (pk %nin% names(data)) {
+        if (pk %nin% names(data)) {
           data[[pk]] = self$row_ids
         }
 
