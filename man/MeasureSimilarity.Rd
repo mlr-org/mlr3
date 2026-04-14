@@ -92,7 +92,6 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   param_set = ps(),
   range,
   minimize = NA,
-  average = "macro",
   aggregator = NULL,
   properties = character(),
   predict_type = NA_character_,
@@ -120,21 +119,6 @@ Both bounds may be infinite.}
 Set to \code{TRUE} if good predictions correspond to small values,
 and to \code{FALSE} if good predictions correspond to large values.
 If set to \code{NA} (default), tuning this measure is not possible.}
-
-\item{\code{average}}{(\code{character(1)})\cr
-How to average multiple \link{Prediction}s from a \link{ResampleResult}.
-
-The default, \code{"macro"}, calculates the individual performances scores for each \link{Prediction} and then uses the
-function defined in \verb{$aggregator} to average them to a single number.
-
-\code{"macro_weighted"} is similar to \code{"macro"}, but uses weighted averages.
-Weights are taken from the \code{weights_measure} column of the resampled \link{Task} if present.
-Note that \code{"macro_weighted"} can differ from \code{"macro"} even if no weights are present or if \verb{$use_weights} is set to \code{"ignore"},
-since then aggregation is done using \emph{uniform sample weights}, which result in non-uniform weights for \link{Prediction}s if they contain different
-numbers of samples.
-
-If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
-The function in \verb{$aggregator} is not used in this case.}
 
 \item{\code{aggregator}}{(\verb{function()} | \code{NULL})\cr
 Function to aggregate over multiple iterations. The role of this function depends on

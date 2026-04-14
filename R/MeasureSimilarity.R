@@ -18,7 +18,6 @@
 #' @template param_param_set
 #' @template param_range
 #' @template param_minimize
-#' @template param_average
 #' @template param_aggregator
 #' @template param_predict_type
 #' @template param_measure_properties
@@ -51,7 +50,6 @@ MeasureSimilarity = R6Class(
       param_set = ps(),
       range,
       minimize = NA,
-      average = "macro",
       aggregator = NULL,
       properties = character(),
       predict_type = NA_character_,

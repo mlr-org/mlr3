@@ -232,7 +232,6 @@ MeasureSimilaritySimple = R6Class(
         param_set = param_set$clone(),
         range = c(info$lower, info$upper),
         minimize = info$minimize,
-        average = "custom",
         aggregator = agg,
         predict_type = NA_character_,
         packages = "mlr3measures",
