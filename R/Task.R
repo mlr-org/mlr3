@@ -205,36 +205,6 @@ Task = R6Class(
 
       cat_cli(cli_li("Target: {self$target_names}"))
 
-      if (class(self)[1L] == "TaskClassif") {
-        if (!is.null(private$.backend) && self$nrow <= getOption("mlr3.print_class_ratio_threshold", 1000000L)) {
-          class_freqs = table(self$truth()) / self$nrow * 100
-          class_freqs = class_freqs[order(-class_freqs, names(class_freqs))] # Order by class frequency, then names
-          classes = if ("twoclass" %in% self$properties) {
-            sprintf(
-              "%s (positive class, %.0f%%), %s (%.0f%%)",
-              self$positive,
-              class_freqs[[self$positive]],
-              self$negative,
-              class_freqs[[self$negative]]
-            )
-          } else {
-            if (length(class_freqs) > 10L) {
-              paste0(
-                toString(sprintf("%s (%.0f%%)", names(class_freqs)[1:10], class_freqs[1:10])),
-                " + ",
-                length(class_freqs) - 10,
-                " more"
-              )
-            } else {
-              toString(sprintf("%s (%.0f%%)", names(class_freqs), class_freqs))
-            }
-          }
-        } else {
-          classes = toString(self$class_names)
-        }
-        cat_cli(cli_li("Target classes: {classes}"))
-      }
-
       properties = if (length(self$properties)) toString(self$properties) else "-"
       cat_cli(cli_li("Properties: {properties}"))
 
