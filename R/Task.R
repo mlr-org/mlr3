@@ -126,55 +126,6 @@ Task = R6Class(
     },
 
     #' @description
-    #' Deprecated.
-    #'
-    #' @param ratio (`numeric(1)`)\cr
-    #'   The proportion of datapoints to use as validation data.
-    #' @param ids (`integer()`)\cr
-    #'   The row ids to use as validation data.
-    #' @param remove (`logical(1)`)\cr
-    #'   If `TRUE` (default), the `row_ids` are removed from the primary task's active `"use"` rows, ensuring a
-    #'   disjoint split between the train and validation data.
-    #'
-    #' @return Modified `Self`.
-    divide = function(ratio = NULL, ids = NULL, remove = TRUE) {
-      .Deprecated("field $internal_valid_task")
-      assert_flag(remove)
-      private$.hash = NULL
-
-      if (!xor(is.null(ratio), is.null(ids))) {
-        error_input("Provide a ratio or ids to create a validation task, but not both (Task '%s').", self$id)
-      }
-
-      valid_ids = if (!is.null(ratio)) {
-        assert_numeric(ratio, lower = 0, upper = 1, any.missing = FALSE)
-        partition(self, ratio = 1 - ratio)$test
-      } else {
-        assert_row_ids(ids, null.ok = FALSE)
-      }
-
-      prev_internal_valid = private$.internal_valid_task
-      if (!is.null(prev_internal_valid)) {
-        lg$debug("Task %s already had an internal validation task that is being overwritten.", self$id)
-        # in case something goes wrong
-        on.exit(
-          {
-            private$.internal_valid_task = prev_internal_valid
-          },
-          add = TRUE
-        )
-        private$.internal_valid_task = NULL
-      }
-      private$.internal_valid_task = self$clone(deep = TRUE)
-      private$.internal_valid_task$row_roles$use = valid_ids
-      if (remove) {
-        self$row_roles$use = setdiff(self$row_roles$use, valid_ids)
-      }
-      on.exit({}, add = FALSE)
-      invisible(self)
-    },
-
-    #' @description
     #' Opens the corresponding help page referenced by field `$man`.
     help = function() {
       open_help(self$man)
