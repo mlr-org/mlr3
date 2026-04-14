@@ -86,9 +86,9 @@ LearnerClassifRpart = R6Class(
     .predict = function(task) {
       pv = self$param_set$get_values(tags = "predict")
       newdata = task$data(cols = task$feature_names)
-      response = prob = NULL
+      response = prob = raw = NULL
 
-      if ("response" %chin% self$predict_type) {
+      if (self$predict_type == "response") {
         response = invoke(
           predict,
           self$model,
@@ -99,7 +99,7 @@ LearnerClassifRpart = R6Class(
         )
         raw = response
         response = unname(response)
-      } else if ("prob" %chin% self$predict_type) {
+      } else if (self$predict_type == "prob") {
         prob = invoke(predict, self$model, newdata = newdata, type = "prob", .opts = allow_partial_matching, .args = pv)
         raw = prob
         rownames(prob) = NULL
