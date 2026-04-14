@@ -81,7 +81,7 @@ TaskClassif = R6Class(
     #'
     #' @return Modified `self`.
     droplevels = function(cols = NULL) {
-      super$droplevels()
+      super$droplevels(cols)
       update_classif_property(self, private)
       invisible(self)
     }
