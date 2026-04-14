@@ -101,6 +101,8 @@ Other Task: [`Task`](https://mlr3.mlr-org.com/dev/reference/Task.md),
 
 - [`TaskClassif$new()`](#method-TaskClassif-new)
 
+- [`TaskClassif$print()`](#method-TaskClassif-print)
+
 - [`TaskClassif$truth()`](#method-TaskClassif-truth)
 
 - [`TaskClassif$droplevels()`](#method-TaskClassif-droplevels)
@@ -112,7 +114,6 @@ Inherited methods
 - [`mlr3::Task$add_strata()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-add_strata)
 - [`mlr3::Task$cbind()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-cbind)
 - [`mlr3::Task$data()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-data)
-- [`mlr3::Task$divide()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-divide)
 - [`mlr3::Task$filter()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-filter)
 - [`mlr3::Task$format()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-format)
 - [`mlr3::Task$formula()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-formula)
@@ -121,7 +122,6 @@ Inherited methods
 - [`mlr3::Task$levels()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-levels)
 - [`mlr3::Task$materialize_view()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-materialize_view)
 - [`mlr3::Task$missings()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-missings)
-- [`mlr3::Task$print()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-print)
 - [`mlr3::Task$rbind()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-rbind)
 - [`mlr3::Task$rename()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-rename)
 - [`mlr3::Task$select()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-select)
@@ -193,6 +193,22 @@ provides an alternative way to construct classification tasks.
   Named list of constructor arguments, required for converting task
   types via
   [`convert_task()`](https://mlr3.mlr-org.com/dev/reference/convert_task.md).
+
+------------------------------------------------------------------------
+
+### Method [`print()`](https://rdrr.io/r/base/print.html)
+
+Printer.
+
+#### Usage
+
+    TaskClassif$print(...)
+
+#### Arguments
+
+- `...`:
+
+  (ignored).
 
 ------------------------------------------------------------------------
 

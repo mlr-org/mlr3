@@ -545,8 +545,6 @@ Other Task:
 
 - [`Task$new()`](#method-Task-new)
 
-- [`Task$divide()`](#method-Task-divide)
-
 - [`Task$help()`](#method-Task-help)
 
 - [`Task$format()`](#method-Task-format)
@@ -640,39 +638,6 @@ e.g.
   Named list of constructor arguments, required for converting task
   types via
   [`convert_task()`](https://mlr3.mlr-org.com/dev/reference/convert_task.md).
-
-------------------------------------------------------------------------
-
-### Method `divide()`
-
-Deprecated.
-
-#### Usage
-
-    Task$divide(ratio = NULL, ids = NULL, remove = TRUE)
-
-#### Arguments
-
-- `ratio`:
-
-  (`numeric(1)`)  
-  The proportion of datapoints to use as validation data.
-
-- `ids`:
-
-  ([`integer()`](https://rdrr.io/r/base/integer.html))  
-  The row ids to use as validation data.
-
-- `remove`:
-
-  (`logical(1)`)  
-  If `TRUE` (default), the `row_ids` are removed from the primary task's
-  active `"use"` rows, ensuring a disjoint split between the train and
-  validation data.
-
-#### Returns
-
-Modified `Self`.
 
 ------------------------------------------------------------------------
 

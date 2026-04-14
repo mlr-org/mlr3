@@ -84,7 +84,6 @@ Inherited methods
 - [`mlr3::Task$add_strata()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-add_strata)
 - [`mlr3::Task$cbind()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-cbind)
 - [`mlr3::Task$data()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-data)
-- [`mlr3::Task$divide()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-divide)
 - [`mlr3::Task$droplevels()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-droplevels)
 - [`mlr3::Task$filter()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-filter)
 - [`mlr3::Task$format()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-format)
