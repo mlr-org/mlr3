@@ -94,15 +94,23 @@ Other Measure:
 
 [`mlr3::Measure`](https://mlr3.mlr-org.com/dev/reference/Measure.md) -\>
 [`mlr3::MeasureRegr`](https://mlr3.mlr-org.com/dev/reference/MeasureRegr.md)
--\> `MeasureRSQ`
+-\> `MeasureRegrRSQ`
+
+## Active bindings
+
+- `pred_set_mean`:
+
+  (`logical(1)`)  
+  Whether the mean of the true values is calculated on the prediction
+  set. Set during construction.
 
 ## Methods
 
 ### Public methods
 
-- [`MeasureRegrRSQ$new()`](#method-MeasureRSQ-new)
+- [`MeasureRegrRSQ$new()`](#method-MeasureRegrRSQ-new)
 
-- [`MeasureRegrRSQ$clone()`](#method-MeasureRSQ-clone)
+- [`MeasureRegrRSQ$clone()`](#method-MeasureRegrRSQ-clone)
 
 Inherited methods
 

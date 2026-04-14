@@ -103,15 +103,23 @@ Other Measure:
 
 [`mlr3::Measure`](https://mlr3.mlr-org.com/dev/reference/Measure.md) -\>
 [`mlr3::MeasureRegr`](https://mlr3.mlr-org.com/dev/reference/MeasureRegr.md)
--\> `MeasureRQR`
+-\> `MeasureRegrRQR`
+
+## Active bindings
+
+- `pred_set_mean`:
+
+  (`logical(1)`)  
+  Whether the empirical quantile is calculated on the prediction set.
+  Set during construction.
 
 ## Methods
 
 ### Public methods
 
-- [`MeasureRegrRQR$new()`](#method-MeasureRQR-new)
+- [`MeasureRegrRQR$new()`](#method-MeasureRegrRQR-new)
 
-- [`MeasureRegrRQR$clone()`](#method-MeasureRQR-clone)
+- [`MeasureRegrRQR$clone()`](#method-MeasureRegrRQR-clone)
 
 Inherited methods
 
