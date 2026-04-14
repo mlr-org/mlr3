@@ -54,10 +54,22 @@ MeasureRegrRSQ = R6Class(
     }
   ),
 
+  active = list(
+    #' @field pred_set_mean (`logical(1)`)\cr
+    #' Whether the mean of the true values is calculated on the prediction set.
+    #' Set during construction.
+    pred_set_mean = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.pred_set_mean
+    }
+  ),
+
   private = list(
     # this is not included in the paramset as this flag influences properties of the learner
     # so this flag should not be "dynamic state"
     .pred_set_mean = NULL,
+
+    .extra_hash = "pred_set_mean",
 
     .score = function(prediction, task = NULL, train_set = NULL, weights = NULL, ...) {
       if (is.null(weights)) {

@@ -60,8 +60,20 @@ MeasureRegrRQR = R6Class(
     }
   ),
 
+  active = list(
+    #' @field pred_set_mean (`logical(1)`)\cr
+    #' Whether the empirical quantile is calculated on the prediction set.
+    #' Set during construction.
+    pred_set_mean = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.pred_set_mean
+    }
+  ),
+
   private = list(
     .pred_set_mean = NULL,
+
+    .extra_hash = "pred_set_mean",
 
     .score = function(prediction, task = NULL, train_set = NULL, weights = NULL, ...) {
       alpha = self$param_set$values$alpha
