@@ -215,38 +215,38 @@ as.data.table(mlr_measures)
 #>  1:      na_score,requires_learner,requires_model,requires_no_prediction
 #>  2:      na_score,requires_learner,requires_model,requires_no_prediction
 #>  3:                                                     weights,obs_loss
-#>  4:                                                                     
+#>  4:                                                              weights
 #>  5:                                                              weights
 #>  6:                                                     weights,obs_loss
 #>  7:                                                     weights,obs_loss
 #>  8:                                                              weights
-#>  9:                                                                     
-#> 10:                                                                     
-#> 11:                                                                     
-#> 12:                                                                     
-#> 13:                                                                     
-#> 14:                                                                     
-#> 15:                                                                     
-#> 16:                                                                     
+#>  9:                                                              weights
+#> 10:                                                              weights
+#> 11:                                                              weights
+#> 12:                                                              weights
+#> 13:                                                              weights
+#> 14:                                                              weights
+#> 15:                                                              weights
+#> 16:                                                              weights
 #> 17:                                                     weights,obs_loss
 #> 18:                                                                     
 #> 19:                                                                     
 #> 20:                                                                     
 #> 21:                                                                     
 #> 22:                                                                     
-#> 23:                                                                     
-#> 24:                                                                     
-#> 25:                                                                     
-#> 26:                                                                     
+#> 23:                                                              weights
+#> 24:                                                              weights
+#> 25:                                                              weights
+#> 26:                                                              weights
 #> 27:                                                                     
-#> 28:                                                                     
-#> 29:                                                                     
-#> 30:                                                                     
-#> 31:                                                                     
-#> 32:                                                                     
-#> 33:                                                                     
-#> 34:                                                                     
-#> 35:                                                                     
+#> 28:                                                              weights
+#> 29:                                                              weights
+#> 30:                                                              weights
+#> 31:                                                              weights
+#> 32:                                                              weights
+#> 33:                                                              weights
+#> 34:                                                              weights
+#> 35:                                                              weights
 #> 36:                                                             na_score
 #> 37:                     na_score,requires_learner,requires_no_prediction
 #> 38:                     na_score,requires_learner,requires_no_prediction
@@ -266,7 +266,7 @@ as.data.table(mlr_measures)
 #> 52:                                                               [NULL]
 #> 53:                                                              weights
 #> 54:                                                     weights,obs_loss
-#> 55:                                                                     
+#> 55:                                                              weights
 #> 56:                                                                     
 #> 57:                                                     weights,obs_loss
 #> 58: requires_task,requires_learner,requires_model,requires_no_prediction
