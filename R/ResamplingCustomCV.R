@@ -69,7 +69,7 @@ ResamplingCustomCV = R6Class(
       task = assert_task(as_task(task))
       private$.hash = NULL
       if (!xor(is.null(f), is.null(col))) {
-        error_input("Either `f` or `col` must be provided")
+        error_input("Exactly one of `f` or `col` must be provided")
       }
 
       if (!is.null(col)) {
