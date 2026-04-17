@@ -217,7 +217,7 @@ Measure = R6Class(
 
       # check should be added to assert_measure()
       # except when the checks are superfluous for rr$score() and bmr$score()
-      # these checks should be added bellow
+      # these checks should be added below
       if ("requires_task" %chin% properties && is.null(task)) {
         error_input("Measure '%s' requires a task", self$id)
       }
