@@ -445,8 +445,7 @@ Opens the corresponding help page referenced by field \verb{$man}.
 \if{html}{\out{<a id="method-Measure-score"></a>}}
 \if{latex}{\out{\hypertarget{method-Measure-score}{}}}
 \subsection{Method \code{score()}}{
-Takes a \link{Prediction} (or a list of \link{Prediction} objects named with valid \code{predict_sets})
-and calculates a numeric score.
+Takes a \link{Prediction} and calculates a numeric score.
 If the measure if flagged with the properties \code{"requires_task"}, \code{"requires_learner"},
 \code{"requires_model"} or \code{"requires_train_set"}, you must additionally
 pass the respective \link{Task}, the (trained) \link{Learner} or the training set indices.
@@ -458,7 +457,7 @@ This is handled internally during \code{\link[=resample]{resample()}}/\code{\lin
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{prediction}}{(\link{Prediction} | named list of \link{Prediction}).}
+\item{\code{prediction}}{(\link{Prediction}).}
 
 \item{\code{task}}{(\link{Task}).}
 

@@ -192,14 +192,13 @@ Measure = R6Class(
     },
 
     #' @description
-    #' Takes a [Prediction] (or a list of [Prediction] objects named with valid `predict_sets`)
-    #' and calculates a numeric score.
+    #' Takes a [Prediction] and calculates a numeric score.
     #' If the measure if flagged with the properties `"requires_task"`, `"requires_learner"`,
     #' `"requires_model"` or `"requires_train_set"`, you must additionally
     #' pass the respective [Task], the (trained) [Learner] or the training set indices.
     #' This is handled internally during [resample()]/[benchmark()].
     #'
-    #' @param prediction ([Prediction] | named list of [Prediction]).
+    #' @param prediction ([Prediction]).
     #'
     #' @param task ([Task]).
     #'
