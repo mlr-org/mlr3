@@ -18,6 +18,7 @@
 ^\.cursor$
 ^\.editorconfig$
 ^\.git$
+^\.git-blame-ignore-revs$
 ^\.gitattributes$
 ^\.github$
 ^\.gitignore$
