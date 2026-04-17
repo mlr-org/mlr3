@@ -225,7 +225,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     # default method does nothing
     learner$model = unmarshal_model(learner$model, inplace = TRUE)
     if (is.null(learner$state$model)) {
-      error_learner_train("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
+      error_learner_predict("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
     }
 
     result = get_private(learner)$.predict(task)
