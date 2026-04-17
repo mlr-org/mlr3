@@ -79,8 +79,6 @@
 #' @template param_packages
 #' @template param_label
 #' @template param_man
-#' @param obs_loss (`function()` | `NULL`)\cr
-#'   The observation-wise loss function, e.g. [zero-one][mlr3measures::zero_one] for classification error.
 #' @param trafo (`list()` | `NULL`)\cr
 #'   An optional list with two elements, containing the transformation `"fn"` and its derivative `"deriv"`.
 #'   The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
