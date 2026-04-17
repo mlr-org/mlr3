@@ -88,6 +88,9 @@ MeasureClassifCosts = R6Class(
 
     .score = function(prediction, weights, ...) {
       costs = self$costs
+      if (is.null(costs)) {
+        error_config("Costs matrix must be set before scoring, use `$costs` to set it")
+      }
       lvls = levels(prediction$truth)
       assert_set_equal(lvls, colnames(costs))
 
