@@ -228,7 +228,7 @@ Measure = R6Class(
         error_input("Measure '%s' requires a learner", self$id)
       }
 
-      if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
+      if (!is.null(prediction) && !is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
         error_input("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
       }
 
