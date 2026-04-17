@@ -516,8 +516,7 @@ this requires an <code>$obs_loss</code> to be present. An example is <code>sqrt<
 
 </div><p></p><hr><a id="method-Measure-score"></a><div class="section">
 <h3 id="method-score-">Method <code>score()</code><a class="anchor" aria-label="anchor" href="#method-score-"></a></h3>
-<p>Takes a <a href="Prediction.html">Prediction</a> (or a list of <a href="Prediction.html">Prediction</a> objects named with valid <code>predict_sets</code>)
-and calculates a numeric score.
+<p>Takes a <a href="Prediction.html">Prediction</a> and calculates a numeric score.
 If the measure if flagged with the properties <code>"requires_task"</code>, <code>"requires_learner"</code>,
 <code>"requires_model"</code> or <code>"requires_train_set"</code>, you must additionally
 pass the respective <a href="Task.html">Task</a>, the (trained) <a href="Learner.html">Learner</a> or the training set indices.
@@ -529,7 +528,7 @@ This is handled internally during <code><a href="resample.html">resample()</a></
 <div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>prediction</code></dt>
-<dd><p>(<a href="Prediction.html">Prediction</a> | named list of <a href="Prediction.html">Prediction</a>).</p></dd>
+<dd><p>(<a href="Prediction.html">Prediction</a>).</p></dd>
 
 
 <dt><code>task</code></dt>

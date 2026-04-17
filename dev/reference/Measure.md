@@ -580,13 +580,10 @@ Opens the corresponding help page referenced by field `$man`.
 ### Method `score()`
 
 Takes a
-[Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md) (or a
-list of
-[Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)
-objects named with valid `predict_sets`) and calculates a numeric score.
-If the measure if flagged with the properties `"requires_task"`,
-`"requires_learner"`, `"requires_model"` or `"requires_train_set"`, you
-must additionally pass the respective
+[Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md) and
+calculates a numeric score. If the measure if flagged with the
+properties `"requires_task"`, `"requires_learner"`, `"requires_model"`
+or `"requires_train_set"`, you must additionally pass the respective
 [Task](https://mlr3.mlr-org.com/dev/reference/Task.md), the (trained)
 [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md) or the
 training set indices. This is handled internally during
@@ -600,9 +597,7 @@ training set indices. This is handled internally during
 
 - `prediction`:
 
-  ([Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md) \|
-  named list of
-  [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)).
+  ([Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)).
 
 - `task`:
 
