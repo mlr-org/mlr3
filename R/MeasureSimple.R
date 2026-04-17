@@ -159,7 +159,7 @@ MeasureRegrSimple = R6Class(
 
       super$initialize(
         id = paste0("regr.", name),
-        param_set = param_set$clone(),
+        param_set = param_set,
         range = c(info$lower, info$upper),
         minimize = info$minimize,
         properties = properties,
@@ -229,7 +229,7 @@ MeasureSimilaritySimple = R6Class(
 
       super$initialize(
         id = paste0("sim.", name),
-        param_set = param_set$clone(),
+        param_set = param_set,
         range = c(info$lower, info$upper),
         minimize = info$minimize,
         aggregator = agg,
