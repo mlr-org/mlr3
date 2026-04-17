@@ -260,7 +260,7 @@ as.data.table(mlr_measures)
 #> 46:                                                     weights,obs_loss
 #> 47:                                                     weights,obs_loss
 #> 48:                                                              weights
-#> 49:                                                                     
+#> 49:                                                              weights
 #> 50:                                                     weights,obs_loss
 #> 51:                                                              weights
 #> 52:                                                               [NULL]
