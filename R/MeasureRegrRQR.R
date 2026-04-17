@@ -55,6 +55,7 @@ MeasureRegrRQR = R6Class(
         predict_type = "quantiles",
         minimize = FALSE,
         range = c(-Inf, 1),
+        label = "R-Squared for Quantile Regression",
         man = "mlr3::mlr_measures_regr.rqr"
       )
     }

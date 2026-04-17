@@ -41,6 +41,7 @@ MeasureRegrPinball = R6Class(
         properties = "weights",
         minimize = TRUE,
         range = c(-Inf, Inf),
+        label = "Average Pinball Loss",
         man = "mlr3::mlr_measures_regr.pinball"
       )
     }
