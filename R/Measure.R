@@ -324,7 +324,7 @@ Measure = R6Class(
         return(rep(NA_real_, length(prediction$row_ids)))
       }
 
-      private$.obs_loss(prediction, task)
+      private$.obs_loss(prediction, task, learner)
     }
   ),
 
