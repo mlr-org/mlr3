@@ -54,6 +54,7 @@ ResamplingCustom = R6Class(
     #'   Must have the same length as `train_sets`.
     instantiate = function(task, train_sets, test_sets) {
       task = assert_task(as_task(task))
+      private$.hash = NULL
       assert_list(train_sets, types = "atomicvector", any.missing = FALSE)
       assert_list(test_sets, types = "atomicvector", len = length(train_sets), any.missing = FALSE, null.ok = TRUE)
       assert_subset(unlist(train_sets, use.names = FALSE), task$row_ids)
