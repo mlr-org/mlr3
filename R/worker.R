@@ -717,8 +717,6 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
       task$internal_valid_task = valid_task
       return(task)
     }
-
-    return(task)
   }
 
   # validate is numeric
@@ -726,7 +724,6 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
   task
 }
 
-# This function returns TRUE,
 learner_will_err = function(cond, learner, stage) {
   when = get_private(learner)$.when
   if (is.null(cond)) {
