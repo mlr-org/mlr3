@@ -38,6 +38,7 @@ MeasureRegrPinball = R6Class(
         id = "regr.pinball",
         param_set = param_set,
         predict_type = "quantiles",
+        properties = "weights",
         minimize = TRUE,
         range = c(-Inf, Inf),
         man = "mlr3::mlr_measures_regr.pinball"
@@ -46,7 +47,7 @@ MeasureRegrPinball = R6Class(
   ),
 
   private = list(
-    .score = function(prediction, ...) {
+    .score = function(prediction, weights = NULL, ...) {
       alpha = self$param_set$values$alpha
       probs = attr(prediction$data$quantiles, "probs")
       assert_choice(alpha, probs)
@@ -54,7 +55,8 @@ MeasureRegrPinball = R6Class(
       mlr3measures::pinball(
         truth = prediction$truth,
         response = prediction$data$quantiles[, which(probs == alpha)],
-        alpha = alpha
+        alpha = alpha,
+        sample_weights = weights
       )
     }
   )

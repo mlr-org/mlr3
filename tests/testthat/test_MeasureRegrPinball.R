@@ -5,7 +5,7 @@ test_that("mlr_measures_regr.pinball", {
   expect_error(msr("regr.pinball", alpha = 2), "alpha: Element 1 is not <= 1")
 
   m = msr("regr.pinball")
-  expect_equal(m$properties, character(0))
+  expect_equal(m$properties, "weights")
   preds_na = lrn$train(task)$predict(task)
   expect_warning(preds_na$score(m), "missing predict type 'quantiles'")
   score_na = suppressWarnings(unname(preds_na$score(m)))
