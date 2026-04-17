@@ -126,10 +126,10 @@ as.data.table(mlr_measures)
 #> 46:             regr.mse                                  Mean Squared Error
 #> 47:            regr.msle                              Mean Squared Log Error
 #> 48:           regr.pbias                                        Percent Bias
-#> 49:         regr.pinball                                                <NA>
+#> 49:         regr.pinball                                Average Pinball Loss
 #> 50:            regr.rmse                             Root Mean Squared Error
 #> 51:           regr.rmsle                         Root Mean Squared Log Error
-#> 52:             regr.rqr                                                <NA>
+#> 52:             regr.rqr                   R-Squared for Quantile Regression
 #> 53:             regr.rsq                                                <NA>
 #> 54:             regr.sae                              Sum of Absolute Errors
 #> 55:           regr.smape               Symmetric Mean Absolute Percent Error

@@ -38,7 +38,7 @@ or with the associated sugar function
 |     |         |         |                  |
 |-----|---------|---------|------------------|
 | Id  | Type    | Default | Range            |
-| k   | integer | \-      | \\\[0, \infty)\\ |
+| k   | numeric | \-      | \\\[0, \infty)\\ |
 
 ## See also
 
