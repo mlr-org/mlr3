@@ -601,8 +601,8 @@ Measure = R6Class(
 #' to avoid unnecessary allocations.
 #'
 #' @param measure ([Measure]).
-#' @param task ([Measure]).
-#' @param learner ([Measure]).
+#' @param task ([Task]).
+#' @param learner ([Learner]).
 #' @param train_set (`integer()`).
 #' @param prediction ([Prediction] | [PredictionData]).
 #'
