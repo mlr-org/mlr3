@@ -3,9 +3,17 @@ root = true
 
 # settings for all files
 [*]
-charset = utf-8                            # Ensure all files are saved in UTF-8 encoding
-end_of_line = lf                           # Use LF line endings (Unix style)
-indent_style = space                       # Use spaces for indentation
-indent_size = 2                            # always use 2 spaces for indentation, R, C, python, etc.
-max_line_length = 120                      # max line length
-trim_trailing_whitespace = true            # Remove trailing whitespace
+# Ensure all files are saved in UTF-8 encoding
+charset = utf-8
+# Use LF line endings (Unix style)
+end_of_line = lf
+# Use spaces for indentation
+indent_style = space
+# always use 2 spaces for indentation, R, C, python, etc.
+indent_size = 2
+# max line length
+max_line_length = 120
+# Remove trailing whitespace
+trim_trailing_whitespace = true
+# Ensure files end with a newline
+insert_final_newline = true
