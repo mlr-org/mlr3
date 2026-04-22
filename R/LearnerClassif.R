@@ -129,7 +129,7 @@ LearnerClassif = R6Class(
       }
 
       if (!is.null(pred$prob)) {
-        miss = miss | apply(pred$prob, 1L, anyMissing)
+        miss = miss | row_any_na(pred$prob)
       }
 
       miss_ids = which(miss)

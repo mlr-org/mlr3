@@ -78,7 +78,7 @@ is_missing_prediction_data.PredictionDataClassif = function(pdata, ...) {
     miss = is.na(pdata$response)
   }
   if (!is.null(pdata$prob)) {
-    miss = miss | apply(pdata$prob, 1L, anyMissing)
+    miss = miss | row_any_na(pdata$prob)
   }
 
   # weights may never be NA, so we don't need to check for missingness

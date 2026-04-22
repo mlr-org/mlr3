@@ -48,6 +48,13 @@ clone_rep = function(x, n) {
   lapply(seq_len(n), function(i) xc)
 }
 
+row_any_na = function(x) {
+  if (!anyNA(x)) {
+    return(logical(nrow(x)))
+  }
+  rowSums(is.na(x)) > 0L
+}
+
 #' @title Assert Validate
 #' @description
 #' Asserts whether the input is a valid value for the `$validate` field of a [`Learner`].
