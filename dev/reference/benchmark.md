@@ -203,6 +203,12 @@ To get additional log output for debugging, increase the log level to
 
     lgr::get_logger("mlr3")$set_threshold("debug")
 
+To obtain a more informative traceback when an iteration fails, set
+`options(mlr3.debug = TRUE)`. This disables parallelization via
+[future](https://CRAN.R-project.org/package=future) so that errors are
+raised in the main process. Note that results computed in debug mode use
+a different seeding mechanism and are **not reproducible**.
+
 To log to a file or a data base, see the documentation of
 [lgr::lgr-package](https://s-fleck.github.io/lgr/reference/lgr-package.html).
 
@@ -245,12 +251,12 @@ bmr = benchmark(design)
 head(as.data.table(bmr))
 #>                                   uhash                   task
 #>                                  <char>                 <list>
-#> 1: 179177d1-dda3-43e2-a459-552dfca60946 <TaskClassif:penguins>
-#> 2: 179177d1-dda3-43e2-a459-552dfca60946 <TaskClassif:penguins>
-#> 3: 179177d1-dda3-43e2-a459-552dfca60946 <TaskClassif:penguins>
-#> 4: 74edf7a8-0282-4aa1-9712-b6f2a9f6f59a <TaskClassif:penguins>
-#> 5: 74edf7a8-0282-4aa1-9712-b6f2a9f6f59a <TaskClassif:penguins>
-#> 6: 74edf7a8-0282-4aa1-9712-b6f2a9f6f59a <TaskClassif:penguins>
+#> 1: fea83078-b8eb-4505-b5d2-e72a23726370 <TaskClassif:penguins>
+#> 2: fea83078-b8eb-4505-b5d2-e72a23726370 <TaskClassif:penguins>
+#> 3: fea83078-b8eb-4505-b5d2-e72a23726370 <TaskClassif:penguins>
+#> 4: 67977322-543e-402a-80b5-32eccba4cb55 <TaskClassif:penguins>
+#> 5: 67977322-543e-402a-80b5-32eccba4cb55 <TaskClassif:penguins>
+#> 6: 67977322-543e-402a-80b5-32eccba4cb55 <TaskClassif:penguins>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1

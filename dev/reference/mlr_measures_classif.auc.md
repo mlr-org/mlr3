@@ -10,23 +10,6 @@ curve. The AUC can be interpreted as the probability that a randomly
 chosen positive observation has a higher predicted probability than a
 randomly chosen negative observation.
 
-For \\n^+\\ positive and \\n^-\\ negative observations with \\R_i^+\\
-the rank of the \\i\\-th positive observation's predicted probability
-(average ranks for ties), the AUC is estimated as \$\$
-\widehat{\operatorname{AUC}} = \frac{1}{n^+ n^-} \left(
-\sum\_{i=1}^{n^+} R_i^+ \\ - \\ \frac{n^+(n^+ + 1)}{2} \right). \$\$
-
-If `sample_weights` are provided, let \\w_i^+\\ be the weight of the
-\\i\\-th positive observation with predicted probability \\p_i^+\\,
-\\W^+ = \sum_i w_i^+\\, and \\W^-\\ the total weight of the negative
-observations. Define the weighted Mann-Whitney contribution of positive
-observation \\i\\ as \\U_i^w = W\_{\< p_i^+}^- + \tfrac{1}{2} W\_{=
-p_i^+}^-\\, i.e. the total weight of negative observations with a
-smaller predicted probability plus half the weight of negatives tied
-with \\p_i^+\\. The weighted AUC is then \$\$
-\widehat{\operatorname{AUC}}\_w = \frac{1}{W^+ W^-} \sum\_{i=1}^{n^+}
-w_i^+ U_i^w. \$\$
-
 This measure is undefined if the true values are either all positive or
 all negative.
 
