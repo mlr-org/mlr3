@@ -147,6 +147,11 @@ or \code{"trace"}:
 \if{html}{\out{<div class="sourceCode">}}\preformatted{lgr::get_logger("mlr3")$set_threshold("debug")
 }\if{html}{\out{</div>}}
 
+To obtain a more informative traceback when an iteration fails, set
+\code{options(mlr3.debug = TRUE)}. This disables parallelization via \CRANpkg{future}
+so that errors are raised in the main process.
+Note that results computed in debug mode use a different seeding mechanism and are \strong{not reproducible}.
+
 To log to a file or a data base, see the documentation of \link[lgr:lgr-package]{lgr::lgr-package}.
 }
 
