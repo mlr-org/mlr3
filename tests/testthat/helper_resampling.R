@@ -8,7 +8,7 @@ expect_grouping_works = function(r) {
     expect_integer(r$train_set(i), lower = 1L, upper = 150L, any.missing = FALSE)
     expect_integer(r$test_set(i), lower = 1L, upper = 150L, any.missing = FALSE)
     if (!inherits(r, "ResamplingInsample")) {
-      expect_length(intersect(data[r$train_set(i), get("grp")], data[r$test_set(i), get("grp")]), 0L)
+      testthat::expect_length(intersect(data[r$train_set(i), get("grp")], data[r$test_set(i), get("grp")]), 0L)
     }
   }
 }

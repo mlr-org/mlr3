@@ -30,7 +30,8 @@ as_data_backend = function(data, primary_key = NULL, ...) {
 
 
 #' @export
-as_data_backend.DataBackend = function(data, primary_key = NULL, ...) { # nolint
+# nolint next
+as_data_backend.DataBackend = function(data, primary_key = NULL, ...) {
   data
 }
 
@@ -42,12 +43,14 @@ as_data_backend.DataBackend = function(data, primary_key = NULL, ...) { # nolint
 #' @param keep_rownames (`logical(1)` | `character(1)`)\cr
 #'   If `TRUE` or a single string, keeps the row names of `data` as a new column.
 #'   The column is named like the provided string, defaulting to `"..rownames"` for `keep_rownames == TRUE`.
-#'   Note that the created column will be used as a regular feature by the task unless you manually change the column role.
+#'   Note that the created column will be used as a regular feature by the task
+#'   unless you manually change the column role.
 #'   Also see [data.table::as.data.table()].
 #'
 #' @rdname as_data_backend
 #' @export
-as_data_backend.data.frame = function(data, primary_key = NULL, keep_rownames = FALSE, ...) { # nolint
+# nolint next
+as_data_backend.data.frame = function(data, primary_key = NULL, keep_rownames = FALSE, ...) {
   assert_data_frame(data, min.cols = 1L, col.names = "unique")
 
   if (!isFALSE(keep_rownames)) {

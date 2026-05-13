@@ -39,15 +39,17 @@ The following methods change the task in-place:
 \itemize{
 \item Any modification of the lists \verb{$col_roles} or \verb{$row_roles}.
 This provides a different "view" on the data without altering the data itself.
-This may affects, e.g., \verb{$data}, \verb{$nrow}, \verb{$ncol}, \code{n_features}, \code{row_ids}, and \verb{$feature_names}.
+This may affect, e.g., \verb{$data}, \verb{$nrow}, \verb{$ncol}, \code{n_features}, \code{row_ids}, and \verb{$feature_names}.
 Altering \verb{$col_roles} may affect, e.g., \verb{$data}, \verb{$ncol}, \verb{$n_features}, and \verb{$feature_names}.
 Altering \verb{$row_roles} may affect, e.g., \verb{$data}, \verb{$nrow}, and \verb{$row_ids}.
 \item Modification of column or row roles via \verb{$set_col_roles()} or \verb{$set_row_roles()}, respectively.
 They are an alternative to directly accessing \verb{$col_roles} or \verb{$row_roles}, with the same side effects.
-\item \verb{$select()} and \verb{$filter()} subset the set of active features or rows in \verb{$col_roles} or \verb{$row_roles}, respectively.
+\item \verb{$select()} and \verb{$filter()} subset the set of active features or rows in \verb{$col_roles} or \verb{$row_roles},
+respectively.
 \item \verb{$cbind()} and \verb{$rbind()} change the task in-place by binding new columns or rows to the data.
 \item \verb{$rename()} changes column names.
-\item \verb{$set_levels()} and \verb{$droplevels()} update the field \verb{$col_info()} to automatically repair factor levels while querying data with \verb{$data()}.
+\item \verb{$set_levels()} and \verb{$droplevels()} update the field \verb{$col_info()} to automatically repair
+factor levels while querying data with \verb{$data()}.
 \item \verb{$materialize_view()} creates a new \link{DataBackendDataTable} which keeps only the data in the currently active view
 possibly freeing some memory consumed by the \link{DataBackend} stored in the \code{Task}.
 }
@@ -56,7 +58,7 @@ possibly freeing some memory consumed by the \link{DataBackend} stored in the \c
 \examples{
 # We use the inherited class TaskClassif here,
 # because the base class `Task` is not intended for direct use
-task = TaskClassif$new("penguings", palmerpenguins::penguins, target = "species")
+task = TaskClassif$new("penguins", palmerpenguins::penguins, target = "species")
 
 task$nrow
 task$ncol
@@ -230,50 +232,6 @@ Other Task:
 \code{\link{mlr_tasks_zoo}}
 }
 \concept{Task}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{label}}{(\code{character(1)})\cr
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.}
-
-\item{\code{task_type}}{(\code{character(1)})\cr
-Task type, e.g. \code{"classif"} or \code{"regr"}.
-
-For a complete list of possible task types (depending on the loaded packages),
-see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
-
-\item{\code{backend}}{(\link{DataBackend})\cr
-Abstract interface to the data of the task.}
-
-\item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Table with with 4 columns, mainly for internal purposes:
-\itemize{
-\item \code{"id"} (\code{character()}) stores the name of the column.
-\item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
-See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete list of allowed types.
-\item \code{"levels"} (\code{list()}) stores a vector of distinct values (levels) for ordered and unordered factor variables.
-\item \code{"label"} (\code{character()}) stores a vector of prettier, formated column names.
-\item \code{"fix_factor_levels"} (\code{logical()}) stores flags which determine if the levels of the respective variable
-need to be reordered after querying the data from the \link{DataBackend}.
-}
-
-Note that all columns of the \link{DataBackend}, also columns which are not selected or have any role, are listed
-in this table.}
-
-\item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}, but can be set by child classes.}
-
-\item{\code{extra_args}}{(named \code{list()})\cr
-Additional arguments set during construction.
-Required for \code{\link[=convert_task]{convert_task()}}.}
-
-\item{\code{mlr3_version}}{(\code{package_version})\cr
-Package version of \code{mlr3} used to create the task.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -281,7 +239,7 @@ Package version of \code{mlr3} used to create the task.}
 Identifier of the object.
 Used in tables, plot and text output.}
 
-\item{\code{internal_valid_task}}{(\code{Task} or \code{integer()} or \code{NULL})\cr
+\item{\code{internal_valid_task}}{(\code{Task} | \code{integer()} | \code{NULL})\cr
 Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
 See also the \verb{$validate} field of \code{\link{Learner}}.
 If integers are assigned they are removed from the primary task and an internal validation task
@@ -319,16 +277,19 @@ Returns all column names with role "target".}
 
 \item{\code{properties}}{(\code{character()})\cr
 Set of task properties.
-Possible properties are are stored in \link[=mlr_reflections]{mlr_reflections$task_properties}.
+Possible properties are stored in \link[=mlr_reflections]{mlr_reflections$task_properties}.
 The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
 \itemize{
 \item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
 \item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
-\item \code{"weights_learner"}: If the task has observation weights with this role, they are passed to the \link{Learner} during train.
-The use of weights can be disabled via by setting the learner's hyperparameter \code{use_weights} to \code{FALSE}.
-\item \code{"weights_measure"}: If the task has observation weights with this role, they are passed to the \link{Measure} for weighted scoring.
-The use of weights can be disabled via by setting the measure's hyperparameter \code{use_weights} to \code{FALSE}.
-\item \code{"offset"}: The task includes one or more offset columns specifying fixed adjustments for model training and possibly for prediction (role \code{"offset"}).
+\item \code{"weights_learner"}: If the task has observation weights with this role,
+they are passed to the \link{Learner} during train.
+The use of weights can be disabled by setting the learner's hyperparameter \code{use_weights} to \code{FALSE}.
+\item \code{"weights_measure"}: If the task has observation weights with this role,
+they are passed to the \link{Measure} for weighted scoring.
+The use of weights can be disabled by setting the measure's hyperparameter \code{use_weights} to \code{FALSE}.
+\item \code{"offset"}: The task includes one or more offset columns specifying fixed adjustments for model training
+and possibly for prediction (role \code{"offset"}).
 \item \code{"ordered"}: The task has columns which define the row order (role \code{"order"}).
 }
 
@@ -340,8 +301,10 @@ Each row (observation) can have an arbitrary number of roles in the learning tas
 \item \code{"use"}: Use in train / predict / resampling.
 }
 
-\code{row_roles} is a named list whose elements are named by row role and each element is an \code{integer()} vector of row ids.
-To alter the roles, just modify the list, e.g. with  \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).}
+\code{row_roles} is a named list whose elements are named by row role and each element is an \code{integer()} vector of
+row ids.
+To alter the roles, just modify the list,
+e.g. with \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).}
 
 \item{\code{col_roles}}{(named \code{list()})\cr
 Each column can be in one or more of the following groups to fulfill different roles:
@@ -352,27 +315,36 @@ Each column can be in one or more of the following groups to fulfill different r
 Not more than a single column can be associated with this role.
 \item \code{"order"}: Data returned by \verb{$data()} is ordered by this column (or these columns).
 Columns must be sortable with \code{\link[=order]{order()}}.
-\item \code{"group"}: During resampling, observations with the same value of the variable with role "group" are marked as "belonging together".
-For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
+\item \code{"group"}: During resampling, observations with the same value of the variable with role "group" are marked
+as "belonging together".
+For each resampling iteration, observations of the same group will be exclusively assigned to be either in
+the training set or in the test set.
 Not more than a single column can be associated with this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
-\item \code{"weights_learner"}: If the task has observation weights with this role, they are passed to the \link{Learner} during train.
-The use of weights can be disabled via by setting the learner's hyperparameter \code{use_weights} to \code{FALSE}.
-\item \code{"weights_measure"}: If the task has observation weights with this role, they are passed to the \link{Measure} for weighted scoring.
-The use of weights can be disabled via by setting the measure's hyperparameter \code{use_weights} to \code{FALSE}.
+\item \code{"weights_learner"}: If the task has observation weights with this role,
+they are passed to the \link{Learner} during train.
+The use of weights can be disabled by setting the learner's hyperparameter \code{use_weights} to \code{FALSE}.
+\item \code{"weights_measure"}: If the task has observation weights with this role,
+they are passed to the \link{Measure} for weighted scoring.
+The use of weights can be disabled by setting the measure's hyperparameter \code{use_weights} to \code{FALSE}.
 \item \code{"offset"}: Numeric columns used to specify fixed adjustments for model training.
-Some models use offsets to simply shift predictions, while others incorporate them to boost predictions from a baseline model.
-For learners supporting offsets in multiclass settings, an offset column must be provided for each target class.
+Some models use offsets to simply shift predictions,
+while others incorporate them to boost predictions from a baseline model.
+For learners supporting offsets in multiclass settings,
+an offset column must be provided for each target class.
 These columns must follow the naming convention \code{"offset_{target_class_name}"}.
 For an example of a learner that supports offsets, see \code{LearnerClassifXgboost}  of \CRANpkg{mlr3learners}.
 }
 
-\code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
-To alter the roles, just modify the list, e.g. with \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).
+\code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector
+of column names.
+To alter the roles, just modify the list,
+e.g. with \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).
 The method \verb{$set_col_roles} provides a convenient alternative to assign columns to roles.
 
 The roles \code{weights_learner} and \code{weights_measure} may only point to a single numeric column, but they can
-all point to the same column or different columns. Weights must be non-negative numerics with at least one weight being > 0.
+all point to the same column or different columns.
+Weights must be non-negative numerics with at least one weight being > 0.
 They don't necessarily need to sum up to 1.}
 
 \item{\code{nrow}}{(\code{integer(1)})\cr
@@ -389,11 +361,12 @@ Returns a table with columns \code{id} and \code{type} where \code{id} are the c
 features of the task and \code{type} is the storage type.}
 
 \item{\code{strata}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-If the task has columns designated with role \code{"stratum"}, returns a table with one subpopulation per row and two columns:
+If the task has columns designated with role \code{"stratum"},
+returns a table with one subpopulation per row and two columns:
 \itemize{
 \item \code{N} (\code{integer()}) with the number of observations in the subpopulation, and
 \item \code{row_id} (list of \code{integer()}) as list column with the row ids in the respective subpopulation.
-Returns \code{NULL} if there are is no stratification variable.
+Returns \code{NULL} if there is no stratification variable.
 See \link{Resampling} for more information on stratification.
 }}
 
@@ -404,7 +377,7 @@ If the task has a column with designated role \code{"group"}, a table with two c
 \item grouping variable \code{group} (\code{vector()}).
 }
 
-Returns \code{NULL} if there are is no grouping column.
+Returns \code{NULL} if there is no grouping column.
 See \link{Resampling} for more information on grouping.}
 
 \item{\code{order}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
@@ -414,7 +387,7 @@ If the task has at least one column with designated role \code{"order"}, a table
 \item ordering vector \code{order} (\code{integer()}).
 }
 
-Returns \code{NULL} if there are is no order column.}
+Returns \code{NULL} if there is no order column.}
 
 \item{\code{weights}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Deprecated, use \verb{$weights_learner} instead.}
@@ -427,7 +400,7 @@ as a \code{data.table} with the following columns:
 \item \code{weight} (\code{numeric()}).
 }
 
-Returns \code{NULL} if there are is no column with the designated role.}
+Returns \code{NULL} if there is no column with the designated role.}
 
 \item{\code{weights_measure}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Returns the observation weights used for scoring a prediction with a \link{Measure} (column role \code{weights_measure})
@@ -437,7 +410,7 @@ as a \code{data.table} with the following columns:
 \item \code{weight} (\code{numeric()}).
 }
 
-Returns \code{NULL} if there are is no column with the designated role.}
+Returns \code{NULL} if there is no column with the designated role.}
 
 \item{\code{offset}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 If the task has a column with designated role \code{"offset"}, a table with two or more columns:
@@ -453,7 +426,7 @@ If there is only one offset column, it will be named as \code{offset}.
 If there are no columns with the \code{"offset"} role, \code{NULL} is returned.}
 
 \item{\code{labels}}{(named \code{character()})\cr
-Retrieve \code{labels} (prettier formated names) from columns.
+Retrieve \code{labels} (prettier formatted names) from columns.
 Internally queries the column \code{label} of the table in field \code{col_info}.
 Columns ids referenced by the name of the vector, the labels are the actual string values.
 
@@ -474,6 +447,45 @@ List of characteristics of the task, e.g. \code{list(n = 5, p = 7)}.}
 \item{\code{row_ids_backend}}{(\code{integer()})\cr
 Returns all row ids from the backend, regardless of their roles.
 This is different from \verb{$row_ids} which only returns rows with role "use".}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.}
+
+\item{\code{task_type}}{(\code{character(1)})\cr
+Task type, e.g. \code{"classif"} or \code{"regr"}.
+
+For a complete list of possible task types (depending on the loaded packages),
+see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
+
+\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+Defaults to \code{NA}, but can be set by child classes.}
+
+\item{\code{extra_args}}{(named \code{list()})\cr
+Additional arguments set during construction.
+Required for \code{\link[=convert_task]{convert_task()}}.}
+
+\item{\code{backend}}{(\link{DataBackend})\cr
+Abstract interface to the data of the task.}
+
+\item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Table with 4 columns, mainly for internal purposes:
+\itemize{
+\item \code{"id"} (\code{character()}) stores the name of the column.
+\item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
+See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete list of allowed types.
+\item \code{"levels"} (\code{list()}) stores a vector of distinct values (levels) for ordered and unordered factor variables.
+\item \code{"label"} (\code{character()}) stores a vector of prettier, formatted column names.
+\item \code{"fix_factor_levels"} (\code{logical()}) stores flags which determine if the levels of the respective variable
+need to be reordered after querying the data from the \link{DataBackend}.
+}
+
+Note that all columns of the \link{DataBackend}, also columns which are not selected or have any role, are listed
+in this table.}
+
+\item{\code{mlr3_version}}{(\code{package_version})\cr
+Package version of \code{mlr3} used to create the task.}
 }
 \if{html}{\out{</div>}}
 }
@@ -481,7 +493,6 @@ This is different from \verb{$row_ids} which only returns rows with role "use".}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Task-new}{\code{Task$new()}}
-\item \href{#method-Task-divide}{\code{Task$divide()}}
 \item \href{#method-Task-help}{\code{Task$help()}}
 \item \href{#method-Task-format}{\code{Task$format()}}
 \item \href{#method-Task-print}{\code{Task$print()}}
@@ -540,34 +551,6 @@ via \code{\link[=convert_task]{convert_task()}}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Task-divide"></a>}}
-\if{latex}{\out{\hypertarget{method-Task-divide}{}}}
-\subsection{Method \code{divide()}}{
-Deprecated.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$divide(ratio = NULL, ids = NULL, remove = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{ratio}}{(\code{numeric(1)})\cr
-The proportion of datapoints to use as validation data.}
-
-\item{\code{ids}}{(\code{integer()})\cr
-The row ids to use as validation data.}
-
-\item{\code{remove}}{(\code{logical(1)})\cr
-If \code{TRUE} (default), the \code{row_ids} are removed from the primary task's active \code{"use"} rows, ensuring a
-disjoint split between the train and validation data.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Modified \code{Self}.
-}
-}
-\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-help"></a>}}
 \if{latex}{\out{\hypertarget{method-Task-help}{}}}
 \subsection{Method \code{help()}}{
@@ -616,14 +599,16 @@ Printer.
 \if{latex}{\out{\hypertarget{method-Task-data}{}}}
 \subsection{Method \code{data()}}{
 Returns a slice of the data from the \link{DataBackend} as a \code{data.table}.
-Rows default to observations with role \code{"use"}, and columns default to features with roles \code{"target"} or \code{"feature"}.
+Rows default to observations with role \code{"use"},
+and columns default to features with roles \code{"target"} or \code{"feature"}.
 Rows must be a subset of \verb{$row_ids}.
 If \code{rows} or \code{cols} are specified which do not exist in the \link{DataBackend}, an exception is raised.
 
 Rows and columns are returned in the order specified via the arguments \code{rows} and \code{cols}.
 If \code{rows} is \code{NULL}, rows are returned in the order of \code{task$row_ids}.
 If \code{cols} is \code{NULL}, the column order defaults to \code{c(task$target_names, task$feature_names)}.
-Note that it is recommended to \strong{not} rely on the order of columns, and instead always address columns with their respective column name.
+Note that it is recommended to \strong{not} rely on the order of columns,
+and instead always address columns with their respective column name.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, ordered = FALSE)}\if{html}{\out{</div>}}
 }
@@ -631,11 +616,11 @@ Note that it is recommended to \strong{not} rely on the order of columns, and in
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{(positive \code{integer()})\cr
+\item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
 Vector or row indices.
 Always refers to the complete data set, even after filtering.}
 
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 
 \item{\code{ordered}}{(\code{logical(1)})\cr
@@ -661,10 +646,12 @@ task$data(rows = 1:5, cols = c("species", "sex"))
 \if{latex}{\out{\hypertarget{method-Task-formula}{}}}
 \subsection{Method \code{formula()}}{
 Constructs a \code{\link[=formula]{formula()}}, e.g. \verb{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]},
-using the features provided in argument \code{rhs} (defaults to all columns with role \code{"feature"}, symbolized by \code{"."}).
+using the features provided in argument \code{rhs}
+(defaults to all columns with role \code{"feature"}, symbolized by \code{"."}).
 
 Note that it is currently not possible to change the formula.
-However, \CRANpkg{mlr3pipelines} provides a pipe operator interfacing \code{\link[stats:model.matrix]{stats::model.matrix()}} for this purpose: \code{"modelmatrix"}.
+However, \CRANpkg{mlr3pipelines} provides a pipe operator interfacing \code{\link[stats:model.matrix]{stats::model.matrix()}} for this
+purpose: \code{"modelmatrix"}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$formula(rhs = ".")}\if{html}{\out{</div>}}
 }
@@ -735,7 +722,7 @@ To update the stored level information, e.g. after subsetting a task with \verb{
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}
@@ -767,7 +754,7 @@ Argument \code{cols} defaults to all columns with role "target" or "feature".
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}
@@ -800,7 +787,7 @@ See the section on task mutators for more information.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{(positive \code{integer()})\cr
+\item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
 Vector or row indices.
 Always refers to the complete data set, even after filtering.}
 }
@@ -808,7 +795,7 @@ Always refers to the complete data set, even after filtering.}
 }
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{
@@ -838,14 +825,14 @@ See the section on task mutators for more information.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{
@@ -888,7 +875,7 @@ See the section on task mutators for more information.
 }
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{
@@ -908,7 +895,8 @@ task$rbind(extra)
 \subsection{Method \code{cbind()}}{
 Adds additional columns to the \link{DataBackend} stored in \verb{$backend}.
 
-The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
+The row ids must be provided as column in \code{data}
+(with column name matching the primary key name of the \link{DataBackend}).
 If this column is missing, it is assumed that the rows are exactly in the order of \verb{$row_ids}.
 In case of name clashes of column names in \code{data} and \link{DataBackend}, columns in \code{data} have higher precedence
 and virtually overwrite the columns in the \link{DataBackend}.
@@ -962,7 +950,7 @@ New names.}
 }
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{
@@ -1007,13 +995,13 @@ Other row roles are preserved.}
 \subsection{Details}{
 Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
 removed (argument \code{remove_from}) from different roles.
-Duplicated row ids are explicitly allowed, so you can add replicate an observation by repeating its
+Duplicated row ids are explicitly allowed, so you can replicate an observation by repeating its
 \code{row_id}.
 }
 
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{
@@ -1056,7 +1044,8 @@ Other column roles are preserved.}
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally removed (argument \code{remove_from}) from different roles.
+Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally removed
+(argument \code{remove_from}) from different roles.
 Duplicated columns are removed from the same role.
 For tasks that only allow one target, the target column cannot be set with \verb{$set_col_roles()}.
 Use the \verb{$col_roles} field to swap the target column.
@@ -1064,7 +1053,7 @@ Use the \verb{$col_roles} field to swap the target column.
 
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{
@@ -1128,7 +1117,7 @@ Updates the cache of stored factor levels, removing all levels not present in th
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}

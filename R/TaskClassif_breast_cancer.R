@@ -27,8 +27,7 @@ load_task_breast_cancer = function(id = "breast_cancer") {
   }
   b = as_data_backend(remove_named(tab[stats::complete.cases(tab), ], "id"))
 
-  task = TaskClassif$new(id, b, target = "class", positive = "malignant",
-    label = "Wisconsin Breast Cancer")
+  task = TaskClassif$new(id, b, target = "class", positive = "malignant", label = "Wisconsin Breast Cancer")
   b$hash = task$man = "mlr3::mlr_tasks_breast_cancer"
   task
 }

@@ -6,8 +6,11 @@
 \description{
 This is the result container object returned by \code{\link[=benchmark]{benchmark()}}.
 A \link{BenchmarkResult} consists of the data of multiple \link{ResampleResult}s.
-The contents of a \code{BenchmarkResult} and \link{ResampleResult} are almost identical and the stored \link{ResampleResult}s can be extracted via the \verb{$resample_result(i)} method, where i is the index of the performed resample experiment.
-This allows us to investigate the extracted \link{ResampleResult} and individual resampling iterations, as well as the predictions and models from each fold.
+The contents of a \code{BenchmarkResult} and \link{ResampleResult} are almost identical
+and the stored \link{ResampleResult}s can be extracted via the \verb{$resample_result(i)} method,
+where i is the index of the performed resample experiment.
+This allows us to investigate the extracted \link{ResampleResult}
+and individual resampling iterations, as well as the predictions and models from each fold.
 
 \link{BenchmarkResult}s can be visualized via \CRANpkg{mlr3viz}'s \code{autoplot()} function.
 
@@ -187,7 +190,7 @@ Table of included \link{Learner}s with three columns:
 }
 
 Note that it is not feasible to access learned models via this field, as the training task would be ambiguous.
-For this reason the returned learner are reset before they are returned.
+For this reason the returned learners are reset before they are returned.
 Instead, select a row from the table returned by \verb{$score()}.}
 
 \item{\code{resamplings}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
@@ -394,7 +397,7 @@ the respective \link{Measure}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
 
 \item{\code{ids}}{(\code{logical(1)})\cr
@@ -429,9 +432,12 @@ if present.}
 \if{latex}{\out{\hypertarget{method-BenchmarkResult-obs_loss}{}}}
 \subsection{Method \code{obs_loss()}}{
 Calculates the observation-wise loss via the \link{Measure}'s \code{obs_loss} method.
-Returns a \code{data.table()} with columns from the predictions (e.g., \code{row_ids}, \code{truth}, \code{response}, etc.), plus one numeric column for each measure, named with the respective measure id, and a \code{resample_result} column.
+Returns a \code{data.table()} with columns from the predictions (e.g., \code{row_ids}, \code{truth}, \code{response}, etc.),
+plus one numeric column for each measure, named with the respective measure id, and a \code{resample_result} column.
 If there is no observation-wise loss function for the measure, the column is filled with \code{NA_real_} values.
-Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they require an additional transformation after aggregation, in this example taking the square-root.
+Note that some measures such as RMSE, do have an \verb{$obs_loss},
+but they require an additional transformation after aggregation,
+in this example taking the square-root.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$obs_loss(measures = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
 }
@@ -439,7 +445,7 @@ Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they requ
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
@@ -491,7 +497,7 @@ information from the returned \link{ResampleResult}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
 
 \item{\code{ids}}{(\code{logical(1)})\cr
@@ -531,7 +537,8 @@ iterations with errors as extra integer column \code{"errors"}.}
 \subsection{Method \code{filter()}}{
 Subsets the benchmark result.
 You can either directly provide the row IDs or the uhashes of the resample results to keep,
-or use the \code{learner_ids}, \code{task_ids} and \code{resampling_ids} arguments to filter for learner, task and resampling IDs.
+or use the \code{learner_ids}, \code{task_ids} and \code{resampling_ids} arguments to filter for learner,
+task and resampling IDs.
 The three options are mutually exclusive.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$filter(
@@ -565,7 +572,7 @@ The resampling IDs to filter for.}
 }
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{
@@ -667,7 +674,7 @@ If \code{TRUE}, the stored model is removed from all \link{Learner}s.}
 }
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{

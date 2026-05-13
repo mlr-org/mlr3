@@ -1,4 +1,4 @@
-#' @param aggregator (`function()`)\cr
+#' @param aggregator (`function()` | `NULL`)\cr
 #'   Function to aggregate over multiple iterations. The role of this function depends on
 #'   the value of field `"average"`:
 #'

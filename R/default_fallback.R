@@ -52,9 +52,11 @@ default_fallback.LearnerRegr = function(learner, ...) {
 
   # set quantiles
   if (learner$predict_type == "quantiles") {
-
     if (is.null(learner$quantiles) || is.null(learner$quantile_response)) {
-      error_config("Cannot set quantiles for fallback learner. Set `$quantiles` and `$quantile_response` in %s.", learner$id)
+      error_config(
+        "Cannot set quantiles for fallback learner. Set `$quantiles` and `$quantile_response` in %s.",
+        learner$id
+      )
     }
 
     fallback$quantiles = learner$quantiles

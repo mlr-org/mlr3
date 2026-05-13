@@ -34,28 +34,34 @@
 #' as.data.table(mlr_measures)
 #' mlr_measures$get("classif.ce")
 #' msr("regr.mse")
-mlr_measures = R6Class("DictionaryMeasure",
-  inherit = Dictionary,
-  cloneable = FALSE
-)$new()
+mlr_measures = R6Class("DictionaryMeasure", inherit = Dictionary, cloneable = FALSE)$new()
 
 #' @export
 as.data.table.DictionaryMeasure = function(x, ..., objects = FALSE) {
   assert_flag(objects)
 
-  setkeyv(map_dtr(x$keys(), function(key) {
-    m = withCallingHandlers(x$get(key, .prototype = TRUE),
-      packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
-    insert_named(
-      list(
-        key = key,
-        label = m$label,
-        task_type = m$task_type,
-        packages = list(m$packages),
-        predict_type = m$predict_type,
-        properties = list(m$properties),
-        task_properties = list(m$task_properties)),
-      if (objects) list(object = list(m))
-    )
-  }, .fill = TRUE), "key")[]
+  setkeyv(
+    map_dtr(
+      x$keys(),
+      function(key) {
+        m = withCallingHandlers(x$get(key, .prototype = TRUE), packageNotFoundWarning = function(w) {
+          invokeRestart("muffleWarning")
+        })
+        insert_named(
+          list(
+            key = key,
+            label = m$label,
+            task_type = m$task_type,
+            packages = list(m$packages),
+            predict_type = m$predict_type,
+            properties = list(m$properties),
+            task_properties = list(m$task_properties)
+          ),
+          if (objects) list(object = list(m))
+        )
+      },
+      .fill = TRUE
+    ),
+    "key"
+  )[]
 }

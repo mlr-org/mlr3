@@ -11,7 +11,8 @@ test_that("$keys(pattern) works", {
 })
 
 test_that("dictionary to data.table conversion works with prototype arguments", {
-  LearnerRegrRpart2 = R6Class("LearnerRegrRpart2",
+  LearnerRegrRpart2 = R6Class(
+    "LearnerRegrRpart2",
     inherit = LearnerRegrRpart,
     public = list(
       x = NULL,

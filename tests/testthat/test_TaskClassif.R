@@ -42,6 +42,11 @@ test_that("Target is character/factor", {
   expect_error(TaskClassif$new("iris", backend = b, target = "Sepal.Length"), "Target column")
 })
 
+test_that("TaskClassif rejects NAs in target", {
+  dt = data.table::data.table(x = 1:10, y = factor(c(NA, letters[1:9])))
+  expect_message(as_task_classif(dt, target = "y"), "contains missing")
+})
+
 test_that("0 feature task", {
   b = as_data_backend(iris[, 5L, drop = FALSE])
   task = TaskClassif$new(id = "zero_feat_task", b, target = "Species")
@@ -122,13 +127,19 @@ test_that("offset column role works with binary tasks", {
   expect_data_table(task$offset, nrows = task$nrow, ncols = 2)
   expect_subset(c("row_id", "offset"), names(task$offset))
 
-  expect_error({
-     task$col_roles$offset = c("glucose", "diabetes")
-  }, "There may only be up to one column with role")
+  expect_error(
+    {
+      task$col_roles$offset = c("glucose", "diabetes")
+    },
+    "There may only be up to one column with role"
+  )
 
-  expect_error({
-    task$col_roles$offset = c("glucose")
-  }, "contain missing values")
+  expect_error(
+    {
+      task$col_roles$offset = c("glucose")
+    },
+    "contain missing values"
+  )
 
   expect_warning(lrn("classif.rpart")$train(task), "has offset")
 })
@@ -141,15 +152,21 @@ test_that("offset column role works with multiclass tasks", {
   expect_data_table(task$offset, nrows = task$nrow, ncols = 2)
   expect_subset(c("row_id", "offset"), names(task$offset))
 
-  expect_error({
-    task$col_roles$offset = "bill_length"
-  }, "contain missing values")
+  expect_error(
+    {
+      task$col_roles$offset = "bill_length"
+    },
+    "contain missing values"
+  )
 
   task = tsk("wine")
 
-  expect_error({
-    task$col_roles$offset = c("alcohol", "ash")
-  }, "Must be a subset of")
+  expect_error(
+    {
+      task$col_roles$offset = c("alcohol", "ash")
+    },
+    "Must be a subset of"
+  )
 
   task = tsk("wine")
   data = task$data()

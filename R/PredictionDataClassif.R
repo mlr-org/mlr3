@@ -2,7 +2,8 @@
 #' @param train_task ([Task])\cr
 #'   Task used for training the learner.
 #' @export
-check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) { # nolint
+check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
+  # nolint next
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
   assert_factor(pdata$truth, len = n, null.ok = TRUE)
@@ -68,10 +69,10 @@ check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
 }
 
 
-
 #' @rdname PredictionData
 #' @export
-is_missing_prediction_data.PredictionDataClassif = function(pdata, ...) { # nolint
+# nolint next
+is_missing_prediction_data.PredictionDataClassif = function(pdata, ...) {
   miss = logical(length(pdata$row_ids))
   if (!is.null(pdata$response)) {
     miss = is.na(pdata$response)
@@ -113,7 +114,12 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
     error_input("Cannot rbind predictions: Some predictions have extra data, others do not")
   }
 
-  elems = c("row_ids", "truth", intersect(predict_types[[1L]], "response"), if ("weights" %chin% names(dots[[1L]])) "weights")
+  elems = c(
+    "row_ids",
+    "truth",
+    intersect(predict_types[[1L]], "response"),
+    if ("weights" %chin% names(dots[[1L]])) "weights"
+  )
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
   prob = do.call(rbind, map(dots, "prob"))
 
@@ -129,8 +135,16 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
   }
 
   result = as.list(tab)
-  if (!is.null(extra)) result$extra = as.list(extra)
+  if (!is.null(extra)) {
+    result$extra = as.list(extra)
+  }
   result$prob = prob
+
+  raw = discard(map(dots, "raw"), is.null)
+  if (length(raw)) {
+    result$raw = raw
+  }
+
   new_prediction_data(result, "classif")
 }
 
@@ -145,7 +159,7 @@ filter_prediction_data.PredictionDataClassif = function(pdata, row_ids, ...) {
   }
 
   if (!is.null(pdata$prob)) {
-    pdata$prob = pdata$prob[keep,, drop = FALSE]
+    pdata$prob = pdata$prob[keep, , drop = FALSE]
   }
 
   if (!is.null(pdata$weights)) {

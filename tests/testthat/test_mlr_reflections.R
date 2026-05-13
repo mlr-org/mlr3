@@ -4,24 +4,46 @@ on.exit({
   mlr_reflections = as.environment(as.list(old_mlr_reflections, all.names = TRUE))
 })
 
-mlr_reflections$task_types = setkeyv(rbind(mlr_reflections$task_types, rowwise_table(
-  ~type,  ~package, ~task,              ~learner,        ~prediction,         ~prediction_data,        ~measure,
-  "test", "mlr3",   "TaskClassifTest", "LearnerClassif", "PredictionClassif", "PredictionDataClassif", "MeasureClassif"
-)), "type")
+mlr_reflections$task_types = setkeyv(
+  rbind(
+    mlr_reflections$task_types,
+    rowwise_table(
+      ~type,
+      ~package,
+      ~task,
+      ~learner,
+      ~prediction,
+      ~prediction_data,
+      ~measure,
+      "test",
+      "mlr3",
+      "TaskClassifTest",
+      "LearnerClassif",
+      "PredictionClassif",
+      "PredictionDataClassif",
+      "MeasureClassif"
+    )
+  ),
+  "type"
+)
 
 mlr_reflections$task_col_roles$test = c(mlr_reflections$task_col_roles$classif, "test")
 mlr_reflections$task_properties$test = mlr_reflections$task_properties$classif
 mlr_reflections$default_measures$test = "classif.ce"
 mlr_reflections$learner_predict_types$test = mlr_reflections$learner_predict_types$classif
 
-TaskClassifTest = R6Class("TaskClassifTest",
+TaskClassifTest = R6Class(
+  "TaskClassifTest",
   inherit = TaskClassif,
   public = list(
     initialize = function(id, backend, target, positive = NULL, label = NA_character_, extra_args = list()) {
       super$initialize(id = id, backend = backend, target = target, label = label, extra_args = extra_args)
 
       self$task_type = "test"
-      new_col_roles = named_list(setdiff(mlr_reflections$task_col_roles[["test"]], names(private$.col_roles)), character(0))
+      new_col_roles = named_list(
+        setdiff(mlr_reflections$task_col_roles[["test"]], names(private$.col_roles)),
+        character(0)
+      )
       private$.col_roles = insert_named(private$.col_roles, new_col_roles)
 
       update_classif_property(self, private)
@@ -78,7 +100,11 @@ test_that("benchmark works", {
   expect_equal(bmr$task_type, "test")
   tab = bmr$aggregate(measure)
   expect_data_table(tab, nrows = 1L)
-  expect_names(names(tab), type = "unique", identical.to = c("nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters", "classif.ce"))
+  expect_names(
+    names(tab),
+    type = "unique",
+    identical.to = c("nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters", "classif.ce")
+  )
 
   grid = benchmark_grid(list(task, tsk("mtcars"), tsk("california_housing")), learner, rsmp("cv", folds = 3))
   expect_error(benchmark(grid), "Multiple task types detected")
@@ -93,9 +119,12 @@ test_that("external packages can set column roles", {
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
   old_col_roles = x$task_col_roles$classif
 
-  on.exit({
-    x$col_roles$classif = old_col_roles
-  }, add = TRUE)
+  on.exit(
+    {
+      x$col_roles$classif = old_col_roles
+    },
+    add = TRUE
+  )
 
   x$task_col_roles$classif = c(x$task_col_roles$classif, "extra_role")
 

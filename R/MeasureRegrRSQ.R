@@ -17,7 +17,8 @@
 #' Also known as coefficient of determination or explained variation.
 #' It compares the squared error of the predictions relative to a naive model predicting the mean.
 #'
-#' Note that weights are used to scale the squared error of individual predictions (both in the numerator and in the denominator),
+#' Note that weights are used to scale the squared error of individual predictions
+#' (both in the numerator and in the denominator),
 #' but the "plug in" value \eqn{\bar{t}} is computed without weights.
 #'
 #' This measure is undefined for constant \eqn{t}.
@@ -31,7 +32,8 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureRegrRSQ = R6Class("MeasureRSQ",
+MeasureRegrRSQ = R6Class(
+  "MeasureRegrRSQ",
   inherit = MeasureRegr,
   public = list(
     #' @description
@@ -52,19 +54,32 @@ MeasureRegrRSQ = R6Class("MeasureRSQ",
     }
   ),
 
+  active = list(
+    #' @field pred_set_mean (`logical(1)`)\cr
+    #' Whether the mean of the true values is calculated on the prediction set.
+    #' Set during construction.
+    pred_set_mean = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.pred_set_mean
+    }
+  ),
+
   private = list(
     # this is not included in the paramset as this flag influences properties of the learner
     # so this flag should not be "dynamic state"
     .pred_set_mean = NULL,
+
+    .extra_hash = "pred_set_mean",
 
     .score = function(prediction, task = NULL, train_set = NULL, weights = NULL, ...) {
       if (is.null(weights)) {
         mu = if (private$.pred_set_mean) mean(prediction$truth) else mean(task$truth(train_set))
         1 - sum((prediction$truth - prediction$response)^2) / sum((prediction$truth - mu)^2)
       } else {
-        # Don't use weighted mean here, since resampling weights only concern weighting of loss of individual predictions.
-        # One could argue that we should use weights when .pred_set.mean is TRUE, or we could use weights_learner from the task,
-        # but currently we decided against it.
+        # Don't use weighted mean here,
+        # since resampling weights only concern weighting of loss of individual predictions.
+        # One could argue that we should use weights when .pred_set.mean is TRUE,
+        # or we could use weights_learner from the task, but currently we decided against it.
         mu = if (private$.pred_set_mean) {
           mean(prediction$truth)
         } else {

@@ -28,7 +28,7 @@ test_that("sugar functions", {
 })
 
 test_that("as.data.table(..., objects = TRUE)", {
-  tab  = as.data.table(mlr_task_generators, objects = TRUE)
+  tab = as.data.table(mlr_task_generators, objects = TRUE)
   expect_data_table(tab)
   expect_list(tab$object, "TaskGenerator", any.missing = FALSE)
 })

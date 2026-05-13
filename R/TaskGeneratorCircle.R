@@ -18,7 +18,8 @@
 #'
 #' task = generator$generate(200)
 #' str(task$data())
-TaskGeneratorCircle = R6Class("TaskGeneratorCircle",
+TaskGeneratorCircle = R6Class(
+  "TaskGeneratorCircle",
   inherit = TaskGenerator,
   public = list(
     #' @description
@@ -28,8 +29,14 @@ TaskGeneratorCircle = R6Class("TaskGeneratorCircle",
         d = p_int(2L, default = 2L)
       )
 
-      super$initialize(id = "circle", "classif", "mlbench", ps,
-        label = "Circle Classification", man = "mlr3::mlr_task_generators_circle")
+      super$initialize(
+        id = "circle",
+        "classif",
+        "mlbench",
+        ps,
+        label = "Circle Classification",
+        man = "mlr3::mlr_task_generators_circle"
+      )
     },
 
     #' @description

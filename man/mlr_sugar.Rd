@@ -50,7 +50,7 @@ Keys passed to the respective \link[mlr3misc:Dictionary]{dictionary} to retrieve
 \item{learner}{(any)\cr
 The learner.}
 
-\item{validate}{(\code{numeric(1)}, \code{"predefined"}, \code{"test"}, or \code{NULL})\cr
+\item{validate}{(\code{numeric(1)} | \code{"predefined"} | \code{"test"} | \code{NULL})\cr
 Which validation set to use.}
 }
 \value{
@@ -77,7 +77,9 @@ Relies on \code{\link[mlr3misc:dictionary_sugar_get]{mlr3misc::dictionary_sugar_
 
 Helper function to configure the \verb{$validate} field(s) of a \code{\link{Learner}}.
 
-This is especially useful for learners such as \code{AutoTuner} of \CRANpkg{mlr3tuning} or \code{GraphLearner} of \CRANpkg{mlr3pipelines} which have multiple levels of \verb{$validate} fields.,
+This is especially useful for learners such as \code{AutoTuner} of \CRANpkg{mlr3tuning}
+or \code{GraphLearner} of \CRANpkg{mlr3pipelines}
+which have multiple levels of \verb{$validate} fields,
 where the \verb{$validate} fields need to be configured on multiple levels.
 }
 \examples{

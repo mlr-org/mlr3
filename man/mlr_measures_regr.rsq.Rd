@@ -18,7 +18,8 @@ where \eqn{\bar{t} = \frac{1}{n} \sum_{i=1}^n t_i} and \eqn{w_i} are weights.
 Also known as coefficient of determination or explained variation.
 It compares the squared error of the predictions relative to a naive model predicting the mean.
 
-Note that weights are used to scale the squared error of individual predictions (both in the numerator and in the denominator),
+Note that weights are used to scale the squared error of individual predictions
+(both in the numerator and in the denominator),
 but the "plug in" value \eqn{\bar{t}} is computed without weights.
 
 This measure is undefined for constant \eqn{t}.
@@ -82,13 +83,22 @@ Other Measure:
 }
 \concept{Measure}
 \section{Super classes}{
-\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3:MeasureRegr]{mlr3::MeasureRegr}} -> \code{MeasureRSQ}
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3:MeasureRegr]{mlr3::MeasureRegr}} -> \code{MeasureRegrRSQ}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{pred_set_mean}}{(\code{logical(1)})\cr
+Whether the mean of the true values is calculated on the prediction set.
+Set during construction.}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-MeasureRSQ-new}{\code{MeasureRegrRSQ$new()}}
-\item \href{#method-MeasureRSQ-clone}{\code{MeasureRegrRSQ$clone()}}
+\item \href{#method-MeasureRegrRSQ-new}{\code{MeasureRegrRSQ$new()}}
+\item \href{#method-MeasureRegrRSQ-clone}{\code{MeasureRegrRSQ$clone()}}
 }
 }
 \if{html}{\out{
@@ -104,8 +114,8 @@ Other Measure:
 </details>
 }}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MeasureRSQ-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MeasureRSQ-new}{}}}
+\if{html}{\out{<a id="method-MeasureRegrRSQ-new"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureRegrRSQ-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -123,8 +133,8 @@ If \code{FALSE}, the mean of the true values is calculated on the training set.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MeasureRSQ-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-MeasureRSQ-clone}{}}}
+\if{html}{\out{<a id="method-MeasureRegrRSQ-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureRegrRSQ-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

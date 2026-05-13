@@ -6,10 +6,11 @@
 \description{
 This is the abstract base class for learner objects like \link{LearnerClassif} and \link{LearnerRegr}.
 
-Learners are build around the three following key parts:
+Learners are built around the three following key parts:
 \itemize{
 \item Methods \verb{$train()} and \verb{$predict()} which call internal methods or private methods \verb{$.train()}/\verb{$.predict()}).
-\item A \link[paradox:ParamSet]{paradox::ParamSet} which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
+\item A \link[paradox:ParamSet]{paradox::ParamSet} which stores meta-information about available hyperparameters,
+and also stores hyperparameter settings.
 \item Meta-information about the requirements and capabilities of the learner.
 \item The fitted model stored in field \verb{$model}, available after calling \verb{$train()}.
 }
@@ -20,10 +21,13 @@ e.g. \code{\link[=mlr_learners_classif.rpart]{classif.rpart}} or \code{\link[=ml
 More classification and regression learners are implemented in the add-on package \CRANpkg{mlr3learners}.
 Learners for survival analysis (or more general, for probabilistic regression) can be found in \CRANpkg{mlr3proba}.
 Unsupervised cluster algorithms are implemented in \CRANpkg{mlr3cluster}.
-The dictionary \link{mlr_learners} gets automatically populated with the new learners as soon as the respective packages are loaded.
+The dictionary \link{mlr_learners} gets automatically populated with the new learners
+as soon as the respective packages are loaded.
 
-More (experimental) learners can be found in the GitHub repository: \url{https://github.com/mlr-org/mlr3extralearners}.
-A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
+More (experimental) learners can be found in the GitHub repository:
+\url{https://github.com/mlr-org/mlr3extralearners}.
+A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the
+\href{https://mlr3book.mlr-org.com}{mlr3book}.
 
 To combine the learner with preprocessing operations like factor encoding, \CRANpkg{mlr3pipelines} is recommended.
 Hyperparameters stored in the \code{param_set} can be tuned with \CRANpkg{mlr3tuning}.
@@ -59,14 +63,17 @@ If the learner is not trained yet, this returns \code{NULL}.
 
 
 Many learners support observation weights, indicated by their property \code{"weights"}.
-The weights are stored in the \link{Task} where the column role \code{weights_learner} needs to be assigned to a single numeric column.
+The weights are stored in the \link{Task} where the column role \code{weights_learner} needs to be assigned
+to a single numeric column.
 If a task has weights and the learner supports them, they are used automatically.
 If a task has weights but the learner does not support them, an error is thrown by default.
 Both of these behaviors can be disabled by setting the \code{use_weights} field to \code{"ignore"}.
 See the description of \code{use_weights} for more information.
 
-If the learner is set-up to use weights but the task does not have a designated weight column, samples are considered to have equal weight.
-When weights are being used, they are passed down to the learner directly; the effect of weights depends on the specific learner.
+If the learner is set-up to use weights but the task does not have a designated weight column,
+samples are considered to have equal weight.
+When weights are being used, they are passed down to the learner directly;
+the effect of weights depends on the specific learner.
 Generally, weights do not need to sum up to 1.
 
 When implementing a Learner that uses weights, the \code{"weights"} property should be set.
@@ -87,12 +94,14 @@ lrn$param_set$set_values(minsplit = 3, cp = 0.01)
 }\if{html}{\out{</div>}}
 
 Note that this operation replaces all previously set hyperparameter values.
-If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function \code{\link[mlr3misc:insert_named]{mlr3misc::insert_named()}}:
+If you only intend to change one specific hyperparameter value and leave the others as-is,
+you can use the helper function \code{\link[mlr3misc:insert_named]{mlr3misc::insert_named()}}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
 }\if{html}{\out{</div>}}
 
-If the learner has additional hyperparameters which are not encoded in the \link[paradox:ParamSet]{ParamSet}, you can easily extend the learner.
+If the learner has additional hyperparameters which are not encoded in the
+\link[paradox:ParamSet]{ParamSet}, you can easily extend the learner.
 Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \code{"a"} and \code{"b"}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
@@ -138,16 +147,17 @@ XGBoost, for example, can tune the number of boosting rounds based on the valida
 CV Glmnet, on the other hand, can tune the regularization parameter based on an internal cross-validation.
 Internal tuning \emph{can} therefore rely on the internal validation data, but does not necessarily do so.
 
-In order to be able to combine this internal hyperparamer tuning with the standard hyperparameter optimization
-implemented via \CRANpkg{mlr3tuning}, one most:
+In order to be able to combine this internal hyperparameter tuning with the standard hyperparameter optimization
+implemented via \CRANpkg{mlr3tuning}, one must:
 \itemize{
 \item annotate the learner with the \code{"internal_tuning"} property
 \item implement the active binding \verb{$internal_tuned_values} (see section \emph{Optional Extractors}) as well as the
-private method \verb{$.extract_internal_tuned_values()} which extracts the internally tuned values from the \code{\link{Learner}}'s
+private method \verb{$.extract_internal_tuned_values()} which extracts the internally tuned values
+from the \code{\link{Learner}}'s
 model and returns them as a named \code{list()}.
 If the model is not trained yet, this method should return \code{NULL}.
 \item Have at least one parameter tagged with \code{"internal_tuning"}, which requires to also provide a \code{in_tune_fn} and
-\code{disable_tune_fn}, and \emph{should} also include a default \code{aggr}egation function.
+\code{disable_tune_fn}, and \emph{should} also include a default aggregation function (\code{aggr}).
 }
 
 For an example how to do this, see \code{\link{LearnerClassifDebug}}.
@@ -166,7 +176,8 @@ Some \code{\link{Learner}}s can compute the out-of-bag error during training.
 In order to do this, the learner must:
 \itemize{
 \item annotate the learner with the \code{"oob_error"} property
-\item implement the private method \verb{$.extract_oob_error()} which extracts the out-of-bag error from the \code{\link{Learner}}'s model and returns it as a \code{numeric(1)}.
+\item implement the private method \verb{$.extract_oob_error()} which extracts the out-of-bag error
+from the \code{\link{Learner}}'s model and returns it as a \code{numeric(1)}.
 }
 }
 
@@ -254,6 +265,112 @@ Other Learner:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
+\item{\code{state}}{(named \code{list()} | \code{NULL})\cr
+Current (internal) state of the learner.
+Contains all information gathered during \code{train()} and \code{predict()}.
+It is not recommended to access elements from \code{state} directly.
+This is an internal data structure which may change in the future.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{use_weights}}{(\code{character(1)})\cr
+How weights should be handled.
+Settings are \code{"use"} \code{"ignore"}, and \code{"error"}.
+\itemize{
+\item \code{"use"}: use weights, as supported by the underlying \code{Learner}.
+Only available for \code{Learner}s with the property \code{"weights"}.
+\item \code{"ignore"}: do not use weights.
+\item \code{"error"}: throw an error if weights are present in the training \code{Task}.
+}
+
+For \code{Learner}s with the property \code{"weights"}, this is initialized as \code{"use"}.
+For \code{Learner}s that do not support weights, i.e. without the \code{"weights"} property,
+this is initialized as \code{"error"}.
+The latter behavior is to avoid cases where a user erroneously assumes that a \code{Learner}
+supports weights when it does not.
+For \code{Learner}s that do not support weights, \code{use_weights} needs to be set to \code{"ignore"}
+if tasks with weights should be handled (by dropping the weights).
+See Section 'weights' for more details.}
+
+\item{\code{model}}{(any)\cr
+The fitted model. Only available after \verb{$train()} has been called.}
+
+\item{\code{native_model}}{(any)\cr
+The native model object from the upstream package.
+For most learners, this is identical to \verb{$model}.
+However, some learners store additional information beyond the model from the upstream package.
+In such cases, \verb{$model} contains a named list with the native model stored in element \code{model}
+along with additional information.
+The \verb{$native_model} field can be overwritten by the learner to return the actual model object
+from the upstream package.
+The default returns \verb{$model}.}
+
+\item{\code{timings}}{(named \code{numeric(2)})\cr
+Elapsed time in seconds for the steps \code{"train"} and \code{"predict"}.
+
+When predictions for multiple predict sets were made during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}},
+the predict time shows the cumulative duration of all predictions.
+If \code{learner$predict()} is called manually, the last predict time gets overwritten.
+
+Measured via \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.}
+
+\item{\code{log}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Returns the output (including warning and errors) as table with columns
+\itemize{
+\item \code{"stage"} ("train" or "predict"),
+\item \code{"class"} ("output", "warning", or "error"), and
+\item \code{"condition"} (\code{condition}).
+}}
+
+\item{\code{warnings}}{(\code{list()})\cr
+Logged warnings condition objects.}
+
+\item{\code{errors}}{(\code{list()})\cr
+Logged error condition objects.}
+
+\item{\code{hash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this object.
+The hash is calculated based on the learner id, the parameter settings,
+the predict type, the fallback hash, the parallel predict setting,
+the validate setting, the predict sets, and the predict raw setting.}
+
+\item{\code{phash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this partial object, excluding some components
+which are varied systematically during tuning (parameter values).}
+
+\item{\code{predict_type}}{(\code{character(1)})\cr
+Stores the currently active predict type, e.g. \code{"response"}.
+Must be an element of \verb{$predict_types}.
+A few learners already use the predict type during training.
+So there is no guarantee that changing the predict type after training will have any effect
+or does not lead to errors.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
+
+\item{\code{fallback}}{(\link{Learner})\cr
+Returns the fallback learner set with \verb{$encapsulate()}.}
+
+\item{\code{encapsulation}}{(\code{character(2)})\cr
+Returns the encapsulation settings set with \verb{$encapsulate()}.}
+
+\item{\code{hotstart_stack}}{(\link{HotstartStack})\cr.
+Stores \code{HotstartStack}.}
+
+\item{\code{selected_features_impute}}{(\code{character(1)})\cr
+Controls the behavior if the learner does not support feature selection.
+If set to \code{"error"}, an error is thrown.
+If set to \code{"all"} the complete feature set is returned.}
+
+\item{\code{predict_types}}{(\code{character()})\cr
+Stores the possible predict types the learner is capable of.
+A complete list of candidate predict types, grouped by task type,
+is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
+This field is read-only.}
+
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier of the object.
 Used in tables, plot and text output.}
@@ -261,12 +378,6 @@ Used in tables, plot and text output.}
 \item{\code{label}}{(\code{character(1)})\cr
 Label for this object.
 Can be used in tables, plot and text output instead of the ID.}
-
-\item{\code{state}}{(\code{NULL} | named \code{list()})\cr
-Current (internal) state of the learner.
-Contains all information gathered during \code{train()} and \code{predict()}.
-It is not recommended to access elements from \code{state} directly.
-This is an internal data structure which may change in the future.}
 
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type, e.g. \code{"classif"} or \code{"regr"}.
@@ -276,11 +387,13 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 
 \item{\code{feature_types}}{(\code{character()})\cr
 Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
-A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
+A complete list of candidate feature types, grouped by task type,
+is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
 
 \item{\code{properties}}{(\code{character()})\cr
 Stores a set of properties/capabilities the learner has.
-A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
+A complete list of candidate properties, grouped by task type,
+is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
 
 \item{\code{packages}}{(\code{character(1)})\cr
 Set of required packages.
@@ -308,104 +421,25 @@ to parallelize.
 Note that the recorded time required for prediction reports the time required to predict
 is not properly defined and depends on the parallelization backend.}
 
+\item{\code{predict_raw}}{(\code{logical(1)})\cr
+If set to \code{TRUE}, the raw prediction object from the upstream model is stored in the
+\link{Prediction} object (default: \code{FALSE}).
+The raw prediction is stored as-is, without validation or subsetting during filtering.
+When multiple predictions are combined via \code{c()}, the individual raw objects are collected into a \code{list()}.
+Individual learner implementations must support this flag by including a \code{raw} element in the list returned
+by \verb{$.predict()}.}
+
 \item{\code{timeout}}{(named \code{numeric(2)})\cr
 Timeout for the learner's train and predict steps, in seconds.
 This works differently for different encapsulation methods, see
 \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.
 Default is \code{c(train = Inf, predict = Inf)}.
-Also see the section on error handling the mlr3book:
+Also see the section on error handling in the mlr3book:
 \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}}
 
-\item{\code{deadline}}{(named \code{POSIXct(2)})\cr
-Deadline for the learner's train and predict steps. This uses the same mechanism as \code{timeout}, but with absolute
-an time (as date-time) instead of a relative time.
-Default is \code{c(train = Inf, predict = Inf)}.}
-
-\item{\code{man}}{(\code{character(1)})\cr
+\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{use_weights}}{(\code{character(1)})\cr
-How weights should be handled.
-Settings are \code{"use"} \code{"ignore"}, and \code{"error"}.
-\itemize{
-\item \code{"use"}: use weights, as supported by the underlying \code{Learner}.
-Only available for \code{Learner}s with the property \code{"weights"}.
-\item \code{"ignore"}: do not use weights.
-\item \code{"error"}: throw an error if weights are present in the training \code{Task}.
-}
-
-For \code{Learner}s with the property \code{"weights"}, this is initialized as \code{"use"}.
-For \code{Learner}s that do not support weights, i.e. without the \code{"weights"} property, this is initialized as \code{"error"}.
-The latter behavior is to avoid cases where a user erroneously assumes that a \code{Learner} supports weights when it does not.
-For \code{Learner}s that do not support weights, \code{use_weights} needs to be set to \code{"ignore"} if tasks with weights should be handled (by dropping the weights).
-See Section 'weights' for more details.}
-
-\item{\code{model}}{(any)\cr
-The fitted model. Only available after \verb{$train()} has been called.}
-
-\item{\code{timings}}{(named \code{numeric(2)})\cr
-Elapsed time in seconds for the steps \code{"train"} and \code{"predict"}.
-
-When predictions for multiple predict sets were made during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}},
-the predict time shows the cumulative duration of all predictions.
-If \code{learner$predict()} is called manually, the last predict time gets overwritten.
-
-Measured via \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.}
-
-\item{\code{log}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Returns the output (including warning and errors) as table with columns
-\itemize{
-\item \code{"stage"} ("train" or "predict"),
-\item \code{"class"} ("output", "warning", or "error"), and
-\item \code{"msg"} (\code{character()}).
-}}
-
-\item{\code{warnings}}{(\code{character()})\cr
-Logged warnings as vector.}
-
-\item{\code{errors}}{(\code{character()})\cr
-Logged errors as vector.}
-
-\item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.
-The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.}
-
-\item{\code{phash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this partial object, excluding some components which are varied systematically during tuning (parameter values).}
-
-\item{\code{predict_type}}{(\code{character(1)})\cr
-Stores the currently active predict type, e.g. \code{"response"}.
-Must be an element of \verb{$predict_types}.
-A few learners already use the predict type during training.
-So there is no guarantee that changing the predict type after training will have any effect or does not lead to errors.}
-
-\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
-Set of hyperparameters.}
-
-\item{\code{fallback}}{(\link{Learner})\cr
-Returns the fallback learner set with \verb{$encapsulate()}.}
-
-\item{\code{encapsulation}}{(\code{character(2)})\cr
-Returns the encapsulation settings set with \verb{$encapsulate()}.}
-
-\item{\code{hotstart_stack}}{(\link{HotstartStack})\cr.
-Stores \code{HotstartStack}.}
-
-\item{\code{selected_features_impute}}{(\code{character(1)})\cr
-Controls the behavior if the learner does not support feature selection.
-If set to \code{"error"}, an error is thrown.
-If set to \code{"all"} the complete feature set is returned.}
-
-\item{\code{predict_types}}{(\code{character()})\cr
-Stores the possible predict types the learner is capable of.
-A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
-This field is read-only.}
 }
 \if{html}{\out{</div>}}
 }
@@ -569,7 +603,7 @@ For a simple split into training and test set, see \code{\link[=partition]{parti
 }
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{
@@ -587,7 +621,8 @@ learner$train(task)
 \if{html}{\out{<a id="method-Learner-predict"></a>}}
 \if{latex}{\out{\hypertarget{method-Learner-predict}{}}}
 \subsection{Method \code{predict()}}{
-Uses the fitted model stored in \verb{$state} to generate predictions for a set of observations from the provided \code{task}.
+Uses the fitted model stored in \verb{$state} to generate predictions for a set of observations
+from the provided \code{task}.
 This method requires that the learner has been previously trained using \verb{$train()}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$predict(task, row_ids = NULL)}\if{html}{\out{</div>}}
@@ -630,12 +665,14 @@ Uses the model fitted during \verb{$train()} to create a new \link{Prediction} b
 Object \code{task} is the task used during \verb{$train()} and required for conversion of \code{newdata}.
 If the learner's \verb{$train()} method has been called, there is a (size reduced) version
 of the training task stored in the learner.
-If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you need to pass the corresponding task stored
-in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
-Further, \code{\link{auto_convert}} is used for type-conversions to ensure compatability
+If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}},
+you need to pass the corresponding task stored in the \link{ResampleResult} or
+\link{BenchmarkResult}, respectively.
+Further, \code{\link{auto_convert}} is used for type-conversions to ensure compatibility
 of features between \verb{$train()} and \verb{$predict()}.
 
-If the stored training task has a \code{weights_measure} column, \emph{and} if \code{newdata} contains a column with the same name,
+If the stored training task has a \code{weights_measure} column,
+\emph{and} if \code{newdata} contains a column with the same name,
 that column must be numeric with no missing values and is used as measure weights column.
 Otherwise, no measure weights are used.
 \subsection{Usage}{
@@ -650,7 +687,7 @@ New data to predict on.
 All data formats convertible by \code{\link[=as_data_backend]{as_data_backend()}} are supported, e.g.
 \code{data.frame()} or \link{DataBackend}.
 If a \link{DataBackend} is provided as \code{newdata}, the row ids are preserved,
-otherwise they are set to to the sequence \code{1:nrow(newdata)}.}
+otherwise they are set to the sequence \code{1:nrow(newdata)}.}
 
 \item{\code{task}}{(\link{Task}).}
 }
@@ -681,7 +718,7 @@ Reset the learner, i.e. un-train by resetting the \code{state}.
 
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{
@@ -734,17 +771,27 @@ Output is printed to the console and not logged.
 \item \code{"evaluate"}: Uses the package \CRANpkg{evaluate} to call the learner, measure time and do the logging.
 \item \code{"callr"}: Uses the package \CRANpkg{callr} to call the learner, measure time and do the logging.
 This encapsulation spawns a separate R session in which the learner is called.
-While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
-\item \code{"mirai"}: Uses the package \CRANpkg{mirai} to call the learner, measure time and do the logging.
+While this comes with a considerable overhead,
+it also guards your session from being torn down by segfaults.
+\item \code{"mirai"}: Uses the package \CRANpkg{mirai} to call the learner,
+measure time and do the logging.
 This encapsulation calls the function in a \code{mirai} on a \code{daemon}.
-The \code{daemon} can be pre-started via \code{daemons(1, .compute = "mlr3_encapsulation")}, otherwise a new R session will be created for each encapsulated call.
-If a \code{deamon} is already running with compute profile \code{"mlr3_encapsulation"}, it will be used to executed all calls.
-Using \verb{mirai"} is similarly safe as \code{callr} but much faster if several learners are encapsulated one after the other on the same daemon.
+The \code{daemon} can be pre-started via \code{daemons(1, .compute = "mlr3_encapsulation")},
+otherwise a new R session will be created for each encapsulated call.
+If a \code{daemon} is already running with compute profile \code{"mlr3_encapsulation"},
+it will be used to execute all calls.
+Using \verb{mirai"} is similarly safe as \code{callr} but much faster if several learners
+are encapsulated one after the other on the same daemon.
 }
 
-The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
-If the training step or the predict step of the original learner fails, the fallback is used to make the predictions.
-If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some \code{NA} predictions), these missing predictions are imputed by the fallback.
+The fallback learner is fitted to create valid predictions in case that either the
+model fitting or the prediction of the original learner fails.
+If the training step or the predict step of the original learner fails,
+the fallback is used to make the predictions.
+If the original learner only partially fails during predict step
+(usually in the form of missing to predict some observations or producing
+some \code{NA} predictions),
+these missing predictions are imputed by the fallback.
 Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
 If the training step fails, the \verb{$model} field of the original learner is \code{NULL}.
 The results are reproducible across the different encapsulation methods.
@@ -752,7 +799,7 @@ The results are reproducible across the different encapsulation methods.
 Note that for errors of class \code{Mlr3ErrorConfig}, the function always errs and no fallback learner
 is trained.
 
-Also see the section on error handling the mlr3book:
+Also see the section on error handling in the mlr3book:
 \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$encapsulate(method, fallback = NULL, when = NULL)}\if{html}{\out{</div>}}
@@ -762,7 +809,7 @@ Also see the section on error handling the mlr3book:
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{method}}{\code{character(1)}\cr
-One of \code{"none"}, \code{"try"}, \code{"evaluate"}, \code{"callr"}, or \code{"mirai"}.
+One of \code{"none"}, \code{"try"}, \code{"evaluate"} or \code{"callr"}.
 See the description for details.}
 
 \item{\code{fallback}}{\link{Learner}\cr

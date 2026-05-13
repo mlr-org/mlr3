@@ -4,8 +4,22 @@ test_that("autotest", {
   result = run_autotest(learner)
   expect_true(result, info = result$error)
 
-  exclude = c("formula", "data", "weights", "subset", "na.action", "method", "model",
-    "x", "y", "parms", "control", "cost", "keep_model", "use_weights")
+  exclude = c(
+    "formula",
+    "data",
+    "weights",
+    "subset",
+    "na.action",
+    "method",
+    "model",
+    "x",
+    "y",
+    "parms",
+    "control",
+    "cost",
+    "keep_model",
+    "use_weights"
+  )
   result = run_paramtest(learner, list(rpart::rpart, rpart::rpart.control), exclude, tag = "train")
   expect_true(result, info = result$error)
 
@@ -37,7 +51,11 @@ test_that("selected_features", {
 })
 
 test_that("use_weights actually influences the model", {
-  task = TaskClassif$new("foo", as_data_backend(cbind(iris, data.frame(w = rep(c(1, 10, 100), each = 50)))), target = "Species")
+  task = TaskClassif$new(
+    "foo",
+    as_data_backend(cbind(iris, data.frame(w = rep(c(1, 10, 100), each = 50)))),
+    target = "Species"
+  )
   task$set_col_roles("w", "weights_learner")
   learner = lrn("classif.rpart", use_weights = "use")
   learner$train(task)

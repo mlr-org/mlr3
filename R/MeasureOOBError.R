@@ -13,7 +13,8 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureOOBError = R6Class("MeasureOOBError",
+MeasureOOBError = R6Class(
+  "MeasureOOBError",
   inherit = Measure,
   public = list(
     #' @description

@@ -1,10 +1,15 @@
 #' @rdname PredictionData
 #' @export
-check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
+# nolint next
+check_prediction_data.PredictionDataRegr = function(pdata, ...) {
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
-  if (is.null(pdata$truth)) pdata$truth = NA_real_
-  if (!length(pdata$row_ids)) pdata$truth = numeric()
+  if (is.null(pdata$truth)) {
+    pdata$truth = NA_real_
+  }
+  if (!length(pdata$row_ids)) {
+    pdata$truth = numeric()
+  }
 
   if (!is.null(pdata$response)) {
     pdata$response = assert_numeric(unname(pdata$response))
@@ -65,7 +70,8 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
 
 #' @rdname PredictionData
 #' @export
-is_missing_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
+# nolint next
+is_missing_prediction_data.PredictionDataRegr = function(pdata, ...) {
   miss = logical(length(pdata$row_ids))
 
   if (!is.null(pdata$response)) {
@@ -88,7 +94,8 @@ is_missing_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
 
 #' @rdname PredictionData
 #' @export
-c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
+# nolint next
+c.PredictionDataRegr = function(..., keep_duplicates = TRUE) {
   dots = list(...)
   assert_list(dots, "PredictionDataRegr")
   assert_flag(keep_duplicates)
@@ -134,11 +141,18 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
 
   result = as.list(tab)
   result$quantiles = quantiles
-  if (!is.null(extra)) result$extra = as.list(extra)
+  if (!is.null(extra)) {
+    result$extra = as.list(extra)
+  }
 
   if ("distr" %chin% predict_types[[1L]]) {
     require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
     result$distr = do.call(c, map(dots, "distr"))
+  }
+
+  raw = discard(map(dots, "raw"), is.null)
+  if (length(raw)) {
+    result$raw = raw
   }
 
   new_prediction_data(result, "regr")

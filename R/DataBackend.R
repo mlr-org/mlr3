@@ -10,7 +10,7 @@
 #' It is not recommended to work directly with the DataBackend.
 #' Instead, all data access is handled transparently via the [Task].
 #'
-#' This package currently shups with one implementation for backends:
+#' This package currently ships with one implementation for backends:
 #'
 #' * [DataBackendDataTable] which stores the data as [data.table::data.table()].
 #'
@@ -34,7 +34,9 @@
 #' b$data(rows = 1:2, cols = "x")
 #' b$distinct(rows = b$rownames, "y")
 #' b$missings(rows = b$rownames, cols = names(data))
-DataBackend = R6Class("DataBackend", cloneable = FALSE,
+DataBackend = R6Class(
+  "DataBackend",
+  cloneable = FALSE,
   public = list(
     #' @field primary_key (`character(1)`)\cr
     #' Column name of the primary key column of positive and unique integer row ids.

@@ -15,7 +15,8 @@ Task to operate on.}
 
 \item{ratio}{(\code{numeric()})\cr
 Ratio of observations to put into the training set.
-If a 2 element vector is provided, the first element is the ratio for the training set, the second element is the ratio for the test set.
+If a 2 element vector is provided, the first element is the ratio for the training set,
+the second element is the ratio for the test set.
 The validation set will contain the remaining observations.}
 }
 \description{

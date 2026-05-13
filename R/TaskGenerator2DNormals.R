@@ -17,7 +17,8 @@
 #'
 #' task = generator$generate(200)
 #' str(task$data())
-TaskGenerator2DNormals = R6Class("TaskGenerator2DNormals",
+TaskGenerator2DNormals = R6Class(
+  "TaskGenerator2DNormals",
   inherit = TaskGenerator,
   public = list(
     #' @description
@@ -25,12 +26,18 @@ TaskGenerator2DNormals = R6Class("TaskGenerator2DNormals",
     initialize = function() {
       ps = ps(
         cl = p_int(2L),
-        r  = p_dbl(1L),
+        r = p_dbl(1L),
         sd = p_dbl(0L)
       )
 
-      super$initialize(id = "2dnormals", "classif", "mlbench", ps,
-        label = "2D Normals Classification", man = "mlr3::mlr_task_generators_2dnormals")
+      super$initialize(
+        id = "2dnormals",
+        "classif",
+        "mlbench",
+        ps,
+        label = "2D Normals Classification",
+        man = "mlr3::mlr_task_generators_2dnormals"
+      )
     },
 
     #' @description

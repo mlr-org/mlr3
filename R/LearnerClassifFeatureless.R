@@ -29,7 +29,9 @@
 #'
 #' @template seealso_learner
 #' @export
-LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = LearnerClassif,
+LearnerClassifFeatureless = R6Class(
+  "LearnerClassifFeatureless",
+  inherit = LearnerClassif,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -43,7 +45,15 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
         feature_types = mlr_reflections$task_feature_types,
         predict_types = c("response", "prob"),
         param_set = ps,
-        properties = c("featureless", "twoclass", "multiclass", "missings", "importance", "selected_features", "weights"),
+        properties = c(
+          "featureless",
+          "twoclass",
+          "multiclass",
+          "missings",
+          "importance",
+          "selected_features",
+          "weights"
+        ),
         label = "Featureless Classification Learner",
         man = "mlr3::mlr_learners_classif.featureless",
       )
@@ -74,7 +84,10 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
   private = list(
     .train = function(task) {
       weights = NULL
-      counts_table = data.table(truth = task$truth(), weights = private$.get_weights(task, 1.0))[, list(weights = sum(weights)), by = "truth"]
+      counts_table = data.table(truth = task$truth(), weights = private$.get_weights(task, 1.0))[,
+        list(weights = sum(weights)),
+        by = "truth"
+      ]
       tab = set_names(counts_table$weights, counts_table$truth)
       set_class(list(tab = tab, features = task$feature_names), "classif.featureless_model")
     },
@@ -87,16 +100,18 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
       response = prob = NULL
 
       if (self$predict_type == "response") {
-        response = switch(pv$method,
+        response = switch(
+          pv$method,
           mode = sample(labels[tab == max(tab)], n, replace = TRUE),
           sample = sample(labels, n, replace = TRUE),
           weighted.sample = sample(labels, n, replace = TRUE, prob = tab)
         )
       } else if (self$predict_type == "prob") {
-        prob = switch(pv$method,
+        prob = switch(
+          pv$method,
           mode = matrix(unname(tab) / sum(tab), nrow = n, ncol = length(tab), byrow = TRUE),
           sample = matrix(1 / length(tab), nrow = n, ncol = length(tab)),
-          weighted.sample = diag(length(tab))[sample(seq_along(tab), n, replace = TRUE, prob = tab),, drop = FALSE]
+          weighted.sample = diag(length(tab))[sample(seq_along(tab), n, replace = TRUE, prob = tab), , drop = FALSE]
         )
         colnames(prob) = labels
       }

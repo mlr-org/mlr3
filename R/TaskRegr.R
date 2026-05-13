@@ -17,12 +17,13 @@
 #' @template seealso_task
 #' @export
 #' @examples
-#' task = as_task_regr(palmerpenguins::penguins, target = "bill_length_mm")
+#' task = as_task_regr(mtcars, target = "mpg")
 #' task$task_type
 #' task$formula()
 #' task$truth()
 #' task$data(rows = 1:3, cols = task$feature_names[1:2])
-TaskRegr = R6Class("TaskRegr",
+TaskRegr = R6Class(
+  "TaskRegr",
   inherit = TaskSupervised,
   public = list(
     #' @description
@@ -35,8 +36,13 @@ TaskRegr = R6Class("TaskRegr",
     initialize = function(id, backend, target, label = NA_character_, extra_args = list()) {
       assert_string(target)
       super$initialize(
-        id = id, task_type = "regr", backend = backend,
-        target = target, label = label, extra_args = extra_args)
+        id = id,
+        task_type = "regr",
+        backend = backend,
+        target = target,
+        label = label,
+        extra_args = extra_args
+      )
 
       type = fget_key(self$col_info, i = target, j = "type", key = "id")
       if (type %nin% c("integer", "numeric")) {

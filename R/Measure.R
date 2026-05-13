@@ -20,39 +20,50 @@
 #' e.g. [`classif.auc`][mlr_measures_classif.auc] or [`time_train`][mlr_measures_time_train].
 #' Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as ordinary functions.
 #'
-#' A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the [mlr3book](https://mlr3book.mlr-org.com).
+#' A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
+#' [mlr3book](https://mlr3book.mlr-org.com).
 #' @section Inheriting:
 #' For some measures (such as confidence intervals from `mlr3inferr`) it is necessary that a measure
 #' returns more than one value.
-#' In such cases it is necessary to overwrite the public methods `$aggregate()` and/or `$score()` to return a named `numeric()`
+#' In such cases it is necessary to overwrite the public methods `$aggregate()` and/or `$score()`
+#' to return a named `numeric()`
 #' where at least one of its names corresponds to the `id` of the measure itself.
 #'
 #' @section Weights:
 #'
 #' Many measures support observation weights, indicated by their property `"weights"`.
-#' The weights are stored in the [Task] where the column role `weights_measure` needs to be assigned to a single numeric column.
-#' The weights are automatically used if found in the task, this can be disabled by setting the field `use_weights` to `"ignore"`.
+#' The weights are stored in the [Task] where the column role `weights_measure` needs to be assigned
+#' to a single numeric column.
+#' The weights are automatically used if found in the task,
+#' this can be disabled by setting the field `use_weights` to `"ignore"`.
 #' See the description of `use_weights` for more information.
 #'
-#' If the measure is set-up to use weights but the task does not have a designated `weights_measure` column, an unweighted version is calculated instead.
+#' If the measure is set-up to use weights but the task does not have a designated `weights_measure` column,
+#' an unweighted version is calculated instead.
 #' The weights do not necessarily need to sum up to 1, they are normalized by the measure if necessary.
 #'
-#' Most measures are so-called decomposable loss functions where a point-wise loss is computed and then either mean-aggregated or summed
-#' over the test set.
-#' For measures that do mean-aggregation, weights are typically used to compute the weighted mean, which normalizes weights to sum to 1.
-#' Measures that use sum-aggregation do not normalize weights and instead multiply individual losses with the given weights.
+#' Most measures are so-called decomposable loss functions where a point-wise loss is computed
+#' and then either mean-aggregated or summed over the test set.
+#' For measures that do mean-aggregation, weights are typically used to compute the weighted mean,
+#' which normalizes weights to sum to 1.
+#' Measures that use sum-aggregation do not normalize weights and instead multiply individual losses
+#' with the given weights.
 #' See the documentation of specific measures for more details.
 #'
 #' @section Missing Values during Scoring:
 #'
-#' Many measurements cannot be calculated if the test set or predictions are unfortunate, for example because a denominator is 0.
+#' Many measurements cannot be calculated if the test set or predictions are unfortunate,
+#' for example because a denominator is 0.
 #' This typically occurs during (binary) classification if some entries of the confusion matrix are 0.
-#' For this reason, many measures which origin in \CRANpkg{mlr3measures} allow to change the default missing value (`NaN`) via the field `na_value`.
+#' For this reason, many measures which originate in \CRANpkg{mlr3measures} allow to change the
+#' default missing value (`NaN`) via the field `na_value`.
 #'
-#' If you encounter missing values in a compound object like a [ResampleResult] or [BenchmarkResult] during scoring or aggregating, simply
-#' removing iterations with missing values is statistically arguable (but technically possible by prividng a custom aggregation function
-#' which handles missing values, e.g. `function(x) mean(x, na.rm = TRUE)`). Instead, consider stratification on the target of the [Task]
-#' to work around missing values. Switching to micro averaging in the [Resampling] can also be a solution here.
+#' If you encounter missing values in a compound object like a [ResampleResult] or [BenchmarkResult]
+#' during scoring or aggregating, simply removing iterations with missing values is statistically
+#' arguable (but technically possible by providing a custom aggregation function which handles
+#' missing values, e.g. `function(x) mean(x, na.rm = TRUE)`).
+#' Instead, consider stratification on the target of the [Task] to work around missing values.
+#' Switching to micro averaging in the [Resampling] can also be a solution here.
 #'
 #' @template param_id
 #' @template param_param_set
@@ -68,68 +79,16 @@
 #' @template param_packages
 #' @template param_label
 #' @template param_man
-#' @param obs_loss (`function` or `NULL`)\cr
-#'   The observation-wise loss function, e.g. [zero-one][mlr3measures::zero_one] for classification error.
-#' @param trafo (`list()` or `NULL`)\cr
+#' @param trafo (`list()` | `NULL`)\cr
 #'   An optional list with two elements, containing the transformation `"fn"` and its derivative `"deriv"`.
 #'   The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
 #'   this requires an `$obs_loss` to be present. An example is `sqrt` for RMSE.
 #'
 #' @template seealso_measure
 #' @export
-Measure = R6Class("Measure",
+Measure = R6Class(
+  "Measure",
   public = list(
-    #' @template field_id
-    id = NULL,
-
-    #' @template field_label
-    label = NULL,
-
-    #' @template field_task_type
-    task_type = NULL,
-
-    #' @template field_param_set
-    param_set = NULL,
-
-    #' @field trafo (`list()` | `NULL`)
-    #' `NULL` or a list with two elements:
-    #' * `trafo`: the transformation function applied after aggregating
-    #'   observation-wise losses (e.g. `sqrt` for RMSE)
-    #' * `deriv`: The derivative of the `trafo`.
-    trafo = NULL,
-
-    #' @field predict_type (`character(1)`)\cr
-    #' Required predict type of the [Learner].
-    predict_type = NULL,
-
-    #' @field check_prerequisites (`character(1)`)\cr
-    #' How to proceed if one of the following prerequisites is not met:
-    #'
-    #' * wrong predict type (e.g., probabilities required, but only labels available).
-    #' * wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
-    #' * task properties not satisfied (e.g., binary classification measure on multiclass task).
-    #'
-    #' Possible values are `"ignore"` (just return `NaN`) and `"warn"` (default, raise a warning before returning `NaN`).
-    check_prerequisites = "warn",
-
-    #' @field task_properties (`character()`)\cr
-    #' Required properties of the [Task].
-    task_properties = NULL,
-
-    #' @field range (`numeric(2)`)\cr
-    #' Lower and upper bound of possible performance scores.
-    range = NULL,
-
-    #' @field minimize (`logical(1)`)\cr
-    #' If `TRUE`, good predictions correspond to small values of performance scores.
-    minimize = NULL,
-
-    #' @template field_packages
-    packages = NULL,
-
-    #' @template field_man
-    man = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
@@ -151,16 +110,16 @@ Measure = R6Class("Measure",
       man = NA_character_,
       trafo = NULL
     ) {
-      self$id = assert_string(id, min.chars = 1L)
-      self$label = assert_string(label, na.ok = TRUE)
-      self$task_type = task_type
-      self$param_set = assert_param_set(param_set)
-      self$range = assert_range(range)
-      self$minimize = assert_flag(minimize, na.ok = TRUE)
-      self$average = average
+      private$.id = assert_id(id)
+      private$.label = assert_string(label, na.ok = TRUE)
+      private$.task_type = task_type
+      private$.param_set = assert_param_set(param_set)
+      private$.range = assert_range(range)
+      private$.minimize = assert_flag(minimize, na.ok = TRUE)
+      private$.average = assert_choice(average, c("micro", "macro", "custom", "macro_weighted"))
       private$.aggregator = assert_function(aggregator, null.ok = TRUE)
-      self$trafo = assert_list(trafo, len = 2L, types = "function", null.ok = TRUE)
-      if (!is.null(self$trafo)) {
+      private$.trafo_fun = assert_list(trafo, len = 2L, types = "function", null.ok = TRUE)
+      if (!is.null(private$.trafo_fun)) {
         assert_permutation(names(trafo), c("fn", "deriv"))
       }
 
@@ -173,21 +132,26 @@ Measure = R6Class("Measure",
         assert_subset(properties, unique(unlist(mlr_reflections$measure_properties, use.names = FALSE)))
       }
 
-      self$properties = unique(properties)
+      private$.properties = unique(properties)
 
       if ("weights" %in% properties) {
-        self$use_weights = "use"
+        private$.use_weights = "use"
       } else if ("requires_no_prediction" %in% properties) {
-        self$use_weights = "ignore"
+        private$.use_weights = "ignore"
       } else {
-        self$use_weights = "error"
+        private$.use_weights = "error"
       }
 
-      self$predict_type = predict_type
-      self$predict_sets = predict_sets
-      self$task_properties = task_properties
-      self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
-      self$man = assert_string(man, na.ok = TRUE)
+      private$.predict_type = predict_type
+      private$.predict_sets = assert_subset(
+        predict_sets,
+        mlr_reflections$predict_sets,
+        empty.ok = "requires_no_prediction" %chin% properties
+      )
+      private$.task_properties = task_properties
+      private$.packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
+      private$.man = assert_string(man, na.ok = TRUE)
+      private$.check_prerequisites = "warn"
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Measure '%s'", id))
     },
@@ -226,14 +190,13 @@ Measure = R6Class("Measure",
     },
 
     #' @description
-    #' Takes a [Prediction] (or a list of [Prediction] objects named with valid `predict_sets`)
-    #' and calculates a numeric score.
+    #' Takes a [Prediction] and calculates a numeric score.
     #' If the measure if flagged with the properties `"requires_task"`, `"requires_learner"`,
     #' `"requires_model"` or `"requires_train_set"`, you must additionally
     #' pass the respective [Task], the (trained) [Learner] or the training set indices.
     #' This is handled internally during [resample()]/[benchmark()].
     #'
-    #' @param prediction ([Prediction] | named list of [Prediction]).
+    #' @param prediction ([Prediction]).
     #'
     #' @param task ([Task]).
     #'
@@ -254,7 +217,7 @@ Measure = R6Class("Measure",
 
       # check should be added to assert_measure()
       # except when the checks are superfluous for rr$score() and bmr$score()
-      # these checks should be added bellow
+      # these checks should be added below
       if ("requires_task" %chin% properties && is.null(task)) {
         error_input("Measure '%s' requires a task", self$id)
       }
@@ -263,7 +226,7 @@ Measure = R6Class("Measure",
         error_input("Measure '%s' requires a learner", self$id)
       }
 
-      if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
+      if (!is.null(prediction) && !is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
         error_input("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
       }
 
@@ -287,19 +250,30 @@ Measure = R6Class("Measure",
     #' rr = resample(task, learner, rsmp("holdout"))
     #' msr("classif.ce")$aggregate(rr)
     aggregate = function(rr) {
-      switch(self$average,
+      switch(
+        self$average,
         "macro_weighted" = {
           aggregator = self$aggregator %??% weighted.mean
-          tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view,
-            iters = get_private(rr$resampling)$.primary_iters)
+          tab = score_measures(
+            rr,
+            list(self),
+            reassemble = FALSE,
+            view = get_private(rr)$.view,
+            iters = get_private(rr$resampling)$.primary_iters
+          )
           # score_measures constructs both .weights and .samples, since it can work with multiple measures and hence
           # does not depend on an individual measure's `use_weights` setting.
           set_names(aggregator(tab[[self$id]], if (self$use_weights == "use") tab$.weights else tab$.samples), self$id)
         },
         "macro" = {
           aggregator = self$aggregator %??% mean
-          tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view,
-            iters = get_private(rr$resampling)$.primary_iters)
+          tab = score_measures(
+            rr,
+            list(self),
+            reassemble = FALSE,
+            view = get_private(rr)$.view,
+            iters = get_private(rr$resampling)$.primary_iters
+          )
           set_names(aggregator(tab[[self$id]]), self$id)
         },
         "micro" = {
@@ -310,9 +284,12 @@ Measure = R6Class("Measure",
             self$score(prediction, task = rr$task, learner = rr$learner)
           }
         },
-        "custom" =  {
-          if (!is.null(get_private(rr$resampling)$.primary_iters) && "primary_iters" %nin% self$properties &&
-              !test_permutation(get_private(rr$resampling)$.primary_iters, seq_len(rr$resampling$iters))) {
+        "custom" = {
+          if (
+            !is.null(get_private(rr$resampling)$.primary_iters) &&
+              "primary_iters" %nin% self$properties &&
+              !test_permutation(get_private(rr$resampling)$.primary_iters, seq_len(rr$resampling$iters))
+          ) {
             error_input("Resample result has non-NULL primary_iters, but measure '%s' cannot handle them", self$id)
           }
           private$.aggregator(rr)
@@ -337,7 +314,6 @@ Measure = R6Class("Measure",
     #' prediction = learner$predict(task)
     #' msr("classif.ce")$obs_loss(prediction)
     obs_loss = function(prediction, task = NULL, learner = NULL) {
-
       if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
         error_input("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
       }
@@ -346,7 +322,7 @@ Measure = R6Class("Measure",
         return(rep(NA_real_, length(prediction$row_ids)))
       }
 
-      private$.obs_loss(prediction, task)
+      private$.obs_loss(prediction, task, learner)
     }
   ),
 
@@ -354,27 +330,46 @@ Measure = R6Class("Measure",
     #' @template field_predict_sets
     predict_sets = function(rhs) {
       if (!missing(rhs)) {
-        private$.predict_sets = assert_subset(rhs, mlr_reflections$predict_sets, empty.ok = "requires_no_prediction" %chin% self$properties)
+        private$.predict_sets = assert_subset(
+          rhs,
+          mlr_reflections$predict_sets,
+          empty.ok = "requires_no_prediction" %chin% self$properties
+        )
       }
       private$.predict_sets
     },
 
     #' @field hash (`character(1)`)\cr
     #' Hash (unique identifier) for this object.
-    #' The hash is calculated based on the id, the parameter settings, predict sets and the `$score`, `$average`, `$aggregator`, `$obs_loss`, `$trafo` method.
+    #' The hash is calculated based on the id, the parameter settings, predict sets and the `$score`,
+    #' `$average`, `$aggregator`, `$obs_loss`, `$trafo` method.
     #' Measure can define additional fields to be included in the hash by setting the field `$.extra_hash`.
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, self$param_set$values, private$.score,
-        private$.average, private$.aggregator, private$.obs_loss, self$trafo,
-        self$predict_sets, mget(private$.extra_hash, envir = self), private$.use_weights)
+      calculate_hash(
+        class(self),
+        self$id,
+        self$param_set$values,
+        private$.score,
+        private$.average,
+        private$.aggregator,
+        private$.obs_loss,
+        self$trafo,
+        self$predict_sets,
+        mget(private$.extra_hash, envir = self),
+        private$.use_weights
+      )
     },
 
     #' @field properties (`character()`)\cr
     #' Properties of this measure.
     properties = function(rhs) {
       if (!missing(rhs)) {
-        props = if (is.na(self$task_type)) unique(unlist(mlr_reflections$measure_properties, use.names = FALSE)) else mlr_reflections$measure_properties[[self$task_type]]
+        props = if (is.na(self$task_type)) {
+          unique(unlist(mlr_reflections$measure_properties, use.names = FALSE))
+        } else {
+          mlr_reflections$measure_properties[[self$task_type]]
+        }
         private$.properties = assert_subset(rhs, props)
       } else {
         private$.properties
@@ -428,18 +423,158 @@ Measure = R6Class("Measure",
     #' For measures with the property `"weights"`, this is initialized as `"use"`.
     #' For measures with the property `"requires_no_prediction"`, this is initialized as `"ignore"`.
     #' For measures that have neither of the properties, this is initialized as `"error"`.
-    #' The latter behavior is to avoid cases where a user erroneously assumes that a measure supports weights when it does not.
-    #' For measures that do not support weights, `use_weights` needs to be set to `"ignore"` if tasks with weights should be handled (by dropping the weights).
+    #' The latter behavior is to avoid cases where a user erroneously assumes that a measure
+    #' supports weights when it does not.
+    #' For measures that do not support weights,
+    #' `use_weights` needs to be set to `"ignore"` if tasks with weights should be handled (by dropping the weights).
     use_weights = function(rhs) {
       if (!missing(rhs)) {
         private$.use_weights = assert_choice(rhs, c(if ("weights" %chin% self$properties) "use", "ignore", "error"))
       } else {
         private$.use_weights
       }
+    },
+
+    #' @template field_id
+    id = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.id)
+      }
+      private$.id = assert_id(rhs)
+    },
+
+    #' @template field_label
+    label = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.label)
+      }
+      private$.label = assert_string(rhs, na.ok = TRUE)
+    },
+
+    #' @template field_task_type
+    task_type = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.task_type)
+      }
+      if (!is_scalar_na(rhs)) {
+        assert_choice(rhs, mlr_reflections$task_types$type)
+      }
+      private$.task_type = rhs
+    },
+
+    #' @template field_param_set
+    param_set = function(rhs) {
+      if (!missing(rhs) && !identical(rhs, private$.param_set)) {
+        error_input("param_set is read-only.")
+      }
+      private$.param_set
+    },
+
+    #' @field predict_type (`character(1)`)\cr
+    #' Required predict type of the [Learner].
+    predict_type = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.predict_type)
+      }
+      if (!is_scalar_na(self$task_type)) {
+        assert_choice(rhs, names(mlr_reflections$learner_predict_types[[self$task_type]]))
+      }
+      private$.predict_type = rhs
+    },
+
+    #' @field check_prerequisites (`character(1)`)\cr
+    #' How to proceed if one of the following prerequisites is not met:
+    #'
+    #' * wrong predict type (e.g., probabilities required, but only labels available).
+    #' * wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
+    #' * task properties not satisfied (e.g., binary classification measure on multiclass task).
+    #'
+    #' Possible values are `"ignore"` (just return `NaN`) and `"warn"` (default,
+    #' raise a warning before returning `NaN`).
+    check_prerequisites = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.check_prerequisites)
+      }
+      private$.check_prerequisites = assert_choice(rhs, c("ignore", "warn"))
+    },
+
+    #' @field task_properties (`character()`)\cr
+    #' Required properties of the [Task].
+    task_properties = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.task_properties)
+      }
+      if (!is_scalar_na(self$task_type)) {
+        assert_subset(rhs, mlr_reflections$task_properties[[self$task_type]])
+      }
+      private$.task_properties = rhs
+    },
+
+    #' @field range (`numeric(2)`)\cr
+    #' Lower and upper bound of possible performance scores.
+    range = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.range)
+      }
+      private$.range = assert_range(rhs)
+    },
+
+    #' @field minimize (`logical(1)`)\cr
+    #' If `TRUE`, good predictions correspond to small values of performance scores.
+    minimize = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.minimize)
+      }
+      private$.minimize = assert_flag(rhs, na.ok = TRUE)
+    },
+
+    #' @template field_packages
+    packages = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.packages)
+      }
+      private$.packages = union("mlr3", assert_character(rhs, any.missing = FALSE, min.chars = 1L))
+    },
+
+    #' @template field_man
+    man = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.man)
+      }
+      private$.man = assert_string(rhs, na.ok = TRUE)
+    },
+
+    #' @field trafo (`list()` | `NULL`)\cr
+    #' `NULL` or a list with two elements:
+    #' * `fn`: the transformation function applied after aggregating
+    #'   observation-wise losses (e.g. `sqrt` for RMSE)
+    #' * `deriv`: The derivative of the `fn`.
+    trafo = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.trafo_fun)
+      }
+      rhs = assert_list(rhs, len = 2L, types = "function", null.ok = TRUE)
+      if (!is.null(rhs)) {
+        assert_permutation(names(rhs), c("fn", "deriv"))
+      }
+      private$.trafo_fun = rhs
     }
   ),
 
   private = list(
+    .id = NULL,
+    .label = NULL,
+    .task_type = NULL,
+    .param_set = NULL,
+    .predict_type = NULL,
+    .check_prerequisites = NULL,
+    .task_properties = NULL,
+    .range = NULL,
+    .minimize = NULL,
+    .packages = NULL,
+    .man = NULL,
+    # NB: .trafo is already taken by mlr3inferr
+    .trafo_fun = NULL,
     .properties = character(),
     .predict_sets = NULL,
     .extra_hash = character(),
@@ -464,8 +599,8 @@ Measure = R6Class("Measure",
 #' to avoid unnecessary allocations.
 #'
 #' @param measure ([Measure]).
-#' @param task ([Measure]).
-#' @param learner ([Measure]).
+#' @param task ([Task]).
+#' @param learner ([Learner]).
 #' @param train_set (`integer()`).
 #' @param prediction ([Prediction] | [PredictionData]).
 #'
@@ -474,7 +609,10 @@ Measure = R6Class("Measure",
 score_single_measure = function(measure, task, learner, train_set, prediction) {
   if (!length(measure$predict_sets)) {
     score = get_private(measure)$.score(
-      prediction = NULL, task = task, learner = learner, train_set = train_set
+      prediction = NULL,
+      task = task,
+      learner = learner,
+      train_set = train_set
     )
     return(score)
   }
@@ -506,8 +644,13 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
     return(NaN)
   }
 
-  get_private(measure)$.score(prediction = prediction, task = task, learner = learner, train_set = train_set,
-    weights = if (measure$use_weights == "use") prediction$weights)
+  get_private(measure)$.score(
+    prediction = prediction,
+    task = task,
+    learner = learner,
+    train_set = train_set,
+    weights = if (measure$use_weights == "use") prediction$weights
+  )
 }
 
 #' @title Workhorse function to calculate multiple scores
@@ -520,7 +663,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 #'
 #' @param obj ([ResampleResult] | [BenchmarkResult]).
 #' @param measures (list of [Measure]).
-#' @param iters (`integer()` or `NULL`)
+#' @param iters (`integer()` | `NULL`)\cr
 #' To which iterations of the resample result to restrict the scoring.
 #'
 #' @return (`data.table()`) with added score columns.
@@ -529,7 +672,11 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters = NULL) {
   reassemble_learners = reassemble ||
     some(measures, function(m) any(c("requires_learner", "requires_model") %chin% m$properties))
-  tab = get_private(obj)$.data$as_data_table(view = view, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
+  tab = get_private(obj)$.data$as_data_table(
+    view = view,
+    reassemble_learners = reassemble_learners,
+    convert_predictions = FALSE
+  )
 
   set(tab, j = ".samples", value = map_dbl(tab$prediction, function(x) length(x$test$row_ids)))
   if (length(tab$prediction) && "weights" %chin% names(tab$prediction[[1L]]$test)) {
@@ -537,7 +684,6 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
   } else {
     set(tab, j = ".weights", value = tab$.samples)
   }
-
 
   if (!is.null(iters)) {
     tab = tab[list(iters), on = "iteration"]
@@ -548,7 +694,8 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
   for (measure in measures) {
     pmap(tmp, assert_scorable, measure = measure)
 
-    score = pmap_dbl(tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE],
+    score = pmap_dbl(
+      tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE],
       function(task, learner, resampling, iteration, prediction) {
         score_single_measure(measure, task, learner, train_set = resampling$train_set(iteration), prediction)
       }
@@ -561,8 +708,10 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
 
 
 #' @export
-rd_info.Measure = function(obj, ...) { # nolint
-  x = c("",
+# nolint next
+rd_info.Measure = function(obj, ...) {
+  x = c(
+    "",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Range: %s", rd_format_range(obj$range[1L], obj$range[2L])),
     sprintf("* Minimize: %s", obj$minimize),

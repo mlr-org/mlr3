@@ -41,7 +41,7 @@ test_that("HotstartStack works with forward target learner when cost of hotstart
   expect_data_table(hot$stack, ncols = 3)
 })
 
-test_that("HotstartStack works when hotstart values of hotstart learners are lower and higher than value of forward target learner", {
+test_that("HotstartStack works when hotstart values are lower and higher for forward target", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
@@ -87,7 +87,7 @@ test_that("HotstartStack works with forward target learner when hotstart values 
   expect_data_table(hot$stack, ncols = 3)
 })
 
-test_that("HotstartStack works with forward target learner when hotstart learners are different and values are lower, equal and higher", {
+test_that("HotstartStack works with forward target when learners differ and values vary", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1) # lower
   learner_1$train(task)
@@ -158,7 +158,7 @@ test_that("HotstartStack works with backward target learner when cost of hotstar
   expect_data_table(hot$stack, ncols = 3)
 })
 
-test_that("HotstartStack works when hotstart values of hotstart learners are lower and higher than value of backward target learner", {
+test_that("HotstartStack works when hotstart values are lower and higher for backward target", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 3)
   learner_1$train(task)
@@ -206,7 +206,7 @@ test_that("HotstartStack works with backward target learner when hotstart values
   expect_data_table(hot$stack, ncols = 3)
 })
 
-test_that("HotstartStack works with backward target learner when hotstart learners are different and values are lower, equal and higher", {
+test_that("HotstartStack works with backward target when learners differ and values vary", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1) # lower
   learner_1$train(task)
@@ -233,7 +233,7 @@ test_that("HotstartStack works with forward/backward target learner and increase
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 2)
-  learner$properties =  c(learner$properties, "hotstart_backward")
+  learner$properties = c(learner$properties, "hotstart_backward")
   hot = HotstartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, 0))
@@ -250,14 +250,14 @@ test_that("HotstartStack works with forward/backward target learner when cost of
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 3)
-  learner$properties =  c(learner$properties, "hotstart_backward")
+  learner$properties = c(learner$properties, "hotstart_backward")
   hot = HotstartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, 1))
   expect_data_table(hot$stack, ncols = 3)
 })
 
-test_that("HotstartStack works when hotstart values of hotstart learners are lower and higher than value of forward/backward target learner", {
+test_that("HotstartStack works when hotstart values are lower and higher for forward/backward target", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
@@ -265,7 +265,7 @@ test_that("HotstartStack works when hotstart values of hotstart learners are low
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 2)
-  learner$properties =  c(learner$properties, "hotstart_backward")
+  learner$properties = c(learner$properties, "hotstart_backward")
   hot = HotstartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, 0))
@@ -280,7 +280,7 @@ test_that("HotstartStack works when forward/backward hotstart and target learner
   learner_1$train(task)
 
   learner = lrn("classif.debug", iter = 1)
-  learner$properties =  c(learner$properties, "hotstart_backward")
+  learner$properties = c(learner$properties, "hotstart_backward")
   hot = HotstartStack$new(list(learner_1))
 
   expect_equal(hot$start_cost(learner, task$hash), -1)
@@ -297,7 +297,7 @@ test_that("HotstartStack works with forward/backward target learner when hotstar
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 1)
-  learner$properties =  c(learner$properties, "hotstart_backward")
+  learner$properties = c(learner$properties, "hotstart_backward")
   hot = HotstartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(0, 0))
@@ -310,7 +310,7 @@ test_that("HotstartStack works with forward/backward target learner when hotstar
   learner_1$train(task)
 
   learner = lrn("classif.debug", iter = 2)
-  learner$properties =  c(learner$properties, "hotstart_backward")
+  learner$properties = c(learner$properties, "hotstart_backward")
   hot = HotstartStack$new(list(learner_1))
 
   expect_equal(hot$start_cost(learner, task$hash), 1)
@@ -319,7 +319,7 @@ test_that("HotstartStack works with forward/backward target learner when hotstar
   expect_data_table(hot$stack, ncols = 3)
 })
 
-test_that("HotstartStack works with forward/backward target learner when hotstart learners are different and values are lower, equal and higher", {
+test_that("HotstartStack works with forward/backward target when learners differ and values vary", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1) # lower
   learner_1$train(task)
@@ -331,7 +331,7 @@ test_that("HotstartStack works with forward/backward target learner when hotstar
   learner_4$train(task)
 
   learner = lrn("classif.debug", iter = 2)
-  learner$properties =  c(learner$properties, "hotstart_backward")
+  learner$properties = c(learner$properties, "hotstart_backward")
   hot = HotstartStack$new(list(learner_1, learner_2, learner_3, learner_4))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, -1, 0, NA_real_))

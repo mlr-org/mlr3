@@ -31,7 +31,8 @@
 #' task$class_names
 #' task$positive
 #' task$data(rows = 1:3, cols = task$feature_names[1:2])
-TaskClassif = R6Class("TaskClassif",
+TaskClassif = R6Class(
+  "TaskClassif",
   inherit = TaskSupervised,
   public = list(
     #' @description
@@ -49,8 +50,13 @@ TaskClassif = R6Class("TaskClassif",
     initialize = function(id, backend, target, positive = NULL, label = NA_character_, extra_args = list()) {
       assert_string(target)
       super$initialize(
-        id = id, task_type = "classif", backend = backend,
-        target = target, label = label, extra_args = extra_args)
+        id = id,
+        task_type = "classif",
+        backend = backend,
+        target = target,
+        label = label,
+        extra_args = extra_args
+      )
 
       update_classif_property(self, private)
 
@@ -58,6 +64,41 @@ TaskClassif = R6Class("TaskClassif",
         # NB: this also sets `extra_args$positive`
         self$positive = positive
       }
+    },
+
+    #' @description
+    #' Printer.
+    #' @param ... (ignored).
+    print = function(...) {
+      super$print(...)
+
+      if (!is.null(private$.backend) && self$nrow <= getOption("mlr3.print_class_ratio_threshold", 1000000L)) {
+        class_freqs = table(self$truth()) / self$nrow * 100
+        class_freqs = class_freqs[order(-class_freqs, names(class_freqs))]
+        classes = if ("twoclass" %in% self$properties) {
+          sprintf(
+            "%s (positive class, %.0f%%), %s (%.0f%%)",
+            self$positive,
+            class_freqs[[self$positive]],
+            self$negative,
+            class_freqs[[self$negative]]
+          )
+        } else {
+          if (length(class_freqs) > 10L) {
+            paste0(
+              toString(sprintf("%s (%.0f%%)", names(class_freqs)[1:10], class_freqs[1:10])),
+              " + ",
+              length(class_freqs) - 10,
+              " more"
+            )
+          } else {
+            toString(sprintf("%s (%.0f%%)", names(class_freqs), class_freqs))
+          }
+        }
+      } else {
+        classes = toString(self$class_names)
+      }
+      cat_cli(cli_li("Target classes: {classes}"))
     },
 
     #' @description
@@ -75,7 +116,7 @@ TaskClassif = R6Class("TaskClassif",
     #'
     #' @return Modified `self`.
     droplevels = function(cols = NULL) {
-      super$droplevels()
+      super$droplevels(cols)
       update_classif_property(self, private)
       invisible(self)
     }
@@ -124,14 +165,6 @@ TaskClassif = R6Class("TaskClassif",
         return(NA_character_)
       }
       lvls[2L]
-    }
-  ),
-
-  private = list(
-    # TODO: remove this method in the future, but keep it for now to
-    # be backward compatible
-    .update_class_property = function() {
-      update_classif_property(self, private)
     }
   )
 )

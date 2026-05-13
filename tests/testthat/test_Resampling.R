@@ -27,14 +27,20 @@ test_that("param_vals", {
 
   expect_resampling(r)
 
-  expect_error({
-    r$param_set$values = list(repeats = 10L)
-    r$param_set$get_values()
-  }, "ratio")
+  expect_error(
+    {
+      r$param_set$values = list(repeats = 10L)
+      r$param_set$get_values()
+    },
+    "ratio"
+  )
 
-  expect_error({
-    r$param_set$values = list(ratio = 0.5, repeats = 10L, foobar = 12)
-  }, "foobar")
+  expect_error(
+    {
+      r$param_set$values = list(ratio = 0.5, repeats = 10L, foobar = 12)
+    },
+    "foobar"
+  )
 })
 
 test_that("hashing", {
@@ -44,14 +50,17 @@ test_that("hashing", {
   for (key in keys) {
     r = rsmp(key)
 
+    # nolint next
     with_seed(123L, r$instantiate(task))
     hash = r$hash
     expect_string(hash, pattern = "^[a-z0-9]+$")
 
+    # nolint next
     with_seed(123L, r$instantiate(task))
     expect_identical(r$hash, hash)
 
     if (key != "insample") {
+      # nolint next
       with_seed(124L, r$instantiate(task))
       expect_false(identical(r$hash, hash))
     }

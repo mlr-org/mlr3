@@ -38,7 +38,7 @@
 #' learner = lrn("classif.rpart")
 #' resampling = rsmp("cv")
 #'
-#' # Explicitly instantiate the resampling for this task for reproduciblity
+#' # Explicitly instantiate the resampling for this task for reproducibility
 #' set.seed(123)
 #' resampling$instantiate(task)
 #'
@@ -72,7 +72,6 @@ resample = function(
   unmarshal = TRUE,
   callbacks = NULL
 ) {
-
   lg$debug("Start resampling")
 
   assert_subset(clone, c("task", "learner", "resampling"))
@@ -105,7 +104,6 @@ resample = function(
   }
 
   grid = if (allow_hotstart) {
-
     lg$debug("Resampling with hotstart enabled.")
 
     hotstart_grid = map_dtr(seq_len(n), function(iteration) {
@@ -138,8 +136,21 @@ resample = function(
     data.table(learner = replicate(n, learner), mode = "train")
   }
 
-  res = future_map(n, workhorse, iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
-    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_index = lgr::logger_index(), pb = pb, unmarshal = unmarshal, callbacks = callbacks)
+  res = future_map(
+    n,
+    workhorse,
+    iteration = seq_len(n),
+    learner = grid$learner,
+    mode = grid$mode,
+    MoreArgs = list(
+      task = task,
+      resampling = resampling,
+      store_models = store_models,
+      lgr_index = lgr::logger_index(),
+      pb = pb,
+      unmarshal = unmarshal,
+      callbacks = callbacks
+    )
   )
 
   data = data.table(
@@ -159,7 +170,7 @@ resample = function(
   result_data = ResultData$new(data, data_extra, store_backends = store_backends)
 
   # the worker already ensures that models are sent back in marshaled form if unmarshal = FALSE, so we don't have
-  # to do anything in this case. This allows us to minimize the amount of marshaling in those situtions where
+  # to do anything in this case. This allows us to minimize the amount of marshaling in those situations where
   # the model is available in both states on the worker
   if (unmarshal && store_models) {
     result_data$unmarshal()

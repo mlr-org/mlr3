@@ -332,7 +332,7 @@ If \code{measures} is \code{NULL}, \code{measures} defaults to the return value 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
 
 \item{\code{ids}}{(\code{logical(1)})\cr
@@ -368,9 +368,12 @@ if present.}
 \if{latex}{\out{\hypertarget{method-ResampleResult-obs_loss}{}}}
 \subsection{Method \code{obs_loss()}}{
 Calculates the observation-wise loss via the \link{Measure}'s \code{obs_loss} method.
-Returns a \code{data.table()} with an \code{iteration} column plus one numeric column for each measure, named with the respective measure id.
+Returns a \code{data.table()} with an \code{iteration} column plus one numeric column for each measure,
+named with the respective measure id.
 If there is no observation-wise loss function for the measure, the column is filled with \code{NA_real_} values.
-Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they require an additional transformation after aggregation, in this example taking the square-root.
+Note that some measures such as RMSE, do have an \verb{$obs_loss},
+but they require an additional transformation after aggregation,
+in this example taking the square-root.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResampleResult$obs_loss(measures = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
 }
@@ -378,7 +381,7 @@ Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they requ
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
@@ -409,7 +412,7 @@ If \code{measures} is \code{NULL}, \code{measures} defaults to the return value 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
 }
 \if{html}{\out{</div>}}
@@ -445,7 +448,7 @@ Resampling iterations to keep.}
 }
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{
@@ -481,7 +484,7 @@ If \code{TRUE}, the stored model is removed from all \link{Learner}s.}
 }
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 }

@@ -20,7 +20,8 @@
 #'
 #' task = generator$generate(200)
 #' str(task$data())
-TaskGeneratorSimplex = R6Class("TaskGeneratorSimplex",
+TaskGeneratorSimplex = R6Class(
+  "TaskGeneratorSimplex",
   inherit = TaskGenerator,
   public = list(
     #' @description
@@ -28,13 +29,19 @@ TaskGeneratorSimplex = R6Class("TaskGeneratorSimplex",
     initialize = function() {
       ps = ps(
         center = p_lgl(default = TRUE),
-        d      = p_int(1L, default = 3L),
-        sd     = p_dbl(0, default = 0.1),
-        sides  = p_int(1L, default = 1L)
+        d = p_int(1L, default = 3L),
+        sd = p_dbl(0, default = 0.1),
+        sides = p_int(1L, default = 1L)
       )
 
-      super$initialize(id = "simplex", "classif", "mlbench", ps,
-        label = "Simplex Classification", man = "mlr3::mlr_task_generators_simplex")
+      super$initialize(
+        id = "simplex",
+        "classif",
+        "mlbench",
+        ps,
+        label = "Simplex Classification",
+        man = "mlr3::mlr_task_generators_simplex"
+      )
     },
 
     #' @description

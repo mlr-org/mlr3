@@ -8,7 +8,8 @@
 #'
 #' @details
 #' \eqn{R^1(\alpha)} is defined as \deqn{
-#'   1 - \frac{\sum_{i=1}^n \rho_\alpha \left( t_i - r_i(\alpha) \right)}{\sum_{i=1}^n \rho_\alpha \left( t_i - q_{\alpha} \right)},
+#'   1 - \frac{\sum_{i=1}^n \rho_\alpha \left( t_i - r_i(\alpha) \right)}{
+#'     \sum_{i=1}^n \rho_\alpha \left( t_i - q_{\alpha} \right)},
 #' }{
 #'   1 - sum(pinball(t - r(alpha))) / sum(pinball(t - quantile(t, alpha))),
 #' }
@@ -36,7 +37,8 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureRegrRQR = R6Class("MeasureRQR",
+MeasureRegrRQR = R6Class(
+  "MeasureRegrRQR",
   inherit = MeasureRegr,
   public = list(
     #' @description
@@ -53,16 +55,28 @@ MeasureRegrRQR = R6Class("MeasureRQR",
         predict_type = "quantiles",
         minimize = FALSE,
         range = c(-Inf, 1),
+        label = "R-Squared for Quantile Regression",
         man = "mlr3::mlr_measures_regr.rqr"
       )
+    }
+  ),
+
+  active = list(
+    #' @field pred_set_mean (`logical(1)`)\cr
+    #' Whether the empirical quantile is calculated on the prediction set.
+    #' Set during construction.
+    pred_set_mean = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.pred_set_mean
     }
   ),
 
   private = list(
     .pred_set_mean = NULL,
 
-    .score = function(prediction, task = NULL, train_set = NULL, weights = NULL, ...) {
+    .extra_hash = "pred_set_mean",
 
+    .score = function(prediction, task = NULL, train_set = NULL, weights = NULL, ...) {
       alpha = self$param_set$values$alpha
       probs = attr(prediction$data$quantiles, "probs")
       assert_choice(alpha, probs)

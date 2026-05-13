@@ -6,10 +6,10 @@
 #' See [callback_resample()] for a list of stages that access `ContextResample`.
 #'
 #' @export
-ContextResample = R6Class("ContextResample",
+ContextResample = R6Class(
+  "ContextResample",
   inherit = Context,
   public = list(
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
@@ -33,7 +33,6 @@ ContextResample = R6Class("ContextResample",
   ),
 
   active = list(
-
     #' @field task ([Task])\cr
     #' The task to be evaluated.
     #' The task is unchanged during the evaluation.

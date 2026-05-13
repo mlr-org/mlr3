@@ -67,13 +67,21 @@ as_result_data = function(
   }
 
   if (length(predictions) != N) {
-    error_input("Number of predictions (%i) must match the number of resampling iterations (%i)", length(predictions), N)
+    error_input(
+      "Number of predictions (%i) must match the number of resampling iterations (%i)",
+      length(predictions),
+      N
+    )
   }
 
   if (is.null(learner_states)) {
     learner_states = map(learners, "state")
   } else if (length(learner_states) != N) {
-    error_input("Number of learner_states (%i) must match the number of resampling iterations (%i)", length(learner_states), N)
+    error_input(
+      "Number of learner_states (%i) must match the number of resampling iterations (%i)",
+      length(learner_states),
+      N
+    )
   }
 
   if (resampling$task_hash != task$hash) {
@@ -84,15 +92,19 @@ as_result_data = function(
     error_input("Length of data_extra (%i) must match the number of resampling iterations (%i)", length(data_extra), N)
   }
 
-  ResultData$new(data.table(
-    task = list(task),
-    learner = learners,
-    learner_hash = hashes(learners),
-    learner_state = learner_states,
-    param_values = map(learners, function(x) x$param_set$values),
-    resampling = list(resampling),
-    iteration = iterations,
-    prediction = predictions,
-    uhash = UUIDgenerate()
-  ), data_extra = data_extra, store_backends = store_backends)
+  ResultData$new(
+    data.table(
+      task = list(task),
+      learner = learners,
+      learner_hash = hashes(learners),
+      learner_state = learner_states,
+      param_values = map(learners, function(x) x$param_set$values),
+      resampling = list(resampling),
+      iteration = iterations,
+      prediction = predictions,
+      uhash = UUIDgenerate()
+    ),
+    data_extra = data_extra,
+    store_backends = store_backends
+  )
 }

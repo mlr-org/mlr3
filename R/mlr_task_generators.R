@@ -28,21 +28,30 @@
 #' @examples
 #' mlr_task_generators$get("smiley")
 #' tgen("2dnormals")
-mlr_task_generators = R6Class("DictionaryTaskGenerator",
-  inherit = Dictionary,
-  cloneable = FALSE
-)$new()
+mlr_task_generators = R6Class("DictionaryTaskGenerator", inherit = Dictionary, cloneable = FALSE)$new()
 
 #' @export
 as.data.table.DictionaryTaskGenerator = function(x, ..., objects = FALSE) {
   assert_flag(objects)
 
-  setkeyv(map_dtr(x$keys(), function(key) {
-    g = withCallingHandlers(x$get(key),
-      packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
-    insert_named(
-      list(key = key, label = g$label, task_type = g$task_type, params = list(g$param_set$ids()), packages = list(g$packages)),
-      if (objects) list(object = list(g))
-    )
-  }, .fill = TRUE), "key")[]
+  setkeyv(
+    map_dtr(
+      x$keys(),
+      function(key) {
+        g = withCallingHandlers(x$get(key), packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
+        insert_named(
+          list(
+            key = key,
+            label = g$label,
+            task_type = g$task_type,
+            params = list(g$param_set$ids()),
+            packages = list(g$packages)
+          ),
+          if (objects) list(object = list(g))
+        )
+      },
+      .fill = TRUE
+    ),
+    "key"
+  )[]
 }

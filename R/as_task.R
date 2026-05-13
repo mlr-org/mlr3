@@ -24,14 +24,19 @@ as_task = function(x, ...) {
 
 #' @export
 as_task.default = function(x, ...) {
-  error_input("No method for class '%s'. To create a task from a `data.frame`, use dedicated converters such as `as_task_classif()` or `as_task_regr()`.", class(x)[1L])
+  error_input(
+    # nolint next
+    "No method for class '%s'. To create a task from a `data.frame`, use dedicated converters such as `as_task_classif()` or `as_task_regr()`.",
+    class(x)[1L]
+  )
 }
 
 #' @rdname as_task
 #' @param clone (`logical(1)`)\cr
 #'   If `TRUE`, ensures that the returned object is not the same as the input `x`.
 #' @export
-as_task.Task = function(x, clone = FALSE, ...) { # nolint
+# nolint next
+as_task.Task = function(x, clone = FALSE, ...) {
   assert_empty_ellipsis(...)
   if (isTRUE(clone)) x$clone(deep = TRUE) else x
 }
@@ -44,12 +49,14 @@ as_tasks = function(x, ...) {
 
 #' @rdname as_task
 #' @export
-as_tasks.default = function(x, ...) { # nolint
+# nolint next
+as_tasks.default = function(x, ...) {
   list(as_task(x, ...))
 }
 
 #' @rdname as_task
 #' @export
-as_tasks.list = function(x, ...) { # nolint
+# nolint next
+as_tasks.list = function(x, ...) {
   lapply(x, as_task, ...)
 }

@@ -6,14 +6,13 @@ test_that("DataBackendRename", {
   expect_backend(b)
 
   expect_set_equal(b$colnames, c(new, "..row_id"))
-  expect_names(names(b$data(b$rownames, b$colnames)), identical.to =  c(new, "..row_id"))
+  expect_names(names(b$data(b$rownames, b$colnames)), identical.to = c(new, "..row_id"))
   expect_names(names(b$head()), identical.to = c(new, "..row_id"))
 
   expect_data_table(b$data(rows = b$rownames, cols = old), ncols = 0)
   expect_data_table(b$data(rows = b$rownames, cols = new), ncols = 5)
 
   expect_equal(unname(b1$col_hashes), unname(b$col_hashes))
-
 })
 
 test_that("DataBackendRename / partial rename", {
@@ -32,7 +31,6 @@ test_that("DataBackendRename / partial rename", {
   expect_data_table(b$data(rows = b$rownames, cols = expected), ncols = 6)
 
   expect_equal(unname(b1$col_hashes), unname(b$col_hashes))
-
 })
 
 test_that("nested backends", {
@@ -47,11 +45,9 @@ test_that("nested backends", {
   expect_set_equal(b$rownames, 1:150)
   expect_set_equal(b$colnames, c(b1$colnames, b2$colnames))
 
-
   expect_equal(b$col_hashes, c(b1$col_hashes, b2$col_hashes)[setdiff(b$colnames, b$primary_key)])
 
-  expect_set_equal(b$col_hashes, b1$col_hashes)  # b2 has the same hashes, so cbind should have duplicate hashes.
-
+  expect_set_equal(b$col_hashes, b1$col_hashes) # b2 has the same hashes, so cbind should have duplicate hashes.
 })
 
 test_that("rename does not yield duplicated columns (#701)", {

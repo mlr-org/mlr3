@@ -1,5 +1,8 @@
 #' @include DataBackend.R
-DataBackendRename = R6Class("DataBackendRename", inherit = DataBackend, cloneable = FALSE,
+DataBackendRename = R6Class(
+  "DataBackendRename",
+  inherit = DataBackend,
+  cloneable = FALSE,
   public = list(
     old = NULL,
     new = NULL,
@@ -18,7 +21,6 @@ DataBackendRename = R6Class("DataBackendRename", inherit = DataBackend, cloneabl
       if (self$primary_key %chin% old) {
         error_input("Renaming the primary key is not supported")
       }
-
 
       resulting_names = map_values(b$colnames, old, new)
       dup = anyDuplicated(resulting_names)

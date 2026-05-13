@@ -25,7 +25,8 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureRegrPinball = R6Class("MeasureRegrPinball",
+MeasureRegrPinball = R6Class(
+  "MeasureRegrPinball",
   inherit = MeasureRegr,
   public = list(
     #' @description
@@ -37,15 +38,17 @@ MeasureRegrPinball = R6Class("MeasureRegrPinball",
         id = "regr.pinball",
         param_set = param_set,
         predict_type = "quantiles",
+        properties = "weights",
         minimize = TRUE,
         range = c(-Inf, Inf),
+        label = "Average Pinball Loss",
         man = "mlr3::mlr_measures_regr.pinball"
       )
     }
   ),
 
   private = list(
-    .score = function(prediction, ...) {
+    .score = function(prediction, weights = NULL, ...) {
       alpha = self$param_set$values$alpha
       probs = attr(prediction$data$quantiles, "probs")
       assert_choice(alpha, probs)
@@ -53,7 +56,8 @@ MeasureRegrPinball = R6Class("MeasureRegrPinball",
       mlr3measures::pinball(
         truth = prediction$truth,
         response = prediction$data$quantiles[, which(probs == alpha)],
-        alpha = alpha
+        alpha = alpha,
+        sample_weights = weights
       )
     }
   )

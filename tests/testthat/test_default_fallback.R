@@ -23,10 +23,7 @@ test_that("fallback = default_fallback() works", {
   expect_class(fallback, "LearnerRegrFeatureless")
   expect_equal(fallback$predict_type, "se")
 
-  learner = lrn("regr.debug",
-    predict_type = "quantiles",
-    quantiles = c(0.1, 0.9),
-    quantile_response = 0.1)
+  learner = lrn("regr.debug", predict_type = "quantiles", quantiles = c(0.1, 0.9), quantile_response = 0.1)
   fallback = default_fallback(learner)
 
   expect_class(fallback, "LearnerRegrFeatureless")

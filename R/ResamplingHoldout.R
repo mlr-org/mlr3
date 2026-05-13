@@ -37,7 +37,9 @@
 #'
 #' # Internal storage:
 #' holdout$instance # simple list
-ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
+ResamplingHoldout = R6Class(
+  "ResamplingHoldout",
+  inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -47,13 +49,12 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
       )
       ps$set_values(ratio = 2 / 3)
 
-      super$initialize(id = "holdout", param_set = ps,
-        label = "Holdout", man = "mlr3::mlr_resamplings_holdout")
+      super$initialize(id = "holdout", param_set = ps, label = "Holdout", man = "mlr3::mlr_resamplings_holdout")
     }
   ),
   active = list(
     #' @template field_iters
-    iters = function(rhs)  {
+    iters = function(rhs) {
       assert_ro_binding(rhs)
       1L
     }

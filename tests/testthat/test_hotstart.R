@@ -60,7 +60,7 @@ test_that("learner is trained when target learner has an additional hotstart par
   expect_true(learner$model$id != id)
 })
 
-test_that("learner is trained when target learner has an increased hotstart parameter and additional non-hotstart parameter", {
+test_that("learner is trained when target learner when both hotstart and non-hotstart parameters are increased", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
@@ -74,7 +74,7 @@ test_that("learner is trained when target learner has an increased hotstart para
   expect_true(learner$model$id != id)
 })
 
-test_that("learner is trained when the hotstart parameter of the target and hotstart learner are equal but the non-hotstart parameter is changed", {
+test_that("learner is trained when the hotstart parameter are equal but the non-hotstart parameter is altered", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1, x = 0)
   learner_1$train(task)
@@ -88,7 +88,7 @@ test_that("learner is trained when the hotstart parameter of the target and hots
   expect_true(learner$model$id != id)
 })
 
-test_that("learner is hotstarted when the non-hotstart parameter of the target and hotstart learner are equal but the hotstart parameter is increased", {
+test_that("learner is hotstarted when the non-hotstart parameter are equal but the hotstart parameter is increased", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1, x = 0)
   learner_1$train(task)
@@ -219,21 +219,20 @@ test_that("learners are cloned when hotstarting is applied", {
   resampling$instantiate(task)
 
   design = benchmark_grid(task, learner_1, resampling)
-  bmr  = benchmark(design, store_models = TRUE, allow_hotstart = TRUE)
+  bmr = benchmark(design, store_models = TRUE, allow_hotstart = TRUE)
 
   learner_2 = lrn("classif.debug", iter = 2)
   hot = HotstartStack$new(bmr$resample_result(1)$learners)
   learner_2$hotstart_stack = hot
 
   design = benchmark_grid(task, learner_2, resampling)
-  bmr  = benchmark(design, store_models = TRUE, allow_hotstart = TRUE)
+  bmr = benchmark(design, store_models = TRUE, allow_hotstart = TRUE)
 
   expect_equal(bmr$resample_result(1)$learners[[1]]$param_set$values$iter, 2)
   expect_equal(bmr$resample_result(1)$learners[[1]]$model$iter, 2)
   expect_equal(hot$stack$start_learner[[1]]$param_set$values$iter, 1)
   expect_equal(hot$stack$start_learner[[1]]$model$iter, 1)
-  expect_equal(bmr$resample_result(1)$learners[[1]]$model$id,
-    hot$stack$start_learner[[1]]$model$id)
+  expect_equal(bmr$resample_result(1)$learners[[1]]$model$id, hot$stack$start_learner[[1]]$model$id)
 })
 
 test_that("hotstarting works when col role is set in task", {

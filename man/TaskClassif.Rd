@@ -86,6 +86,7 @@ Stores the negative class for binary classification tasks, and \code{NA} for mul
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-TaskClassif-new}{\code{TaskClassif$new()}}
+\item \href{#method-TaskClassif-print}{\code{TaskClassif$print()}}
 \item \href{#method-TaskClassif-truth}{\code{TaskClassif$truth()}}
 \item \href{#method-TaskClassif-droplevels}{\code{TaskClassif$droplevels()}}
 \item \href{#method-TaskClassif-clone}{\code{TaskClassif$clone()}}
@@ -97,7 +98,6 @@ Stores the negative class for binary classification tasks, and \code{NA} for mul
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="add_strata"><a href='../../mlr3/html/Task.html#method-Task-add_strata'><code>mlr3::Task$add_strata()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href='../../mlr3/html/Task.html#method-Task-cbind'><code>mlr3::Task$cbind()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href='../../mlr3/html/Task.html#method-Task-data'><code>mlr3::Task$data()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="divide"><a href='../../mlr3/html/Task.html#method-Task-divide'><code>mlr3::Task$divide()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href='../../mlr3/html/Task.html#method-Task-filter'><code>mlr3::Task$filter()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format"><a href='../../mlr3/html/Task.html#method-Task-format'><code>mlr3::Task$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="formula"><a href='../../mlr3/html/Task.html#method-Task-formula'><code>mlr3::Task$formula()</code></a></span></li>
@@ -106,7 +106,6 @@ Stores the negative class for binary classification tasks, and \code{NA} for mul
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href='../../mlr3/html/Task.html#method-Task-levels'><code>mlr3::Task$levels()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="materialize_view"><a href='../../mlr3/html/Task.html#method-Task-materialize_view'><code>mlr3::Task$materialize_view()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href='../../mlr3/html/Task.html#method-Task-missings'><code>mlr3::Task$missings()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print"><a href='../../mlr3/html/Task.html#method-Task-print'><code>mlr3::Task$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind"><a href='../../mlr3/html/Task.html#method-Task-rbind'><code>mlr3::Task$rbind()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href='../../mlr3/html/Task.html#method-Task-rename'><code>mlr3::Task$rename()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select"><a href='../../mlr3/html/Task.html#method-Task-select'><code>mlr3::Task$select()</code></a></span></li>
@@ -162,6 +161,23 @@ via \code{\link[=convert_task]{convert_task()}}.}
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TaskClassif-print"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskClassif-print}{}}}
+\subsection{Method \code{print()}}{
+Printer.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskClassif$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskClassif-truth"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskClassif-truth}{}}}
 \subsection{Method \code{truth()}}{
@@ -174,7 +190,7 @@ Defaults to all rows with role \code{"use"}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{(positive \code{integer()})\cr
+\item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
 Vector or row indices.
 Always refers to the complete data set, even after filtering.}
 }
@@ -198,7 +214,7 @@ Also updates the task property \code{"twoclass"}/\code{"multiclass"}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}

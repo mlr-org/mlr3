@@ -173,7 +173,12 @@ auto_convert = function(value, id, type, levels) {
   }
 
   if (class(value)[1L] != type) {
-    error_input("Incompatible types during auto-converting column '%s': failed to convert from class '%s' to class '%s'", id, cl, type)
+    error_input(
+      "Incompatible types during auto-converting column '%s': failed to convert from class '%s' to class '%s'",
+      id,
+      cl,
+      type
+    )
   }
 
   value

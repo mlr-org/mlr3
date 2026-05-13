@@ -1,2 +1,2 @@
-#' @param cols (`character()`)\cr
+#' @param cols (`character()` | `NULL`)\cr
 #'   Vector of column names.

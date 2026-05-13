@@ -10,44 +10,51 @@
 #'
 #' @return [Measure].
 #' @export
-as_measure = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
+# nolint next
+as_measure = function(x, task_type = NULL, clone = FALSE, ...) {
   UseMethod("as_measure")
 }
 
 #' @export
 #' @rdname as_measure
-as_measure.NULL = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
+# nolint next
+as_measure.NULL = function(x, task_type = NULL, clone = FALSE, ...) {
   assert_empty_ellipsis(...)
   default_measures(task_type)[[1L]]
 }
 
 #' @export
 #' @rdname as_measure
-as_measure.Measure = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
+# nolint next
+as_measure.Measure = function(x, task_type = NULL, clone = FALSE, ...) {
   assert_empty_ellipsis(...)
   if (isTRUE(clone)) x$clone() else x
 }
 
 #' @export
 #' @rdname as_measure
-as_measures = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
+# nolint next
+as_measures = function(x, task_type = NULL, clone = FALSE, ...) {
   UseMethod("as_measures")
 }
 
 #' @export
 #' @rdname as_measure
-as_measures.default = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
+# nolint next
+as_measures.default = function(x, task_type = NULL, clone = FALSE, ...) {
   list(as_measure(x, task_type = task_type, clone = clone, ...))
 }
 
 #' @export
 #' @rdname as_measure
-as_measures.NULL = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
+# nolint next
+as_measures.NULL = function(x, task_type = NULL, clone = FALSE, ...) {
   default_measures(task_type)
 }
 
 #' @export
 #' @rdname as_measure
-as_measures.list = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
+# nolint next
+as_measures.list = function(x, task_type = NULL, clone = FALSE, ...) {
   lapply(x, as_measure, task_type = NULL, clone = clone, ...)
 }

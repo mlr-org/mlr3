@@ -1,0 +1,44 @@
+{
+  "version": "0.2",
+  "language": "en-US", // we always use American English
+  // whitelist: disable all file types, then re-enable only what we want
+  "enableFiletypes": ["!*", "markdown", "plaintext", "r", "qmd"],
+  "useGitignore": true, // respect .gitignore (avoids checking generated/ignored files)
+  // additional paths to ignore beyond .gitignore
+  "ignorePaths": [
+    "*.Rd",   // generated roxygen docs
+    "*.rda",  // R binary data
+    "*.Rds",  // R binary data
+    "*.lock", // lockfiles
+    "man/",   // generated man pages
+    "renv/"   // renv library
+  ],
+  // use cspell R-dictionary + project-specific word list
+  "dictionaries": ["r", "project-words"],
+  "dictionaryDefinitions": [
+    {
+      "name": "project-words",
+      // shared word list — commit this file so the whole team benefits
+      "path": "./.cspell/project-words.txt",
+      // enables "Add to project dictionary" command in VS Code / Cursor
+      "addWords": true
+    }
+  ],
+  "languageSettings": [
+    {
+      "languageId": "r",
+      // only spell-check comments in R files, not code identifiers
+      "includeRegExpList": [
+        "/#.*$/gm"
+      ]
+    },
+    {
+      "languageId": "c,cpp",
+      // only spell-check comments in C/C++ files, not code identifiers
+      "includeRegExpList": [
+        "//.*",           // single-line comments: // ...
+        "/\\*[\\s\\S]*?\\*/" // block comments: /* ... */
+      ]
+    }
+  ]
+}

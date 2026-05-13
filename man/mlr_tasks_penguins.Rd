@@ -10,7 +10,8 @@
 \CRANpkg{palmerpenguins}
 }
 \description{
-Classification data to predict the species of penguins from the \CRANpkg{palmerpenguins} package, see \link[palmerpenguins:penguins]{palmerpenguins::penguins}.
+Classification data to predict the species of penguins from the \CRANpkg{palmerpenguins} package,
+see \link[palmerpenguins:penguins]{palmerpenguins::penguins}.
 A better alternative to the \link[=iris]{iris data set}.
 }
 \section{Dictionary}{

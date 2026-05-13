@@ -9,7 +9,8 @@
 #' The cost matrix is stored as slot `$costs`.
 #'
 #' For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
-#' The costs are then summed up (and potentially divided by the number of observations if `normalize` is set to `TRUE` (default)).
+#' The costs are then summed up (and potentially divided by the number of observations
+#' if `normalize` is set to `TRUE` (default)).
 #'
 #' @templateVar id classif.costs
 #' @template measure
@@ -38,7 +39,8 @@
 #' learner = lrn("classif.rpart")
 #' rr = resample(task, learner, rsmp("cv", folds = 3))
 #' rr$aggregate(m)
-MeasureClassifCosts = R6Class("MeasureClassifCosts",
+MeasureClassifCosts = R6Class(
+  "MeasureClassifCosts",
   inherit = MeasureClassif,
   public = list(
     #' @description
@@ -71,6 +73,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
       assert_set_equal(rownames(rhs), colnames(rhs))
       private$.costs = rhs
 
+      self$range = c(-Inf, Inf)
       if (min(rhs) >= 0) {
         self$range[1L] = 0
       }
@@ -85,15 +88,20 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
 
     .score = function(prediction, weights, ...) {
       costs = self$costs
+      if (is.null(costs)) {
+        error_config("Costs matrix must be set before scoring, use `$costs` to set it")
+      }
       lvls = levels(prediction$truth)
       assert_set_equal(lvls, colnames(costs))
 
       if (is.null(weights)) {
         confusion = table(response = prediction$response, truth = prediction$truth, useNA = "ifany")
       } else {
-        confusion = tapply(weights,
+        confusion = tapply(
+          weights,
           list(response = addNA(prediction$response, ifany = TRUE), truth = addNA(prediction$truth, ifany = TRUE)),
-          sum, default = 0
+          sum,
+          default = 0
         )
       }
 

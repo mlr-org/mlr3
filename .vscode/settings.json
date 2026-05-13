@@ -1,0 +1,34 @@
+{
+
+  // ********** settings git / gitlens **********
+
+  // disable "blame hover", to remove visual noise
+ "gitlens.currentLine.enabled": false,
+
+ // ********** settings for cspell *************
+  // show spelling errors as hints (not in problems panel)
+  "cSpell.diagnosticLevel": "Hint",
+  // file type whitelist, useGitignore, and languageSettings live in cspell.json
+
+ // ********** settings for R *************
+
+  // format on save so we dont have to manually format, use AIR for formatting
+  "[r]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "Posit.air-vscode",
+    // disable hover for R, to remove visual noise
+    "editor.hover.enabled": "off"
+  },
+
+  // ********** settings for C / C++ **********
+
+  "[c]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+  },
+  "[cpp]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+  }
+}
+

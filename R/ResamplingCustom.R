@@ -24,13 +24,19 @@
 #'
 #' custom$train_set(1)
 #' custom$test_set(1)
-ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
+ResamplingCustom = R6Class(
+  "ResamplingCustom",
+  inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      super$initialize(id = "custom", duplicated_ids = TRUE,
-        label = "Custom Splits", man = "mlr3::mlr_resamplings_custom")
+      super$initialize(
+        id = "custom",
+        duplicated_ids = TRUE,
+        label = "Custom Splits",
+        man = "mlr3::mlr_resamplings_custom"
+      )
     },
 
     #' @description
@@ -48,6 +54,7 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
     #'   Must have the same length as `train_sets`.
     instantiate = function(task, train_sets, test_sets) {
       task = assert_task(as_task(task))
+      private$.hash = NULL
       assert_list(train_sets, types = "atomicvector", any.missing = FALSE)
       assert_list(test_sets, types = "atomicvector", len = length(train_sets), any.missing = FALSE, null.ok = TRUE)
       assert_subset(unlist(train_sets, use.names = FALSE), task$row_ids)

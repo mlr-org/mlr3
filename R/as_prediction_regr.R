@@ -35,14 +35,16 @@ as_prediction_regr = function(x, ...) {
 
 #' @rdname as_prediction_regr
 #' @export
-as_prediction_regr.PredictionRegr = function(x, ...) { # nolint
+# nolint next
+as_prediction_regr.PredictionRegr = function(x, ...) {
   x
 }
 
 
 #' @rdname as_prediction_regr
 #' @export
-as_prediction_regr.data.frame = function(x, ...) { # nolint
+# nolint next
+as_prediction_regr.data.frame = function(x, ...) {
   assert_names(names(x), must.include = c("row_ids", "truth", "response"))
   assert_names(names(x), subset.of = c("row_ids", "truth", "response", "se", "weights"))
   invoke(PredictionRegr$new, .args = x)

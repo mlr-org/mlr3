@@ -15,6 +15,11 @@ test_that("Target is numeric", {
   expect_error(TaskRegr$new("iris", backend = b, target = "Species"), "Target column")
 })
 
+test_that("TaskRegr rejects NAs in target", {
+  dt = data.table::data.table(x = 1:10, y = c(NA_real_, 2:10))
+  expect_message(as_task_regr(dt, target = "y"), "contains missing")
+})
+
 test_that("TaskRegr: 0 feature task", {
   b = as_data_backend(data.table(y = runif(20)))
   task = TaskRegr$new(id = "zero_feat_task", b, target = "y")
@@ -59,9 +64,12 @@ test_that("offset column role works", {
   expect_data_table(task$offset, nrows = task$nrow, ncols = 2)
   expect_subset(c("row_id", "offset"), names(task$offset))
 
-  expect_error({
-    task$col_roles$offset = c("am", "gear")
-  }, "up to one")
+  expect_error(
+    {
+      task$col_roles$offset = c("am", "gear")
+    },
+    "up to one"
+  )
 
   task$col_roles$offset = character()
   expect_true("offset" %nin% task$properties)

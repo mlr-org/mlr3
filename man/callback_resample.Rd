@@ -43,12 +43,14 @@ Called in \code{workhorse()} (internal).}
 }
 \description{
 Function to create a \link{CallbackResample}.
-Predefined callbacks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_callbacks} and can be retrieved with \code{\link[=clbk]{clbk()}}.
+Predefined callbacks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_callbacks}
+and can be retrieved with \code{\link[=clbk]{clbk()}}.
 
 Evaluation callbacks are called at different stages of the resampling process.
 Each stage is called once per resampling iteration.
 The stages are prefixed with \verb{on_resample_*}.
-The text in brackets indicates what happens between the stages in the internal \code{workhorse()} function and which accesses to the \link{ContextResample} (\code{ctx}) are typical for the stage.
+The text in brackets indicates what happens between the stages in the internal \code{workhorse()} function
+and which accesses to the \link{ContextResample} (\code{ctx}) are typical for the stage.
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{Start Resampling Iteration on Worker
  - on_resample_begin

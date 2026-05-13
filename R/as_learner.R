@@ -7,7 +7,8 @@
 #'
 #' @return [Learner].
 #' @export
-as_learner = function(x, ...) { # nolint
+# nolint next
+as_learner = function(x, ...) {
   UseMethod("as_learner")
 }
 
@@ -15,7 +16,8 @@ as_learner = function(x, ...) { # nolint
 #' @param discard_state (`logical(1)`)
 #'   Whether to discard the state.
 #' @rdname as_learner
-as_learner.Learner = function(x, clone = FALSE, discard_state = FALSE, ...) { # nolint
+# nolint next
+as_learner.Learner = function(x, clone = FALSE, discard_state = FALSE, ...) {
   assert_empty_ellipsis(...)
   if (isTRUE(clone) && isTRUE(discard_state)) {
     clone_without(x, "state")
@@ -31,18 +33,21 @@ as_learner.Learner = function(x, clone = FALSE, discard_state = FALSE, ...) { # 
 
 #' @export
 #' @rdname as_learner
-as_learners = function(x, ...) { # nolint
+# nolint next
+as_learners = function(x, ...) {
   UseMethod("as_learners")
 }
 
 #' @export
 #' @rdname as_learner
-as_learners.default = function(x, ...) { # nolint
+# nolint next
+as_learners.default = function(x, ...) {
   list(as_learner(x, ...))
 }
 
 #' @export
 #' @rdname as_learner
-as_learners.list = function(x, ...) { # nolint
+# nolint next
+as_learners.list = function(x, ...) {
   lapply(x, as_learner, ...)
 }

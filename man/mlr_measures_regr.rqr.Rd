@@ -9,7 +9,8 @@ Measure to compare true observed response with predicted quantiles in regression
 }
 \details{
 \eqn{R^1(\alpha)} is defined as \deqn{
-  1 - \frac{\sum_{i=1}^n \rho_\alpha \left( t_i - r_i(\alpha) \right)}{\sum_{i=1}^n \rho_\alpha \left( t_i - q_{\alpha} \right)},
+  1 - \frac{\sum_{i=1}^n \rho_\alpha \left( t_i - r_i(\alpha) \right)}{
+    \sum_{i=1}^n \rho_\alpha \left( t_i - q_{\alpha} \right)},
 }{
   1 - sum(pinball(t - r(alpha))) / sum(pinball(t - quantile(t, alpha))),
 }
@@ -88,13 +89,22 @@ Other Measure:
 }
 \concept{Measure}
 \section{Super classes}{
-\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3:MeasureRegr]{mlr3::MeasureRegr}} -> \code{MeasureRQR}
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3:MeasureRegr]{mlr3::MeasureRegr}} -> \code{MeasureRegrRQR}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{pred_set_mean}}{(\code{logical(1)})\cr
+Whether the empirical quantile is calculated on the prediction set.
+Set during construction.}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-MeasureRQR-new}{\code{MeasureRegrRQR$new()}}
-\item \href{#method-MeasureRQR-clone}{\code{MeasureRegrRQR$clone()}}
+\item \href{#method-MeasureRegrRQR-new}{\code{MeasureRegrRQR$new()}}
+\item \href{#method-MeasureRegrRQR-clone}{\code{MeasureRegrRQR$clone()}}
 }
 }
 \if{html}{\out{
@@ -110,8 +120,8 @@ Other Measure:
 </details>
 }}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MeasureRQR-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MeasureRQR-new}{}}}
+\if{html}{\out{<a id="method-MeasureRegrRQR-new"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureRegrRQR-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -133,8 +143,8 @@ If \code{FALSE}, the mean of the true values is calculated on the training set.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MeasureRQR-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-MeasureRQR-clone}{}}}
+\if{html}{\out{<a id="method-MeasureRegrRQR-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureRegrRQR-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

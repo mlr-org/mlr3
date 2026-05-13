@@ -12,7 +12,8 @@ as_task_unsupervised = function(x, ...) {
 
 #' @rdname as_task_unsupervised
 #' @export
-as_task_unsupervised.Task = function(x, clone = FALSE, ...) { # nolint
+# nolint next
+as_task_unsupervised.Task = function(x, clone = FALSE, ...) {
   if (clone) x$clone() else x
 }
 
@@ -22,7 +23,8 @@ as_task_unsupervised.Task = function(x, clone = FALSE, ...) { # nolint
 #'   Defaults to the (deparsed and substituted) name of the data argument.
 #' @template param_label
 #' @export
-as_task_unsupervised.data.frame = function(x, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+# nolint next
+as_task_unsupervised.data.frame = function(x, id = deparse1(substitute(x)), label = NA_character_, ...) {
   force(id)
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
@@ -35,7 +37,8 @@ as_task_unsupervised.data.frame = function(x, id = deparse1(substitute(x)), labe
 
 #' @rdname as_task_unsupervised
 #' @export
-as_task_unsupervised.DataBackend = function(x, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+# nolint next
+as_task_unsupervised.DataBackend = function(x, id = deparse1(substitute(x)), label = NA_character_, ...) {
   force(id)
 
   TaskUnsupervised$new(id = id, backend = x, label = label)
@@ -51,12 +54,14 @@ as_tasks_unsupervised = function(x, ...) {
 #' @param clone (`logical(1)`)\cr
 #'   If `TRUE`, ensures that the returned object is not the same as the input `x`.
 #' @export
-as_tasks_unsupervised.list = function(x, clone = FALSE, ...) { # nolint
+# nolint next
+as_tasks_unsupervised.list = function(x, clone = FALSE, ...) {
   lapply(x, as_task, clone = clone, ...)
 }
 
 #' @rdname as_task_unsupervised
 #' @export
-as_tasks_unsupervised.Task = function(x, clone = FALSE, ...) { # nolint
+# nolint next
+as_tasks_unsupervised.Task = function(x, clone = FALSE, ...) {
   list(if (clone) x$clone() else x)
 }

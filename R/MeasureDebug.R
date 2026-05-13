@@ -20,7 +20,8 @@
 #' measure = msr("debug_classif", na_ratio = 0.5)
 #' rr = resample(task, learner, rsmp("cv", folds = 5))
 #' rr$score(measure)
-MeasureDebugClassif = R6Class("MeasureDebugClassif",
+MeasureDebugClassif = R6Class(
+  "MeasureDebugClassif",
   inherit = Measure,
   public = list(
     #' @description

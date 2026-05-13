@@ -6,7 +6,6 @@
       
       -- <TaskClassif> (4601x58): HP Spam Detection ----------------------------------
       * Target: type
-      * Target classes: spam (positive class, 39%), nonspam (61%)
       * Properties: twoclass
       * Features (57):
         * dbl (57): address, addresses, all, business, capitalAve, capitalLong,
@@ -17,4 +16,5 @@
         original, our, over, parts, people, pm, project, re, receive, remove, report,
         table, technology, telnet, will, you, your
       * Characteristics: foo=1, bar=a
+      * Target classes: spam (positive class, 39%), nonspam (61%)
 

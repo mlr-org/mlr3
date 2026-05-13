@@ -38,7 +38,8 @@ In case of ties in the ratio, one of the tied class labels is selected randomly.
 Note that there are the following edge cases for threshold equal to \code{0} which are handled specially:
 \enumerate{
 \item With threshold 0 the resulting ratio gets \code{Inf} and thus gets always selected.
-If there are multiple ratios with value \code{Inf}, one is selected according to \code{ties_method} (randomly per default).
+If there are multiple ratios with value \code{Inf}, one is selected according to \code{ties_method}
+(randomly per default).
 \item If additionally the predicted probability is also 0, the ratio \code{0/0} results in \code{NaN} values.
 These are simply replaced by \code{0} and thus will never get selected.
 }
@@ -133,7 +134,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   prob = NULL,
   weights = NULL,
   check = TRUE,
-  extra = NULL
+  extra = NULL,
+  raw = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -171,6 +173,9 @@ If \code{TRUE}, performs some argument checks and predict type conversions.}
 
 \item{\code{extra}}{(\code{list()})\cr
 List of extra data to be stored in the prediction object.}
+
+\item{\code{raw}}{(any)\cr
+Raw prediction object from the upstream model. Stored as-is without validation.}
 }
 \if{html}{\out{</div>}}
 }
@@ -198,7 +203,7 @@ tied probabilities.}
 }
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 }

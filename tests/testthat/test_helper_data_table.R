@@ -105,4 +105,3 @@ test_that("fget_keys on non-unique key column", {
   res = fget_keys(tab, i = c("k0001", "k0002"), j = "val", key = "key_col")
   expect_equal(res, c(1L, 2L))
 })
-

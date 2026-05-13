@@ -16,6 +16,7 @@ test_that("average with micro/macro", {
   learner = lrn("classif.featureless")
   macro = msr("classif.fbeta", id = "macro")
   micro = msr("classif.fbeta", id = "micro", average = "micro")
+  # nolint next
   with_seed(123, {
     rs = rsmp("cv", folds = 5)
     rr = resample(task, learner, rs)
@@ -37,6 +38,7 @@ test_that("k is hashed in AIC", {
 })
 
 test_that("can set beta for fbeta during construction", {
+  # nolint next
   # https://stackoverflow.com/questions/66883242/how-to-change-beta-value-when-using-classif-fbeta-as-a-performance-measure-in
 
   task = tsk("sonar")
@@ -141,15 +143,15 @@ test_that("scoring fails when measure requires_model, but model is in marshaled 
   learner = lrn("classif.debug")
   pred = learner$train(task)$predict(task)
   learner$marshal()
-  expect_error(measure$score(pred, learner = learner, task = task),
-    regexp = "model is in marshaled")
+  expect_error(measure$score(pred, learner = learner, task = task), regexp = "model is in marshaled")
 })
 
 test_that("measure weights", {
   learner = lrn("classif.featureless", predict_type = "prob")
   learner$train(tsk("iris"), row_ids = 1)
   prediction_no_weights = learner$predict(tsk("iris"), row_ids = c(1, 150))
-  prediction_learner_weights = learner$predict(iris_weights_learner, row_ids = c(1, 150))  # should behave the same as no weights
+  # should behave the same as no weights
+  prediction_learner_weights = learner$predict(iris_weights_learner, row_ids = c(1, 150))
   prediction_measure_weights = learner$predict(iris_weights_measure, row_ids = c(1, 150))
 
   m = msr("classif.acc", use_weights = "use")
@@ -162,7 +164,6 @@ test_that("measure weights", {
   expect_equal(m$score(prediction_learner_weights), 0.5)
   expect_equal(prediction_measure_weights$score(m), c(classif.acc = 1 / 101))
   expect_equal(m$score(prediction_measure_weights), 1 / 101)
-
 
   m$use_weights = "ignore"
   expect_equal(prediction_no_weights$score(m), c(classif.acc = 0.5))
@@ -178,7 +179,8 @@ test_that("measure weights", {
 
   mauc = msr("classif.mauc_au1p")
   prediction_no_weights = learner$predict(tsk("iris"), row_ids = c(1, 2, 51, 52, 101, 102))
-  prediction_learner_weights = learner$predict(iris_weights_learner, row_ids = c(1, 2, 51, 52, 101, 102))  # should behave the same as no weights
+  # should behave the same as no weights
+  prediction_learner_weights = learner$predict(iris_weights_learner, row_ids = c(1, 2, 51, 52, 101, 102))
   prediction_measure_weights = learner$predict(iris_weights_measure, row_ids = c(1, 2, 51, 52, 101, 102))
 
   expect_equal(prediction_no_weights$score(mauc), c(classif.mauc_au1p = 0.5))
@@ -189,10 +191,16 @@ test_that("measure weights", {
   mauc$use_weights = "ignore"
   expect_equal(prediction_measure_weights$score(mauc), c(classif.mauc_au1p = 0.5))
   expect_equal(mauc$score(prediction_measure_weights), 0.5)
-  expect_error({mauc$use_weights = "use"}, "Must be element of set")
+  expect_error(
+    {
+      mauc$use_weights = "use"
+    },
+    "Must be element of set"
+  )
 
   # evaluating resampling with weights
-  resampling = rsmp("custom")$instantiate(tsk("iris"),
+  resampling = rsmp("custom")$instantiate(
+    tsk("iris"),
     train_sets = list(1, 1),
     test_sets = list(c(1, 2, 51, 52, 101, 102), c(1:3, 51:53, 101:102))
   )
@@ -223,7 +231,10 @@ test_that("measure weights", {
   mauc$use_weights = "error"
   expect_equal(rr_no_weights$score(mauc)$classif.mauc_au1p, c(1, 1) / 2)
   expect_equal(rr_learner_weights$score(mauc)$classif.mauc_au1p, c(1, 1) / 2)
-  expect_error(rr_measure_weights$score(mauc), "cannot be evaluated with weights in\n  .*Task.*since the Measure does not support\n  weights")
+  expect_error(
+    rr_measure_weights$score(mauc),
+    "cannot be evaluated with weights in\n  .*Task.*since the Measure does not support\n  weights"
+  )
 
   # aggregating resampling with weights
   m$use_weights = "use"
@@ -255,8 +266,14 @@ test_that("measure weights", {
   mauc$use_weights = "error"
   expect_equal(rr_no_weights$aggregate(mauc), c(classif.mauc_au1p = 0.5))
   expect_equal(rr_learner_weights$aggregate(mauc), c(classif.mauc_au1p = 0.5))
-  expect_error(rr_measure_weights$aggregate(mauc), "cannot be evaluated with weights in\n  .*Task.*since the Measure does not support\n  weights")
-  expect_error(mauc$aggregate(rr_measure_weights), "cannot be evaluated with weights in\n  .*Task.*since the Measure does not support\n  weights")
+  expect_error(
+    rr_measure_weights$aggregate(mauc),
+    "cannot be evaluated with weights in\n  .*Task.*since the Measure does not support\n  weights"
+  )
+  expect_error(
+    mauc$aggregate(rr_measure_weights),
+    "cannot be evaluated with weights in\n  .*Task.*since the Measure does not support\n  weights"
+  )
 
   m$use_weights = "use"
   m$average = "macro_weighted"
@@ -270,9 +287,8 @@ test_that("measure weights", {
   m$use_weights = "ignore"
   expect_equal(rr_no_weights$aggregate(m), c(classif.acc = 5 / 14))
   expect_equal(rr_learner_weights$aggregate(m), c(classif.acc = 5 / 14))
-  expect_equal(rr_measure_weights$aggregate(m), c(classif.acc = 5 / 14))  # weighs by number of samples
+  expect_equal(rr_measure_weights$aggregate(m), c(classif.acc = 5 / 14)) # weighs by number of samples
   expect_equal(m$aggregate(rr_measure_weights), c(classif.acc = 5 / 14))
-
 })
 
 test_that("primary iters are respected", {
@@ -310,8 +326,18 @@ test_that("no predict_sets required (#1094)", {
 
 test_that("checks on predict_sets", {
   m = msr("classif.ce")
-  expect_error({m$predict_sets = NULL}, "Must be a subset")
-  expect_error({m$predict_sets = "imaginary"}, "Must be a subset")
+  expect_error(
+    {
+      m$predict_sets = NULL
+    },
+    "Must be a subset"
+  )
+  expect_error(
+    {
+      m$predict_sets = "imaginary"
+    },
+    "Must be a subset"
+  )
 })
 
 test_that("measure and prediction type is checked", {
@@ -325,7 +351,8 @@ test_that("measure and prediction type is checked", {
 })
 
 test_that("obs_loss works", {
-  MeasureTest = R6Class("MeasureTest",
+  MeasureTest = R6Class(
+    "MeasureTest",
     inherit = Measure,
     public = list(
       initialize = function() {
@@ -352,4 +379,3 @@ test_that("obs_loss works", {
   obs_loss = measure$obs_loss(pred)
   expect_numeric(obs_loss, len = task$nrow, any.missing = FALSE)
 })
-

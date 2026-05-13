@@ -33,13 +33,15 @@ set_threads = function(x, n = availableCores(), ...) {
 
 #' @rdname set_threads
 #' @export
-set_threads.default = function(x, n = availableCores(), ...) { # nolint
+# nolint next
+set_threads.default = function(x, n = availableCores(), ...) {
   x
 }
 
 #' @rdname set_threads
 #' @export
-set_threads.R6 = function(x, n = availableCores(), ...) { # nolint
+# nolint next
+set_threads.R6 = function(x, n = availableCores(), ...) {
   if (exists("param_set", envir = x)) {
     id = x$param_set$ids(tags = "threads")
     if (length(id)) {
@@ -51,6 +53,7 @@ set_threads.R6 = function(x, n = availableCores(), ...) { # nolint
 
 #' @rdname set_threads
 #' @export
-set_threads.list = function(x, n = availableCores(), ...) { # nolint
+# nolint next
+set_threads.list = function(x, n = availableCores(), ...) {
   lapply(x, set_threads, n = n)
 }

@@ -16,7 +16,8 @@ Stefan Aeberhard, email: stefan@coral.cs.jcu.edu.au
 }
 \description{
 Wine data set from the UCI machine learning repository (\url{http://archive.ics.uci.edu/dataset/109/wine}).
-Results of a chemical analysis of three types of wines grown in the same region in Italy but derived from three different cultivars.
+Results of a chemical analysis of three types of wines grown in the same region in Italy
+but derived from three different cultivars.
 }
 \section{Dictionary}{
 

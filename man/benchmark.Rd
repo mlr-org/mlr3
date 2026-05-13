@@ -65,7 +65,7 @@ Whether to unmarshal learners that were marshaled during the execution.
 If \code{TRUE} all models are stored in unmarshaled form.
 If \code{FALSE}, all learners (that need marshaling) are stored in marshaled form.}
 
-\item{callbacks}{(List of \link[mlr3misc:Callback]{mlr3misc::Callback})\cr
+\item{callbacks}{(list of \link[mlr3misc:Callback]{mlr3misc::Callback} | \code{NULL})\cr
 Callbacks to be executed during the resampling process.
 See \link{CallbackResample} and \link{ContextResample} for details.}
 }
@@ -73,7 +73,8 @@ See \link{CallbackResample} and \link{ContextResample} for details.}
 \link{BenchmarkResult}.
 }
 \description{
-Runs a benchmark on arbitrary combinations of tasks (\link{Task}), learners (\link{Learner}), and resampling strategies (\link{Resampling}), possibly in parallel.
+Runs a benchmark on arbitrary combinations of tasks (\link{Task}), learners (\link{Learner}),
+and resampling strategies (\link{Resampling}), possibly in parallel.
 
 For large-scale benchmarking we recommend to use the \CRANpkg{mlr3batchmark} package.
 This package runs benchmark experiments on high-performance computing clusters and handles failed experiments.
@@ -145,6 +146,11 @@ or \code{"trace"}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{lgr::get_logger("mlr3")$set_threshold("debug")
 }\if{html}{\out{</div>}}
+
+To obtain a more informative traceback when an iteration fails, set
+\code{options(mlr3.debug = TRUE)}. This disables parallelization via \CRANpkg{future}
+so that errors are raised in the main process.
+Note that results computed in debug mode use a different seeding mechanism and are \strong{not reproducible}.
 
 To log to a file or a data base, see the documentation of \link[lgr:lgr-package]{lgr::lgr-package}.
 }

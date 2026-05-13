@@ -5,7 +5,8 @@
 #' This is a S3 generic. mlr3 ships with methods for the following objects:
 #'
 #' 1. [TaskClassif]: returns the object as-is, possibly cloned.
-#' 2. [`formula`], [data.frame()], [matrix()], and [DataBackend]: provides an alternative to the constructor of [TaskClassif].
+#' 2. [`formula`], [data.frame()], [matrix()], and [DataBackend]: provides an alternative to the
+#'    constructor of [TaskClassif].
 #' 3. [TaskRegr]: Calls [convert_task()].
 #'
 #' Note that the target column will be converted to a `factor()`, if possible.
@@ -22,7 +23,8 @@ as_task_classif = function(x, ...) {
 
 #' @rdname as_task_classif
 #' @export
-as_task_classif.TaskClassif = function(x, clone = FALSE, ...) { # nolint
+# nolint next
+as_task_classif.TaskClassif = function(x, clone = FALSE, ...) {
   if (clone) x$clone() else x
 }
 
@@ -35,7 +37,15 @@ as_task_classif.TaskClassif = function(x, clone = FALSE, ...) { # nolint
 #'   Level of the positive class. See [TaskClassif].
 #' @template param_label
 #' @export
-as_task_classif.data.frame = function(x, target, id = deparse1(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
+# nolint next
+as_task_classif.data.frame = function(
+  x,
+  target,
+  id = deparse1(substitute(x)),
+  positive = NULL,
+  label = NA_character_,
+  ...
+) {
   force(id)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
@@ -44,6 +54,11 @@ as_task_classif.data.frame = function(x, target, id = deparse1(substitute(x)), p
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
     warning_input("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
+  }
+
+  if (anyMissing(x[[target]])) {
+    messagef("Target column '%s' contains missing values. This will be an error in the future.", target)
+    # error_input("Target column '%s' must not contain missing values", target)
   }
 
   y = x[[target]]
@@ -56,7 +71,8 @@ as_task_classif.data.frame = function(x, target, id = deparse1(substitute(x)), p
 
 #' @rdname as_task_classif
 #' @export
-as_task_classif.matrix = function(x, target, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+# nolint next
+as_task_classif.matrix = function(x, target, id = deparse1(substitute(x)), label = NA_character_, ...) {
   force(id)
 
   assert_matrix(x, col.names = "unique", min.rows = 1L, min.cols = 1L)
@@ -67,7 +83,15 @@ as_task_classif.matrix = function(x, target, id = deparse1(substitute(x)), label
 
 #' @rdname as_task_classif
 #' @export
-as_task_classif.DataBackend = function(x, target, id = deparse1(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
+# nolint next
+as_task_classif.DataBackend = function(
+  x,
+  target,
+  id = deparse1(substitute(x)),
+  positive = NULL,
+  label = NA_character_,
+  ...
+) {
   force(id)
 
   assert_choice(target, x$colnames)
@@ -78,7 +102,8 @@ as_task_classif.DataBackend = function(x, target, id = deparse1(substitute(x)), 
 #' @rdname as_task_classif
 #' @inheritParams convert_task
 #' @export
-as_task_classif.TaskRegr = function(x, target, drop_original_target = FALSE, drop_levels = TRUE, ...) { # nolint
+# nolint next
+as_task_classif.TaskRegr = function(x, target, drop_original_target = FALSE, drop_levels = TRUE, ...) {
   convert_task(intask = x, target = target, new_type = "classif", drop_original_target = FALSE, drop_levels = TRUE)
 }
 
@@ -86,7 +111,15 @@ as_task_classif.TaskRegr = function(x, target, drop_original_target = FALSE, dro
 #' @param data (`data.frame()`)\cr
 #'   Data frame containing all columns referenced in formula `x`.
 #' @export
-as_task_classif.formula = function(x, data, id = deparse1(substitute(data)), positive = NULL, label = NA_character_, ...) { # nolint
+# nolint next
+as_task_classif.formula = function(
+  x,
+  data,
+  id = deparse1(substitute(data)),
+  positive = NULL,
+  label = NA_character_,
+  ...
+) {
   force(id)
 
   assert_data_frame(data)

@@ -22,13 +22,15 @@ Predefined measures are stored in the \link[mlr3misc:Dictionary]{dictionary} \li
 e.g. \code{\link[=mlr_measures_classif.auc]{classif.auc}} or \code{\link[=mlr_measures_time_train]{time_train}}.
 Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as ordinary functions.
 
-A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
+A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
+\href{https://mlr3book.mlr-org.com}{mlr3book}.
 }
 \section{Inheriting}{
 
 For some measures (such as confidence intervals from \code{mlr3inferr}) it is necessary that a measure
 returns more than one value.
-In such cases it is necessary to overwrite the public methods \verb{$aggregate()} and/or \verb{$score()} to return a named \code{numeric()}
+In such cases it is necessary to overwrite the public methods \verb{$aggregate()} and/or \verb{$score()}
+to return a named \code{numeric()}
 where at least one of its names corresponds to the \code{id} of the measure itself.
 }
 
@@ -36,31 +38,40 @@ where at least one of its names corresponds to the \code{id} of the measure itse
 
 
 Many measures support observation weights, indicated by their property \code{"weights"}.
-The weights are stored in the \link{Task} where the column role \code{weights_measure} needs to be assigned to a single numeric column.
-The weights are automatically used if found in the task, this can be disabled by setting the field \code{use_weights} to \code{"ignore"}.
+The weights are stored in the \link{Task} where the column role \code{weights_measure} needs to be assigned
+to a single numeric column.
+The weights are automatically used if found in the task,
+this can be disabled by setting the field \code{use_weights} to \code{"ignore"}.
 See the description of \code{use_weights} for more information.
 
-If the measure is set-up to use weights but the task does not have a designated \code{weights_measure} column, an unweighted version is calculated instead.
+If the measure is set-up to use weights but the task does not have a designated \code{weights_measure} column,
+an unweighted version is calculated instead.
 The weights do not necessarily need to sum up to 1, they are normalized by the measure if necessary.
 
-Most measures are so-called decomposable loss functions where a point-wise loss is computed and then either mean-aggregated or summed
-over the test set.
-For measures that do mean-aggregation, weights are typically used to compute the weighted mean, which normalizes weights to sum to 1.
-Measures that use sum-aggregation do not normalize weights and instead multiply individual losses with the given weights.
+Most measures are so-called decomposable loss functions where a point-wise loss is computed
+and then either mean-aggregated or summed over the test set.
+For measures that do mean-aggregation, weights are typically used to compute the weighted mean,
+which normalizes weights to sum to 1.
+Measures that use sum-aggregation do not normalize weights and instead multiply individual losses
+with the given weights.
 See the documentation of specific measures for more details.
 }
 
 \section{Missing Values during Scoring}{
 
 
-Many measurements cannot be calculated if the test set or predictions are unfortunate, for example because a denominator is 0.
+Many measurements cannot be calculated if the test set or predictions are unfortunate,
+for example because a denominator is 0.
 This typically occurs during (binary) classification if some entries of the confusion matrix are 0.
-For this reason, many measures which origin in \CRANpkg{mlr3measures} allow to change the default missing value (\code{NaN}) via the field \code{na_value}.
+For this reason, many measures which originate in \CRANpkg{mlr3measures} allow to change the
+default missing value (\code{NaN}) via the field \code{na_value}.
 
-If you encounter missing values in a compound object like a \link{ResampleResult} or \link{BenchmarkResult} during scoring or aggregating, simply
-removing iterations with missing values is statistically arguable (but technically possible by prividng a custom aggregation function
-which handles missing values, e.g. \code{function(x) mean(x, na.rm = TRUE)}). Instead, consider stratification on the target of the \link{Task}
-to work around missing values. Switching to micro averaging in the \link{Resampling} can also be a solution here.
+If you encounter missing values in a compound object like a \link{ResampleResult} or \link{BenchmarkResult}
+during scoring or aggregating, simply removing iterations with missing values is statistically
+arguable (but technically possible by providing a custom aggregation function which handles
+missing values, e.g. \code{function(x) mean(x, na.rm = TRUE)}).
+Instead, consider stratification on the target of the \link{Task} to work around missing values.
+Switching to micro averaging in the \link{Resampling} can also be a solution here.
 }
 
 \examples{
@@ -125,66 +136,6 @@ Other Measure:
 \code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{id}}{(\code{character(1)})\cr
-Identifier of the object.
-Used in tables, plot and text output.}
-
-\item{\code{label}}{(\code{character(1)})\cr
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.}
-
-\item{\code{task_type}}{(\code{character(1)})\cr
-Task type, e.g. \code{"classif"} or \code{"regr"}.
-
-For a complete list of possible task types (depending on the loaded packages),
-see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
-
-\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
-Set of hyperparameters.}
-
-\item{\code{trafo}}{(\code{list()} | \code{NULL})
-\code{NULL} or a list with two elements:
-\itemize{
-\item \code{trafo}: the transformation function applied after aggregating
-observation-wise losses (e.g. \code{sqrt} for RMSE)
-\item \code{deriv}: The derivative of the \code{trafo}.
-}}
-
-\item{\code{predict_type}}{(\code{character(1)})\cr
-Required predict type of the \link{Learner}.}
-
-\item{\code{check_prerequisites}}{(\code{character(1)})\cr
-How to proceed if one of the following prerequisites is not met:
-\itemize{
-\item wrong predict type (e.g., probabilities required, but only labels available).
-\item wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
-\item task properties not satisfied (e.g., binary classification measure on multiclass task).
-}
-
-Possible values are \code{"ignore"} (just return \code{NaN}) and \code{"warn"} (default, raise a warning before returning \code{NaN}).}
-
-\item{\code{task_properties}}{(\code{character()})\cr
-Required properties of the \link{Task}.}
-
-\item{\code{range}}{(\code{numeric(2)})\cr
-Lower and upper bound of possible performance scores.}
-
-\item{\code{minimize}}{(\code{logical(1)})\cr
-If \code{TRUE}, good predictions correspond to small values of performance scores.}
-
-\item{\code{packages}}{(\code{character(1)})\cr
-Set of required packages.
-These packages are loaded, but not attached.}
-
-\item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}, but can be set by child classes.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -201,7 +152,8 @@ to operate on specific subsets of the calculated prediction sets.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.
-The hash is calculated based on the id, the parameter settings, predict sets and the \verb{$score}, \verb{$average}, \verb{$aggregator}, \verb{$obs_loss}, \verb{$trafo} method.
+The hash is calculated based on the id, the parameter settings, predict sets and the \verb{$score},
+\verb{$average}, \verb{$aggregator}, \verb{$obs_loss}, \verb{$trafo} method.
 Measure can define additional fields to be included in the hash by setting the field \verb{$.extra_hash}.}
 
 \item{\code{properties}}{(\code{character()})\cr
@@ -242,8 +194,66 @@ Settings are \code{"use"}, \code{"ignore"}, and \code{"error"}.
 For measures with the property \code{"weights"}, this is initialized as \code{"use"}.
 For measures with the property \code{"requires_no_prediction"}, this is initialized as \code{"ignore"}.
 For measures that have neither of the properties, this is initialized as \code{"error"}.
-The latter behavior is to avoid cases where a user erroneously assumes that a measure supports weights when it does not.
-For measures that do not support weights, \code{use_weights} needs to be set to \code{"ignore"} if tasks with weights should be handled (by dropping the weights).}
+The latter behavior is to avoid cases where a user erroneously assumes that a measure
+supports weights when it does not.
+For measures that do not support weights,
+\code{use_weights} needs to be set to \code{"ignore"} if tasks with weights should be handled (by dropping the weights).}
+
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier of the object.
+Used in tables, plot and text output.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.}
+
+\item{\code{task_type}}{(\code{character(1)})\cr
+Task type, e.g. \code{"classif"} or \code{"regr"}.
+
+For a complete list of possible task types (depending on the loaded packages),
+see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
+
+\item{\code{predict_type}}{(\code{character(1)})\cr
+Required predict type of the \link{Learner}.}
+
+\item{\code{check_prerequisites}}{(\code{character(1)})\cr
+How to proceed if one of the following prerequisites is not met:
+\itemize{
+\item wrong predict type (e.g., probabilities required, but only labels available).
+\item wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
+\item task properties not satisfied (e.g., binary classification measure on multiclass task).
+}
+
+Possible values are \code{"ignore"} (just return \code{NaN}) and \code{"warn"} (default,
+raise a warning before returning \code{NaN}).}
+
+\item{\code{task_properties}}{(\code{character()})\cr
+Required properties of the \link{Task}.}
+
+\item{\code{range}}{(\code{numeric(2)})\cr
+Lower and upper bound of possible performance scores.}
+
+\item{\code{minimize}}{(\code{logical(1)})\cr
+If \code{TRUE}, good predictions correspond to small values of performance scores.}
+
+\item{\code{packages}}{(\code{character(1)})\cr
+Set of required packages.
+These packages are loaded, but not attached.}
+
+\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+Defaults to \code{NA}, but can be set by child classes.}
+
+\item{\code{trafo}}{(\code{list()} | \code{NULL})\cr
+\code{NULL} or a list with two elements:
+\itemize{
+\item \code{fn}: the transformation function applied after aggregating
+observation-wise losses (e.g. \code{sqrt} for RMSE)
+\item \code{deriv}: The derivative of the \code{fn}.
+}}
 }
 \if{html}{\out{</div>}}
 }
@@ -324,7 +334,7 @@ numbers of samples.
 If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
 The function in \verb{$aggregator} is not used in this case.}
 
-\item{\code{aggregator}}{(\verb{function()})\cr
+\item{\code{aggregator}}{(\verb{function()} | \code{NULL})\cr
 Function to aggregate over multiple iterations. The role of this function depends on
 the value of field \code{"average"}:
 \itemize{
@@ -347,8 +357,10 @@ Supported by \code{mlr3}:
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}),
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}),
 \item \code{"weights"} (support weighted scoring using sample weights from task, column role \code{weights_measure}), and
-\item \code{"primary_iters"} (the measure explictly handles resamplings that only use a subset of their iterations for the point estimate)
-\item \code{"requires_no_prediction"} (No prediction is required; This usually means that the measure extracts some information from the learner state.).
+\item \code{"primary_iters"} (the measure explicitly handles resamplings
+that only use a subset of their iterations for the point estimate)
+\item \code{"requires_no_prediction"} (No prediction is required;
+This usually means that the measure extracts some information from the learner state.).
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
@@ -377,7 +389,7 @@ Label for the new instance.}
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
 
-\item{\code{trafo}}{(\code{list()} or \code{NULL})\cr
+\item{\code{trafo}}{(\code{list()} | \code{NULL})\cr
 An optional list with two elements, containing the transformation \code{"fn"} and its derivative \code{"deriv"}.
 The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
 this requires an \verb{$obs_loss} to be present. An example is \code{sqrt} for RMSE.}
@@ -433,8 +445,7 @@ Opens the corresponding help page referenced by field \verb{$man}.
 \if{html}{\out{<a id="method-Measure-score"></a>}}
 \if{latex}{\out{\hypertarget{method-Measure-score}{}}}
 \subsection{Method \code{score()}}{
-Takes a \link{Prediction} (or a list of \link{Prediction} objects named with valid \code{predict_sets})
-and calculates a numeric score.
+Takes a \link{Prediction} and calculates a numeric score.
 If the measure if flagged with the properties \code{"requires_task"}, \code{"requires_learner"},
 \code{"requires_model"} or \code{"requires_train_set"}, you must additionally
 pass the respective \link{Task}, the (trained) \link{Learner} or the training set indices.
@@ -446,7 +457,7 @@ This is handled internally during \code{\link[=resample]{resample()}}/\code{\lin
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{prediction}}{(\link{Prediction} | named list of \link{Prediction}).}
+\item{\code{prediction}}{(\link{Prediction}).}
 
 \item{\code{task}}{(\link{Task}).}
 

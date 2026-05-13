@@ -59,9 +59,12 @@ test_that("setting threshold multiclass", {
   prob_before = p$prob
   response_before = p$response
 
-  expect_error({
-    p$set_threshold(c(0.5, 0.5))
-  }, "length") # check for correct length(threshold) = nclass
+  expect_error(
+    {
+      p$set_threshold(c(0.5, 0.5))
+    },
+    "length"
+  ) # check for correct length(threshold) = nclass
 
   x = p$set_threshold(set_names(c(1, 1, 1, 1, 1, 1, 1), task$class_names))
   expect_factor(x$response, levels = task$class_names, any.missing = FALSE)
@@ -109,7 +112,7 @@ test_that("confusion", {
   expect_matrix(cm, nrows = 3, ncols = 3, any.missing = FALSE)
   expect_equal(colnames(p$confusion), task$class_names)
   expect_equal(rownames(p$confusion), task$class_names)
-  expect_names(names(dimnames(cm)), identical.to =  c("response", "truth"))
+  expect_names(names(dimnames(cm)), identical.to = c("response", "truth"))
 })
 
 test_that("c", {
@@ -157,8 +160,8 @@ test_that("as_prediction_classif", {
 
 test_that("#615", {
   task = tsk("iris")
-  training <- task$clone()$filter(1:100)
-  testing <- task$clone()$filter(101:150)
+  training = task$clone()$filter(1:100)
+  testing = task$clone()$filter(101:150)
 
   l = lrn("classif.rpart")
   l$train(training)
@@ -188,11 +191,15 @@ test_that("predictions with weights", {
 
   expect_equal(c(pred_with_weights, pred_with_weights)$weights, rep(c(1, 10, 100, 1, 10, 100), each = 50))
 
-  expect_equal(c(pred_with_weights$clone(deep = TRUE)$filter(1:10), pred_with_weights)$weights, rep(c(1, 10, 100, 1, 10, 100), each = 50)[c(1:10, 151:300)])
+  expect_equal(
+    c(pred_with_weights$clone(deep = TRUE)$filter(1:10), pred_with_weights)$weights,
+    rep(c(1, 10, 100, 1, 10, 100), each = 50)[c(1:10, 151:300)]
+  )
 })
 
 test_that("extra data is stored", {
-  LearnerExtra = R6Class("LearnerExtra",
+  LearnerExtra = R6Class(
+    "LearnerExtra",
     inherit = LearnerClassifDebug,
     private = list(
       .predict = function(task, ...) {
@@ -210,7 +217,8 @@ test_that("extra data is stored", {
   expect_equal(pred$extra[[1]], replicate(length(pred$response), "bar"))
   expect_prediction(pred)
 
-  LearnerExtra = R6Class("LearnerExtra",
+  LearnerExtra = R6Class(
+    "LearnerExtra",
     inherit = LearnerClassifDebug,
     private = list(
       .predict = function(task, ...) {
@@ -224,6 +232,88 @@ test_that("extra data is stored", {
   learner = LearnerExtra$new()
   learner$train(tsk("iris"))
   expect_error(learner$predict(tsk("iris")), "Extra data must have the same length as the number of predictions")
+})
+
+test_that("raw data is stored", {
+  task = tsk("iris")
+  raw_obj = list(a = 1, b = "hello")
+  p = PredictionClassif$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth(), raw = raw_obj)
+  expect_equal(p$raw, raw_obj)
+
+  # raw survives filtering
+  p2 = p$clone()$filter(1:3)
+  expect_equal(p2$raw, raw_obj)
+
+  # raw is NULL when not provided
+  p3 = PredictionClassif$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
+  expect_null(p3$raw)
+})
+
+test_that("raw data is combined into list", {
+  task = tsk("iris")
+  p1 = PredictionClassif$new(row_ids = 1:3, truth = task$truth(1:3), response = task$truth(1:3), raw = list(x = 1))
+  p2 = PredictionClassif$new(row_ids = 4:6, truth = task$truth(4:6), response = task$truth(4:6), raw = list(x = 2))
+  combined = c(p1, p2)
+  expect_list(combined$raw, len = 2)
+  expect_equal(combined$raw[[1]], list(x = 1))
+  expect_equal(combined$raw[[2]], list(x = 2))
+
+  # combining with and without raw
+  p3 = PredictionClassif$new(row_ids = 7:9, truth = task$truth(7:9), response = task$truth(7:9))
+  combined2 = c(p1, p3)
+  expect_list(combined2$raw, len = 1)
+  expect_equal(combined2$raw[[1]], list(x = 1))
+
+  # combining without any raw
+  p4 = PredictionClassif$new(row_ids = 10:12, truth = task$truth(10:12), response = task$truth(10:12))
+  combined3 = c(p3, p4)
+  expect_null(combined3$raw)
+})
+
+test_that("raw data via learner predict", {
+  LearnerRaw = R6Class(
+    "LearnerRaw",
+    inherit = LearnerClassifDebug,
+    private = list(
+      .predict = function(task, ...) {
+        pred = super$.predict(task, ...)
+        pred$raw = list(upstream_output = "raw_value")
+        pred
+      }
+    )
+  )
+
+  learner = LearnerRaw$new()
+  learner$train(tsk("iris"))
+  pred = learner$predict(tsk("iris"))
+  expect_equal(pred$raw, list(upstream_output = "raw_value"))
+})
+
+test_that("predict_raw with classif.rpart", {
+  task = tsk("iris")
+  learner = lrn("classif.rpart", predict_raw = TRUE)
+  learner$train(task)
+  pred = learner$predict(task)
+  expect_class(pred$raw, "factor")
+  expect_equal(length(pred$raw), task$nrow)
+
+  learner = lrn("classif.rpart", predict_type = "prob", predict_raw = TRUE)
+  learner$train(task)
+  pred = learner$predict(task)
+  expect_matrix(pred$raw, nrows = task$nrow)
+
+  learner = lrn("classif.rpart")
+  learner$train(task)
+  pred = learner$predict(task)
+  expect_null(pred$raw)
+})
+
+test_that("predict_raw with resample", {
+  task = tsk("iris")
+  learner = lrn("classif.rpart", predict_raw = TRUE)
+  rr = resample(task, learner, rsmp("cv", folds = 3))
+  pred = rr$prediction()
+  expect_list(pred$raw, len = 3)
 })
 
 test_that("obs_loss works", {

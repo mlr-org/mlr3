@@ -64,6 +64,7 @@ assert_validate = function(x) {
 
 # Generalization of quantile(type = 7) for weighted data.
 
+# nolint next
 quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7L, continuous = TRUE) {
   assert_flag(na.rm)
   assert_flag(continuous)
@@ -71,23 +72,30 @@ quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7
   assert_numeric(probs, lower = -100 * .Machine$double.eps, upper = 1 + 100 * .Machine$double.eps)
   assert_numeric(weights, lower = 0, any.missing = FALSE, len = length(x), null.ok = TRUE)
   weights = weights[!is.na(x)]
-  x = x[!is.na(x)]  # if na.rm is FALSE and there are NAs, the assert stops us from getting here
+  x = x[!is.na(x)] # if na.rm is FALSE and there are NAs, the assert stops us from getting here
 
-  # we default to the unweighted quantile if there are no weights, no (non-NA) probs, or no (non-NA) x, or all weights are the same
-  if (is.null(weights) || length(x) == 0L || length(probs) == 0L || all(is.na(probs)) || length(unique(weights)) == 1L) {
+  # we default to the unweighted quantile if there are no weights,
+  # no (non-NA) probs, or no (non-NA) x, or all weights are the same
+  if (
+    is.null(weights) || length(x) == 0L || length(probs) == 0L || all(is.na(probs)) || length(unique(weights)) == 1L
+  ) {
     return(quantile(x, probs, na.rm = na.rm, digits = digits, type = if (continuous) 7 else 2))
   }
 
-  # We create a piecewise linear function with breaks both at the midpoints of the weights, as well as at the boundaries of the weights
+  # We create a piecewise linear function with breaks
+  # both at the midpoints of the weights, as well as at the boundaries of the weights
   # So if we have weights, ordered by corresponding x-value, w_(1), w_(2), ..., then we have breaks at
-  # 0 [weight midpoint], w_(1)/2 [weight boundary], w_(1)/2 + w_(2)/2 [weight midpoint], w_(1)/2 + w_(2) [weight boundary], w_(2)/2 + w_(3)/2 [weight midpoint]
-  # The function values at the weight midpoints are the x-values corresponding to the weights, and the function values at the weight boundaries are the
+  # 0 [weight midpoint], w_(1)/2 [weight boundary], w_(1)/2 + w_(2)/2 [weight midpoint],
+  # w_(1)/2 + w_(2) [weight boundary], w_(2)/2 + w_(3)/2 [weight midpoint]
+  # The function values at the weight midpoints are the x-values corresponding to the weights,
+  # and the function values at the weight boundaries are the
   # weighted average of the x-values of the previous and next weight midpoint.
   x_order = order(x)
   x = x[x_order]
   weights = weights[x_order]
   if (continuous) {
-    double_weights = rep(weights / 2, each = 2)[c(-1, -2 * length(weights))] + .Machine$double.xmin  # avoid 0 weights so we don't have to handle division by 0
+    # avoid 0 weights so we don't have to handle division by 0
+    double_weights = rep(weights / 2, each = 2)[c(-1, -2 * length(weights))] + .Machine$double.xmin
     double_x = rep(x, each = 2)[c(-1, -2 * length(x))] * double_weights
 
     double_x_weighted = (c(double_x, double_x[[length(double_x)]]) + c(double_x[[1]], double_x)) /
@@ -97,25 +105,27 @@ quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7
 
     weights_total = pivots[[length(pivots)]]
     weight_targets = weights_total * probs
-    weight_targets[weight_targets < 0] = 0  # since we allow -100 * .Machine$double.eps probs
+    weight_targets[weight_targets < 0] = 0 # since we allow -100 * .Machine$double.eps probs
 
     lo_indices = findInterval(weight_targets, pivots)
     hi_indices = lo_indices + 1L
     lo_values = double_x_weighted[lo_indices]
     hi_values = double_x_weighted[hi_indices]
-    result = lo_values + (weight_targets - pivots[lo_indices]) * (hi_values - lo_values) / (pivots[hi_indices] - pivots[lo_indices])
+    result = lo_values +
+      (weight_targets - pivots[lo_indices]) * (hi_values - lo_values) / (pivots[hi_indices] - pivots[lo_indices])
     result[hi_indices > length(double_x_weighted)] = double_x_weighted[length(double_x_weighted)]
   } else {
     pivots = c(0, cumsum(weights))
     weight_targets = pivots[[length(pivots)]] * probs
-    weight_targets[weight_targets < 0] = 0  # since we allow -100 * .Machine$double.eps probs
+    weight_targets[weight_targets < 0] = 0 # since we allow -100 * .Machine$double.eps probs
     pivots_used = pivots[-length(pivots)]
     hi_indices = findInterval(weight_targets, pivots_used)
-    lo_indices = hi_indices - (weight_targets %in% pivots_used[-1])  # use weighted average for ties
+    lo_indices = hi_indices - (weight_targets %in% pivots_used[-1]) # use weighted average for ties
     lo_values = x[lo_indices]
     hi_values = x[hi_indices]
     weights = weights + .Machine$double.xmin
-    result = (lo_values * weights[lo_indices] + hi_values * (weights[hi_indices])) / (weights[lo_indices] + weights[hi_indices])
+    result = (lo_values * weights[lo_indices] + hi_values * (weights[hi_indices])) /
+      (weights[lo_indices] + weights[hi_indices])
   }
 
   pnames = paste0(formatC(probs * 100, format = "fg", width = 1, digits = digits), "%")
@@ -130,14 +140,25 @@ weighted_mean_sd = function(x, weights) {
   }
   weights_sum = sum(weights)
   mean = sum(x * weights) / weights_sum
-  sd = sqrt(sum(weights * (x - mean)^2) / (weights_sum - sum(weights ^2) / weights_sum))
+  sd = sqrt(sum(weights * (x - mean)^2) / (weights_sum - sum(weights^2) / weights_sum))
   list(mean = mean, sd = sd)
 }
 
 # Alternative formatting function for Task / Learner / Measure because mlr3misc::error_* and warning_* fail with input
-# that is formated with angle brackets, e.g. "<TaskClassif:iris>",
+# that is formatted with angle brackets, e.g. "<TaskClassif:iris>",
 # see https://github.com/r-lib/cli/issues/789
 # Replace this with x$format() when the issue is solved.
 format_angle_brackets = function(x) {
   sprintf("<<%s:%s>>", class(x)[1L], x$id)
+}
+
+#' @exportS3Method data.table::format_col
+format_col.condition = function(x, ...) {
+  msg = cli::ansi_strip(conditionMessage(x))
+  trimws(gsub("\n", " ", msg, fixed = TRUE))
+}
+
+#' @exportS3Method data.table::format_list_item
+format_list_item.condition = function(x, ...) {
+  format_col(x, ...)
 }

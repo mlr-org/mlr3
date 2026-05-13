@@ -6,10 +6,14 @@
 #'
 #' There are two modes of operation, depending on the flag `paired`.
 #'
-#' * With `paired` set to `FALSE` (default), resampling strategies are not allowed to be instantiated, and instead will be instantiated per task internally.
-#'   The only exception to this rule applies if all tasks have exactly the same row ids, and the resamplings are all instantiated for such tasks.
-#'   The grid will be generated based on the Cartesian product of tasks, learners, and resamplings.
-#'   Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set **before** calling this function, as this process is stochastic.
+#' * With `paired` set to `FALSE` (default), resampling strategies are not allowed to be
+#'   instantiated, and instead will be instantiated per task internally.
+#'   The only exception to this rule applies if all tasks have exactly the same row ids,
+#'   and the resamplings are all instantiated for such tasks.
+#'   The grid will be generated based on the Cartesian product of tasks, learners,
+#'   and resamplings.
+#'   Because the resamplings are instantiated on the tasks, reproducibility requires a seed
+#'   to be set **before** calling this function, as this process is stochastic.
 #' * With `paired` set to `TRUE`, tasks and resamplings are treated as pairs.
 #'   This means that you must provide as many tasks as corresponding instantiated resamplings.
 #'   The grid will be generated based on the Cartesian product of learners and pairs.
@@ -97,7 +101,12 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
         error_input("Resampling #%i ('%s' for task '%s') is not instantiated", i, resampling$id, task$id)
       }
       if (resampling$task_row_hash != task$row_hash) {
-        error_input("Resampling #%i ('%s' for task '%s') is not instantiated on the corresponding task", i, resampling$id, task$id)
+        error_input(
+          "Resampling #%i ('%s' for task '%s') is not instantiated on the corresponding task",
+          i,
+          resampling$id,
+          task$id
+        )
       }
     }
 
@@ -113,9 +122,15 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
     } else if (all(is_instantiated)) {
       # check that all row ids of the resamplings are present in the tasks
       pwalk(grid, function(task, resampling) {
-        if (!is.null(resamplings[[resampling]]$task_row_hash) &&
-            resamplings[[resampling]]$task_row_hash != tasks[[task]]$row_hash) {
-          error_input("Resampling '%s' is not instantiated on task '%s'", resamplings[[resampling]]$id, tasks[[task]]$id)
+        if (
+          !is.null(resamplings[[resampling]]$task_row_hash) &&
+            resamplings[[resampling]]$task_row_hash != tasks[[task]]$row_hash
+        ) {
+          error_input(
+            "Resampling '%s' is not instantiated on task '%s'",
+            resamplings[[resampling]]$id,
+            tasks[[task]]$id
+          )
         }
       })
 

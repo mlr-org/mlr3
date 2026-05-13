@@ -5,7 +5,8 @@
 #' @include mlr_tasks.R
 #'
 #' @description
-#' Classification data to predict the species of penguins from the \CRANpkg{palmerpenguins} package, see [palmerpenguins::penguins].
+#' Classification data to predict the species of penguins from the \CRANpkg{palmerpenguins} package,
+#' see [palmerpenguins::penguins].
 #' A better alternative to the [iris data set][iris].
 #'
 #' @templateVar id penguins
@@ -27,14 +28,14 @@ NULL
 
 load_task_penguins = function() {
   penguins = as.data.table(palmerpenguins::penguins)
-  setnames(penguins,
+  setnames(
+    penguins,
     old = c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"),
     new = c("bill_length", "bill_depth", "flipper_length", "body_mass")
   )
 
   b = as_data_backend(penguins)
-  task = TaskClassif$new("penguins", b, target = "species",
-    label = "Palmer Penguins")
+  task = TaskClassif$new("penguins", b, target = "species", label = "Palmer Penguins")
   b$hash = task$man = "mlr3::mlr_tasks_penguins"
   task
 }

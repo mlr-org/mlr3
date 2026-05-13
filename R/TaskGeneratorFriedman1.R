@@ -15,7 +15,8 @@
 #' generator = tgen("friedman1")
 #' task = generator$generate(200)
 #' str(task$data())
-TaskGeneratorFriedman1 = R6Class("TaskGeneratorFriedman1",
+TaskGeneratorFriedman1 = R6Class(
+  "TaskGeneratorFriedman1",
   inherit = TaskGenerator,
   public = list(
     #' @description
@@ -25,8 +26,14 @@ TaskGeneratorFriedman1 = R6Class("TaskGeneratorFriedman1",
         sd = p_dbl(0L, default = 1)
       )
 
-      super$initialize(id = "friedman1", "regr", "mlbench", ps,
-        label = "Friedman Regression", man = "mlr3::mlr_task_generators_friedman1")
+      super$initialize(
+        id = "friedman1",
+        "regr",
+        "mlbench",
+        ps,
+        label = "Friedman Regression",
+        man = "mlr3::mlr_task_generators_friedman1"
+      )
     }
   ),
 

@@ -21,21 +21,25 @@
 #' @section Stochasticity & Reproducibility:
 #' The [`Resampling`] class only defines an abstract resampling strategy.
 #' Concrete data splits are obtained by calling `$instantiate()` on a [`Task`].
-#' To ensure repdocubility of results, you need to call `set.seed` before doing so.
+#' To ensure reproducibility of results, you need to call `set.seed` before doing so.
 #' Note that [`benchmark_grid`] internally does instantiate resamplings, so you need to set
 #' the seed before calling it.
 #'
 #' @section Stratification:
 #' All derived classes support stratified sampling.
-#' The stratification variables are assumed to be discrete and must be stored in the [Task] with column role `"stratum"`.
-#' In case of multiple stratification variables, each combination of the values of the stratification variables forms a strata.
+#' The stratification variables are assumed to be discrete and must be stored in the [Task]
+#' with column role `"stratum"`.
+#' In case of multiple stratification variables,
+#' each combination of the values of the stratification variables forms a strata.
 #'
-#' First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. `task$strata`.
+#' First, the observations are divided into subpopulations based one or multiple stratification
+#' variables (assumed to be discrete), c.f. `task$strata`.
 #'
 #' Second, the sampling is performed in each of the `k` subpopulations separately.
 #' Each subgroup is divided into `iter` training sets and `iter` test sets by the derived `Resampling`.
 #' These sets are merged based on their iteration number:
-#' all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
+#' all training sets from all subpopulations with iteration 1 are combined,
+#' then all training sets with iteration 2, and so on.
 #' Same is done for all test sets.
 #' The merged sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #' Note that this procedure can lead to set sizes that are slightly different from those
@@ -54,7 +58,8 @@
 #' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
 #' @section Inheriting:
-#' It is possible to overwrite both `private$.get_instance()` to have full control, or only `private$.sample()` when one wants to use the pre-defined mechanism for stratification and grouping.
+#' It is possible to overwrite both `private$.get_instance()` to have full control,
+#' or only `private$.sample()` when one wants to use the pre-defined mechanism for stratification and grouping.
 #'
 #' @template seealso_resampling
 #' @export
@@ -89,14 +94,9 @@
 #' r = rsmp("subsampling")
 #' r$instantiate(task)
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
-Resampling = R6Class("Resampling",
+Resampling = R6Class(
+  "Resampling",
   public = list(
-    #' @template field_label
-    label = NULL,
-
-    #' @template field_param_set
-    param_set = NULL,
-
     #' @field instance (any)\cr
     #'   During `instantiate()`, the instance is stored in this slot in an arbitrary format.
     #'   Note that if a grouping variable is present in the [Task], a [Resampling] may operate on the
@@ -106,28 +106,6 @@ Resampling = R6Class("Resampling",
     #'   `$train_set()` and `$test_set()`.
     instance = NULL,
 
-    #' @field task_hash (`character(1)`)\cr
-    #'   The hash of the [Task] which was passed to `r$instantiate()`.
-    task_hash = NA_character_,
-
-    #' @field task_row_hash (`character(1)`)\cr
-    #'   The hash of the row ids of the [Task] which was passed to `r$instantiate()`.
-    task_row_hash = NA_character_,
-
-    #' @field task_nrow (`integer(1)`)\cr
-    #'   The number of observations of the [Task] which was passed to `r$instantiate()`.
-    #'
-    task_nrow = NA_integer_,
-
-    #' @field duplicated_ids (`logical(1)`)\cr
-    #'   If `TRUE`, duplicated rows can occur within a single training set or within a single test set.
-    #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross-validation.
-    #'   Only used internally.
-    duplicated_ids = NULL,
-
-    #' @template field_man
-    man = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
@@ -136,11 +114,14 @@ Resampling = R6Class("Resampling",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
     initialize = function(id, param_set = ps(), duplicated_ids = FALSE, label = NA_character_, man = NA_character_) {
-      private$.id = assert_string(id, min.chars = 1L)
-      self$label = assert_string(label, na.ok = TRUE)
-      self$param_set = assert_param_set(param_set)
-      self$duplicated_ids = assert_flag(duplicated_ids)
-      self$man = assert_string(man, na.ok = TRUE)
+      private$.id = assert_id(id)
+      private$.label = assert_string(label, na.ok = TRUE)
+      private$.param_set = assert_param_set(param_set)
+      private$.duplicated_ids = assert_flag(duplicated_ids)
+      private$.man = assert_string(man, na.ok = TRUE)
+      private$.task_hash = NA_character_
+      private$.task_row_hash = NA_character_
+      private$.task_nrow = NA_integer_
     },
 
     #' @description
@@ -178,7 +159,7 @@ Resampling = R6Class("Resampling",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
@@ -188,9 +169,9 @@ Resampling = R6Class("Resampling",
       task = assert_task(as_task(task))
       private$.hash = NULL
       self$instance = private$.get_instance(task)
-      self$task_hash = task$hash
-      self$task_row_hash = task$row_hash
-      self$task_nrow = task$nrow
+      private$.task_hash = task$hash
+      private$.task_row_hash = task$row_hash
+      private$.task_nrow = task$nrow
       invisible(self)
     },
 
@@ -231,7 +212,7 @@ Resampling = R6Class("Resampling",
       }
 
       private$.hash = NULL
-      private$.id = assert_string(rhs, min.chars = 1L)
+      private$.id = assert_id(rhs)
     },
 
     #' @field is_instantiated (`logical(1)`)\cr
@@ -256,12 +237,81 @@ Resampling = R6Class("Resampling",
       }
 
       private$.hash
+    },
+
+    #' @template field_label
+    label = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.label)
+      }
+      private$.label = assert_string(rhs, na.ok = TRUE)
+    },
+
+    #' @template field_param_set
+    param_set = function(rhs) {
+      if (!missing(rhs) && !identical(rhs, private$.param_set)) {
+        error_input("param_set is read-only.")
+      }
+      private$.param_set
+    },
+
+    #' @field task_hash (`character(1)`)\cr
+    #'   The hash of the [Task] which was passed to `r$instantiate()`.
+    task_hash = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.task_hash)
+      }
+      private$.task_hash = assert_string(rhs, na.ok = TRUE)
+    },
+
+    #' @field task_row_hash (`character(1)`)\cr
+    #'   The hash of the row ids of the [Task] which was passed to `r$instantiate()`.
+    task_row_hash = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.task_row_hash)
+      }
+      private$.task_row_hash = assert_string(rhs, na.ok = TRUE)
+    },
+
+    #' @field task_nrow (`integer(1)`)\cr
+    #'   The number of observations of the [Task] which was passed to `r$instantiate()`.
+    task_nrow = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.task_nrow)
+      }
+      private$.task_nrow = assert_int(rhs, na.ok = TRUE, coerce = TRUE)
+    },
+
+    #' @field duplicated_ids (`logical(1)`)\cr
+    #'   If `TRUE`, duplicated rows can occur within a single training set or within a single test set.
+    #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross-validation.
+    #'   Only used internally.
+    duplicated_ids = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.duplicated_ids)
+      }
+      private$.duplicated_ids = assert_flag(rhs)
+    },
+
+    #' @template field_man
+    man = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.man)
+      }
+      private$.man = assert_string(rhs, na.ok = TRUE)
     }
   ),
 
   private = list(
     .primary_iters = NULL,
     .id = NULL,
+    .label = NULL,
+    .param_set = NULL,
+    .task_hash = NULL,
+    .task_row_hash = NULL,
+    .task_nrow = NULL,
+    .duplicated_ids = NULL,
+    .man = NULL,
     .hash = NULL,
     .groups = NULL,
 
@@ -295,20 +345,28 @@ Resampling = R6Class("Resampling",
       }
 
       private$.groups[list(ids), on = "group", allow.cartesian = TRUE][[1L]]
+    },
+
+    deep_clone = function(name, value) {
+      if (name == ".param_set") value$clone(deep = TRUE) else value
     }
   )
 )
 
 
 #' @export
-as.data.table.Resampling = function(x, ...) { # nolint
+# nolint next
+as.data.table.Resampling = function(x, ...) {
   assert_resampling(x, instantiated = TRUE)
   iterations = seq_len(x$iters)
 
-  tab = rbindlist(list(
-    map_dtr(iterations, function(i) list(row_id = x$train_set(i)), .idcol = "iteration"),
-    map_dtr(iterations, function(i) list(row_id = x$test_set(i)), .idcol = "iteration")
-  ), idcol = "set")
+  tab = rbindlist(
+    list(
+      map_dtr(iterations, function(i) list(row_id = x$train_set(i)), .idcol = "iteration"),
+      map_dtr(iterations, function(i) list(row_id = x$test_set(i)), .idcol = "iteration")
+    ),
+    idcol = "set"
+  )
   set(tab, j = "set", value = factor(c("train", "test")[tab$set], levels = c("train", "test")))
   setkeyv(tab, c("set", "iteration"))[]
 }

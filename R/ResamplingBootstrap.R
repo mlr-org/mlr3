@@ -40,19 +40,26 @@
 #'
 #' # Internal storage:
 #' bootstrap$instance$M # Matrix of counts
-ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
+ResamplingBootstrap = R6Class(
+  "ResamplingBootstrap",
+  inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        ratio   = p_dbl(0, upper = 1, tags = "required"),
+        ratio = p_dbl(0, upper = 1, tags = "required"),
         repeats = p_int(1L, tags = "required")
       )
       ps$set_values(ratio = 1, repeats = 30L)
 
-      super$initialize(id = "bootstrap", param_set = ps, duplicated_ids = TRUE,
-        label = "Bootstrap", man = "mlr3::mlr_resamplings_bootstrap")
+      super$initialize(
+        id = "bootstrap",
+        param_set = ps,
+        duplicated_ids = TRUE,
+        label = "Bootstrap",
+        man = "mlr3::mlr_resamplings_bootstrap"
+      )
     }
   ),
 

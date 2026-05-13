@@ -1,24 +1,19 @@
 # See http://editorconfig.org
 root = true
 
+# settings for all files
 [*]
+# Ensure all files are saved in UTF-8 encoding
 charset = utf-8
+# Use LF line endings (Unix style)
 end_of_line = lf
-insert_final_newline = true
+# Use spaces for indentation
 indent_style = space
+# always use 2 spaces for indentation, R, C, python, etc.
+indent_size = 2
+# max line length
+max_line_length = 120
+# Remove trailing whitespace
 trim_trailing_whitespace = true
-
-[*.{r,R,md,Rmd}]
-indent_size = 2
-
-[*.{c,h}]
-indent_size = 4
-
-[*.{cpp,hpp}]
-indent_size = 4
-
-[{NEWS.md,DESCRIPTION,LICENSE}]
-max_line_length = 80
-
-[CITATION.cff]
-indent_size = 2
+# Ensure files end with a newline
+insert_final_newline = true

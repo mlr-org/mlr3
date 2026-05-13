@@ -19,7 +19,7 @@ e.g. \code{\link[=mlr_resamplings_cv]{cv}} or \code{\link[=mlr_resamplings_boots
 
 The \code{\link{Resampling}} class only defines an abstract resampling strategy.
 Concrete data splits are obtained by calling \verb{$instantiate()} on a \code{\link{Task}}.
-To ensure repdocubility of results, you need to call \code{set.seed} before doing so.
+To ensure reproducibility of results, you need to call \code{set.seed} before doing so.
 Note that \code{\link{benchmark_grid}} internally does instantiate resamplings, so you need to set
 the seed before calling it.
 }
@@ -27,15 +27,19 @@ the seed before calling it.
 \section{Stratification}{
 
 All derived classes support stratified sampling.
-The stratification variables are assumed to be discrete and must be stored in the \link{Task} with column role \code{"stratum"}.
-In case of multiple stratification variables, each combination of the values of the stratification variables forms a strata.
+The stratification variables are assumed to be discrete and must be stored in the \link{Task}
+with column role \code{"stratum"}.
+In case of multiple stratification variables,
+each combination of the values of the stratification variables forms a strata.
 
-First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. \code{task$strata}.
+First, the observations are divided into subpopulations based one or multiple stratification
+variables (assumed to be discrete), c.f. \code{task$strata}.
 
 Second, the sampling is performed in each of the \code{k} subpopulations separately.
 Each subgroup is divided into \code{iter} training sets and \code{iter} test sets by the derived \code{Resampling}.
 These sets are merged based on their iteration number:
-all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
+all training sets from all subpopulations with iteration 1 are combined,
+then all training sets with iteration 2, and so on.
 Same is done for all test sets.
 The merged sets can be accessed via \verb{$train_set(i)} and \verb{$test_set(i)}, respectively.
 Note that this procedure can lead to set sizes that are slightly different from those
@@ -57,7 +61,8 @@ The sets can be accessed via \verb{$train_set(i)} and \verb{$test_set(i)}, respe
 
 \section{Inheriting}{
 
-It is possible to overwrite both \code{private$.get_instance()} to have full control, or only \code{private$.sample()} when one wants to use the pre-defined mechanism for stratification and grouping.
+It is possible to overwrite both \code{private$.get_instance()} to have full control,
+or only \code{private$.sample()} when one wants to use the pre-defined mechanism for stratification and grouping.
 }
 
 \examples{
@@ -143,13 +148,6 @@ Other Resampling:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{label}}{(\code{character(1)})\cr
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.}
-
-\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
-Set of hyperparameters.}
-
 \item{\code{instance}}{(any)\cr
 During \code{instantiate()}, the instance is stored in this slot in an arbitrary format.
 Note that if a grouping variable is present in the \link{Task}, a \link{Resampling} may operate on the
@@ -157,24 +155,6 @@ group ids internally instead of the row ids (which may lead to confusion).
 
 It is advised to not work directly with the \code{instance}, but instead only use the getters
 \verb{$train_set()} and \verb{$test_set()}.}
-
-\item{\code{task_hash}}{(\code{character(1)})\cr
-The hash of the \link{Task} which was passed to \code{r$instantiate()}.}
-
-\item{\code{task_row_hash}}{(\code{character(1)})\cr
-The hash of the row ids of the \link{Task} which was passed to \code{r$instantiate()}.}
-
-\item{\code{task_nrow}}{(\code{integer(1)})\cr
-The number of observations of the \link{Task} which was passed to \code{r$instantiate()}.}
-
-\item{\code{duplicated_ids}}{(\code{logical(1)})\cr
-If \code{TRUE}, duplicated rows can occur within a single training set or within a single test set.
-E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross-validation.
-Only used internally.}
-
-\item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}, but can be set by child classes.}
 }
 \if{html}{\out{</div>}}
 }
@@ -192,6 +172,31 @@ Is \code{TRUE} if the resampling has been instantiated.}
 Hash (unique identifier) for this object.
 If the object has not been instantiated yet, \code{NA_character_} is returned.
 The hash is calculated based on the class name, the id, the parameter set, and the instance.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
+
+\item{\code{task_hash}}{(\code{character(1)})\cr
+The hash of the \link{Task} which was passed to \code{r$instantiate()}.}
+
+\item{\code{task_row_hash}}{(\code{character(1)})\cr
+The hash of the row ids of the \link{Task} which was passed to \code{r$instantiate()}.}
+
+\item{\code{task_nrow}}{(\code{integer(1)})\cr
+The number of observations of the \link{Task} which was passed to \code{r$instantiate()}.}
+
+\item{\code{duplicated_ids}}{(\code{logical(1)})\cr
+If \code{TRUE}, duplicated rows can occur within a single training set or within a single test set.
+E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross-validation.
+Only used internally.}
+
+\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+Defaults to \code{NA}, but can be set by child classes.}
 }
 \if{html}{\out{</div>}}
 }
@@ -311,7 +316,7 @@ Task used for instantiation.}
 }
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{

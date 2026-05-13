@@ -70,24 +70,28 @@ extract_pkgs.character = function(x) {
 
 #' @rdname install_pkgs
 #' @export
-extract_pkgs.R6 = function(x) { # nolint
+# nolint next
+extract_pkgs.R6 = function(x) {
   get0("packages", envir = x, inherits = FALSE, ifnotfound = character())
 }
 
 #' @rdname install_pkgs
 #' @export
-extract_pkgs.list = function(x) { # nolint
+# nolint next
+extract_pkgs.list = function(x) {
   unique(unlist(lapply(x, extract_pkgs), recursive = FALSE, use.names = FALSE))
 }
 
 #' @rdname install_pkgs
 #' @export
-extract_pkgs.ResampleResult = function(x) { # nolint
+# nolint next
+extract_pkgs.ResampleResult = function(x) {
   extract_pkgs(x$learner)
 }
 
 #' @rdname install_pkgs
 #' @export
-extract_pkgs.BenchmarkResult = function(x) { # nolint
+# nolint next
+extract_pkgs.BenchmarkResult = function(x) {
   extract_pkgs(x$learners$learner)
 }

@@ -16,7 +16,8 @@
 #'
 #' @template seealso_task_generator
 #' @export
-TaskGenerator = R6Class("TaskGenerator",
+TaskGenerator = R6Class(
+  "TaskGenerator",
   public = list(
     #' @template field_id
     id = NULL,
@@ -38,15 +39,25 @@ TaskGenerator = R6Class("TaskGenerator",
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, task_type, packages = character(), param_set = ps(), label = NA_character_, man = NA_character_) {
-      self$id = assert_string(id, min.chars = 1L)
+    initialize = function(
+      id,
+      task_type,
+      packages = character(),
+      param_set = ps(),
+      label = NA_character_,
+      man = NA_character_
+    ) {
+      self$id = assert_id(id)
       self$param_set = assert_param_set(param_set)
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       self$label = assert_string(label, na.ok = TRUE)
       self$man = assert_string(man, na.ok = TRUE)
 
-      check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for TaskGenerator '%s'", id))
+      check_packages_installed(
+        packages,
+        msg = sprintf("Package '%%s' required but not installed for TaskGenerator '%s'", id)
+      )
     },
 
     #' @description
@@ -71,7 +82,8 @@ TaskGenerator = R6Class("TaskGenerator",
     },
 
     #' @description
-    #' Creates a task of type `task_type` with `n` observations, possibly using additional settings stored in `param_set`.
+    #' Creates a task of type `task_type` with `n` observations,
+    #' possibly using additional settings stored in `param_set`.
     #'
     #' @param n (`integer(1)`)\cr
     #'   Number of rows to generate.

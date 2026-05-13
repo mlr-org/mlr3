@@ -20,11 +20,14 @@
 #'
 #' @template seealso_learner
 #' @export
-LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
+LearnerRegrRpart = R6Class(
+  "LearnerRegrRpart",
+  inherit = LearnerRegr,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
+      # fmt: skip
       ps = ps(
         cp             = p_dbl(0, 1, default = 0.01, tags = "train"),
         keep_model     = p_lgl(default = FALSE, tags = "train"),
@@ -55,9 +58,9 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     #' @return Named `numeric()`.
     importance = function() {
       if (is.null(self$model)) {
-        error_input("No model stored")
+        error_learner("No model stored")
       }
-      # importance is only present if there is at least on split
+      # importance is only present if there is at least one split
       sort(self$model$variable.importance %??% set_names(numeric()), decreasing = TRUE)
     },
 
@@ -66,7 +69,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     #' @return `character()`.
     selected_features = function() {
       if (is.null(self$model)) {
-        error_input("No model stored")
+        error_learner("No model stored")
       }
       setdiff(self$model$frame$var, "<leaf>")
     }
@@ -83,15 +86,19 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     .predict = function(task) {
       pv = self$param_set$get_values(tags = "predict")
       newdata = task$data(cols = task$feature_names)
-      response = invoke(predict, self$model, newdata = newdata,
-        .opts = allow_partial_matching, .args = pv)
-      list(response = unname(response))
+      response = invoke(predict, self$model, newdata = newdata, .opts = allow_partial_matching, .args = pv)
+      result = list(response = unname(response))
+      if (self$predict_raw) {
+        result$raw = response
+      }
+      result
     }
   )
 )
 
 #' @export
-default_values.LearnerRegrRpart = function(x, search_space, task, ...) { # nolint
+# nolint next
+default_values.LearnerRegrRpart = function(x, search_space, task, ...) {
   special_defaults = list(
     minbucket = round(20 / 3)
   )

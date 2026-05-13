@@ -16,7 +16,8 @@
 #' @examples
 #' rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3), rsmp("holdout"))
 #' rr$score(msr("internal_valid_score", select = "acc"))
-MeasureInternalValidScore = R6Class("MeasureInternalValidScore",
+MeasureInternalValidScore = R6Class(
+  "MeasureInternalValidScore",
   inherit = Measure,
   public = list(
     #' @description

@@ -41,15 +41,17 @@
 #' The following methods change the task in-place:
 #' * Any modification of the lists `$col_roles` or `$row_roles`.
 #'   This provides a different "view" on the data without altering the data itself.
-#'   This may affects, e.g., `$data`, `$nrow`, `$ncol`, `n_features`, `row_ids`, and `$feature_names`.
+#'   This may affect, e.g., `$data`, `$nrow`, `$ncol`, `n_features`, `row_ids`, and `$feature_names`.
 #'   Altering `$col_roles` may affect, e.g., `$data`, `$ncol`, `$n_features`, and `$feature_names`.
 #'   Altering `$row_roles` may affect, e.g., `$data`, `$nrow`, and `$row_ids`.
 #' * Modification of column or row roles via `$set_col_roles()` or `$set_row_roles()`, respectively.
 #'   They are an alternative to directly accessing `$col_roles` or `$row_roles`, with the same side effects.
-#' * `$select()` and `$filter()` subset the set of active features or rows in `$col_roles` or `$row_roles`, respectively.
+#' * `$select()` and `$filter()` subset the set of active features or rows in `$col_roles` or `$row_roles`,
+#'   respectively.
 #' * `$cbind()` and `$rbind()` change the task in-place by binding new columns or rows to the data.
 #' * `$rename()` changes column names.
-#' * `$set_levels()` and `$droplevels()` update the field `$col_info()` to automatically repair factor levels while querying data with `$data()`.
+#' * `$set_levels()` and `$droplevels()` update the field `$col_info()` to automatically repair
+#'   factor levels while querying data with `$data()`.
 #' * `$materialize_view()` creates a new [DataBackendDataTable] which keeps only the data in the currently active view
 #'   possibly freeing some memory consumed by the [DataBackend] stored in the `Task`.
 #'
@@ -59,7 +61,7 @@
 #' @examples
 #' # We use the inherited class TaskClassif here,
 #' # because the base class `Task` is not intended for direct use
-#' task = TaskClassif$new("penguings", palmerpenguins::penguins, target = "species")
+#' task = TaskClassif$new("penguins", palmerpenguins::penguins, target = "species")
 #'
 #' task$nrow
 #' task$ncol
@@ -74,128 +76,53 @@
 #' # Add new column "foo"
 #' task$cbind(data.frame(foo = 1:344))
 #' head(task)
-Task = R6Class("Task",
+Task = R6Class(
+  "Task",
   public = list(
-    #' @template field_label
-    label = NA_character_,
-
-    #' @template field_task_type
-    task_type = NULL,
-
-    #' @field backend ([DataBackend])\cr
-    #' Abstract interface to the data of the task.
-    backend = NULL,
-
-    #' @field col_info ([data.table::data.table()])\cr
-    #' Table with with 4 columns, mainly for internal purposes:
-    #' - `"id"` (`character()`) stores the name of the column.
-    #' - `"type"` (`character()`) holds the storage type of the variable, e.g. `integer`, `numeric` or `character`.
-    #'   See [mlr_reflections$task_feature_types][mlr_reflections] for a complete list of allowed types.
-    #' - `"levels"` (`list()`) stores a vector of distinct values (levels) for ordered and unordered factor variables.
-    #' - `"label"` (`character()`) stores a vector of prettier, formated column names.
-    #' - `"fix_factor_levels"` (`logical()`) stores flags which determine if the levels of the respective variable
-    #'   need to be reordered after querying the data from the [DataBackend].
-    #'
-    #' Note that all columns of the [DataBackend], also columns which are not selected or have any role, are listed
-    #' in this table.
-    col_info = NULL,
-
-    #' @template field_man
-    man = NA_character_,
-
-    #' @field extra_args (named `list()`)\cr
-    #' Additional arguments set during construction.
-    #' Required for [convert_task()].
-    extra_args = NULL,
-
-    #' @field mlr3_version (`package_version`)\cr
-    #' Package version of `mlr3` used to create the task.
-    mlr3_version = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [TaskClassif] or [TaskRegr].
     initialize = function(id, task_type, backend, label = NA_character_, extra_args = list()) {
-      private$.id = assert_string(id, min.chars = 1L)
-      self$label = assert_string(label, na.ok = TRUE)
-      self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
+      private$.id = assert_id(id)
+      private$.label = assert_string(label, na.ok = TRUE)
+      private$.task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       if (!inherits(backend, "DataBackend")) {
-        self$backend = as_data_backend(backend)
+        private$.backend = as_data_backend(backend)
       } else {
-        self$backend = assert_backend(backend)
+        private$.backend = assert_backend(backend)
       }
 
-      cn = self$backend$colnames
-      rn = self$backend$rownames
+      cn = private$.backend$colnames
+      rn = private$.backend$rownames
 
       assert_names(cn, "unique", .var.name = "column names")
       if (any(grepl("%", cn, fixed = TRUE))) {
         error_input("Column names may not contain special character '%%'")
       }
 
-      self$col_info = col_info(self$backend)
-      self$col_info$label = NA_character_
-      self$col_info$fix_factor_levels = FALSE
+      private$.col_info = col_info(private$.backend)
+      private$.col_info$label = NA_character_
+      private$.col_info$fix_factor_levels = FALSE
 
-      assert_subset(self$col_info$type, mlr_reflections$task_feature_types, .var.name = "feature types")
-      pmap(self$col_info,
-        function(id, levels, ...) {
-          assert_character(levels, any.missing = FALSE, min.len = 1L, null.ok = TRUE,
-            .var.name = sprintf("levels of '%s'", id))
-        }
-      )
+      assert_subset(private$.col_info$type, mlr_reflections$task_feature_types, .var.name = "feature types")
+      pmap(private$.col_info, function(id, levels, ...) {
+        assert_character(
+          levels,
+          any.missing = FALSE,
+          min.len = 1L,
+          null.ok = TRUE,
+          .var.name = sprintf("levels of '%s'", id)
+        )
+      })
 
-      cn = self$col_info$id # note: this sorts the columns!
+      cn = private$.col_info$id # note: this sorts the columns!
       private$.row_roles = list(use = rn)
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
-      private$.col_roles$feature = setdiff(cn, self$backend$primary_key)
-      self$extra_args = assert_list(extra_args, names = "unique")
-      self$mlr3_version = mlr_reflections$package_version
-    },
-
-    #' @description
-    #' Deprecated.
-    #'
-    #' @param ratio (`numeric(1)`)\cr
-    #'   The proportion of datapoints to use as validation data.
-    #' @param ids (`integer()`)\cr
-    #'   The row ids to use as validation data.
-    #' @param remove (`logical(1)`)\cr
-    #'   If `TRUE` (default), the `row_ids` are removed from the primary task's active `"use"` rows, ensuring a
-    #'   disjoint split between the train and validation data.
-    #'
-    #' @return Modified `Self`.
-    divide = function(ratio = NULL, ids = NULL, remove = TRUE) {
-      .Deprecated("field $internal_valid_task")
-      assert_flag(remove)
-      private$.hash = NULL
-
-      if (!xor(is.null(ratio), is.null(ids))) {
-        error_input("Provide a ratio or ids to create a validation task, but not both (Task '%s').", self$id)
-      }
-
-      valid_ids = if (!is.null(ratio)) {
-        assert_numeric(ratio, lower = 0, upper = 1, any.missing = FALSE)
-        partition(self, ratio = 1 - ratio)$test
-      } else {
-        assert_row_ids(ids, null.ok = FALSE)
-      }
-
-      prev_internal_valid = private$.internal_valid_task
-      if (!is.null(prev_internal_valid)) {
-        lg$debug("Task %s already had an internal validation task that is being overwritten.", self$id)
-        # in case something goes wrong
-        on.exit({private$.internal_valid_task = prev_internal_valid}, add = TRUE)
-        private$.internal_valid_task = NULL
-      }
-      private$.internal_valid_task = self$clone(deep = TRUE)
-      private$.internal_valid_task$row_roles$use = valid_ids
-      if (remove) {
-        self$row_roles$use = setdiff(self$row_roles$use, valid_ids)
-      }
-      on.exit({}, add = FALSE)
-      invisible(self)
+      private$.col_roles$feature = setdiff(cn, private$.backend$primary_key)
+      private$.extra_args = assert_list(extra_args, names = "unique")
+      private$.man = NA_character_
+      private$.mlr3_version = mlr_reflections$package_version
     },
 
     #' @description
@@ -229,25 +156,6 @@ Task = R6Class("Task",
 
       cat_cli(cli_li("Target: {self$target_names}"))
 
-      if (class(self)[1L] == "TaskClassif") {
-        if (!is.null(self$backend)) {
-          class_freqs = table(self$truth()) / self$nrow * 100
-          class_freqs = class_freqs[order(-class_freqs, names(class_freqs))]  # Order by class frequency, then names
-          classes = if ("twoclass" %in% self$properties) {
-            sprintf("%s (positive class, %.0f%%), %s (%.0f%%)", self$positive, class_freqs[[self$positive]], self$negative, class_freqs[[self$negative]])
-          } else {
-            if (length(class_freqs) > 10L) {
-              paste0(toString(sprintf("%s (%.0f%%)", names(class_freqs)[1:10], class_freqs[1:10])), " + ", length(class_freqs) - 10, " more")
-            } else {
-              toString(sprintf("%s (%.0f%%)", names(class_freqs), class_freqs))
-            }
-          }
-        } else {
-          classes = toString(self$class_names)
-        }
-        cat_cli(cli_li("Target classes: {classes}"))
-      }
-
       properties = if (length(self$properties)) toString(self$properties) else "-"
       cat_cli(cli_li("Properties: {properties}"))
 
@@ -257,10 +165,12 @@ Task = R6Class("Task",
         cat_cli({
           id = type = NULL
           cli_li("Features ({nrow(types)}):")
-          types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, "type" := translate_types(type)]
+          types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][,
+            "type" := translate_types(type)
+          ]
           setorderv(types, "N", order = -1L)
 
-          ulid <- cli_ul()
+          ulid = cli_ul()
           pmap(types, function(type, N, feats) {
             cli_li("{type} ({N}): {feats}")
           })
@@ -268,8 +178,7 @@ Task = R6Class("Task",
         })
       }
 
-
-      # print additional columns are specified in reflections
+      # print additional columns as specified in reflections
       after = mlr_reflections$task_print_col_roles$after
       iwalk(after[after %chin% names(roles)], function(role, str) {
         cat_cli(cli_li("{str}: {roles[[role]]}"))
@@ -286,14 +195,16 @@ Task = R6Class("Task",
 
     #' @description
     #' Returns a slice of the data from the [DataBackend] as a `data.table`.
-    #' Rows default to observations with role `"use"`, and columns default to features with roles `"target"` or `"feature"`.
+    #' Rows default to observations with role `"use"`,
+    #' and columns default to features with roles `"target"` or `"feature"`.
     #' Rows must be a subset of `$row_ids`.
     #' If `rows` or `cols` are specified which do not exist in the [DataBackend], an exception is raised.
     #'
     #' Rows and columns are returned in the order specified via the arguments `rows` and `cols`.
     #' If `rows` is `NULL`, rows are returned in the order of `task$row_ids`.
     #' If `cols` is `NULL`, the column order defaults to `c(task$target_names, task$feature_names)`.
-    #' Note that it is recommended to **not** rely on the order of columns, and instead always address columns with their respective column name.
+    #' Note that it is recommended to **not** rely on the order of columns,
+    #' and instead always address columns with their respective column name.
     #'
     #' @param ordered (`logical(1)`)\cr
     #'   If `TRUE`, data is ordered according to the columns with column role `"order"`.
@@ -321,7 +232,7 @@ Task = R6Class("Task",
       if (is.null(cols)) {
         query_cols = cols = c(col_roles$target, col_roles$feature)
       } else {
-        assert_subset(cols, self$col_info$id)
+        assert_subset(cols, private$.col_info$id)
         query_cols = cols
       }
 
@@ -330,23 +241,34 @@ Task = R6Class("Task",
         query_cols = union(query_cols, col_roles$order)
       }
 
-      data = self$backend$data(rows = rows, cols = query_cols)
+      data = private$.backend$data(rows = rows, cols = query_cols)
 
       if (length(query_cols) && nrow(data) != length(rows)) {
-        error_mlr3("DataBackend did not return the queried rows correctly: %i requested, %i received.
-        The resampling was probably instantiated on a different task.", length(rows), nrow(data))  # TODO: more specific error necessary?
+        error_mlr3(
+          "DataBackend did not return the queried rows correctly: %i requested, %i received.
+        The resampling was probably instantiated on a different task.",
+          length(rows),
+          nrow(data)
+        ) # TODO: more specific error necessary?
       }
 
       if (length(rows) && ncol(data) != length(query_cols)) {
-        error_mlr3("DataBackend did not return the queried cols correctly: %i requested, %i received", length(cols), ncol(data))  # TODO: more specific error necessary?
+        error_mlr3(
+          "DataBackend did not return the queried cols correctly: %i requested, %i received",
+          length(cols),
+          ncol(data)
+        ) # TODO: more specific error necessary?
       }
 
-      .__i__ = self$col_info[["fix_factor_levels"]]
+      # nolint next
+      .__i__ = private$.col_info[["fix_factor_levels"]]
       if (any(.__i__)) {
-        fix_factors = self$col_info[.__i__, c("id", "levels"), with = FALSE]
+        fix_factors = private$.col_info[.__i__, c("id", "levels"), with = FALSE]
         if (nrow(fix_factors)) {
           # ordering is slow
-          if (nrow(fix_factors) > 1L) fix_factors = fix_factors[list(names(data)), on = "id", nomatch = NULL]
+          if (nrow(fix_factors) > 1L) {
+            fix_factors = fix_factors[list(names(data)), on = "id", nomatch = NULL]
+          }
           data = fix_factor_levels(data, levels = set_names(fix_factors$levels, fix_factors$id))
         }
       }
@@ -361,10 +283,12 @@ Task = R6Class("Task",
 
     #' @description
     #' Constructs a [formula()], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`,
-    #' using the features provided in argument `rhs` (defaults to all columns with role `"feature"`, symbolized by `"."`).
+    #' using the features provided in argument `rhs`
+    #' (defaults to all columns with role `"feature"`, symbolized by `"."`).
     #'
     #' Note that it is currently not possible to change the formula.
-    #' However, \CRANpkg{mlr3pipelines} provides a pipe operator interfacing [stats::model.matrix()] for this purpose: `"modelmatrix"`.
+    #' However, \CRANpkg{mlr3pipelines} provides a pipe operator interfacing [stats::model.matrix()] for this
+    #' purpose: `"modelmatrix"`.
     #'
     #' @param rhs (`character(1)`)\cr
     #'   Right hand side of the formula. Defaults to `"."` (all features of the task).
@@ -404,13 +328,17 @@ Task = R6Class("Task",
     levels = function(cols = NULL) {
       if (is.null(cols)) {
         cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
-        cols = self$col_info[get("id") %chin% cols & get("type") %chin% c("factor", "ordered"), "id", with = FALSE][[1L]]
+        cols = private$.col_info[
+          get("id") %chin% cols & get("type") %chin% c("factor", "ordered"),
+          "id",
+          with = FALSE
+        ][[1L]]
       } else {
-        assert_subset(cols, self$col_info$id)
+        assert_subset(cols, private$.col_info$id)
       }
 
       set_names(
-        fget_keys(self$col_info, cols, "levels", "id"),
+        fget_keys(private$.col_info, cols, "levels", "id"),
         cols
       )
     },
@@ -427,14 +355,13 @@ Task = R6Class("Task",
     missings = function(cols = NULL) {
       assert_has_backend(self)
 
-
       if (is.null(cols)) {
         cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
       } else {
-        assert_subset(cols, self$col_info$id)
+        assert_subset(cols, private$.col_info$id)
       }
 
-      self$backend$missings(self$row_ids, cols = cols)
+      private$.backend$missings(self$row_ids, cols = cols)
     },
 
     #' @description
@@ -445,7 +372,7 @@ Task = R6Class("Task",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
@@ -469,7 +396,7 @@ Task = R6Class("Task",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
@@ -503,7 +430,7 @@ Task = R6Class("Task",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
@@ -512,8 +439,8 @@ Task = R6Class("Task",
     rbind = function(data) {
       assert_has_backend(self)
 
-      pk = self$backend$primary_key
-      rn = self$backend$rownames
+      pk = private$.backend$primary_key
+      rn = private$.backend$rownames
       pk_in_backend = TRUE
       type_check = TRUE
 
@@ -521,7 +448,7 @@ Task = R6Class("Task",
         pk_in_backend = pk %chin% names(data)
         type_check = FALSE # done by auto-converter
 
-        keep_cols = intersect(names(data), self$col_info$id)
+        keep_cols = intersect(names(data), private$.col_info$id)
         if (length(keep_cols) == pk_in_backend || nrow(data) == 0L) {
           return(invisible(self))
         }
@@ -531,10 +458,11 @@ Task = R6Class("Task",
           pk = seq(from = start, to = start + nrow(data) - 1L)
         }
 
-        ci = self$col_info[list(keep_cols), on = "id"]
-        data = do.call(data.table, Map(auto_convert,
-          value = as.list(data)[ci$id],
-          id = ci$id, type = ci$type, levels = ci$levels))
+        ci = private$.col_info[list(keep_cols), on = "id"]
+        data = do.call(
+          data.table,
+          Map(auto_convert, value = as.list(data)[ci$id], id = ci$id, type = ci$type, levels = ci$levels)
+        )
 
         data = as_data_backend(data, primary_key = pk)
       } else {
@@ -544,28 +472,53 @@ Task = R6Class("Task",
         }
       }
 
-      if (pk_in_backend && any(data$rownames %in% self$backend$rownames)) {
+      if (pk_in_backend && any(data$rownames %in% private$.backend$rownames)) {
         error_input("Cannot rbind data to task '%s', duplicated row ids", self$id)
       }
 
       # columns with these roles must be present in data
-      mandatory_roles = c("target", "feature", "group", "stratum", "order", "offset", "weights_learner", "weights_measure")
+      mandatory_roles = c(
+        "target",
+        "feature",
+        "group",
+        "stratum",
+        "order",
+        "offset",
+        "weights_learner",
+        "weights_measure"
+      )
       mandatory_cols = unlist(private$.col_roles[mandatory_roles], use.names = FALSE)
       missing_cols = setdiff(mandatory_cols, data$colnames)
       if (length(missing_cols)) {
-        error_input("Cannot rbind data to task '%s', missing the following mandatory columns: %s", self$id, str_collapse(missing_cols))
+        error_input(
+          "Cannot rbind data to task '%s', missing the following mandatory columns: %s",
+          self$id,
+          str_collapse(missing_cols)
+        )
       }
 
       # merge col infos
-      tab = merge(self$col_info, col_info(data), by = "id",
-        all.x = TRUE, all.y = FALSE, suffixes = c("", "_y"), sort = TRUE)
+      tab = merge(
+        private$.col_info,
+        col_info(data),
+        by = "id",
+        all.x = TRUE,
+        all.y = FALSE,
+        suffixes = c("", "_y"),
+        sort = TRUE
+      )
 
       # type check
       if (type_check) {
         type = type_y = NULL
         ii = head(tab[type != type_y, which = TRUE], 1L)
         if (length(ii)) {
-          error_input("Cannot rbind to task: Types do not match for column: %s (%s != %s)", tab$id[ii], tab$type[ii], tab$type_y[ii])
+          error_input(
+            "Cannot rbind to task: Types do not match for column: %s (%s != %s)",
+            tab$id[ii],
+            tab$type[ii],
+            tab$type_y[ii]
+          )
         }
       }
 
@@ -583,8 +536,8 @@ Task = R6Class("Task",
 
       # everything looks good, modify task
       private$.hash = NULL
-      self$backend = DataBackendRbind$new(self$backend, data)
-      self$col_info = tab[]
+      private$.backend = DataBackendRbind$new(private$.backend, data)
+      private$.col_info = tab[]
       private$.row_roles$use = c(private$.row_roles$use, data$rownames)
 
       invisible(self)
@@ -594,7 +547,8 @@ Task = R6Class("Task",
     #'
     #' Adds additional columns to the [DataBackend] stored in `$backend`.
     #'
-    #' The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
+    #' The row ids must be provided as column in `data`
+    #' (with column name matching the primary key name of the [DataBackend]).
     #' If this column is missing, it is assumed that the rows are exactly in the order of `$row_ids`.
     #' In case of name clashes of column names in `data` and [DataBackend], columns in `data` have higher precedence
     #' and virtually overwrite the columns in the [DataBackend].
@@ -608,7 +562,7 @@ Task = R6Class("Task",
     #' head(task$data(cols = "extra_col"))
     cbind = function(data) {
       assert_has_backend(self)
-      pk = self$backend$primary_key
+      pk = private$.backend$primary_key
 
       if (is.data.frame(data)) {
         # binding data with 0 rows is explicitly allowed
@@ -616,7 +570,7 @@ Task = R6Class("Task",
           return(invisible(self))
         }
 
-        row_ids = if (pk %nin% names(data)) {
+        if (pk %nin% names(data)) {
           data[[pk]] = self$row_ids
         }
 
@@ -631,14 +585,17 @@ Task = R6Class("Task",
 
       # update col_info for existing columns
       ci = col_info(data)
-      self$col_info = ujoin(self$col_info, ci, key = "id")
+      private$.col_info = ujoin(private$.col_info, ci, key = "id")
 
       # add rows to col_info for new columns
-      self$col_info = rbindlist(list(
-        self$col_info,
-        insert_named(ci[!list(self$col_info), on = "id"], list(label = NA_character_, fix_factor_levels = FALSE))
-      ), use.names = TRUE)
-      setkeyv(self$col_info, "id")
+      private$.col_info = rbindlist(
+        list(
+          private$.col_info,
+          insert_named(ci[!list(private$.col_info), on = "id"], list(label = NA_character_, fix_factor_levels = FALSE))
+        ),
+        use.names = TRUE
+      )
+      setkeyv(private$.col_info, "id")
 
       # add new features
       private$.hash = NULL
@@ -647,11 +604,10 @@ Task = R6Class("Task",
       private$.col_roles$feature = union(col_roles$feature, setdiff(data$colnames, c(pk, col_roles$target)))
 
       # update backend
-      self$backend = DataBackendCbind$new(self$backend, data)
+      private$.backend = DataBackendCbind$new(private$.backend, data)
 
       invisible(self)
     },
-
 
     #' @description
     #' Renames columns by mapping column names in `old` to new column names in `new` (element-wise).
@@ -667,7 +623,7 @@ Task = R6Class("Task",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
@@ -677,8 +633,8 @@ Task = R6Class("Task",
       assert_has_backend(self)
       private$.hash = NULL
       private$.col_hashes = NULL
-      self$backend = DataBackendRename$new(self$backend, old, new)
-      setkeyv(self$col_info[old, ("id") := new, on = "id"], "id")
+      private$.backend = DataBackendRename$new(private$.backend, old, new)
+      setkeyv(private$.col_info[old, ("id") := new, on = "id"], "id")
       private$.col_roles = map(private$.col_roles, map_values, old = old, new = new)
       invisible(self)
     },
@@ -700,19 +656,19 @@ Task = R6Class("Task",
     #' @details
     #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally
     #' removed (argument `remove_from`) from different roles.
-    #' Duplicated row ids are explicitly allowed, so you can add replicate an observation by repeating its
+    #' Duplicated row ids are explicitly allowed, so you can replicate an observation by repeating its
     #' `row_id`.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
     #' task$set_row_roles(1:5, remove_from = "use")
     set_row_roles = function(rows, roles = NULL, add_to = NULL, remove_from = NULL) {
       assert_has_backend(self)
-      assert_subset(rows, self$backend$rownames)
+      assert_subset(rows, private$.backend$rownames)
 
       private$.row_hash = NULL
       private$.hash = NULL
@@ -737,14 +693,15 @@ Task = R6Class("Task",
     #'   Other column roles are preserved.
     #'
     #' @details
-    #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally removed (argument `remove_from`) from different roles.
+    #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally removed
+    #' (argument `remove_from`) from different roles.
     #' Duplicated columns are removed from the same role.
     #' For tasks that only allow one target, the target column cannot be set with `$set_col_roles()`.
     #' Use the `$col_roles` field to swap the target column.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
@@ -752,7 +709,7 @@ Task = R6Class("Task",
     #' task$col_roles$stratum
     set_col_roles = function(cols, roles = NULL, add_to = NULL, remove_from = NULL) {
       assert_has_backend(self)
-      assert_subset(cols, self$col_info$id)
+      assert_subset(cols, private$.col_info$id)
 
       private$.hash = NULL
       private$.col_hashes = NULL
@@ -781,17 +738,16 @@ Task = R6Class("Task",
     #' task$levels("sex")
     set_levels = function(levels) {
       assert_list(levels, types = "character", names = "unique", any.missing = FALSE)
-      assert_subset(names(levels), self$col_info$id)
+      assert_subset(names(levels), private$.col_info$id)
 
       tab = enframe(lapply(levels, unname), name = "id", value = "levels")
       tab$fix_factor_levels = TRUE
 
       private$.hash = NULL
-      self$col_info = ujoin(self$col_info, tab, key = "id")
+      private$.col_info = ujoin(private$.col_info, tab, key = "id")
 
       invisible(self)
     },
-
 
     #' @description
     #' Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
@@ -803,7 +759,11 @@ Task = R6Class("Task",
     #' task$levels("sex")
     droplevels = function(cols = NULL) {
       assert_has_backend(self)
-      tab = self$col_info[get("type") %chin% c("factor", "ordered"), c("id", "levels", "fix_factor_levels"), with = FALSE]
+      tab = private$.col_info[
+        get("type") %chin% c("factor", "ordered"),
+        c("id", "levels", "fix_factor_levels"),
+        with = FALSE
+      ]
       if (!is.null(cols)) {
         tab = tab[list(cols), on = "id", nomatch = NULL]
       }
@@ -811,16 +771,15 @@ Task = R6Class("Task",
       # update levels
       # note that we assume that new_levels is a subset of levels!
       new_levels = NULL
-      tab$new_levels = self$backend$distinct(rows = self$row_ids, cols = tab$id)
+      tab$new_levels = private$.backend$distinct(rows = self$row_ids, cols = tab$id)
       tab = tab[lengths(levels) > lengths(new_levels)]
       tab[, c("levels", "fix_factor_levels") := list(Map(intersect, levels, new_levels), TRUE)]
 
       private$.hash = NULL
-      self$col_info = ujoin(self$col_info, remove_named(tab, "new_levels"), key = "id")
+      private$.col_info = ujoin(private$.col_info, remove_named(tab, "new_levels"), key = "id")
 
       invisible(self)
     },
-
 
     #' @description
     #' Cuts numeric variables into new factors columns which are added to the task with role
@@ -838,10 +797,10 @@ Task = R6Class("Task",
     #' task = tsk("penguins")
     #' task$add_strata("flipper_length", bins = 4)
     add_strata = function(cols, bins = 3L) {
-      assert_names(cols, "unique", subset.of = self$backend$colnames)
+      assert_names(cols, "unique", subset.of = private$.backend$colnames)
       bins = assert_integerish(bins, any.missing = FALSE, coerce = TRUE)
 
-      col_types = fget_keys(self$col_info, i = cols, j = "type", key = "id")
+      col_types = fget_keys(private$.col_info, i = cols, j = "type", key = "id")
       ii = wf(col_types %nin% c("integer", "numeric"))
       if (length(ii)) {
         error_input("For `add_strata`, all columns must be numeric, but '%s' is not", cols[ii])
@@ -876,11 +835,12 @@ Task = R6Class("Task",
     materialize_view = function(internal_valid_task = TRUE) {
       assert_flag(internal_valid_task)
 
-      b = self$backend
+      b = private$.backend
+      # nolint next
       ..cns = union(b$primary_key, unlist(private$.col_roles, use.names = FALSE))
       dt = b$data(rows = unique(self$row_ids), cols = ..cns)
-      self$backend = as_data_backend(dt, primary_key = b$primary_key)
-      self$col_info = setkeyv(self$col_info[list(..cns), on = "id"], "id")
+      private$.backend = as_data_backend(dt, primary_key = b$primary_key)
+      private$.col_info = setkeyv(private$.col_info[list(..cns), on = "id"], "id")
 
       if (internal_valid_task && !is.null(private$.internal_valid_task)) {
         private$.internal_valid_task$materialize_view(FALSE)
@@ -897,10 +857,10 @@ Task = R6Class("Task",
       }
 
       private$.hash = NULL
-      private$.id = assert_string(rhs, min.chars = 1L)
+      private$.id = assert_id(rhs)
     },
 
-    #' @field internal_valid_task (`Task` or `integer()` or `NULL`)\cr
+    #' @field internal_valid_task (`Task` | `integer()` | `NULL`)\cr
     #' Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
     #' See also the `$validate` field of [`Learner`].
     #' If integers are assigned they are removed from the primary task and an internal validation task
@@ -915,7 +875,6 @@ Task = R6Class("Task",
         private$.internal_valid_task = NULL
         return(invisible(private$.internal_valid_task))
       }
-      private$.hash = NULL
 
       if (test_integerish(rhs)) {
         train_ids = setdiff(self$row_ids, rhs)
@@ -923,14 +882,15 @@ Task = R6Class("Task",
         rhs$internal_valid_task = NULL
         self$row_roles$use = train_ids
       } else {
-        if (!is.null(rhs$internal_valid_task)) { # avoid recursive structures
+        if (!is.null(rhs$internal_valid_task)) {
+          # avoid recursive structures
           error_input("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
         }
         assert_task(rhs, task_type = self$task_type)
         rhs = rhs$clone(deep = TRUE)
       }
 
-      ci1 = self$col_info
+      ci1 = private$.col_info
       ci2 = rhs$col_info
       # don't do this too strictly, some column roles might just be important during training (weights)
       cols = unlist(self$col_roles[c("target", "feature")], use.names = FALSE)
@@ -939,7 +899,10 @@ Task = R6Class("Task",
           error_input("Primary task has column '%s' which is not present in the validation task.", .col)
         }
         if (ci1[get("id") == .col, "type"]$type != ci2[get("id") == .col, "type"]$type) {
-          error_input("The type of column '%s' from the validation task differs from the type in the primary task.", .col)
+          error_input(
+            "The type of column '%s' from the validation task differs from the type in the primary task.",
+            .col
+          )
         }
       })
 
@@ -955,6 +918,7 @@ Task = R6Class("Task",
     #' The hash is calculated based on the complete task object and `$row_ids`.
     #' If an internal validation task is set, the hash is recalculated.
     hash = function(rhs) {
+      assert_ro_binding(rhs)
       if (is.null(private$.hash)) {
         private$.hash = task_hash(self, self$row_ids, ignore_internal_valid_task = FALSE)
       }
@@ -990,8 +954,10 @@ Task = R6Class("Task",
       if (length(nn) == 0L) {
         return(NULL)
       }
-      setnames(self$backend$data(rows = self$row_ids, cols = c(self$backend$primary_key, nn)),
-        c("row_id", "row_name"))
+      setnames(
+        private$.backend$data(rows = self$row_ids, cols = c(private$.backend$primary_key, nn)),
+        c("row_id", "row_name")
+      )
     },
 
     #' @field feature_names (`character()`)\cr
@@ -1015,16 +981,19 @@ Task = R6Class("Task",
 
     #' @field properties (`character()`)\cr
     #' Set of task properties.
-    #' Possible properties are are stored in [mlr_reflections$task_properties][mlr_reflections].
+    #' Possible properties are stored in [mlr_reflections$task_properties][mlr_reflections].
     #' The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
     #'
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
-    #' * `"weights_learner"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
-    #'    The use of weights can be disabled via by setting the learner's hyperparameter `use_weights` to `FALSE`.
-    #' * `"weights_measure"`: If the task has observation weights with this role, they are passed to the [Measure] for weighted scoring.
-    #'    The use of weights can be disabled via by setting the measure's hyperparameter `use_weights` to `FALSE`.
-    #' * `"offset"`: The task includes one or more offset columns specifying fixed adjustments for model training and possibly for prediction (role `"offset"`).
+    #' * `"weights_learner"`: If the task has observation weights with this role,
+    #'    they are passed to the [Learner] during train.
+    #'    The use of weights can be disabled by setting the learner's hyperparameter `use_weights` to `FALSE`.
+    #' * `"weights_measure"`: If the task has observation weights with this role,
+    #'    they are passed to the [Measure] for weighted scoring.
+    #'    The use of weights can be disabled by setting the measure's hyperparameter `use_weights` to `FALSE`.
+    #' * `"offset"`: The task includes one or more offset columns specifying fixed adjustments for model training
+    #'    and possibly for prediction (role `"offset"`).
     #' * `"ordered"`: The task has columns which define the row order (role `"order"`).
     #'
     #' Note that above listed properties are calculated from the `$col_roles`, and may not be set explicitly.
@@ -1046,8 +1015,10 @@ Task = R6Class("Task",
     #'
     #' - `"use"`: Use in train / predict / resampling.
     #'
-    #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
-    #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
+    #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of
+    #' row ids.
+    #' To alter the roles, just modify the list,
+    #' e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
     row_roles = function(rhs) {
       if (missing(rhs)) {
         return(private$.row_roles)
@@ -1058,7 +1029,12 @@ Task = R6Class("Task",
       if ("test" %chin% names(rhs) || "holdout" %chin% names(rhs)) {
         error_input("Setting row roles 'test'/'holdout' is no longer possible.")
       }
-      assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
+      assert_names(
+        names(rhs),
+        "unique",
+        permutation.of = mlr_reflections$task_row_roles,
+        .var.name = "names of row_roles"
+      )
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")
       private$.row_hash = NULL
       private$.hash = NULL
@@ -1074,26 +1050,35 @@ Task = R6Class("Task",
     #'   Not more than a single column can be associated with this role.
     #' * `"order"`: Data returned by `$data()` is ordered by this column (or these columns).
     #'   Columns must be sortable with [order()].
-    #' * `"group"`: During resampling, observations with the same value of the variable with role "group" are marked as "belonging together".
-    #'   For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
+    #' * `"group"`: During resampling, observations with the same value of the variable with role "group" are marked
+    #'   as "belonging together".
+    #'   For each resampling iteration, observations of the same group will be exclusively assigned to be either in
+    #'   the training set or in the test set.
     #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
-    #' * `"weights_learner"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
-    #'    The use of weights can be disabled via by setting the learner's hyperparameter `use_weights` to `FALSE`.
-    #' * `"weights_measure"`: If the task has observation weights with this role, they are passed to the [Measure] for weighted scoring.
-    #'    The use of weights can be disabled via by setting the measure's hyperparameter `use_weights` to `FALSE`.
+    #' * `"weights_learner"`: If the task has observation weights with this role,
+    #'    they are passed to the [Learner] during train.
+    #'    The use of weights can be disabled by setting the learner's hyperparameter `use_weights` to `FALSE`.
+    #' * `"weights_measure"`: If the task has observation weights with this role,
+    #'    they are passed to the [Measure] for weighted scoring.
+    #'    The use of weights can be disabled by setting the measure's hyperparameter `use_weights` to `FALSE`.
     #' * `"offset"`: Numeric columns used to specify fixed adjustments for model training.
-    #'   Some models use offsets to simply shift predictions, while others incorporate them to boost predictions from a baseline model.
-    #'   For learners supporting offsets in multiclass settings, an offset column must be provided for each target class.
+    #'   Some models use offsets to simply shift predictions,
+    #'   while others incorporate them to boost predictions from a baseline model.
+    #'   For learners supporting offsets in multiclass settings,
+    #'   an offset column must be provided for each target class.
     #'   These columns must follow the naming convention `"offset_{target_class_name}"`.
     #'   For an example of a learner that supports offsets, see `LearnerClassifXgboost`  of \CRANpkg{mlr3learners}.
     #'
-    #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
-    #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
+    #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector
+    #' of column names.
+    #' To alter the roles, just modify the list,
+    #' e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
     #' The method `$set_col_roles` provides a convenient alternative to assign columns to roles.
     #'
     #' The roles `weights_learner` and `weights_measure` may only point to a single numeric column, but they can
-    #' all point to the same column or different columns. Weights must be non-negative numerics with at least one weight being > 0.
+    #' all point to the same column or different columns.
+    #' Weights must be non-negative numerics with at least one weight being > 0.
     #' They don't necessarily need to sum up to 1.
     col_roles = function(rhs) {
       if (missing(rhs)) {
@@ -1103,7 +1088,11 @@ Task = R6Class("Task",
       assert_has_backend(self)
       qassertr(rhs, "S[1,]", .var.name = "col_roles")
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_col_roles[[self$task_type]])
-      assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
+      assert_subset(
+        unlist(rhs, use.names = FALSE),
+        setdiff(private$.col_info$id, private$.backend$primary_key),
+        .var.name = "elements of col_roles"
+      )
 
       private$.hash = NULL
       private$.col_hashes = NULL
@@ -1136,15 +1125,16 @@ Task = R6Class("Task",
     #' features of the task and `type` is the storage type.
     feature_types = function(rhs) {
       assert_ro_binding(rhs)
-      setkeyv(self$col_info[list(private$.col_roles$feature), c("id", "type"), on = "id"], "id")
+      setkeyv(private$.col_info[list(private$.col_roles$feature), c("id", "type"), on = "id"], "id")
     },
 
     #' @field strata ([data.table::data.table()])\cr
-    #' If the task has columns designated with role `"stratum"`, returns a table with one subpopulation per row and two columns:
+    #' If the task has columns designated with role `"stratum"`,
+    #' returns a table with one subpopulation per row and two columns:
     #'
     #' * `N` (`integer()`) with the number of observations in the subpopulation, and
     #' * `row_id` (list of `integer()`) as list column with the row ids in the respective subpopulation.
-    #' Returns `NULL` if there are is no stratification variable.
+    #' Returns `NULL` if there is no stratification variable.
     #' See [Resampling] for more information on stratification.
     strata = function(rhs) {
       assert_has_backend(self)
@@ -1155,12 +1145,11 @@ Task = R6Class("Task",
       }
 
       row_ids = self$row_ids
-      tab = self$backend$data(rows = row_ids, cols = cols)
+      tab = private$.backend$data(rows = row_ids, cols = cols)
       tab$..row_id = row_ids
       tab = tab[, list(..N = .N, ..row_id = list(.SD$..row_id)), by = cols, .SDcols = "..row_id"][, (cols) := NULL]
       setnames(tab, c("..N", "..row_id"), c("N", "row_id"))[]
     },
-
 
     #' @field groups ([data.table::data.table()])\cr
     #' If the task has a column with designated role `"group"`, a table with two columns:
@@ -1168,7 +1157,7 @@ Task = R6Class("Task",
     #' * `row_id` (`integer()`), and
     #' * grouping variable `group` (`vector()`).
     #'
-    #' Returns `NULL` if there are is no grouping column.
+    #' Returns `NULL` if there is no grouping column.
     #' See [Resampling] for more information on grouping.
     groups = function(rhs) {
       assert_has_backend(self)
@@ -1177,7 +1166,7 @@ Task = R6Class("Task",
       if (length(group_cols) == 0L) {
         return(NULL)
       }
-      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, group_cols))
+      data = private$.backend$data(private$.row_roles$use, c(private$.backend$primary_key, group_cols))
       setnames(data, c("row_id", "group"))[]
     },
 
@@ -1187,7 +1176,7 @@ Task = R6Class("Task",
     #' * `row_id` (`integer()`), and
     #' * ordering vector `order` (`integer()`).
     #'
-    #' Returns `NULL` if there are is no order column.
+    #' Returns `NULL` if there is no order column.
     order = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)
@@ -1197,7 +1186,7 @@ Task = R6Class("Task",
         return(NULL)
       }
 
-      data = self$backend$data(private$.row_roles$use, order_cols)
+      data = private$.backend$data(private$.row_roles$use, order_cols)
       data.table(row_id = private$.row_roles$use, order = do.call(order, data))
     },
 
@@ -1216,7 +1205,7 @@ Task = R6Class("Task",
     #' * `row_id` (`integer()`), and
     #' * `weight` (`numeric()`).
     #'
-    #' Returns `NULL` if there are is no column with the designated role.
+    #' Returns `NULL` if there is no column with the designated role.
     weights_learner = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)
@@ -1224,7 +1213,7 @@ Task = R6Class("Task",
       if (length(weight_cols) == 0L) {
         return(NULL)
       }
-      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weight_cols))
+      data = private$.backend$data(private$.row_roles$use, c(private$.backend$primary_key, weight_cols))
       setnames(data, c("row_id", "weight"))[]
     },
 
@@ -1235,7 +1224,7 @@ Task = R6Class("Task",
     #' * `row_id` (`integer()`), and
     #' * `weight` (`numeric()`).
     #'
-    #' Returns `NULL` if there are is no column with the designated role.
+    #' Returns `NULL` if there is no column with the designated role.
     weights_measure = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)
@@ -1243,7 +1232,7 @@ Task = R6Class("Task",
       if (length(weight_cols) == 0L) {
         return(NULL)
       }
-      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weight_cols))
+      data = private$.backend$data(private$.row_roles$use, c(private$.backend$primary_key, weight_cols))
       setnames(data, c("row_id", "weight"))[]
     },
     #' @field offset ([data.table::data.table()])\cr
@@ -1265,16 +1254,16 @@ Task = R6Class("Task",
         return(NULL)
       }
 
-      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, offset_cols))
+      data = private$.backend$data(private$.row_roles$use, c(private$.backend$primary_key, offset_cols))
       if (length(offset_cols) == 1L) {
         setnames(data, c("row_id", "offset"))[]
-      } else  {
+      } else {
         setnames(data, c("row_id", offset_cols))[]
       }
     },
 
     #' @field labels (named `character()`)\cr
-    #'   Retrieve `labels` (prettier formated names) from columns.
+    #'   Retrieve `labels` (prettier formatted names) from columns.
     #'   Internally queries the column `label` of the table in field `col_info`.
     #'   Columns ids referenced by the name of the vector, the labels are the actual string values.
     #'
@@ -1287,11 +1276,12 @@ Task = R6Class("Task",
       active = union(self$target_names, self$feature_names)
 
       if (missing(rhs)) {
-        tab = ijoin(self$col_info, active, c("id", "label"), "id")
+        tab = ijoin(private$.col_info, active, c("id", "label"), "id")
         return(set_names(tab[["label"]], tab[["id"]]))
       }
 
-      if (is.data.frame(rhs)) { # convert to named character
+      if (is.data.frame(rhs)) {
+        # convert to named character
         assert_data_frame(rhs, ncols = 2L)
         assert_names(names(rhs), permutation.of = c("id", "label"))
         rhs = set_names(rhs[["label"]], rhs[["id"]])
@@ -1299,7 +1289,7 @@ Task = R6Class("Task",
 
       assert_names(names(rhs), type = "unique")
       assert_subset(names(rhs), active)
-      self$col_info[list(names(rhs)), "label" := rhs, on = "id"]
+      private$.col_info[list(names(rhs)), "label" := rhs, on = "id"]
 
       invisible(self)
     },
@@ -1307,7 +1297,10 @@ Task = R6Class("Task",
     #' @template field_col_hashes
     col_hashes = function() {
       if (is.null(private$.col_hashes)) {
-        private$.col_hashes = self$backend$col_hashes[setdiff(unlist(private$.col_roles, use.names = FALSE), self$backend$primary_key)]
+        private$.col_hashes = private$.backend$col_hashes[setdiff(
+          unlist(private$.col_roles, use.names = FALSE),
+          private$.backend$primary_key
+        )]
       }
       private$.col_hashes
     },
@@ -1328,13 +1321,94 @@ Task = R6Class("Task",
     #' This is different from `$row_ids` which only returns rows with role "use".
     row_ids_backend = function(rhs) {
       assert_ro_binding(rhs)
-      self$backend$rownames
+      private$.backend$rownames
+    },
+
+    #' @template field_label
+    label = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.label)
+      }
+      private$.label = assert_string(rhs, na.ok = TRUE)
+    },
+
+    #' @template field_task_type
+    task_type = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.task_type)
+      }
+      private$.task_type = assert_choice(rhs, mlr_reflections$task_types$type)
+    },
+
+    #' @template field_man
+    man = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.man)
+      }
+      private$.man = assert_string(rhs, na.ok = TRUE)
+    },
+
+    #' @field extra_args (named `list()`)\cr
+    #' Additional arguments set during construction.
+    #' Required for [convert_task()].
+    extra_args = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.extra_args)
+      }
+      private$.extra_args = assert_list(rhs, names = "unique")
+    },
+
+    #' @field backend ([DataBackend])\cr
+    #' Abstract interface to the data of the task.
+    backend = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.backend)
+      }
+      # Allow NULL for cleanup in deep_clone
+      if (!is.null(rhs)) {
+        assert_backend(rhs)
+      }
+      private$.backend = rhs
+    },
+
+    #' @field col_info ([data.table::data.table()])\cr
+    #' Table with 4 columns, mainly for internal purposes:
+    #' - `"id"` (`character()`) stores the name of the column.
+    #' - `"type"` (`character()`) holds the storage type of the variable, e.g. `integer`, `numeric` or `character`.
+    #'   See [mlr_reflections$task_feature_types][mlr_reflections] for a complete list of allowed types.
+    #' - `"levels"` (`list()`) stores a vector of distinct values (levels) for ordered and unordered factor variables.
+    #' - `"label"` (`character()`) stores a vector of prettier, formatted column names.
+    #' - `"fix_factor_levels"` (`logical()`) stores flags which determine if the levels of the respective variable
+    #'   need to be reordered after querying the data from the [DataBackend].
+    #'
+    #' Note that all columns of the [DataBackend], also columns which are not selected or have any role, are listed
+    #' in this table.
+    col_info = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.col_info)
+      }
+      assert_data_table(rhs)
+      private$.col_info = rhs
+    },
+
+    #' @field mlr3_version (`package_version`)\cr
+    #' Package version of `mlr3` used to create the task.
+    mlr3_version = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.mlr3_version
     }
   ),
 
   private = list(
     .internal_valid_task = NULL,
     .id = NULL,
+    .label = NULL,
+    .task_type = NULL,
+    .man = NULL,
+    .extra_args = NULL,
+    .backend = NULL,
+    .col_info = NULL,
+    .mlr3_version = NULL,
     .properties = NULL,
     .col_roles = NULL,
     .row_roles = NULL,
@@ -1345,7 +1419,7 @@ Task = R6Class("Task",
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
-      if (name == "col_info") {
+      if (name == ".col_info") {
         copy(value)
       } else if (name == ".internal_valid_task" && !is.null(value)) {
         value$clone(deep = TRUE)
@@ -1388,7 +1462,6 @@ task_set_roles = function(li, elements, roles = NULL, add_to = NULL, remove_from
       for (role in add_to) {
         li[[role]] = union(li[[role]], elements)
       }
-
     }
   }
 
@@ -1440,7 +1513,7 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
   # check weights
   for (role in c("weights_learner", "weights_measure")) {
     if (length(new_roles[[role]]) > 0L) {
-      col = task$backend$data(seq(task$backend$nrow), cols = new_roles[[role]])
+      col = task$backend$data(task$backend$rownames, cols = new_roles[[role]])
       assert_numeric(col[[1L]], lower = 0, any.missing = FALSE, .var.name = names(col))
     }
   }
@@ -1449,19 +1522,29 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
   if (length(new_roles[["name"]])) {
     row_names = task$backend$data(task$backend$rownames, cols = new_roles[["name"]])
     if (!is.character(row_names[[1L]]) && !is.factor(row_names[[1L]])) {
-      error_input("Assertion on '%s' failed: Must be of type 'character' or 'factor', not %s", names(row_names), class(row_names[[1]]))
+      error_input(
+        "Assertion on '%s' failed: Must be of type 'character' or 'factor', not %s",
+        names(row_names),
+        class(row_names[[1]])
+      )
     }
   }
 
   # check offset
-  if (length(new_roles[["offset"]]) && any(fget_keys(task$col_info, new_roles[["offset"]], "type", key = "id") %nin% c("numeric", "integer"))) {
-    error_input("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ","))
+  if (
+    length(new_roles[["offset"]]) &&
+      any(fget_keys(task$col_info, new_roles[["offset"]], "type", key = "id") %nin% c("numeric", "integer"))
+  ) {
+    error_input(
+      "Offset column(s) %s must be a numeric or integer column",
+      paste0("'", new_roles[["offset"]], "'", collapse = ", ")
+    )
   }
 
   if (length(new_roles[["offset"]]) && any(task$missings(cols = new_roles[["offset"]]) > 0)) {
     missings = task$missings(cols = new_roles[["offset"]])
     missings = names(missings[missings > 0])
-    error_input("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ","))
+    error_input("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ", "))
   }
 
   new_roles
@@ -1470,14 +1553,16 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
 #' @rdname task_check_col_roles
 #' @export
 task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
-
   # check target
   if (length(new_roles[["target"]]) > 1L) {
     error_input("There may only be up to one column with role 'target'")
   }
 
-  if (length(new_roles[["target"]]) && any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("factor", "ordered"))) {
-    error_input("Target column(s) %s must be a factor or ordered factor", paste0("'", new_roles[["target"]], "'", collapse = ","))
+  if (
+    length(new_roles[["target"]]) &&
+      any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("factor", "ordered"))
+  ) {
+    error_input("Target column(s) '%s' must be a factor or ordered factor", new_roles[["target"]])
   }
 
   if (length(new_roles[["offset"]]) > 1L && length(task$class_names) == 2L) {
@@ -1501,8 +1586,11 @@ task_check_col_roles.TaskRegr = function(task, new_roles, ...) {
     }
   }
 
-  if (length(new_roles[["target"]]) && any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("numeric", "integer"))) {
-    error_input("Target column '%s' must be a numeric or integer column", paste0("'", new_roles[["target"]], "'", collapse = ","))
+  if (
+    length(new_roles[["target"]]) &&
+      any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("numeric", "integer"))
+  ) {
+    error_input("Target column '%s' must be a numeric or integer column", new_roles[["target"]])
   }
 
   NextMethod()
@@ -1511,7 +1599,6 @@ task_check_col_roles.TaskRegr = function(task, new_roles, ...) {
 #' @rdname task_check_col_roles
 #' @export
 task_check_col_roles.TaskSupervised = function(task, new_roles, ...) {
-
   # check target
   if (length(new_roles$target) == 0L) {
     error_input("Supervised tasks need at least one target column")
@@ -1523,7 +1610,6 @@ task_check_col_roles.TaskSupervised = function(task, new_roles, ...) {
 #' @rdname task_check_col_roles
 #' @export
 task_check_col_roles.TaskUnsupervised = function(task, new_roles, ...) {
-
   # check target
   if (length(new_roles$target) != 0L) {
     error_input("Unsupervised tasks may not have a target column")
@@ -1556,7 +1642,8 @@ col_info = function(x, ...) {
 #' @param primary_key (`character()`)\cr
 #'   The primary key of the backend.
 #' @export
-col_info.data.table = function(x, primary_key = character(), ...) { # nolint
+# nolint next
+col_info.data.table = function(x, primary_key = character(), ...) {
   types = map_chr(x, function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %chin% c("factor", "ordered")], primary_key)
   levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct_values, drop = FALSE))
@@ -1565,7 +1652,8 @@ col_info.data.table = function(x, primary_key = character(), ...) { # nolint
 
 #' @rdname col_info
 #' @export
-col_info.DataBackend = function(x, ...) { # nolint
+# nolint next
+col_info.DataBackend = function(x, ...) {
   types = map_chr(x$head(1L), function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %chin% c("factor", "ordered")], x$primary_key)
   levels = insert_named(named_list(names(types)), x$distinct(rows = NULL, cols = discrete))
@@ -1573,18 +1661,21 @@ col_info.DataBackend = function(x, ...) { # nolint
 }
 
 #' @export
-as.data.table.Task = function(x, ...) { # nolint
+# nolint next
+as.data.table.Task = function(x, ...) {
   x$data()
 }
 
 #' @export
-head.Task = function(x, n = 6L, ...) { # nolint
+# nolint next
+head.Task = function(x, n = 6L, ...) {
   assert_number(n, na.ok = FALSE)
   x$data(rows = head(x$row_ids, n))
 }
 
 #' @export
-tail.Task = function(x, n = 6L, ...) { # nolint
+# nolint next
+tail.Task = function(x, n = 6L, ...) {
   assert_number(n, na.ok = FALSE)
   x$data(rows = tail(x$row_ids, n))
 }
@@ -1604,8 +1695,10 @@ task_rm_backend = function(task) {
 
 
 #' @export
-rd_info.Task = function(obj, section, ...) { # nolint
-  x = c("",
+# nolint next
+rd_info.Task = function(obj, section, ...) {
+  x = c(
+    "",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Dimensions: %ix%i", obj$nrow, obj$ncol),
     sprintf("* Properties: %s", rd_format_string(obj$properties)),

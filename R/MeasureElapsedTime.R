@@ -11,9 +11,11 @@
 #' Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
 #' Aggregation of elapsed time defaults to mean but can be configured via the field `aggregator` of the [Measure].
 #'
-#' When predictions for multiple predict sets were made during [resample()] or [benchmark()], the predict time shows the cumulative duration of all predictions.
+#' When predictions for multiple predict sets were made during [resample()] or [benchmark()],
+#' the predict time shows the cumulative duration of all predictions.
 #' If `learner$predict()` is called manually, the last predict time gets overwritten.
-#' The elapsed time accounts only for the training duration of the primary learner, excluding the time required for training the fallback learner.
+#' The elapsed time accounts only for the training duration of the primary learner,
+#' excluding the time required for training the fallback learner.
 #'
 #' @template param_id
 #' @templateVar id time_train
@@ -21,10 +23,10 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureElapsedTime = R6Class("MeasureElapsedTime",
+MeasureElapsedTime = R6Class(
+  "MeasureElapsedTime",
   inherit = Measure,
   public = list(
-
     #' @field stages (`character()`)\cr
     #' Which stages of the learner to measure?
     #' Usually set during construction.

@@ -27,7 +27,8 @@
 #'
 #' @template seealso_prediction
 #' @export
-Prediction = R6Class("Prediction",
+Prediction = R6Class(
+  "Prediction",
   public = list(
     #' @field data (named `list()`)\cr
     #' Internal data structure.
@@ -91,22 +92,26 @@ Prediction = R6Class("Prediction",
     #' @return [Prediction].
     score = function(measures = NULL, task = NULL, learner = NULL, train_set = NULL) {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
-      scores = map_dbl(measures, function(m) m$score(prediction = self, task = task, learner = learner, train_set = train_set))
+      scores = map_dbl(measures, function(m) {
+        m$score(prediction = self, task = task, learner = learner, train_set = train_set)
+      })
       set_names(scores, ids(measures))
     },
 
     #' @description
     #' Calculates the observation-wise loss via the [Measure]'s `obs_loss` method.
-    #' Returns a `data.table()` with the columns of the matching [Prediction] object plus one additional numeric column for each measure, named with the respective measure id.
+    #' Returns a `data.table()` with the columns of the matching [Prediction] object plus one additional numeric column
+    #' for each measure, named with the respective measure id.
     #' If there is no observation-wise loss function for the measure, the column is filled with `NA_real_` values.
-    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an additional transformation after aggregation, in this example taking the square-root.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`,
+    #' but they require an additional transformation after aggregation,
+    #' in this example taking the square-root.
     obs_loss = function(measures = NULL) {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       tab = as.data.table(self)
       walk(measures, function(m) set(tab, j = m$id, value = m$obs_loss(prediction = self)))
       tab[]
     },
-
 
     #' @description
     #' Filters the [Prediction], keeping only predictions for the provided row_ids.
@@ -157,12 +162,24 @@ Prediction = R6Class("Prediction",
     extra = function(rhs) {
       assert_ro_binding(rhs)
       self$data$extra
+    },
+
+    #' @field raw (any)\cr
+    #'   Raw prediction object from the upstream model.
+    #'   Only available if the learner's `predict_raw` flag was set to `TRUE` and the learner implementation
+    #'   supports it.
+    #'   The object is stored as-is, without validation or subsetting during filtering.
+    #'   When multiple predictions are combined via `c()`, the individual raw objects are collected into a `list()`.
+    raw = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$raw
     }
   )
 )
 
 #' @export
-c.Prediction = function(..., keep_duplicates = TRUE) { # nolint
+# nolint next
+c.Prediction = function(..., keep_duplicates = TRUE) {
   dots = list(...)
   if (length(dots) == 1L) {
     return(dots[[1L]])

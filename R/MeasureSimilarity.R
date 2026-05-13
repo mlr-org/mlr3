@@ -18,7 +18,6 @@
 #' @template param_param_set
 #' @template param_range
 #' @template param_minimize
-#' @template param_average
 #' @template param_aggregator
 #' @template param_predict_type
 #' @template param_measure_properties
@@ -40,16 +39,41 @@
 #' grid = benchmark_grid(task, learners, resampling)
 #' bmr = benchmark(grid, store_models = TRUE)
 #' bmr$aggregate(msrs(c("classif.ce", "sim.jaccard")))
-MeasureSimilarity = R6Class("MeasureSimilarity",
+MeasureSimilarity = R6Class(
+  "MeasureSimilarity",
   inherit = Measure,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, param_set = ps(), range, minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = NA_character_,
-      task_properties = character(), packages = character(), label = NA_character_, man = NA_character_) {
-      super$initialize(id, task_type = NA_character_, param_set = param_set, range = range, minimize = minimize, average = "custom", aggregator = aggregator,
-        properties = c("requires_model", "requires_no_prediction", properties), predict_type = predict_type, predict_sets = NULL,
-        task_properties = task_properties, packages = packages, label = label, man = man)
+    initialize = function(
+      id,
+      param_set = ps(),
+      range,
+      minimize = NA,
+      aggregator = NULL,
+      properties = character(),
+      predict_type = NA_character_,
+      task_properties = character(),
+      packages = character(),
+      label = NA_character_,
+      man = NA_character_
+    ) {
+      super$initialize(
+        id,
+        task_type = NA_character_,
+        param_set = param_set,
+        range = range,
+        minimize = minimize,
+        average = "custom",
+        aggregator = aggregator,
+        properties = c("requires_model", "requires_no_prediction", properties),
+        predict_type = predict_type,
+        predict_sets = NULL,
+        task_properties = task_properties,
+        packages = packages,
+        label = label,
+        man = man
+      )
     }
   ),
 

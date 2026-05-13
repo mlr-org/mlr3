@@ -22,7 +22,7 @@ This Learner specializes \link{Learner} for classification problems:
 
 Predefined learners can be found in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_learners}.
 Essential classification learners can be found in this dictionary after loading \CRANpkg{mlr3learners}.
-Additional learners are implement in the Github package \url{https://github.com/mlr-org/mlr3extralearners}.
+Additional learners are implemented in the Github package \url{https://github.com/mlr-org/mlr3extralearners}.
 }
 \examples{
 # get all classification learners from mlr_learners:
@@ -107,6 +107,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerClassif$new(
   id,
+  task_type = "classif",
   param_set = ps(),
   predict_types = "response",
   feature_types = character(),
@@ -122,6 +123,10 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \describe{
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier for the new instance.}
+
+\item{\code{task_type}}{(\code{character(1)})\cr
+Type of task, e.g. \code{"regr"} or \code{"classif"}.
+Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.}
 
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
@@ -172,7 +177,9 @@ The referenced help package can be opened via method \verb{$help()}.}
 \if{latex}{\out{\hypertarget{method-LearnerClassif-predict_newdata_fast}{}}}
 \subsection{Method \code{predict_newdata_fast()}}{
 Predicts outcomes for new data in \code{newdata} using the model fitted during \verb{$train()}.
-This method is faster than \verb{$predict_newdata()} as it skips assertions, type conversions, encapsulation, and logging.
+This method is faster than \verb{$predict_newdata()} as it skips assertions,
+type conversions, encapsulation, and logging.
+The learner must be trained before calling this method.
 
 Unlike \verb{$predict_newdata()}, this method does not return a \link{Prediction} object.
 Instead, it returns a list with either a \code{"response"} or \code{"prob"} element, depending on the prediction type.
@@ -181,7 +188,8 @@ Note that \code{state$predict_time} and \code{state$log} will remain empty after
 Some learners may not support this method and may fail when it is called.
 Prefer \verb{$predict_newdata()} unless performance is critical.
 
-If the model was trained via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you must pass the associated task object stored in the corresponding \link{ResampleResult} or \link{BenchmarkResult}.
+If the model was trained via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}},
+you must pass the associated task object stored in the corresponding \link{ResampleResult} or \link{BenchmarkResult}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerClassif$predict_newdata_fast(newdata, task = NULL)}\if{html}{\out{</div>}}
 }

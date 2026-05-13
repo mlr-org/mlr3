@@ -27,7 +27,9 @@
 #'
 #' @template seealso_learner
 #' @export
-LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,
+LearnerRegrFeatureless = R6Class(
+  "LearnerRegrFeatureless",
+  inherit = LearnerRegr,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -49,13 +51,12 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
       )
     },
 
-
     #' @description
     #' All features have a score of `0` for this learner.
     #' @return Named `numeric()`.
     importance = function() {
       if (is.null(self$model)) {
-        error_input("No model stored")
+        error_learner("No model stored")
       }
       fn = self$model$features
       named_vector(fn, 0)
@@ -66,7 +67,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
     #' @return `character(0)`.
     selected_features = function() {
       if (is.null(self$model)) {
-        error_input("No model stored")
+        error_learner("No model stored")
       }
       character()
     }
@@ -91,11 +92,15 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
         dispersion = quantile_weighted(abs(x - location), probs = 0.5, weights = weights, continuous = FALSE) * 1.4826
       }
 
-      set_class(list(
-        location = location,
-        dispersion = dispersion,
-        quantiles = quantiles,
-        features = task$feature_names), "regr.featureless_model")
+      set_class(
+        list(
+          location = location,
+          dispersion = dispersion,
+          quantiles = quantiles,
+          features = task$feature_names
+        ),
+        "regr.featureless_model"
+      )
     },
 
     .predict = function(task) {

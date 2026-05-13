@@ -63,7 +63,7 @@ Required properties of the \link{Task}.}
 \item{\code{predict_types}}{(\code{character()})\cr
 Set of predict types this object stores.}
 
-\item{\code{man}}{(\code{character(1)})\cr
+\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
 }
@@ -87,6 +87,13 @@ This is \code{NULL} if no weights are present.}
 
 \item{\code{extra}}{(\code{list()})\cr
 List of extra data stored in the prediction object.}
+
+\item{\code{raw}}{(any)\cr
+Raw prediction object from the upstream model.
+Only available if the learner's \code{predict_raw} flag was set to \code{TRUE} and the learner implementation
+supports it.
+The object is stored as-is, without validation or subsetting during filtering.
+When multiple predictions are combined via \code{c()}, the individual raw objects are collected into a \code{list()}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -167,7 +174,7 @@ instead all predictions are used.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
 
 \item{\code{task}}{(\link{Task}).}
@@ -187,9 +194,12 @@ Measure(s) to calculate.}
 \if{latex}{\out{\hypertarget{method-Prediction-obs_loss}{}}}
 \subsection{Method \code{obs_loss()}}{
 Calculates the observation-wise loss via the \link{Measure}'s \code{obs_loss} method.
-Returns a \code{data.table()} with the columns of the matching \link{Prediction} object plus one additional numeric column for each measure, named with the respective measure id.
+Returns a \code{data.table()} with the columns of the matching \link{Prediction} object plus one additional numeric column
+for each measure, named with the respective measure id.
 If there is no observation-wise loss function for the measure, the column is filled with \code{NA_real_} values.
-Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they require an additional transformation after aggregation, in this example taking the square-root.
+Note that some measures such as RMSE, do have an \verb{$obs_loss},
+but they require an additional transformation after aggregation,
+in this example taking the square-root.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Prediction$obs_loss(measures = NULL)}\if{html}{\out{</div>}}
 }
@@ -197,7 +207,7 @@ Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they requ
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
 }
 \if{html}{\out{</div>}}

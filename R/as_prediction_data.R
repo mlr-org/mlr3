@@ -19,13 +19,15 @@ as_prediction_data = function(x, task, row_ids = task$row_ids, check = TRUE, ...
 
 #' @rdname as_prediction_data
 #' @export
-as_prediction_data.Prediction = function(x, task, row_ids = task$row_ids, check = TRUE, ...) { # nolint
+# nolint next
+as_prediction_data.Prediction = function(x, task, row_ids = task$row_ids, check = TRUE, ...) {
   x$data
 }
 
 #' @rdname as_prediction_data
 #' @export
-as_prediction_data.PredictionData = function(x, task, row_ids = task$row_ids, check = TRUE, ...) { # nolint
+# nolint next
+as_prediction_data.PredictionData = function(x, task, row_ids = task$row_ids, check = TRUE, ...) {
   x
 }
 
@@ -33,10 +35,13 @@ as_prediction_data.PredictionData = function(x, task, row_ids = task$row_ids, ch
 #' @param train_task ([Task])\cr
 #'   Task used for training the learner.
 #' @export
-as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE, ..., train_task) { # nolint
+# nolint next
+as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE, ..., train_task) {
   assert_list(x, names = "unique")
   predict_types = names(mlr_reflections$learner_predict_types[[task$task_type]])
-  if (!is.null(predict_types)) predict_types = c(predict_types, "extra")
+  if (!is.null(predict_types)) {
+    predict_types = c(predict_types, "extra", "raw")
+  }
   assert_names(names(x), subset.of = predict_types)
 
   x$row_ids = row_ids

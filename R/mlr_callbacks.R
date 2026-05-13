@@ -6,7 +6,8 @@
 #' @description
 #' This [CallbackResample] extracts information from the model after training with a user-defined function.
 #' This way information can be extracted from the model without saving the model (`store_models = FALSE`).
-#' The `fun` must be a function that takes a learner as input and returns the extracted information as named list (see example).
+#' The `fun` must be a function that takes a learner as input and returns the extracted information
+#' as named list (see example).
 #' The callback is very helpful to call `$selected_features()`, `$importance()`, `$oob_error()` on the learner.
 #'
 #' @param fun (`function(learner)`)\cr
@@ -31,7 +32,8 @@
 NULL
 
 load_callback_model_extractor = function() {
-  callback_resample("mlr3.model_extractor",
+  callback_resample(
+    "mlr3.model_extractor",
     label = "Model Extractor Callback",
     man = "mlr3::mlr3.model_extractor",
 
@@ -71,7 +73,8 @@ load_callback_model_extractor = function() {
 NULL
 
 load_callback_holdout_task = function() {
-  callback_resample("mlr3.holdout_task",
+  callback_resample(
+    "mlr3.holdout_task",
     label = "Callback Holdout Task",
     man = "mlr3::mlr3.holdout_task",
 

@@ -30,8 +30,15 @@ test_that("empty RR", {
 test_that("resample with no or multiple measures", {
   for (measures in list(mlr_measures$mget(c("classif.ce", "classif.acc")), list())) {
     tab = rr$score(measures, ids = FALSE, predictions = TRUE)
-    expect_data_table(tab, ncols = length(mlr_reflections$rr_names) + length(learner$predict_sets) + length(measures), nrows = 3L)
-    expect_names(names(tab), permutation.of = c(mlr_reflections$rr_names, ids(measures), paste0("prediction_", learner$predict_sets)))
+    expect_data_table(
+      tab,
+      ncols = length(mlr_reflections$rr_names) + length(learner$predict_sets) + length(measures),
+      nrows = 3L
+    )
+    expect_names(
+      names(tab),
+      permutation.of = c(mlr_reflections$rr_names, ids(measures), paste0("prediction_", learner$predict_sets))
+    )
     perf = rr$aggregate(measures)
     expect_numeric(perf, any.missing = FALSE, len = length(measures), names = "unique")
     expect_names(names(perf), identical.to = unname(ids(measures)))
@@ -254,15 +261,19 @@ test_that("ResampleResult can be (un)marshaled", {
 
 test_that("does not unnecessarily clone state", {
   task = tsk("iris")
-  learner = R6Class("LearnerTest", inherit = LearnerClassifDebug, private = list(
-    deep_clone = function(name, value) {
-      if (name == "state" && !is.null(value)) {
-        stop("Buggy bug bug")
-      } else {
-        super$deep_clone(name, value)
+  learner = R6Class(
+    "LearnerTest",
+    inherit = LearnerClassifDebug,
+    private = list(
+      deep_clone = function(name, value) {
+        if (name == "state" && !is.null(value)) {
+          stop("Buggy bug bug")
+        } else {
+          super$deep_clone(name, value)
+        }
       }
-    }
-  ))$new()
+    )
+  )$new()
   learner$train(task)
   expect_resample_result(resample(task, learner, rsmp("holdout")))
 })
@@ -335,7 +346,8 @@ test_that("internal_valid and train predictions", {
 
   expect_equal(length(rr3$predictions("train")[[1L]]$row_ids), 8L)
   expect_subset(
-    rr3$predictions("internal_valid")$row_ids, rr3$predictions("internal_valid")$row_ids
+    rr3$predictions("internal_valid")$row_ids,
+    rr3$predictions("internal_valid")$row_ids
   )
   expect_equal(length(rr3$predictions("internal_valid")[[1L]]$row_ids), 4L)
   expect_equal(length(rr3$predictions("test")[[1L]]$row_ids), 2L)
@@ -472,7 +484,12 @@ test_that("resample result works with not predicted predict set", {
   expect_list(tab$prediction, len = 1)
   expect_list(tab$prediction[[1]], len = 0)
 
-  expect_warning({tab = rr$score(msr("classif.ce", predict_sets = "test"))}, "Measure")
+  expect_warning(
+    {
+      tab = rr$score(msr("classif.ce", predict_sets = "test"))
+    },
+    "Measure"
+  )
   expect_equal(tab$classif.ce, NaN)
 })
 
@@ -491,7 +508,12 @@ test_that("resample results works with no predicted predict set", {
   expect_list(tab$prediction, len = 1)
   expect_list(tab$prediction[[1]], len = 0)
 
-  expect_warning({tab = rr$score(msr("classif.ce", predict_sets = "test"))}, "Measure")
+  expect_warning(
+    {
+      tab = rr$score(msr("classif.ce", predict_sets = "test"))
+    },
+    "Measure"
+  )
   expect_equal(tab$classif.ce, NaN)
 })
 
@@ -507,8 +529,7 @@ test_that("resampling instantiated on a different task throws an error", {
   resampling = rsmp("cv", folds = 3)
   resampling$instantiate(task)
 
-  expect_error(resample(tsk("pima"), lrn("classif.rpart"), resampling),
-    "not instantiated")
+  expect_error(resample(tsk("pima"), lrn("classif.rpart"), resampling), "not instantiated")
 })
 
 test_that("resampling task row hash validation", {
@@ -541,6 +562,7 @@ test_that("can change the threshold", {
   expect_true(all(rr$prediction()$response == "setosa"))
   rr$set_threshold(0.625, ties_method = "last")
   expect_true(all(rr$prediction()$response == "versicolor"))
+  # nolint next
   with_seed(1, {
     rr$set_threshold(0.625, ties_method = "random")
     expect_true("setosa" %in% rr$prediction()$response && "versicolor" %in% rr$prediction()$response)
