@@ -1249,14 +1249,14 @@ test_that("deadline works as intended: callr", {
   )
 
   # Train: Test that it interrupts, but not immediately
-  allowed = 5
-  l$configure(sleep_train = eternal_sleep, deadline = c(train = Sys.time() + allowed))
+  allowed = 0.5
+  l$configure(sleep_train = eternal_sleep, deadline = c(train = Sys.time() + allowed, predict = as.POSIXct(Inf)))
   expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
   expect_true(Sys.time() >= l$deadline[["train"]])
 
   # Train: Test that learner can finish before deadline
   allowed = 10
-  l$configure(sleep_train = NULL, deadline = c(train = Sys.time() + allowed))
+  l$configure(sleep_train = NULL, deadline = c(train = Sys.time() + allowed, predict = as.POSIXct(Inf)))
   expect_no_error(l$train(tsk("iris")))
   expect_true((l$timings["train"] < allowed))
 
@@ -1265,7 +1265,7 @@ test_that("deadline works as intended: callr", {
   l$configure(
     sleep_train = NULL,
     sleep_predict = eternal_sleep,
-    deadline = c(train = Inf, predict = Sys.time() + allowed)
+    deadline = c(train = as.POSIXct(Inf), predict = Sys.time() + allowed)
   )
   l$train(tsk("iris"))
   expect_error(l$predict(tsk("iris")), regexp = "reached elapsed time limit")
@@ -1276,15 +1276,13 @@ test_that("deadline works as intended: callr", {
   l$configure(
     sleep_train = NULL,
     sleep_predict = NULL,
-    deadline = c(train = Inf, predict = Sys.time() + allowed)
+    deadline = c(train = as.POSIXct(Inf), predict = Sys.time() + allowed)
   )
   l$train(tsk("iris"))
   expect_no_error(l$predict(tsk("iris")))
   expect_true((l$timings["predict"] < allowed))
 })
 
-
-# TODO?: Add tests for dates in the past
 test_that("deadline works as intended: evaluate", {
   # no runtime test on CRAN
   skip_on_cran()
@@ -1305,13 +1303,13 @@ test_that("deadline works as intended: evaluate", {
 
   # Train: Test that it interrupts, but not immediately
   allowed = 0.5
-  l$configure(sleep_train = eternal_sleep, deadline = c(train = Sys.time() + allowed))
+  l$configure(sleep_train = eternal_sleep, deadline = c(train = Sys.time() + allowed, predict = as.POSIXct(Inf)))
   expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
   expect_true(Sys.time() >= l$deadline[["train"]])
 
   # Train: Test that learner can finish before deadline
   allowed = 10
-  l$configure(sleep_train = NULL, deadline = c(train = Sys.time() + allowed))
+  l$configure(sleep_train = NULL, deadline = c(train = Sys.time() + allowed, predict = as.POSIXct(Inf)))
   expect_no_error(l$train(tsk("iris")))
   expect_true((l$timings["train"] < allowed))
 
@@ -1320,7 +1318,7 @@ test_that("deadline works as intended: evaluate", {
   l$configure(
     sleep_train = NULL,
     sleep_predict = eternal_sleep,
-    deadline = c(train = Inf, predict = Sys.time() + allowed)
+    deadline = c(train = as.POSIXct(Inf), predict = Sys.time() + allowed)
   )
   l$train(tsk("iris"))
   expect_error(l$predict(tsk("iris")), regexp = "reached elapsed time limit")
@@ -1331,7 +1329,7 @@ test_that("deadline works as intended: evaluate", {
   l$configure(
     sleep_train = NULL,
     sleep_predict = NULL,
-    deadline = c(train = Inf, predict = Sys.time() + allowed)
+    deadline = c(train = as.POSIXct(Inf), predict = Sys.time() + allowed)
   )
   l$train(tsk("iris"))
   expect_no_error(l$predict(tsk("iris")))
@@ -1358,13 +1356,13 @@ test_that("deadline works as intended: mirai", {
 
   # Train: Test that it interrupts, but not immediately
   allowed = 0.5
-  l$configure(sleep_train = eternal_sleep, deadline = c(train = Sys.time() + allowed))
+  l$configure(sleep_train = eternal_sleep, deadline = c(train = Sys.time() + allowed, predict = as.POSIXct(Inf)))
   expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
   expect_true(Sys.time() >= l$deadline[["train"]])
 
   # Train: Test that learner can finish before deadline
   allowed = 10
-  l$configure(sleep_train = NULL, deadline = c(train = Sys.time() + allowed))
+  l$configure(sleep_train = NULL, deadline = c(train = Sys.time() + allowed, predict = as.POSIXct(Inf)))
   expect_no_error(l$train(tsk("iris")))
   expect_true((l$timings["train"] < allowed))
 
@@ -1373,7 +1371,7 @@ test_that("deadline works as intended: mirai", {
   l$configure(
     sleep_train = NULL,
     sleep_predict = eternal_sleep,
-    deadline = c(train = Inf, predict = Sys.time() + allowed)
+    deadline = c(train = as.POSIXct(Inf), predict = Sys.time() + allowed)
   )
   l$train(tsk("iris"))
   expect_error(l$predict(tsk("iris")), regexp = "reached elapsed time limit")
@@ -1384,7 +1382,7 @@ test_that("deadline works as intended: mirai", {
   l$configure(
     sleep_train = NULL,
     sleep_predict = NULL,
-    deadline = c(train = Inf, predict = Sys.time() + allowed)
+    deadline = c(train = as.POSIXct(Inf), predict = Sys.time() + allowed)
   )
   l$train(tsk("iris"))
   expect_no_error(l$predict(tsk("iris")))
