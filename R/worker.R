@@ -118,7 +118,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     learner = learner$clone()
   )
 
-  deadline_time_left <- max(as.numeric(difftime(learner$deadline["train"], Sys.time(), units = "secs")), 0)
+  deadline_time_left = max(as.numeric(difftime(learner$deadline[["train"]], Sys.time(), units = "secs")), 0)
 
   # call train_wrapper with encapsulation
   result = encapsulate(
@@ -307,7 +307,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
       learner$model = marshal_model(learner$model, inplace = TRUE)
     }
 
-    deadline_time_left <- max(as.numeric(difftime(learner$deadline["predict"], Sys.time(), units = "secs")), 0)
+    deadline_time_left = max(as.numeric(difftime(learner$deadline[["predict"]], Sys.time(), units = "secs")), 0)
 
     result = encapsulate(
       learner$encapsulation["predict"],

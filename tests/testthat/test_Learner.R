@@ -1233,8 +1233,12 @@ test_that("native_model can be overwritten by learner", {
 test_that("deadline works as intended: callr", {
   # no runtime test on CRAN
   skip_on_cran()
-  eternal_sleep = function() while (TRUE) Sys.sleep(0.01)
-  
+  eternal_sleep = function() {
+    while (TRUE) {
+      Sys.sleep(0.01)
+    }
+  }
+
   l = lrn("classif.debug")
   l$encapsulate(
     "callr",
@@ -1259,7 +1263,8 @@ test_that("deadline works as intended: callr", {
   # Predict: Test that it interrupts, but not immediately
   allowed = 0.5
   l$configure(
-    sleep_train = NULL, sleep_predict = eternal_sleep,
+    sleep_train = NULL,
+    sleep_predict = eternal_sleep,
     deadline = c(train = Inf, predict = Sys.time() + allowed)
   )
   l$train(tsk("iris"))
@@ -1269,7 +1274,8 @@ test_that("deadline works as intended: callr", {
   # Predict: Test that learner can finish before deadline
   allowed = 10
   l$configure(
-    sleep_train = NULL, sleep_predict = NULL, 
+    sleep_train = NULL,
+    sleep_predict = NULL,
     deadline = c(train = Inf, predict = Sys.time() + allowed)
   )
   l$train(tsk("iris"))
@@ -1282,8 +1288,12 @@ test_that("deadline works as intended: callr", {
 test_that("deadline works as intended: evaluate", {
   # no runtime test on CRAN
   skip_on_cran()
-  eternal_sleep = function() while (TRUE) Sys.sleep(0.01)
-  
+  eternal_sleep = function() {
+    while (TRUE) {
+      Sys.sleep(0.01)
+    }
+  }
+
   l = lrn("classif.debug")
   l$encapsulate(
     "evaluate",
@@ -1308,7 +1318,8 @@ test_that("deadline works as intended: evaluate", {
   # Predict: Test that it interrupts, but not immediately
   allowed = 0.5
   l$configure(
-    sleep_train = NULL, sleep_predict = eternal_sleep,
+    sleep_train = NULL,
+    sleep_predict = eternal_sleep,
     deadline = c(train = Inf, predict = Sys.time() + allowed)
   )
   l$train(tsk("iris"))
@@ -1318,7 +1329,8 @@ test_that("deadline works as intended: evaluate", {
   # Predict: Test that learner can finish before deadline
   allowed = 10
   l$configure(
-    sleep_train = NULL, sleep_predict = NULL, 
+    sleep_train = NULL,
+    sleep_predict = NULL,
     deadline = c(train = Inf, predict = Sys.time() + allowed)
   )
   l$train(tsk("iris"))
@@ -1329,8 +1341,12 @@ test_that("deadline works as intended: evaluate", {
 test_that("deadline works as intended: mirai", {
   # no runtime test on CRAN
   skip_on_cran()
-  eternal_sleep = function() while (TRUE) Sys.sleep(0.01)
-  
+  eternal_sleep = function() {
+    while (TRUE) {
+      Sys.sleep(0.01)
+    }
+  }
+
   l = lrn("classif.debug")
   l$encapsulate(
     "mirai",
@@ -1355,7 +1371,8 @@ test_that("deadline works as intended: mirai", {
   # Predict: Test that it interrupts, but not immediately
   allowed = 0.5
   l$configure(
-    sleep_train = NULL, sleep_predict = eternal_sleep,
+    sleep_train = NULL,
+    sleep_predict = eternal_sleep,
     deadline = c(train = Inf, predict = Sys.time() + allowed)
   )
   l$train(tsk("iris"))
@@ -1365,10 +1382,11 @@ test_that("deadline works as intended: mirai", {
   # Predict: Test that learner can finish before deadline
   allowed = 10
   l$configure(
-    sleep_train = NULL, sleep_predict = NULL, 
+    sleep_train = NULL,
+    sleep_predict = NULL,
     deadline = c(train = Inf, predict = Sys.time() + allowed)
   )
   l$train(tsk("iris"))
   expect_no_error(l$predict(tsk("iris")))
   expect_true((l$timings["predict"] < allowed))
-}
+})
