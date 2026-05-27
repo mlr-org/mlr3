@@ -125,7 +125,7 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) {
     quantiles = map(dots, "quantiles")
     attrs = attributes(quantiles[[1L]])
     quantiles = do.call(rbind, quantiles)
-    setattr(quantiles, "probs", attrs$props)
+    setattr(quantiles, "probs", attrs$probs)
     setattr(quantiles, "response", attrs$response)
   }
   extra = if ("extra" %chin% nn) {

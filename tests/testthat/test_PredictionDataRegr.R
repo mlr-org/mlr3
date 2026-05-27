@@ -63,6 +63,24 @@ test_that("PredictionDataRegr with quantiles", {
   expect_prediction_regr(pred)
 })
 
+test_that("c.PredictionDataRegr preserves probs attribute on quantiles", {
+  n = 10
+  probs = c(0.1, 0.5, 0.9)
+  y = runif(n)
+  task = as_task_regr(data.table(y = y), target = "y")
+
+  quantiles = quantile(y, probs = probs)
+  quantiles = matrix(rep(quantiles, n), nrow = n, byrow = TRUE)
+  setattr(quantiles, "probs", probs)
+  setattr(quantiles, "response", 0.5)
+
+  pdata = as_prediction_data(list(quantiles = quantiles), task)
+  combined = c(pdata, pdata)
+
+  expect_equal(attr(combined$quantiles, "probs"), probs)
+  expect_equal(attr(combined$quantiles, "response"), "q0.5")
+})
+
 test_that("PredictionDataRegr with quantiles and response", {
   n = 100
   probs = c(0.1, 0.9)
