@@ -1,5 +1,6 @@
 # mlr3 (development version)
 
+* fix: `as_tasks_unsupervised()` now correctly converts lists to `TaskUnsupervised`s.
 * refactor: Removed unused `task_prototype` from the learner state.
 * fix: Reset range of `MeasureClassifCost`.
 
