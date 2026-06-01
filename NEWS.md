@@ -1,5 +1,6 @@
 # mlr3 (development version)
 
+* fix: `as_measures()` now forwards `task_type` when converting a list.
 * refactor: Removed unused `task_prototype` from the learner state.
 * fix: Reset range of `MeasureClassifCost`.
 
