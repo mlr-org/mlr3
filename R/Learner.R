@@ -585,7 +585,7 @@ Learner = R6Class(
     #'   otherwise a new R session will be created for each encapsulated call.
     #'   If a `daemon` is already running with compute profile `"mlr3_encapsulation"`,
     #'   it will be used to execute all calls.
-    #'   Using `mirai"` is similarly safe as `callr` but much faster if several learners
+    #'   Using `mirai` is similarly safe as `callr` but much faster if several learners
     #'   are encapsulated one after the other on the same daemon.
     #'
     #' The fallback learner is fitted to create valid predictions in case that either the
@@ -607,7 +607,7 @@ Learner = R6Class(
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     #'
     #' @param method `character(1)`\cr
-    #'  One of `"none"`, `"try"`, `"evaluate"` or `"callr"`.
+    #'  One of `"none"`, `"try"`, `"evaluate"`, `"callr"` or `"mirai"`.
     #'  See the description for details.
     #' @param fallback [Learner]\cr
     #'  The fallback learner for failed predictions.
@@ -1018,8 +1018,8 @@ Learner = R6Class(
     #' and has no effect during [resample()] or [benchmark()] where you have other means
     #' to parallelize.
     #'
-    #' Note that the recorded time required for prediction reports the time required to predict
-    #' is not properly defined and depends on the parallelization backend.
+    #' Note that the recorded time required for prediction is not properly defined and
+    #' depends on the parallelization backend.
     parallel_predict = function(rhs) {
       if (missing(rhs)) {
         return(private$.parallel_predict)
