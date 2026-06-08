@@ -58,7 +58,7 @@ msr("sim.phi")
 
 \code{as.data.table(mlr_measures)} for a complete table of all (also dynamically created) \link{Measure} implementations.
 
-Other similarity measures: 
+Other similarity measures:
 \code{\link{mlr_measures_sim.jaccard}}
 }
 \concept{similarity measures}

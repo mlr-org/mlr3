@@ -52,7 +52,7 @@ intersect(custom_cv$train_set(1), custom_cv$test_set(1))
 tasks.
 }
 
-Other Resampling: 
+Other Resampling:
 \code{\link{Resampling}},
 \code{\link{mlr_resamplings}},
 \code{\link{mlr_resamplings_bootstrap}},
@@ -66,89 +66,91 @@ Other Resampling:
 }
 \concept{Resampling}
 \section{Super class}{
-\code{\link[mlr3:Resampling]{mlr3::Resampling}} -> \code{ResamplingCustomCV}
+\code{\link[mlr3:Resampling]{Resampling}} -> \code{ResamplingCustomCV}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{iters}}{(\code{integer(1)})\cr
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{iters}}{(\code{integer(1)})\cr
 Returns the number of resampling iterations, depending on the values stored in the \code{param_set}.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-ResamplingCustomCV-new}{\code{ResamplingCustomCV$new()}}
-\item \href{#method-ResamplingCustomCV-instantiate}{\code{ResamplingCustomCV$instantiate()}}
-\item \href{#method-ResamplingCustomCV-clone}{\code{ResamplingCustomCV$clone()}}
+  \itemize{
+    \item \href{#method-ResamplingCustomCV-initialize}{\code{ResamplingCustomCV$new()}}
+    \item \href{#method-ResamplingCustomCV-instantiate}{\code{ResamplingCustomCV$instantiate()}}
+    \item \href{#method-ResamplingCustomCV-clone}{\code{ResamplingCustomCV$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href='../../mlr3/html/Resampling.html#method-Resampling-format'><code>mlr3::Resampling$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href='../../mlr3/html/Resampling.html#method-Resampling-help'><code>mlr3::Resampling$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href='../../mlr3/html/Resampling.html#method-Resampling-print'><code>mlr3::Resampling$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-test_set'><code>mlr3::Resampling$test_set()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-train_set'><code>mlr3::Resampling$train_set()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href='../../mlr3/html/Resampling.html#method-Resampling-format'><code>Resampling$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href='../../mlr3/html/Resampling.html#method-Resampling-help'><code>Resampling$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href='../../mlr3/html/Resampling.html#method-Resampling-print'><code>Resampling$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-test_set'><code>Resampling$test_set()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-train_set'><code>Resampling$train_set()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResamplingCustomCV-new"></a>}}
-\if{latex}{\out{\hypertarget{method-ResamplingCustomCV-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustomCV$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-ResamplingCustomCV-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-ResamplingCustomCV-initialize}{}}}
+\subsection{\code{ResamplingCustomCV$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResamplingCustomCV$new()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResamplingCustomCV-instantiate"></a>}}
 \if{latex}{\out{\hypertarget{method-ResamplingCustomCV-instantiate}{}}}
-\subsection{Method \code{instantiate()}}{
-Instantiate this \link{Resampling} as cross-validation with custom splits.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustomCV$instantiate(task, f = NULL, col = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{task}}{\link{Task}\cr
+\subsection{\code{ResamplingCustomCV$instantiate()}}{
+  Instantiate this \link{Resampling} as cross-validation with custom splits.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResamplingCustomCV$instantiate(task, f = NULL, col = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{task}}{\link{Task}\cr
 Used to extract row ids.}
-
-\item{\code{f}}{(\code{factor()} | \code{character()})\cr
+      \item{\code{f}}{(\code{factor()} | \code{character()})\cr
 Vector of type factor or character with the same length as \code{task$nrow}.
 Row ids are split on this vector, each distinct value results in a fold.
 Empty factor levels are dropped and row ids corresponding to missing values are removed,
 c.f. \code{\link[=split]{split()}}.}
-
-\item{\code{col}}{(\code{character(1)})\cr
+      \item{\code{col}}{(\code{character(1)})\cr
 Name of the task column to use for splitting.
 Alternative and mutually exclusive to providing the factor levels as a vector via
 parameter \code{f}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResamplingCustomCV-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-ResamplingCustomCV-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustomCV$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{ResamplingCustomCV$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResamplingCustomCV$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

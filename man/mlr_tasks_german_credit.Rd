@@ -77,7 +77,7 @@ Reports in Mathematics, Physics and Chemistry 4, Department II, Beuth University
 }
 }
 
-Other Task: 
+Other Task:
 \code{\link{Task}},
 \code{\link{TaskClassif}},
 \code{\link{TaskRegr}},

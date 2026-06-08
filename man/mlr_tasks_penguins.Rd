@@ -68,7 +68,7 @@ Gorman KB, Williams TD, Fraser WR (2014).
 }
 }
 
-Other Task: 
+Other Task:
 \code{\link{Task}},
 \code{\link{TaskClassif}},
 \code{\link{TaskRegr}},

@@ -27,58 +27,57 @@ head(as.data.table(p))
 }
 }
 
-Other Prediction: 
+Other Prediction:
 \code{\link{Prediction}},
 \code{\link{PredictionClassif}}
 }
 \concept{Prediction}
 \section{Super class}{
-\code{\link[mlr3:Prediction]{mlr3::Prediction}} -> \code{PredictionRegr}
+\code{\link[mlr3:Prediction]{Prediction}} -> \code{PredictionRegr}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{response}}{(\code{numeric()})\cr
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{response}}{(\code{numeric()})\cr
 Access the stored predicted response.}
 
-\item{\code{se}}{(\code{numeric()})\cr
+    \item{\code{se}}{(\code{numeric()})\cr
 Access the stored standard error.}
 
-\item{\code{quantiles}}{(\code{matrix()})\cr
+    \item{\code{quantiles}}{(\code{matrix()})\cr
 Matrix of predicted quantiles. Observations are in rows, quantile (in ascending order) in columns.}
 
-\item{\code{distr}}{(\code{VectorDistribution})\cr
+    \item{\code{distr}}{(\code{VectorDistribution})\cr
 Access the stored vector distribution.
 Requires package \code{distr6}(in repository \url{https://raphaels1.r-universe.dev}) .}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-PredictionRegr-new}{\code{PredictionRegr$new()}}
-\item \href{#method-PredictionRegr-clone}{\code{PredictionRegr$clone()}}
+  \itemize{
+    \item \href{#method-PredictionRegr-initialize}{\code{PredictionRegr$new()}}
+    \item \href{#method-PredictionRegr-clone}{\code{PredictionRegr$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details><summary>Inherited methods</summary>
+\if{html}{\out{<details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="filter"><a href='../../mlr3/html/Prediction.html#method-Prediction-filter'><code>mlr3::Prediction$filter()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format"><a href='../../mlr3/html/Prediction.html#method-Prediction-format'><code>mlr3::Prediction$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help"><a href='../../mlr3/html/Prediction.html#method-Prediction-help'><code>mlr3::Prediction$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="obs_loss"><a href='../../mlr3/html/Prediction.html#method-Prediction-obs_loss'><code>mlr3::Prediction$obs_loss()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print"><a href='../../mlr3/html/Prediction.html#method-Prediction-print'><code>mlr3::Prediction$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score"><a href='../../mlr3/html/Prediction.html#method-Prediction-score'><code>mlr3::Prediction$score()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="filter"><a href='../../mlr3/html/Prediction.html#method-Prediction-filter'><code>Prediction$filter()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format"><a href='../../mlr3/html/Prediction.html#method-Prediction-format'><code>Prediction$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help"><a href='../../mlr3/html/Prediction.html#method-Prediction-help'><code>Prediction$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="obs_loss"><a href='../../mlr3/html/Prediction.html#method-Prediction-obs_loss'><code>Prediction$obs_loss()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print"><a href='../../mlr3/html/Prediction.html#method-Prediction-print'><code>Prediction$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score"><a href='../../mlr3/html/Prediction.html#method-Prediction-score'><code>Prediction$score()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-PredictionRegr-new"></a>}}
-\if{latex}{\out{\hypertarget{method-PredictionRegr-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PredictionRegr$new(
+\if{html}{\out{<a id="method-PredictionRegr-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-PredictionRegr-initialize}{}}}
+\subsection{\code{PredictionRegr$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{PredictionRegr$new(
   task = NULL,
   row_ids = task$row_ids,
   truth = task$truth(),
@@ -90,68 +89,61 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   check = TRUE,
   extra = NULL,
   raw = NULL
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{task}}{(\link{TaskRegr})\cr
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{task}}{(\link{TaskRegr})\cr
 Task, used to extract defaults for \code{row_ids} and \code{truth}.}
-
-\item{\code{row_ids}}{(\code{integer()})\cr
+      \item{\code{row_ids}}{(\code{integer()})\cr
 Row ids of the predicted observations, i.e. the row ids of the test set.}
-
-\item{\code{truth}}{(\code{numeric()})\cr
+      \item{\code{truth}}{(\code{numeric()})\cr
 True (observed) response.}
-
-\item{\code{response}}{(\code{numeric()})\cr
+      \item{\code{response}}{(\code{numeric()})\cr
 Vector of numeric response values.
 One element for each observation in the test set.}
-
-\item{\code{se}}{(\code{numeric()})\cr
+      \item{\code{se}}{(\code{numeric()})\cr
 Numeric vector of predicted standard errors.
 One element for each observation in the test set.}
-
-\item{\code{quantiles}}{(\code{matrix()})\cr
+      \item{\code{quantiles}}{(\code{matrix()})\cr
 Numeric matrix of predicted quantiles. One row per observation, one column per quantile.}
-
-\item{\code{distr}}{(\code{VectorDistribution})\cr
+      \item{\code{distr}}{(\code{VectorDistribution})\cr
 \code{VectorDistribution} from package distr6 (in repository \url{https://raphaels1.r-universe.dev}).
 Each individual distribution in the vector represents the random variable 'survival time'
 for an individual observation.}
-
-\item{\code{weights}}{(\code{numeric()})\cr
+      \item{\code{weights}}{(\code{numeric()})\cr
 Vector of measure weights for each observation. Should be constructed from
 the \code{Task}'s \code{weights_measure} column.}
-
-\item{\code{check}}{(\code{logical(1)})\cr
+      \item{\code{check}}{(\code{logical(1)})\cr
 If \code{TRUE}, performs some argument checks and predict type conversions.}
-
-\item{\code{extra}}{(\code{list()})\cr
+      \item{\code{extra}}{(\code{list()})\cr
 List of extra data to be stored in the prediction object.}
-
-\item{\code{raw}}{(any)\cr
+      \item{\code{raw}}{(any)\cr
 Raw prediction object from the upstream model. Stored as-is without validation.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-PredictionRegr-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-PredictionRegr-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PredictionRegr$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{PredictionRegr$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{PredictionRegr$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

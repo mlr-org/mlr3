@@ -66,7 +66,7 @@ Dua, Dheeru, Graff, Casey (2017).
 }
 }
 
-Other Task: 
+Other Task:
 \code{\link{Task}},
 \code{\link{TaskClassif}},
 \code{\link{TaskRegr}},
