@@ -13,7 +13,7 @@ The Symmetric Mean Absolute Percent Error is defined as \deqn{
   2 * mean(abs(t - r) / (abs(t) + abs(r))).
 }
 
-This measure is undefined if if any \eqn{|t| + |r|} is equal to \eqn{0}.
+This measure is undefined if any \eqn{|t| + |r|} is equal to \eqn{0}.
 }
 \note{
 The score function calls \code{\link[mlr3measures:smape]{mlr3measures::smape()}} from package \CRANpkg{mlr3measures}.
@@ -52,7 +52,7 @@ Empty ParamSet
 
 \code{as.data.table(mlr_measures)} for a complete table of all (also dynamically created) \link{Measure} implementations.
 
-Other regression measures: 
+Other regression measures:
 \code{\link{mlr_measures_regr.bias}},
 \code{\link{mlr_measures_regr.ktau}},
 \code{\link{mlr_measures_regr.mae}},

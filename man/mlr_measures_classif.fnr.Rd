@@ -55,7 +55,7 @@ Empty ParamSet
 
 \code{as.data.table(mlr_measures)} for a complete table of all (also dynamically created) \link{Measure} implementations.
 
-Other classification measures: 
+Other classification measures:
 \code{\link{mlr_measures_classif.acc}},
 \code{\link{mlr_measures_classif.auc}},
 \code{\link{mlr_measures_classif.bacc}},
@@ -89,7 +89,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.tp}},
 \code{\link{mlr_measures_classif.tpr}}
 
-Other binary classification measures: 
+Other binary classification measures:
 \code{\link{mlr_measures_classif.auc}},
 \code{\link{mlr_measures_classif.bbrier}},
 \code{\link{mlr_measures_classif.dor}},

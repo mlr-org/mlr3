@@ -39,7 +39,7 @@ str(task$data())
 }
 }
 
-Other TaskGenerator: 
+Other TaskGenerator:
 \code{\link{TaskGenerator}},
 \code{\link{mlr_task_generators}},
 \code{\link{mlr_task_generators_2dnormals}},
@@ -54,49 +54,51 @@ Other TaskGenerator:
 }
 \concept{TaskGenerator}
 \section{Super class}{
-\code{\link[mlr3:TaskGenerator]{mlr3::TaskGenerator}} -> \code{TaskGeneratorFriedman1}
+\code{\link[mlr3:TaskGenerator]{TaskGenerator}} -> \code{TaskGeneratorFriedman1}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-TaskGeneratorFriedman1-new}{\code{TaskGeneratorFriedman1$new()}}
-\item \href{#method-TaskGeneratorFriedman1-clone}{\code{TaskGeneratorFriedman1$clone()}}
+  \itemize{
+    \item \href{#method-TaskGeneratorFriedman1-initialize}{\code{TaskGeneratorFriedman1$new()}}
+    \item \href{#method-TaskGeneratorFriedman1-clone}{\code{TaskGeneratorFriedman1$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-format'><code>mlr3::TaskGenerator$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-generate'><code>mlr3::TaskGenerator$generate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-print'><code>mlr3::TaskGenerator$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-format'><code>TaskGenerator$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-generate'><code>TaskGenerator$generate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-print'><code>TaskGenerator$print()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TaskGeneratorFriedman1-new"></a>}}
-\if{latex}{\out{\hypertarget{method-TaskGeneratorFriedman1-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGeneratorFriedman1$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-TaskGeneratorFriedman1-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGeneratorFriedman1-initialize}{}}}
+\subsection{\code{TaskGeneratorFriedman1$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskGeneratorFriedman1$new()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskGeneratorFriedman1-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskGeneratorFriedman1-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGeneratorFriedman1$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{TaskGeneratorFriedman1$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskGeneratorFriedman1$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

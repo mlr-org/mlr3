@@ -51,76 +51,79 @@ learner$hotstart_stack = hot
 learner$train(task)
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{stack}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{stack}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Stores hot start learners.}
 
-\item{\code{hotstart_threshold}}{(named \code{numeric(1)})\cr
+    \item{\code{hotstart_threshold}}{(named \code{numeric(1)})\cr
 Threshold for storing learners in the stack.
 If the value of the hotstart parameter is below this threshold, the learner is not added to the stack.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-HotstartStack-new}{\code{HotstartStack$new()}}
-\item \href{#method-HotstartStack-add}{\code{HotstartStack$add()}}
-\item \href{#method-HotstartStack-start_cost}{\code{HotstartStack$start_cost()}}
-\item \href{#method-HotstartStack-format}{\code{HotstartStack$format()}}
-\item \href{#method-HotstartStack-print}{\code{HotstartStack$print()}}
-\item \href{#method-HotstartStack-clone}{\code{HotstartStack$clone()}}
-}
+  \itemize{
+    \item \href{#method-HotstartStack-initialize}{\code{HotstartStack$new()}}
+    \item \href{#method-HotstartStack-add}{\code{HotstartStack$add()}}
+    \item \href{#method-HotstartStack-start_cost}{\code{HotstartStack$start_cost()}}
+    \item \href{#method-HotstartStack-format}{\code{HotstartStack$format()}}
+    \item \href{#method-HotstartStack-print}{\code{HotstartStack$print()}}
+    \item \href{#method-HotstartStack-clone}{\code{HotstartStack$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-HotstartStack-new"></a>}}
-\if{latex}{\out{\hypertarget{method-HotstartStack-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$new(learners = NULL, hotstart_threshold = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{learners}}{(List of \link{Learner}s)\cr
+\if{html}{\out{<a id="method-HotstartStack-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-HotstartStack-initialize}{}}}
+\subsection{\code{HotstartStack$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HotstartStack$new(learners = NULL, hotstart_threshold = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{learners}}{(List of \link{Learner}s)\cr
 Learners are added to the hotstart stack. If \code{NULL} (default), empty
 stack is created.}
-
-\item{\code{hotstart_threshold}}{(named \code{numeric(1)})\cr
+      \item{\code{hotstart_threshold}}{(named \code{numeric(1)})\cr
 Threshold for storing learners in the stack.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HotstartStack-add"></a>}}
 \if{latex}{\out{\hypertarget{method-HotstartStack-add}{}}}
-\subsection{Method \code{add()}}{
-Add learners to hot start stack.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$add(learners)}\if{html}{\out{</div>}}
+\subsection{\code{HotstartStack$add()}}{
+  Add learners to hot start stack.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HotstartStack$add(learners)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{learners}}{(List of \link{Learner}s).
+Learners are added to the hotstart stack.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    self (invisibly).
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{learners}}{(List of \link{Learner}s).
-Learners are added to the hotstart stack.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-self (invisibly).
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HotstartStack-start_cost"></a>}}
 \if{latex}{\out{\hypertarget{method-HotstartStack-start_cost}{}}}
-\subsection{Method \code{start_cost()}}{
-Calculates the cost for each learner of the stack to hot start the target \code{learner}.
+\subsection{\code{HotstartStack$start_cost()}}{
+  Calculates the cost for each learner of the stack to hot start the target \code{learner}.
 
 The following cost values can be returned:
 \itemize{
@@ -129,71 +132,78 @@ The following cost values can be returned:
 \item \code{0} Cost for hot starting backwards is always 0.
 \item \verb{> 0} Cost for hot starting forward.
 }
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$start_cost(learner, task_hash)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{learner}}{\link{Learner}\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HotstartStack$start_cost(learner, task_hash)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{learner}}{\link{Learner}\cr
 Target learner.}
-
-\item{\code{task_hash}}{\link{Task}\cr
+      \item{\code{task_hash}}{\link{Task}\cr
 Hash of the task on which the target learner is trained.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HotstartStack-format"></a>}}
 \if{latex}{\out{\hypertarget{method-HotstartStack-format}{}}}
-\subsection{Method \code{format()}}{
-Helper for print outputs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$format(...)}\if{html}{\out{</div>}}
+\subsection{\code{HotstartStack$format()}}{
+  Helper for print outputs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HotstartStack$format(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(ignored).}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(ignored).}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HotstartStack-print"></a>}}
 \if{latex}{\out{\hypertarget{method-HotstartStack-print}{}}}
-\subsection{Method \code{print()}}{
-Printer.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$print(...)}\if{html}{\out{</div>}}
+\subsection{\code{HotstartStack$print()}}{
+  Printer.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HotstartStack$print(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(ignored).}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(ignored).}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HotstartStack-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-HotstartStack-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{HotstartStack$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HotstartStack$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

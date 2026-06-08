@@ -9,13 +9,14 @@ probabilities
 in multiclass classification tasks.
 }
 \details{
-The Log Loss (a.k.a Benoulli Loss, Logistic Loss, Cross-Entropy Loss) is defined as
+The Log Loss (a.k.a Bernoulli Loss, Logistic Loss, Cross-Entropy Loss) is defined as
 \deqn{
   -\frac{1}{n} \sum_{i=1}^n w_i \log \left(  p_i \right )
 }{
   -weighted.mean(log(p), w)
 }
-where \eqn{p_i}{p} is the probability for the true class of observation \eqn{i} and \eqn{w_i} are normalized weights for each observation \eqn{x_i}.
+where \eqn{p_i}{p} is the probability for the true class of observation \eqn{i},
+and \eqn{w_i} are normalized weights for each observation \eqn{x_i}.
 }
 \note{
 The score function calls \code{\link[mlr3measures:logloss]{mlr3measures::logloss()}} from package \CRANpkg{mlr3measures}.
@@ -54,7 +55,7 @@ Empty ParamSet
 
 \code{as.data.table(mlr_measures)} for a complete table of all (also dynamically created) \link{Measure} implementations.
 
-Other classification measures: 
+Other classification measures:
 \code{\link{mlr_measures_classif.acc}},
 \code{\link{mlr_measures_classif.auc}},
 \code{\link{mlr_measures_classif.bacc}},
@@ -88,7 +89,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.tp}},
 \code{\link{mlr_measures_classif.tpr}}
 
-Other multiclass classification measures: 
+Other multiclass classification measures:
 \code{\link{mlr_measures_classif.acc}},
 \code{\link{mlr_measures_classif.bacc}},
 \code{\link{mlr_measures_classif.ce}},

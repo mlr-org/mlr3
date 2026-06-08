@@ -1054,15 +1054,16 @@ Learner = R6Class(
         return(private$.timeout)
       }
       assert_numeric(rhs, lower = 0, any.missing = FALSE, .var.name = "timeout")
-      assert_names(names(rhs), subset.of = c("train", "predict"), .var.name = "names of timeout")
+      assert_names(names(rhs), type = "unique", subset.of = c("train", "predict"), .var.name = "names of timeout")
       # Merge with current timeout values
       private$.timeout[names(rhs)] = rhs
       private$.timeout
     },
 
     #' @field deadline (named `POSIXct(2)`)\cr
-    #' Deadline for the learner's train and predict steps. This uses the same mechanism as `timeout`, but with absolute
-    #' time (as date-time) instead of a relative time in seconds.
+    #' Deadline for the learner's train and predict steps.
+    #' This uses the same mechanism as `timeout`, but with absolute time (as
+    #' date-time) instead of a relative time in seconds.
     #' Default is `as.POSIXct(c(train = Inf, predict = Inf))`.
     deadline = function(rhs) {
       if (missing(rhs)) {
@@ -1071,9 +1072,9 @@ Learner = R6Class(
       if (is.numeric(rhs)) {
         rhs = as.POSIXct(rhs)
       }
-      assert_posixct(rhs, any.missing = FALSE, len = 2L, .var.name = "deadline")
+      assert_names(names(rhs), type = "unique", subset.of = c("train", "predict"), .var.name = "names of deadline")
       assert_names(names(rhs), subset.of = c("train", "predict"), .var.name = "names of deadline")
-
+      private$.deadline[names(rhs)] = rhs
       private$.deadline = rhs
     },
 

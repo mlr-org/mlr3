@@ -82,7 +82,6 @@ Config/testthat/edition: 3
 Config/testthat/parallel: false
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.3.3
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
@@ -212,3 +211,4 @@ Collate:
     'task_converters.R'
     'worker.R'
     'zzz.R'
+Config/roxygen2/version: 8.0.0
