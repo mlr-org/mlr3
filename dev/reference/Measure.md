@@ -712,6 +712,7 @@ The objects of this class are cloneable with this method.
 ## Examples
 
 ``` r
+
 ## ------------------------------------------------
 ## Method `Measure$score`
 ## ------------------------------------------------

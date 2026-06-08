@@ -59,12 +59,14 @@ learning. Successor of [mlr](https://github.com/mlr-org/mlr).
 Install the last release from CRAN:
 
 ``` r
+
 install.packages("mlr3")
 ```
 
 Install the development version from GitHub:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("mlr-org/mlr3")
 ```
@@ -74,6 +76,7 @@ If you want to get started with `mlr3`, we recommend installing the
 `mlr3` and some of the most important extension packages:
 
 ``` r
+
 install.packages("mlr3verse")
 ```
 
@@ -82,6 +85,7 @@ install.packages("mlr3verse")
 ### Constructing Learners and Tasks
 
 ``` r
+
 library(mlr3)
 
 # create learning task
@@ -102,6 +106,7 @@ task_penguins
 ```
 
 ``` r
+
 # load learner and set hyperparameter
 learner = lrn("classif.rpart", cp = .01)
 ```
@@ -109,6 +114,7 @@ learner = lrn("classif.rpart", cp = .01)
 ### Basic train + predict
 
 ``` r
+
 # train/test split
 split = partition(task_penguins, ratio = 0.67)
 
@@ -131,6 +137,7 @@ prediction$confusion
 ```
 
 ``` r
+
 measure = msr("classif.acc")
 prediction$score(measure)
 ```
@@ -143,6 +150,7 @@ prediction$score(measure)
 ### Resample
 
 ``` r
+
 # 3-fold cross validation
 resampling = rsmp("cv", folds = 3L)
 
@@ -161,6 +169,7 @@ rr$score(measure)[, .(task_id, learner_id, iteration, classif.acc)]
 ```
 
 ``` r
+
 rr$aggregate(measure)
 ```
 
