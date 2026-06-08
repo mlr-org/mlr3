@@ -59,8 +59,8 @@ Other Resampling:
 
 ## Super class
 
-[`mlr3::Resampling`](https://mlr3.mlr-org.com/dev/reference/Resampling.md)
--\> `ResamplingCustomCV`
+[`Resampling`](https://mlr3.mlr-org.com/dev/reference/Resampling.md) -\>
+`ResamplingCustomCV`
 
 ## Active bindings
 
@@ -74,7 +74,7 @@ Other Resampling:
 
 ### Public methods
 
-- [`ResamplingCustomCV$new()`](#method-ResamplingCustomCV-new)
+- [`ResamplingCustomCV$new()`](#method-ResamplingCustomCV-initialize)
 
 - [`ResamplingCustomCV$instantiate()`](#method-ResamplingCustomCV-instantiate)
 
@@ -82,15 +82,15 @@ Other Resampling:
 
 Inherited methods
 
-- [`mlr3::Resampling$format()`](https://mlr3.mlr-org.com/dev/reference/Resampling.html#method-format)
-- [`mlr3::Resampling$help()`](https://mlr3.mlr-org.com/dev/reference/Resampling.html#method-help)
-- [`mlr3::Resampling$print()`](https://mlr3.mlr-org.com/dev/reference/Resampling.html#method-print)
-- [`mlr3::Resampling$test_set()`](https://mlr3.mlr-org.com/dev/reference/Resampling.html#method-test_set)
-- [`mlr3::Resampling$train_set()`](https://mlr3.mlr-org.com/dev/reference/Resampling.html#method-train_set)
+- [`Resampling$format()`](https://mlr3.mlr-org.com/dev/reference/Resampling.html#method-format)
+- [`Resampling$help()`](https://mlr3.mlr-org.com/dev/reference/Resampling.html#method-help)
+- [`Resampling$print()`](https://mlr3.mlr-org.com/dev/reference/Resampling.html#method-print)
+- [`Resampling$test_set()`](https://mlr3.mlr-org.com/dev/reference/Resampling.html#method-test_set)
+- [`Resampling$train_set()`](https://mlr3.mlr-org.com/dev/reference/Resampling.html#method-train_set)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `ResamplingCustomCV$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -101,7 +101,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `instantiate()`
+### `ResamplingCustomCV$instantiate()`
 
 Instantiate this
 [Resampling](https://mlr3.mlr-org.com/dev/reference/Resampling.md) as
@@ -137,7 +137,7 @@ cross-validation with custom splits.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `ResamplingCustomCV$clone()`
 
 The objects of this class are cloneable with this method.
 

@@ -65,15 +65,15 @@ Other Task: [`Task`](https://mlr3.mlr-org.com/dev/reference/Task.md),
 
 ## Super classes
 
-[`mlr3::Task`](https://mlr3.mlr-org.com/dev/reference/Task.md) -\>
-[`mlr3::TaskSupervised`](https://mlr3.mlr-org.com/dev/reference/TaskSupervised.md)
+[`Task`](https://mlr3.mlr-org.com/dev/reference/Task.md) -\>
+[`TaskSupervised`](https://mlr3.mlr-org.com/dev/reference/TaskSupervised.md)
 -\> `TaskRegr`
 
 ## Methods
 
 ### Public methods
 
-- [`TaskRegr$new()`](#method-TaskRegr-new)
+- [`TaskRegr$new()`](#method-TaskRegr-initialize)
 
 - [`TaskRegr$truth()`](#method-TaskRegr-truth)
 
@@ -81,29 +81,29 @@ Other Task: [`Task`](https://mlr3.mlr-org.com/dev/reference/Task.md),
 
 Inherited methods
 
-- [`mlr3::Task$add_strata()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-add_strata)
-- [`mlr3::Task$cbind()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-cbind)
-- [`mlr3::Task$data()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-data)
-- [`mlr3::Task$droplevels()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-droplevels)
-- [`mlr3::Task$filter()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-filter)
-- [`mlr3::Task$format()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-format)
-- [`mlr3::Task$formula()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-formula)
-- [`mlr3::Task$head()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-head)
-- [`mlr3::Task$help()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-help)
-- [`mlr3::Task$levels()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-levels)
-- [`mlr3::Task$materialize_view()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-materialize_view)
-- [`mlr3::Task$missings()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-missings)
-- [`mlr3::Task$print()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-print)
-- [`mlr3::Task$rbind()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-rbind)
-- [`mlr3::Task$rename()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-rename)
-- [`mlr3::Task$select()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-select)
-- [`mlr3::Task$set_col_roles()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-set_col_roles)
-- [`mlr3::Task$set_levels()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-set_levels)
-- [`mlr3::Task$set_row_roles()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-set_row_roles)
+- [`Task$add_strata()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-add_strata)
+- [`Task$cbind()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-cbind)
+- [`Task$data()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-data)
+- [`Task$droplevels()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-droplevels)
+- [`Task$filter()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-filter)
+- [`Task$format()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-format)
+- [`Task$formula()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-formula)
+- [`Task$head()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-head)
+- [`Task$help()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-help)
+- [`Task$levels()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-levels)
+- [`Task$materialize_view()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-materialize_view)
+- [`Task$missings()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-missings)
+- [`Task$print()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-print)
+- [`Task$rbind()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-rbind)
+- [`Task$rename()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-rename)
+- [`Task$select()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-select)
+- [`Task$set_col_roles()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-set_col_roles)
+- [`Task$set_levels()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-set_levels)
+- [`Task$set_row_roles()`](https://mlr3.mlr-org.com/dev/reference/Task.html#method-set_row_roles)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `TaskRegr$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class. The function
@@ -153,7 +153,7 @@ provides an alternative way to construct regression tasks.
 
 ------------------------------------------------------------------------
 
-### Method `truth()`
+### `TaskRegr$truth()`
 
 True response for specified `row_ids`. Format depends on the task type.
 Defaults to all rows with role "use".
@@ -177,7 +177,7 @@ Defaults to all rows with role "use".
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `TaskRegr$clone()`
 
 The objects of this class are cloneable with this method.
 

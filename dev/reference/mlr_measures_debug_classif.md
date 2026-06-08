@@ -81,29 +81,29 @@ Other Measure:
 
 ## Super class
 
-[`mlr3::Measure`](https://mlr3.mlr-org.com/dev/reference/Measure.md) -\>
+[`Measure`](https://mlr3.mlr-org.com/dev/reference/Measure.md) -\>
 `MeasureDebugClassif`
 
 ## Methods
 
 ### Public methods
 
-- [`MeasureDebugClassif$new()`](#method-MeasureDebugClassif-new)
+- [`MeasureDebugClassif$new()`](#method-MeasureDebugClassif-initialize)
 
 - [`MeasureDebugClassif$clone()`](#method-MeasureDebugClassif-clone)
 
 Inherited methods
 
-- [`mlr3::Measure$aggregate()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-aggregate)
-- [`mlr3::Measure$format()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-format)
-- [`mlr3::Measure$help()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-help)
-- [`mlr3::Measure$obs_loss()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-obs_loss)
-- [`mlr3::Measure$print()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-print)
-- [`mlr3::Measure$score()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-score)
+- [`Measure$aggregate()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-aggregate)
+- [`Measure$format()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-format)
+- [`Measure$help()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-help)
+- [`Measure$obs_loss()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-obs_loss)
+- [`Measure$print()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-print)
+- [`Measure$score()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-score)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `MeasureDebugClassif$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -114,7 +114,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `MeasureDebugClassif$clone()`
 
 The objects of this class are cloneable with this method.
 

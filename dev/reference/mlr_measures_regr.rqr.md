@@ -101,8 +101,8 @@ Other Measure:
 
 ## Super classes
 
-[`mlr3::Measure`](https://mlr3.mlr-org.com/dev/reference/Measure.md) -\>
-[`mlr3::MeasureRegr`](https://mlr3.mlr-org.com/dev/reference/MeasureRegr.md)
+[`Measure`](https://mlr3.mlr-org.com/dev/reference/Measure.md) -\>
+[`MeasureRegr`](https://mlr3.mlr-org.com/dev/reference/MeasureRegr.md)
 -\> `MeasureRegrRQR`
 
 ## Active bindings
@@ -117,22 +117,22 @@ Other Measure:
 
 ### Public methods
 
-- [`MeasureRegrRQR$new()`](#method-MeasureRegrRQR-new)
+- [`MeasureRegrRQR$new()`](#method-MeasureRegrRQR-initialize)
 
 - [`MeasureRegrRQR$clone()`](#method-MeasureRegrRQR-clone)
 
 Inherited methods
 
-- [`mlr3::Measure$aggregate()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-aggregate)
-- [`mlr3::Measure$format()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-format)
-- [`mlr3::Measure$help()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-help)
-- [`mlr3::Measure$obs_loss()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-obs_loss)
-- [`mlr3::Measure$print()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-print)
-- [`mlr3::Measure$score()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-score)
+- [`Measure$aggregate()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-aggregate)
+- [`Measure$format()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-format)
+- [`Measure$help()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-help)
+- [`Measure$obs_loss()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-obs_loss)
+- [`Measure$print()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-print)
+- [`Measure$score()`](https://mlr3.mlr-org.com/dev/reference/Measure.html#method-score)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `MeasureRegrRQR$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -158,7 +158,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `MeasureRegrRQR$clone()`
 
 The objects of this class are cloneable with this method.
 

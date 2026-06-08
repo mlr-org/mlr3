@@ -538,6 +538,14 @@ Other Learner:
   error handling in the mlr3book:
   <https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling>
 
+- `deadline`:
+
+  (named `POSIXct(2)`)  
+  Deadline for the learner's train and predict steps. This uses the same
+  mechanism as `timeout`, but with absolute time (as date-time) instead
+  of a relative time in seconds. Default is
+  `as.POSIXct(c(train = Inf, predict = Inf))`.
+
 - `man`:
 
   (`character(1)` \| `NULL`)  
@@ -548,7 +556,7 @@ Other Learner:
 
 ### Public methods
 
-- [`Learner$new()`](#method-Learner-new)
+- [`Learner$new()`](#method-Learner-initialize)
 
 - [`Learner$format()`](#method-Learner-format)
 
@@ -576,7 +584,7 @@ Other Learner:
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `Learner$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -698,7 +706,7 @@ or [LearnerRegr](https://mlr3.mlr-org.com/dev/reference/LearnerRegr.md).
 
 ------------------------------------------------------------------------
 
-### Method [`format()`](https://rdrr.io/r/base/format.html)
+### `Learner$format()`
 
 Helper for print outputs.
 
@@ -714,7 +722,7 @@ Helper for print outputs.
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `Learner$print()`
 
 Printer.
 
@@ -730,7 +738,7 @@ Printer.
 
 ------------------------------------------------------------------------
 
-### Method [`help()`](https://rdrr.io/r/utils/help.html)
+### `Learner$help()`
 
 Opens the corresponding help page referenced by field `$man`.
 
@@ -740,7 +748,7 @@ Opens the corresponding help page referenced by field `$man`.
 
 ------------------------------------------------------------------------
 
-### Method `train()`
+### `Learner$train()`
 
 Train the learner on a set of observations of the provided `task`.
 Mutates the learner by reference, i.e. stores the model alongside other
@@ -777,7 +785,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method [`predict()`](https://rdrr.io/r/stats/predict.html)
+### `Learner$predict()`
 
 Uses the fitted model stored in `$state` to generate predictions for a
 set of observations from the provided `task`. This method requires that
@@ -817,7 +825,7 @@ object containing the predictions for the specified observations.
 
 ------------------------------------------------------------------------
 
-### Method `predict_newdata()`
+### `Learner$predict_newdata()`
 
 Uses the model fitted during `$train()` to create a new
 [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md) based
@@ -877,7 +885,7 @@ Otherwise, no measure weights are used.
 
 ------------------------------------------------------------------------
 
-### Method `reset()`
+### `Learner$reset()`
 
 Reset the learner, i.e. un-train by resetting the `state`.
 
@@ -899,7 +907,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method `base_learner()`
+### `Learner$base_learner()`
 
 Extracts the base learner from nested learner objects like
 `GraphLearner` in
@@ -925,7 +933,7 @@ Learner
 
 ------------------------------------------------------------------------
 
-### Method `encapsulate()`
+### `Learner$encapsulate()`
 
 Sets the encapsulation method and fallback learner for the train and
 predict steps. There are currently four different methods implemented:
@@ -987,8 +995,8 @@ Also see the section on error handling in the mlr3book:
 - `method`:
 
   `character(1)`  
-  One of `"none"`, `"try"`, `"evaluate"` or `"callr"`. See the
-  description for details.
+  One of `"none"`, `"try"`, `"evaluate"`, `"callr"`, or `"mirai"`. See
+  the description for details.
 
 - `fallback`:
 
@@ -1017,7 +1025,7 @@ Also see the section on error handling in the mlr3book:
 
 ------------------------------------------------------------------------
 
-### Method `configure()`
+### `Learner$configure()`
 
 Sets parameter values and fields of the learner. All arguments whose
 names match the name of a parameter of the
@@ -1049,7 +1057,7 @@ fields.
 
 ------------------------------------------------------------------------
 
-### Method `selected_features()`
+### `Learner$selected_features()`
 
 Returns the features selected by the model. The field
 `selected_features_impute` controls the behavior if the learner does not
@@ -1062,7 +1070,7 @@ otherwise all features are returned.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `Learner$clone()`
 
 The objects of this class are cloneable with this method.
 
@@ -1081,7 +1089,7 @@ The objects of this class are cloneable with this method.
 ``` r
 
 ## ------------------------------------------------
-## Method `Learner$train`
+## Method `Learner$train()`
 ## ------------------------------------------------
 
 task   = tsk("penguins")
@@ -1089,7 +1097,7 @@ learner = lrn("classif.rpart")
 learner$train(task)
 
 ## ------------------------------------------------
-## Method `Learner$predict`
+## Method `Learner$predict()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1107,7 +1115,7 @@ learner$predict(task)
 #>      344 Chinstrap Chinstrap
 
 ## ------------------------------------------------
-## Method `Learner$predict_newdata`
+## Method `Learner$predict_newdata()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1123,7 +1131,7 @@ learner$predict_newdata(task$data(rows = 1:5))
 #>        5 Adelie   Adelie
 
 ## ------------------------------------------------
-## Method `Learner$reset`
+## Method `Learner$reset()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1131,7 +1139,7 @@ learner = lrn("classif.rpart")$train(task)
 learner$reset()
 
 ## ------------------------------------------------
-## Method `Learner$encapsulate`
+## Method `Learner$encapsulate()`
 ## ------------------------------------------------
 
 learner = lrn("classif.rpart")
@@ -1139,7 +1147,7 @@ fallback = lrn("classif.featureless")
 learner$encapsulate("try", fallback = fallback)
 
 ## ------------------------------------------------
-## Method `Learner$configure`
+## Method `Learner$configure()`
 ## ------------------------------------------------
 
 learner = lrn("classif.rpart")

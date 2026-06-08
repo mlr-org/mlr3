@@ -124,15 +124,15 @@ Other Learner:
 
 ## Super classes
 
-[`mlr3::Learner`](https://mlr3.mlr-org.com/dev/reference/Learner.md) -\>
-[`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/dev/reference/LearnerRegr.md)
+[`Learner`](https://mlr3.mlr-org.com/dev/reference/Learner.md) -\>
+[`LearnerRegr`](https://mlr3.mlr-org.com/dev/reference/LearnerRegr.md)
 -\> `LearnerRegrDebug`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerRegrDebug$new()`](#method-LearnerRegrDebug-new)
+- [`LearnerRegrDebug$new()`](#method-LearnerRegrDebug-initialize)
 
 - [`LearnerRegrDebug$importance()`](#method-LearnerRegrDebug-importance)
 
@@ -142,21 +142,21 @@ Other Learner:
 
 Inherited methods
 
-- [`mlr3::Learner$base_learner()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-base_learner)
-- [`mlr3::Learner$configure()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-configure)
-- [`mlr3::Learner$encapsulate()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-encapsulate)
-- [`mlr3::Learner$format()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-format)
-- [`mlr3::Learner$help()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-help)
-- [`mlr3::Learner$predict()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-predict)
-- [`mlr3::Learner$predict_newdata()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-predict_newdata)
-- [`mlr3::Learner$print()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-print)
-- [`mlr3::Learner$reset()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-reset)
-- [`mlr3::Learner$train()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-train)
-- [`mlr3::LearnerRegr$predict_newdata_fast()`](https://mlr3.mlr-org.com/dev/reference/LearnerRegr.html#method-predict_newdata_fast)
+- [`Learner$base_learner()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-base_learner)
+- [`Learner$configure()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-configure)
+- [`Learner$encapsulate()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-encapsulate)
+- [`Learner$format()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-format)
+- [`Learner$help()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-help)
+- [`Learner$predict()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-predict)
+- [`Learner$predict_newdata()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-predict_newdata)
+- [`Learner$print()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-print)
+- [`Learner$reset()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-reset)
+- [`Learner$train()`](https://mlr3.mlr-org.com/dev/reference/Learner.html#method-train)
+- [`LearnerRegr$predict_newdata_fast()`](https://mlr3.mlr-org.com/dev/reference/LearnerRegr.html#method-predict_newdata_fast)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `LearnerRegrDebug$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -167,7 +167,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `importance()`
+### `LearnerRegrDebug$importance()`
 
 Returns 0 for each feature seen in training.
 
@@ -181,7 +181,7 @@ Named [`numeric()`](https://rdrr.io/r/base/numeric.html).
 
 ------------------------------------------------------------------------
 
-### Method `selected_features()`
+### `LearnerRegrDebug$selected_features()`
 
 Always returns character(0).
 
@@ -195,7 +195,7 @@ Always returns character(0).
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `LearnerRegrDebug$clone()`
 
 The objects of this class are cloneable with this method.
 

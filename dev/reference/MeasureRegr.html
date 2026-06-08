@@ -98,24 +98,23 @@ The default measure for regression is <code><a href="mlr_measures_regr.mse.html"
     </div>
     <div class="section level2">
     <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
-    <p><code><a href="Measure.html">mlr3::Measure</a></code> -&gt; <code>MeasureRegr</code></p>
+    <p><code><a href="Measure.html">Measure</a></code> -&gt; <code>MeasureRegr</code></p>
     </div>
     <div class="section level2">
     <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-MeasureRegr-new"><code>MeasureRegr$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-MeasureRegr-initialize"><code>MeasureRegr$new()</code></a></p></li>
 <li><p><a href="#method-MeasureRegr-clone"><code>MeasureRegr$clone()</code></a></p></li>
-</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href="Measure.html#method-aggregate"><code>mlr3::Measure$aggregate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href="Measure.html#method-format"><code>mlr3::Measure$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href="Measure.html#method-help"><code>mlr3::Measure$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="obs_loss"><a href="Measure.html#method-obs_loss"><code>mlr3::Measure$obs_loss()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href="Measure.html#method-print"><code>mlr3::Measure$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href="Measure.html#method-score"><code>mlr3::Measure$score()</code></a></span></li>
-</ul></details></p><hr><a id="method-MeasureRegr-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href="Measure.html#method-aggregate"><code>Measure$aggregate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href="Measure.html#method-format"><code>Measure$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href="Measure.html#method-help"><code>Measure$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="obs_loss"><a href="Measure.html#method-obs_loss"><code>Measure$obs_loss()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href="Measure.html#method-print"><code>Measure$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href="Measure.html#method-score"><code>Measure$score()</code></a></span></li>
+</ul></details></p><hr><a id="method-MeasureRegr-initialize"></a><div class="section">
+<h3 id="measureregr-new-"><code>MeasureRegr$new()</code><a class="anchor" aria-label="anchor" href="#measureregr-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/MeasureRegr.html">MeasureRegr</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
@@ -133,34 +132,28 @@ The default measure for regression is <code><a href="mlr_measures_regr.mse.html"
 <span>  label <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  man <span class="op">=</span> <span class="cn">NA_character_</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>id</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Identifier for the new instance.</p></dd>
 
-
-<dt><code>param_set</code></dt>
+      <dt><code>param_set</code></dt>
 <dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
 Set of hyperparameters.</p></dd>
 
-
-<dt><code>range</code></dt>
+      <dt><code>range</code></dt>
 <dd><p>(<code>numeric(2)</code>)<br>
 Feasible range for this measure as <code>c(lower_bound, upper_bound)</code>.
 Both bounds may be infinite.</p></dd>
 
-
-<dt><code>minimize</code></dt>
+      <dt><code>minimize</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 Set to <code>TRUE</code> if good predictions correspond to small values,
 and to <code>FALSE</code> if good predictions correspond to large values.
 If set to <code>NA</code> (default), tuning this measure is not possible.</p></dd>
 
-
-<dt><code>average</code></dt>
+      <dt><code>average</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 How to average multiple <a href="Prediction.html">Prediction</a>s from a <a href="ResampleResult.html">ResampleResult</a>.</p>
 <p>The default, <code>"macro"</code>, calculates the individual performances scores for each <a href="Prediction.html">Prediction</a> and then uses the
@@ -173,8 +166,7 @@ numbers of samples.</p>
 <p>If set to <code>"micro"</code>, the individual <a href="Prediction.html">Prediction</a> objects are first combined into a single new <a href="Prediction.html">Prediction</a> object which is then used to assess the performance.
 The function in <code>$aggregator</code> is not used in this case.</p></dd>
 
-
-<dt><code>aggregator</code></dt>
+      <dt><code>aggregator</code></dt>
 <dd><p>(<code>function()</code> | <code>NULL</code>)<br>
 Function to aggregate over multiple iterations. The role of this function depends on
 the value of field <code>"average"</code>:</p><ul><li><p><code>"macro"</code>: A numeric vector of scores (one per iteration) is passed.
@@ -185,8 +177,7 @@ scored in one go.</p></li>
 <li><p><code>"custom"</code>: A <a href="ResampleResult.html">ResampleResult</a> is passed to the aggregate function.</p></li>
 </ul></dd>
 
-
-<dt><code>properties</code></dt>
+      <dt><code>properties</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Properties of the measure.
 Must be a subset of <a href="mlr_reflections.html">mlr_reflections$measure_properties</a>.
@@ -202,14 +193,12 @@ that only use a subset of their iterations for the point estimate)</p></li>
 This usually means that the measure extracts some information from the learner state.).</p></li>
 </ul></dd>
 
-
-<dt><code>predict_type</code></dt>
+      <dt><code>predict_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Required predict type of the <a href="Learner.html">Learner</a>.
 Possible values are stored in <a href="mlr_reflections.html">mlr_reflections$learner_predict_types</a>.</p></dd>
 
-
-<dt><code>predict_sets</code></dt>
+      <dt><code>predict_sets</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Prediction sets to operate on, used in <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href="ResampleResult.html">ResampleResult</a>.
 Multiple predict sets are calculated by the respective <a href="Learner.html">Learner</a> during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.
@@ -217,25 +206,21 @@ Must be a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is <code>"test"</code>.</p></dd>
 
-
-<dt><code>task_properties</code></dt>
+      <dt><code>task_properties</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Required task properties, see <a href="Task.html">Task</a>.</p></dd>
 
-
-<dt><code>packages</code></dt>
+      <dt><code>packages</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Set of required packages.
 A warning is signaled by the constructor if at least one of the packages is not installed,
 but loaded (not attached) later on-demand via <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace()</a></code>.</p></dd>
 
-
-<dt><code>label</code></dt>
+      <dt><code>label</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Label for the new instance.</p></dd>
 
-
-<dt><code>man</code></dt>
+      <dt><code>man</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 The referenced help package can be opened via method <code>$help()</code>.</p></dd>
@@ -244,14 +229,14 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-MeasureRegr-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-MeasureRegr-clone"></a><div class="section">
+<h3 id="measureregr-clone-"><code>MeasureRegr$clone()</code><a class="anchor" aria-label="anchor" href="#measureregr-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MeasureRegr</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -261,6 +246,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </div>
 
 </div>
+
 
     </div>
 

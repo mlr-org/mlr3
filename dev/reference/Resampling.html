@@ -164,52 +164,52 @@ Identifier of the object.
 Used in tables, plot and text output.</p></dd>
 
 
-<dt><code>is_instantiated</code></dt>
+    <dt><code>is_instantiated</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 Is <code>TRUE</code> if the resampling has been instantiated.</p></dd>
 
 
-<dt><code>hash</code></dt>
+    <dt><code>hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Hash (unique identifier) for this object.
 If the object has not been instantiated yet, <code>NA_character_</code> is returned.
 The hash is calculated based on the class name, the id, the parameter set, and the instance.</p></dd>
 
 
-<dt><code>label</code></dt>
+    <dt><code>label</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Label for this object.
 Can be used in tables, plot and text output instead of the ID.</p></dd>
 
 
-<dt><code>param_set</code></dt>
+    <dt><code>param_set</code></dt>
 <dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
 Set of hyperparameters.</p></dd>
 
 
-<dt><code>task_hash</code></dt>
+    <dt><code>task_hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 The hash of the <a href="Task.html">Task</a> which was passed to <code>r$instantiate()</code>.</p></dd>
 
 
-<dt><code>task_row_hash</code></dt>
+    <dt><code>task_row_hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 The hash of the row ids of the <a href="Task.html">Task</a> which was passed to <code>r$instantiate()</code>.</p></dd>
 
 
-<dt><code>task_nrow</code></dt>
+    <dt><code>task_nrow</code></dt>
 <dd><p>(<code>integer(1)</code>)<br>
 The number of observations of the <a href="Task.html">Task</a> which was passed to <code>r$instantiate()</code>.</p></dd>
 
 
-<dt><code>duplicated_ids</code></dt>
+    <dt><code>duplicated_ids</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>TRUE</code>, duplicated rows can occur within a single training set or within a single test set.
 E.g., this is <code>TRUE</code> for Bootstrap, and <code>FALSE</code> for cross-validation.
 Only used internally.</p></dd>
 
 
-<dt><code>man</code></dt>
+    <dt><code>man</code></dt>
 <dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
@@ -222,8 +222,7 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-Resampling-new"><code>Resampling$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-Resampling-initialize"><code>Resampling$new()</code></a></p></li>
 <li><p><a href="#method-Resampling-format"><code>Resampling$format()</code></a></p></li>
 <li><p><a href="#method-Resampling-print"><code>Resampling$print()</code></a></p></li>
 <li><p><a href="#method-Resampling-help"><code>Resampling$help()</code></a></p></li>
@@ -231,8 +230,8 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 <li><p><a href="#method-Resampling-train_set"><code>Resampling$train_set()</code></a></p></li>
 <li><p><a href="#method-Resampling-test_set"><code>Resampling$test_set()</code></a></p></li>
 <li><p><a href="#method-Resampling-clone"><code>Resampling$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-Resampling-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p></p><hr><a id="method-Resampling-initialize"></a><div class="section">
+<h3 id="resampling-new-"><code>Resampling$new()</code><a class="anchor" aria-label="anchor" href="#resampling-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/Resampling.html">Resampling</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
@@ -242,32 +241,26 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 <span>  label <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  man <span class="op">=</span> <span class="cn">NA_character_</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>id</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Identifier for the new instance.</p></dd>
 
-
-<dt><code>param_set</code></dt>
+      <dt><code>param_set</code></dt>
 <dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
 Set of hyperparameters.</p></dd>
 
-
-<dt><code>duplicated_ids</code></dt>
+      <dt><code>duplicated_ids</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 Set to <code>TRUE</code> if this resampling strategy may have duplicated row ids in a single training set or test set.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href="mlr_resamplings_cv.html">ResamplingCV</a> or <a href="mlr_resamplings_holdout.html">ResamplingHoldout</a>.</p></dd>
 
-
-<dt><code>label</code></dt>
+      <dt><code>label</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Label for the new instance.</p></dd>
 
-
-<dt><code>man</code></dt>
+      <dt><code>man</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 The referenced help package can be opened via method <code>$help()</code>.</p></dd>
@@ -276,14 +269,14 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-Resampling-format"></a><div class="section">
-<h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-Resampling-format"></a><div class="section">
+<h3 id="resampling-format-"><code>Resampling$format()</code><a class="anchor" aria-label="anchor" href="#resampling-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Resampling</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(ignored).</p></dd>
@@ -292,14 +285,14 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-Resampling-print"></a><div class="section">
-<h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-Resampling-print"></a><div class="section">
+<h3 id="resampling-print-"><code>Resampling$print()</code><a class="anchor" aria-label="anchor" href="#resampling-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Resampling</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(ignored).</p></dd>
@@ -308,23 +301,24 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-Resampling-help"></a><div class="section">
-<h3 id="method-help-">Method <code><a href="https://rdrr.io/r/utils/help.html" class="external-link">help()</a></code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-Resampling-help"></a><div class="section">
+<h3 id="resampling-help-"><code>Resampling$help()</code><a class="anchor" aria-label="anchor" href="#resampling-help-"></a></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Resampling</span><span class="op">$</span><span class="fu">help</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Resampling-instantiate"></a><div class="section">
-<h3 id="method-instantiate-">Method <code>instantiate()</code><a class="anchor" aria-label="anchor" href="#method-instantiate-"></a></h3>
+<p></p><hr><a id="method-Resampling-instantiate"></a><div class="section">
+<h3 id="resampling-instantiate-"><code>Resampling$instantiate()</code><a class="anchor" aria-label="anchor" href="#resampling-instantiate-"></a></h3>
 <p>Materializes fixed training and test splits for a given task and stores them in <code>r$instance</code>
 in an arbitrary format.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Resampling</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>task</code></dt>
 <dd><p>(<a href="Task.html">Task</a>)<br>
@@ -332,29 +326,26 @@ Task used for instantiation.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"holdout"</span><span class="op">)</span></span>
 <span><span class="va">resampling</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Resampling-train_set"></a><div class="section">
-<h3 id="method-train-set-">Method <code>train_set()</code><a class="anchor" aria-label="anchor" href="#method-train-set-"></a></h3>
+<p></p><hr><a id="method-Resampling-train_set"></a><div class="section">
+<h3 id="resampling-train-set-"><code>Resampling$train_set()</code><a class="anchor" aria-label="anchor" href="#resampling-train-set-"></a></h3>
 <p>Returns the row ids of the i-th training set.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Resampling</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>i</code></dt>
 <dd><p>(<code>integer(1)</code>)<br>
@@ -362,27 +353,24 @@ Iteration.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>) of row ids.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-1">Examples<a class="anchor" aria-label="anchor" href="#examples-1"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"holdout"</span><span class="op">)</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="va">resampling</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Resampling-test_set"></a><div class="section">
-<h3 id="method-test-set-">Method <code>test_set()</code><a class="anchor" aria-label="anchor" href="#method-test-set-"></a></h3>
+<p></p><hr><a id="method-Resampling-test_set"></a><div class="section">
+<h3 id="resampling-test-set-"><code>Resampling$test_set()</code><a class="anchor" aria-label="anchor" href="#resampling-test-set-"></a></h3>
 <p>Returns the row ids of the i-th test set.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Resampling</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-5">Arguments<a class="anchor" aria-label="anchor" href="#arguments-5"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>i</code></dt>
 <dd><p>(<code>integer(1)</code>)<br>
@@ -390,27 +378,24 @@ Iteration.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
 <p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>) of row ids.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-2">Examples<a class="anchor" aria-label="anchor" href="#examples-2"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"holdout"</span><span class="op">)</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="va">resampling</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Resampling-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+<p></p><hr><a id="method-Resampling-clone"></a><div class="section">
+<h3 id="resampling-clone-"><code>Resampling$clone()</code><a class="anchor" aria-label="anchor" href="#resampling-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Resampling</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -420,6 +405,7 @@ Iteration.</p></dd>
 </div>
 
 </div>
+
 
     </div>
 
@@ -496,7 +482,7 @@ Iteration.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.3496094 0.6503906 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Resampling$instantiate`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Resampling$instantiate()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -504,7 +490,7 @@ Iteration.</p></dd>
 <span class="r-in"><span><span class="va">resampling</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Resampling$train_set`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Resampling$train_set()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -525,7 +511,7 @@ Iteration.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [217] 330 331 332 333 334 335 336 339 340 341 342 343 344</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Resampling$test_set`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Resampling$test_set()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>

@@ -91,48 +91,44 @@ Creates a large circle containing a smaller circle.</p>
     </div>
     <div class="section level2">
     <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
-    <p><code><a href="TaskGenerator.html">mlr3::TaskGenerator</a></code> -&gt; <code>TaskGeneratorCircle</code></p>
+    <p><code><a href="TaskGenerator.html">TaskGenerator</a></code> -&gt; <code>TaskGeneratorCircle</code></p>
     </div>
     <div class="section level2">
     <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-TaskGeneratorCircle-new"><code>TaskGeneratorCircle$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-TaskGeneratorCircle-initialize"><code>TaskGeneratorCircle$new()</code></a></p></li>
 <li><p><a href="#method-TaskGeneratorCircle-plot"><code>TaskGeneratorCircle$plot()</code></a></p></li>
 <li><p><a href="#method-TaskGeneratorCircle-clone"><code>TaskGeneratorCircle$clone()</code></a></p></li>
-</ul></div><p><details open><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href="TaskGenerator.html#method-format"><code>mlr3::TaskGenerator$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href="TaskGenerator.html#method-generate"><code>mlr3::TaskGenerator$generate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href="TaskGenerator.html#method-print"><code>mlr3::TaskGenerator$print()</code></a></span></li>
-</ul></details></p><hr><a id="method-TaskGeneratorCircle-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p><details open><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href="TaskGenerator.html#method-format"><code>TaskGenerator$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href="TaskGenerator.html#method-generate"><code>TaskGenerator$generate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href="TaskGenerator.html#method-print"><code>TaskGenerator$print()</code></a></span></li>
+</ul></details></p><hr><a id="method-TaskGeneratorCircle-initialize"></a><div class="section">
+<h3 id="taskgeneratorcircle-new-"><code>TaskGeneratorCircle$new()</code><a class="anchor" aria-label="anchor" href="#taskgeneratorcircle-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/mlr_task_generators_circle.html">TaskGeneratorCircle</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-TaskGeneratorCircle-plot"></a><div class="section">
-<h3 id="method-plot-">Method <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code><a class="anchor" aria-label="anchor" href="#method-plot-"></a></h3>
+<p></p><hr><a id="method-TaskGeneratorCircle-plot"></a><div class="section">
+<h3 id="taskgeneratorcircle-plot-"><code>TaskGeneratorCircle$plot()</code><a class="anchor" aria-label="anchor" href="#taskgeneratorcircle-plot-"></a></h3>
 <p>Creates a simple plot of generated data.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskGeneratorCircle</span><span class="op">$</span><span class="fu">plot</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">200L</span>, pch <span class="op">=</span> <span class="fl">19L</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>n</code></dt>
 <dd><p>(<code>integer(1)</code>)<br>
 Number of samples to draw for the plot. Default is 200.</p></dd>
 
-
-<dt><code>pch</code></dt>
+      <dt><code>pch</code></dt>
 <dd><p>(<code>integer(1)</code>)<br>
 Point char. Passed to <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>.</p></dd>
 
-
-<dt><code>...</code></dt>
+      <dt><code>...</code></dt>
 <dd><p>(any)<br>
 Additional arguments passed to <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>.</p></dd>
 
@@ -140,14 +136,14 @@ Additional arguments passed to <code><a href="https://rdrr.io/r/graphics/plot.de
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-TaskGeneratorCircle-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-TaskGeneratorCircle-clone"></a><div class="section">
+<h3 id="taskgeneratorcircle-clone-"><code>TaskGeneratorCircle$clone()</code><a class="anchor" aria-label="anchor" href="#taskgeneratorcircle-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskGeneratorCircle</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -157,6 +153,7 @@ Additional arguments passed to <code><a href="https://rdrr.io/r/graphics/plot.de
 </div>
 
 </div>
+
 
     </div>
 
@@ -172,7 +169,7 @@ Additional arguments passed to <code><a href="https://rdrr.io/r/graphics/plot.de
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ y : Factor w/ 2 levels "A","B": 2 2 1 1 1 1 2 1 2 2 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ x1: num  -0.5729 -0.7424 -0.1373 0.0614 -0.7421 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ x2: num  -0.7623 0.9103 -0.0784 0.4543 0.0996 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, ".internal.selfref")=&lt;pointer: 0x561c61101ea0&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, ".internal.selfref")=&lt;pointer: 0x56224d743ea0&gt; </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

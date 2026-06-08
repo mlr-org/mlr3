@@ -5,10 +5,11 @@ multiclass classification tasks.
 
 ## Details
 
-The Log Loss (a.k.a Benoulli Loss, Logistic Loss, Cross-Entropy Loss) is
-defined as \$\$ -\frac{1}{n} \sum\_{i=1}^n w_i \log \left( p_i \right )
-\$\$ where \\p_i\\ is the probability for the true class of observation
-\\i\\ and \\w_i\\ are normalized weights for each observation \\x_i\\.
+The Log Loss (a.k.a Bernoulli Loss, Logistic Loss, Cross-Entropy Loss)
+is defined as \$\$ -\frac{1}{n} \sum\_{i=1}^n w_i \log \left( p_i \right
+) \$\$ where \\p_i\\ is the probability for the true class of
+observation \\i\\, and \\w_i\\ are normalized weights for each
+observation \\x_i\\.
 
 ## Note
 

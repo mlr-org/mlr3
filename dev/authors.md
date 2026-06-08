@@ -43,6 +43,8 @@
 - **Maximilian Mücke**. Contributor.
   [](https://orcid.org/0009-0000-9432-9795)
 
+- **Keno Mersmann**. Contributor.
+
 ## Citation
 
 Source:

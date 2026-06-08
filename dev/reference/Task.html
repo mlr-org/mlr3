@@ -158,7 +158,7 @@ Identifier of the object.
 Used in tables, plot and text output.</p></dd>
 
 
-<dt><code>internal_valid_task</code></dt>
+    <dt><code>internal_valid_task</code></dt>
 <dd><p>(<code>Task</code> | <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> | <code>NULL</code>)<br>
 Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
 See also the <code>$validate</code> field of <code><a href="Learner.html">Learner</a></code>.
@@ -167,31 +167,31 @@ with those ids is created from the primary task using only those ids.
 When assigning a new task, it is always cloned.</p></dd>
 
 
-<dt><code>hash</code></dt>
+    <dt><code>hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Hash (unique identifier) for this object.
 The hash is calculated based on the complete task object and <code>$row_ids</code>.
 If an internal validation task is set, the hash is recalculated.</p></dd>
 
 
-<dt><code>row_hash</code></dt>
+    <dt><code>row_hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Hash (unique identifier) calculated based on the row ids.</p></dd>
 
 
-<dt><code>row_ids</code></dt>
+    <dt><code>row_ids</code></dt>
 <dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Returns the row ids of the <a href="DataBackend.html">DataBackend</a> for observations with role "use".</p></dd>
 
 
-<dt><code>row_names</code></dt>
+    <dt><code>row_names</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Returns a table with two columns:</p><ul><li><p><code>"row_id"</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p><code>"row_name"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>).</p></li>
 </ul></dd>
 
 
-<dt><code>feature_names</code></dt>
+    <dt><code>feature_names</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Returns all column names with <code>role == "feature"</code>.</p>
 <p>Note that this vector determines the default order of columns for <code>task$data(cols = NULL, ...)</code>.
@@ -200,12 +200,12 @@ address columns by their name. The default order is not well defined after some
 operations, e.g. after <code>task$cbind()</code> or after processing via <a href="https://CRAN.R-project.org/package=mlr3pipelines" class="external-link"><span class="pkg">mlr3pipelines</span></a>.</p></dd>
 
 
-<dt><code>target_names</code></dt>
+    <dt><code>target_names</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Returns all column names with role "target".</p></dd>
 
 
-<dt><code>properties</code></dt>
+    <dt><code>properties</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Set of task properties.
 Possible properties are stored in <a href="mlr_reflections.html">mlr_reflections$task_properties</a>.
@@ -223,7 +223,7 @@ and possibly for prediction (role <code>"offset"</code>).</p></li>
 </ul><p>Note that above listed properties are calculated from the <code>$col_roles</code>, and may not be set explicitly.</p></dd>
 
 
-<dt><code>row_roles</code></dt>
+    <dt><code>row_roles</code></dt>
 <dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 Each row (observation) can have an arbitrary number of roles in the learning task:</p><ul><li><p><code>"use"</code>: Use in train / predict / resampling.</p></li>
 </ul><p><code>row_roles</code> is a named list whose elements are named by row role and each element is an <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> vector of
@@ -232,7 +232,7 @@ To alter the roles, just modify the list,
 e.g. with <span style="R">R</span>'s set functions (<code><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect()</a></code>, <code><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff()</a></code>, <code><a href="https://rdrr.io/r/base/sets.html" class="external-link">union()</a></code>, ...).</p></dd>
 
 
-<dt><code>col_roles</code></dt>
+    <dt><code>col_roles</code></dt>
 <dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 Each column can be in one or more of the following groups to fulfill different roles:</p><ul><li><p><code>"feature"</code>: Regular feature used in the model fitting process.</p></li>
 <li><p><code>"target"</code>: Target variable. Most tasks only accept a single target column.</p></li>
@@ -270,28 +270,28 @@ Weights must be non-negative numerics with at least one weight being &gt; 0.
 They don't necessarily need to sum up to 1.</p></dd>
 
 
-<dt><code>nrow</code></dt>
+    <dt><code>nrow</code></dt>
 <dd><p>(<code>integer(1)</code>)<br>
 Returns the total number of rows with role "use".</p></dd>
 
 
-<dt><code>ncol</code></dt>
+    <dt><code>ncol</code></dt>
 <dd><p>(<code>integer(1)</code>)<br>
 Returns the total number of columns with role "target" or "feature".</p></dd>
 
 
-<dt><code>n_features</code></dt>
+    <dt><code>n_features</code></dt>
 <dd><p>(<code>integer(1)</code>)<br>
 Returns the total number of columns with role "feature" (i.e. the number of "active" features in the task).</p></dd>
 
 
-<dt><code>feature_types</code></dt>
+    <dt><code>feature_types</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Returns a table with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active"
 features of the task and <code>type</code> is the storage type.</p></dd>
 
 
-<dt><code>strata</code></dt>
+    <dt><code>strata</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 If the task has columns designated with role <code>"stratum"</code>,
 returns a table with one subpopulation per row and two columns:</p><ul><li><p><code>N</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>) with the number of observations in the subpopulation, and</p></li>
@@ -301,7 +301,7 @@ See <a href="Resampling.html">Resampling</a> for more information on stratificat
 </ul></dd>
 
 
-<dt><code>groups</code></dt>
+    <dt><code>groups</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 If the task has a column with designated role <code>"group"</code>, a table with two columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p>grouping variable <code>group</code> (<code><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector()</a></code>).</p></li>
@@ -309,19 +309,19 @@ If the task has a column with designated role <code>"group"</code>, a table with
 See <a href="Resampling.html">Resampling</a> for more information on grouping.</p></dd>
 
 
-<dt><code>order</code></dt>
+    <dt><code>order</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 If the task has at least one column with designated role <code>"order"</code>, a table with two columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p>ordering vector <code>order</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>).</p></li>
 </ul><p>Returns <code>NULL</code> if there is no order column.</p></dd>
 
 
-<dt><code>weights</code></dt>
+    <dt><code>weights</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Deprecated, use <code>$weights_learner</code> instead.</p></dd>
 
 
-<dt><code>weights_learner</code></dt>
+    <dt><code>weights_learner</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Returns the observation weights used for training a <a href="Learner.html">Learner</a> (column role <code>weights_learner</code>)
 as a <code>data.table</code> with the following columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
@@ -329,7 +329,7 @@ as a <code>data.table</code> with the following columns:</p><ul><li><p><code>row
 </ul><p>Returns <code>NULL</code> if there is no column with the designated role.</p></dd>
 
 
-<dt><code>weights_measure</code></dt>
+    <dt><code>weights_measure</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Returns the observation weights used for scoring a prediction with a <a href="Measure.html">Measure</a> (column role <code>weights_measure</code>)
 as a <code>data.table</code> with the following columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
@@ -337,7 +337,7 @@ as a <code>data.table</code> with the following columns:</p><ul><li><p><code>row
 </ul><p>Returns <code>NULL</code> if there is no column with the designated role.</p></dd>
 
 
-<dt><code>offset</code></dt>
+    <dt><code>offset</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 If the task has a column with designated role <code>"offset"</code>, a table with two or more columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p>offset variable(s) (<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>).</p></li>
@@ -347,7 +347,7 @@ If there is only one offset column, it will be named as <code>offset</code>.</p>
 <p>If there are no columns with the <code>"offset"</code> role, <code>NULL</code> is returned.</p></dd>
 
 
-<dt><code>labels</code></dt>
+    <dt><code>labels</code></dt>
 <dd><p>(named <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Retrieve <code>labels</code> (prettier formatted names) from columns.
 Internally queries the column <code>label</code> of the table in field <code>col_info</code>.
@@ -359,55 +359,55 @@ Alternatively, you can provide a <code><a href="https://rdrr.io/r/base/data.fram
 <code>"id"</code> and <code>"label"</code>.</p></dd>
 
 
-<dt><code>col_hashes</code></dt>
+    <dt><code>col_hashes</code></dt>
 <dd><p>(named <code>character</code>)<br>
 Hash (unique identifier) for all columns except the <code>primary_key</code>: A <code>character</code> vector, named by the columns that each element refers to.<br>
 Columns of different <code>Task</code>s or <code><a href="DataBackend.html">DataBackend</a></code>s that have agreeing <code>col_hashes</code> always represent the same data, given that the same <code>row</code>s are selected.
 The reverse is not necessarily true: There can be columns with the same content that have different <code>col_hashes</code>.</p></dd>
 
 
-<dt><code>characteristics</code></dt>
+    <dt><code>characteristics</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 List of characteristics of the task, e.g. <code>list(n = 5, p = 7)</code>.</p></dd>
 
 
-<dt><code>row_ids_backend</code></dt>
+    <dt><code>row_ids_backend</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Returns all row ids from the backend, regardless of their roles.
 This is different from <code>$row_ids</code> which only returns rows with role "use".</p></dd>
 
 
-<dt><code>label</code></dt>
+    <dt><code>label</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Label for this object.
 Can be used in tables, plot and text output instead of the ID.</p></dd>
 
 
-<dt><code>task_type</code></dt>
+    <dt><code>task_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
 <p>For a complete list of possible task types (depending on the loaded packages),
 see <code><a href="mlr_reflections.html">mlr_reflections$task_types$type</a></code>.</p></dd>
 
 
-<dt><code>man</code></dt>
+    <dt><code>man</code></dt>
 <dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
 
-<dt><code>extra_args</code></dt>
+    <dt><code>extra_args</code></dt>
 <dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 Additional arguments set during construction.
 Required for <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 
 
-<dt><code>backend</code></dt>
+    <dt><code>backend</code></dt>
 <dd><p>(<a href="DataBackend.html">DataBackend</a>)<br>
 Abstract interface to the data of the task.</p></dd>
 
 
-<dt><code>col_info</code></dt>
+    <dt><code>col_info</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Table with 4 columns, mainly for internal purposes:</p><ul><li><p><code>"id"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>) stores the name of the column.</p></li>
 <li><p><code>"type"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>) holds the storage type of the variable, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
@@ -420,7 +420,7 @@ need to be reordered after querying the data from the <a href="DataBackend.html"
 in this table.</p></dd>
 
 
-<dt><code>mlr3_version</code></dt>
+    <dt><code>mlr3_version</code></dt>
 <dd><p>(<code>package_version</code>)<br>
 Package version of <code>mlr3</code> used to create the task.</p></dd>
 
@@ -432,8 +432,7 @@ Package version of <code>mlr3</code> used to create the task.</p></dd>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-Task-new"><code>Task$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-Task-initialize"><code>Task$new()</code></a></p></li>
 <li><p><a href="#method-Task-help"><code>Task$help()</code></a></p></li>
 <li><p><a href="#method-Task-format"><code>Task$format()</code></a></p></li>
 <li><p><a href="#method-Task-print"><code>Task$print()</code></a></p></li>
@@ -454,39 +453,33 @@ Package version of <code>mlr3</code> used to create the task.</p></dd>
 <li><p><a href="#method-Task-add_strata"><code>Task$add_strata()</code></a></p></li>
 <li><p><a href="#method-Task-materialize_view"><code>Task$materialize_view()</code></a></p></li>
 <li><p><a href="#method-Task-clone"><code>Task$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-Task-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p></p><hr><a id="method-Task-initialize"></a><div class="section">
+<h3 id="task-new-"><code>Task$new()</code><a class="anchor" aria-label="anchor" href="#task-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href="TaskClassif.html">TaskClassif</a> or <a href="TaskRegr.html">TaskRegr</a>.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/Task.html">Task</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">id</span>, <span class="va">task_type</span>, <span class="va">backend</span>, label <span class="op">=</span> <span class="cn">NA_character_</span>, extra_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>id</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Identifier for the new instance.</p></dd>
 
-
-<dt><code>task_type</code></dt>
+      <dt><code>task_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Type of task, e.g. <code>"regr"</code> or <code>"classif"</code>.
 Must be an element of <a href="mlr_reflections.html">mlr_reflections$task_types$type</a>.</p></dd>
 
-
-<dt><code>backend</code></dt>
+      <dt><code>backend</code></dt>
 <dd><p>(<a href="DataBackend.html">DataBackend</a>)<br>
 Either a <a href="DataBackend.html">DataBackend</a>, or any object which is convertible to a <a href="DataBackend.html">DataBackend</a> with <code><a href="as_data_backend.html">as_data_backend()</a></code>.
 E.g., a <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> will be converted to a <a href="DataBackendDataTable.html">DataBackendDataTable</a>.</p></dd>
 
-
-<dt><code>label</code></dt>
+      <dt><code>label</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Label for the new instance.</p></dd>
 
-
-<dt><code>extra_args</code></dt>
+      <dt><code>extra_args</code></dt>
 <dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 Named list of constructor arguments, required for converting task types
 via <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
@@ -495,22 +488,23 @@ via <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-Task-help"></a><div class="section">
-<h3 id="method-help-">Method <code><a href="https://rdrr.io/r/utils/help.html" class="external-link">help()</a></code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-Task-help"></a><div class="section">
+<h3 id="task-help-"><code>Task$help()</code><a class="anchor" aria-label="anchor" href="#task-help-"></a></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">help</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-format"></a><div class="section">
-<h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
+<p></p><hr><a id="method-Task-format"></a><div class="section">
+<h3 id="task-format-"><code>Task$format()</code><a class="anchor" aria-label="anchor" href="#task-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(ignored).</p></dd>
@@ -519,14 +513,14 @@ via <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-Task-print"></a><div class="section">
-<h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-Task-print"></a><div class="section">
+<h3 id="task-print-"><code>Task$print()</code><a class="anchor" aria-label="anchor" href="#task-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(ignored).</p></dd>
@@ -535,8 +529,10 @@ via <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-Task-data"></a><div class="section">
-<h3 id="method-data-">Method <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code><a class="anchor" aria-label="anchor" href="#method-data-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-Task-data"></a><div class="section">
+<h3 id="task-data-"><code>Task$data()</code><a class="anchor" aria-label="anchor" href="#task-data-"></a></h3>
 <p>Returns a slice of the data from the <a href="DataBackend.html">DataBackend</a> as a <code>data.table</code>.
 Rows default to observations with role <code>"use"</code>,
 and columns default to features with roles <code>"target"</code> or <code>"feature"</code>.
@@ -549,41 +545,36 @@ Note that it is recommended to <strong>not</strong> rely on the order of columns
 and instead always address columns with their respective column name.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span>, cols <span class="op">=</span> <span class="cn">NULL</span>, ordered <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
 <dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> | <code>NULL</code>)<br>
 Vector or row indices.
 Always refers to the complete data set, even after filtering.</p></dd>
 
-
-<dt><code>cols</code></dt>
+      <dt><code>cols</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code>NULL</code>)<br>
 Vector of column names.</p></dd>
 
-
-<dt><code>ordered</code></dt>
+      <dt><code>ordered</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>TRUE</code>, data is ordered according to the columns with column role <code>"order"</code>.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p>Depending on the <a href="DataBackend.html">DataBackend</a>, but usually a <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species"</span>, <span class="st">"sex"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-formula"></a><div class="section">
-<h3 id="method-formula-">Method <code><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula()</a></code><a class="anchor" aria-label="anchor" href="#method-formula-"></a></h3>
+<p></p><hr><a id="method-Task-formula"></a><div class="section">
+<h3 id="task-formula-"><code>Task$formula()</code><a class="anchor" aria-label="anchor" href="#task-formula-"></a></h3>
 <p>Constructs a <code><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula()</a></code>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>,
 using the features provided in argument <code>rhs</code>
 (defaults to all columns with role <code>"feature"</code>, symbolized by <code>"."</code>).</p>
@@ -592,9 +583,7 @@ However, <a href="https://CRAN.R-project.org/package=mlr3pipelines" class="exter
 purpose: <code>"modelmatrix"</code>.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span>rhs <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rhs</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
@@ -602,55 +591,49 @@ Right hand side of the formula. Defaults to <code>"."</code> (all features of th
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p><code><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula()</a></code>.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-1">Examples<a class="anchor" aria-label="anchor" href="#examples-1"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-head"></a><div class="section">
-<h3 id="method-head-">Method <code><a href="https://rdrr.io/r/utils/head.html" class="external-link">head()</a></code><a class="anchor" aria-label="anchor" href="#method-head-"></a></h3>
+<p></p><hr><a id="method-Task-head"></a><div class="section">
+<h3 id="task-head-"><code>Task$head()</code><a class="anchor" aria-label="anchor" href="#task-head-"></a></h3>
 <p>Get the first <code>n</code> observations with role <code>"use"</code> of all columns with role <code>"target"</code> or <code>"feature"</code>.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-5">Arguments<a class="anchor" aria-label="anchor" href="#arguments-5"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>n</code></dt>
 <dd><p>(<code>integer(1)</code>).</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
 <p><code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code> with <code>n</code> rows.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-2">Examples<a class="anchor" aria-label="anchor" href="#examples-2"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-levels"></a><div class="section">
-<h3 id="method-levels-">Method <code><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels()</a></code><a class="anchor" aria-label="anchor" href="#method-levels-"></a></h3>
+<p></p><hr><a id="method-Task-levels"></a><div class="section">
+<h3 id="task-levels-"><code>Task$levels()</code><a class="anchor" aria-label="anchor" href="#task-levels-"></a></h3>
 <p>Returns the distinct values for columns referenced in <code>cols</code> with storage type "factor" or "ordered".
 Argument <code>cols</code> defaults to all such columns with role <code>"target"</code> or <code>"feature"</code>.</p>
 <p>Note that this function ignores the row roles, it returns all levels available in the <a href="DataBackend.html">DataBackend</a>.
 To update the stored level information, e.g. after subsetting a task with <code>$filter()</code>, call <code>$droplevels()</code>.</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">levels</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>cols</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code>NULL</code>)<br>
@@ -658,28 +641,25 @@ Vector of column names.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
 <p>named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-3">Examples<a class="anchor" aria-label="anchor" href="#examples-3"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">levels</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-missings"></a><div class="section">
-<h3 id="method-missings-">Method <code>missings()</code><a class="anchor" aria-label="anchor" href="#method-missings-"></a></h3>
+<p></p><hr><a id="method-Task-missings"></a><div class="section">
+<h3 id="task-missings-"><code>Task$missings()</code><a class="anchor" aria-label="anchor" href="#task-missings-"></a></h3>
 <p>Returns the number of missing observations for columns referenced in <code>cols</code>.
 Considers only active rows with row role <code>"use"</code>.
 Argument <code>cols</code> defaults to all columns with role "target" or "feature".</p><div class="section">
 <h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">missings</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>cols</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code>NULL</code>)<br>
@@ -687,28 +667,25 @@ Vector of column names.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-4">Returns<a class="anchor" aria-label="anchor" href="#returns-4"></a></h4>
 <p>Named <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-4">Examples<a class="anchor" aria-label="anchor" href="#examples-4"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">missings</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-filter"></a><div class="section">
-<h3 id="method-filter-">Method <code><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter()</a></code><a class="anchor" aria-label="anchor" href="#method-filter-"></a></h3>
+<p></p><hr><a id="method-Task-filter"></a><div class="section">
+<h3 id="task-filter-"><code>Task$filter()</code><a class="anchor" aria-label="anchor" href="#task-filter-"></a></h3>
 <p>Subsets the task, keeping only the rows specified via row ids <code>rows</code>.</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span><span class="va">rows</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
 <dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> | <code>NULL</code>)<br>
@@ -717,32 +694,29 @@ Always refers to the complete data set, even after filtering.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-5">Returns<a class="anchor" aria-label="anchor" href="#returns-5"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-5">Examples<a class="anchor" aria-label="anchor" href="#examples-5"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="va">nrow</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-select"></a><div class="section">
-<h3 id="method-select-">Method <code>select()</code><a class="anchor" aria-label="anchor" href="#method-select-"></a></h3>
+<p></p><hr><a id="method-Task-select"></a><div class="section">
+<h3 id="task-select-"><code>Task$select()</code><a class="anchor" aria-label="anchor" href="#task-select-"></a></h3>
 <p>Subsets the task, keeping only the features specified via column names <code>cols</code>.
 Note that you cannot deselect the target column, for obvious reasons.</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">select</span><span class="op">(</span><span class="va">cols</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>cols</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code>NULL</code>)<br>
@@ -750,23 +724,22 @@ Vector of column names.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-6">Returns<a class="anchor" aria-label="anchor" href="#returns-6"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-6">Examples<a class="anchor" aria-label="anchor" href="#examples-6"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">select</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bill_length"</span>, <span class="st">"bill_depth"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-rbind"></a><div class="section">
-<h3 id="method-rbind-">Method <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code><a class="anchor" aria-label="anchor" href="#method-rbind-"></a></h3>
+<p></p><hr><a id="method-Task-rbind"></a><div class="section">
+<h3 id="task-rbind-"><code>Task$rbind()</code><a class="anchor" aria-label="anchor" href="#task-rbind-"></a></h3>
 <p>Adds additional rows to the <a href="DataBackend.html">DataBackend</a> stored in <code>$backend</code>.
 New row ids are automatically created, unless <code>data</code> has a column whose name matches
 the primary key of the <a href="DataBackend.html">DataBackend</a> (<code>task$backend$primary_key</code>).
@@ -779,32 +752,29 @@ Columns only present in <code>data</code> but not in the <a href="DataBackend.ht
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">rbind</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-10">Arguments<a class="anchor" aria-label="anchor" href="#arguments-10"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>data</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>).</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-7">Returns<a class="anchor" aria-label="anchor" href="#returns-7"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-7">Examples<a class="anchor" aria-label="anchor" href="#examples-7"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">extra</span> <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">rbind</span><span class="op">(</span><span class="va">extra</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-cbind"></a><div class="section">
-<h3 id="method-cbind-">Method <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind()</a></code><a class="anchor" aria-label="anchor" href="#method-cbind-"></a></h3>
+<p></p><hr><a id="method-Task-cbind"></a><div class="section">
+<h3 id="task-cbind-"><code>Task$cbind()</code><a class="anchor" aria-label="anchor" href="#task-cbind-"></a></h3>
 <p>Adds additional columns to the <a href="DataBackend.html">DataBackend</a> stored in <code>$backend</code>.</p>
 <p>The row ids must be provided as column in <code>data</code>
 (with column name matching the primary key name of the <a href="DataBackend.html">DataBackend</a>).
@@ -815,174 +785,152 @@ and virtually overwrite the columns in the <a href="DataBackend.html">DataBacken
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-11">Arguments<a class="anchor" aria-label="anchor" href="#arguments-11"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>data</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>).</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-8">Examples<a class="anchor" aria-label="anchor" href="#examples-8"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>extra_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">nrow</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>cols <span class="op">=</span> <span class="st">"extra_col"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-rename"></a><div class="section">
-<h3 id="method-rename-">Method <code>rename()</code><a class="anchor" aria-label="anchor" href="#method-rename-"></a></h3>
+<p></p><hr><a id="method-Task-rename"></a><div class="section">
+<h3 id="task-rename-"><code>Task$rename()</code><a class="anchor" aria-label="anchor" href="#task-rename-"></a></h3>
 <p>Renames columns by mapping column names in <code>old</code> to new column names in <code>new</code> (element-wise).</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">rename</span><span class="op">(</span><span class="va">old</span>, <span class="va">new</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-12">Arguments<a class="anchor" aria-label="anchor" href="#arguments-12"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>old</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Old names.</p></dd>
 
-
-<dt><code>new</code></dt>
+      <dt><code>new</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 New names.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-8">Returns<a class="anchor" aria-label="anchor" href="#returns-8"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-9">Examples<a class="anchor" aria-label="anchor" href="#examples-9"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">rename</span><span class="op">(</span><span class="st">"body_mass"</span>, <span class="st">"mass"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-set_row_roles"></a><div class="section">
-<h3 id="method-set-row-roles-">Method <code>set_row_roles()</code><a class="anchor" aria-label="anchor" href="#method-set-row-roles-"></a></h3>
+<p></p><hr><a id="method-Task-set_row_roles"></a><div class="section">
+<h3 id="task-set-row-roles-"><code>Task$set_row_roles()</code><a class="anchor" aria-label="anchor" href="#task-set-row-roles-"></a></h3>
 <p>Modifies the roles in <code>$row_roles</code> <strong>in-place</strong>.</p><div class="section">
 <h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">set_row_roles</span><span class="op">(</span><span class="va">rows</span>, roles <span class="op">=</span> <span class="cn">NULL</span>, add_to <span class="op">=</span> <span class="cn">NULL</span>, remove_from <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-13">Arguments<a class="anchor" aria-label="anchor" href="#arguments-13"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Row ids for which to change the roles for.</p></dd>
 
-
-<dt><code>roles</code></dt>
+      <dt><code>roles</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Exclusively set rows to the specified <code>roles</code> (remove from other roles).</p></dd>
 
-
-<dt><code>add_to</code></dt>
+      <dt><code>add_to</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Add rows with row ids <code>rows</code> to roles specified in <code>add_to</code>.
 Rows keep their previous roles.</p></dd>
 
-
-<dt><code>remove_from</code></dt>
+      <dt><code>remove_from</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Remove rows with row ids <code>rows</code> from roles specified in <code>remove_from</code>.
 Other row roles are preserved.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h4>
 <p>Roles are first set exclusively (argument <code>roles</code>), then added (argument <code>add_to</code>) and finally
 removed (argument <code>remove_from</code>) from different roles.
 Duplicated row ids are explicitly allowed, so you can replicate an observation by repeating its
 <code>row_id</code>.</p>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-9">Returns<a class="anchor" aria-label="anchor" href="#returns-9"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-10">Examples<a class="anchor" aria-label="anchor" href="#examples-10"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">set_row_roles</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, remove_from <span class="op">=</span> <span class="st">"use"</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-set_col_roles"></a><div class="section">
-<h3 id="method-set-col-roles-">Method <code>set_col_roles()</code><a class="anchor" aria-label="anchor" href="#method-set-col-roles-"></a></h3>
+<p></p><hr><a id="method-Task-set_col_roles"></a><div class="section">
+<h3 id="task-set-col-roles-"><code>Task$set_col_roles()</code><a class="anchor" aria-label="anchor" href="#task-set-col-roles-"></a></h3>
 <p>Modifies the roles in <code>$col_roles</code> <strong>in-place</strong>.
 See <code>$col_roles</code> for a list of possible roles.</p><div class="section">
 <h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">set_col_roles</span><span class="op">(</span><span class="va">cols</span>, roles <span class="op">=</span> <span class="cn">NULL</span>, add_to <span class="op">=</span> <span class="cn">NULL</span>, remove_from <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-14">Arguments<a class="anchor" aria-label="anchor" href="#arguments-14"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>cols</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Column names for which to change the roles for.</p></dd>
 
-
-<dt><code>roles</code></dt>
+      <dt><code>roles</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Exclusively set columns to the specified <code>roles</code> (remove from other roles).</p></dd>
 
-
-<dt><code>add_to</code></dt>
+      <dt><code>add_to</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Add columns with column names <code>cols</code> to roles specified in <code>add_to</code>.
 Columns keep their previous roles.</p></dd>
 
-
-<dt><code>remove_from</code></dt>
+      <dt><code>remove_from</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Remove columns with columns names <code>cols</code> from roles specified in <code>remove_from</code>.
 Other column roles are preserved.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="details-1">Details<a class="anchor" aria-label="anchor" href="#details-1"></a></h4>
 <p>Roles are first set exclusively (argument <code>roles</code>), then added (argument <code>add_to</code>) and finally removed
 (argument <code>remove_from</code>) from different roles.
 Duplicated columns are removed from the same role.
 For tasks that only allow one target, the target column cannot be set with <code>$set_col_roles()</code>.
 Use the <code>$col_roles</code> field to swap the target column.</p>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-10">Returns<a class="anchor" aria-label="anchor" href="#returns-10"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-11">Examples<a class="anchor" aria-label="anchor" href="#examples-11"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">set_col_roles</span><span class="op">(</span><span class="st">"sex"</span>, roles <span class="op">=</span> <span class="st">"stratum"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="va">col_roles</span><span class="op">$</span><span class="va">stratum</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-set_levels"></a><div class="section">
-<h3 id="method-set-levels-">Method <code>set_levels()</code><a class="anchor" aria-label="anchor" href="#method-set-levels-"></a></h3>
+<p></p><hr><a id="method-Task-set_levels"></a><div class="section">
+<h3 id="task-set-levels-"><code>Task$set_levels()</code><a class="anchor" aria-label="anchor" href="#task-set-levels-"></a></h3>
 <p>Set levels for columns of type <code>factor</code> and <code>ordered</code> in field <code>col_info</code>.
 You can add, remove or reorder the levels, affecting the data returned by
 <code>$data()</code> and <code>$levels()</code>.
@@ -991,9 +939,7 @@ If you just want to remove unused levels, use <code>$droplevels()</code> instead
 valid levels are converted to missing values.</p><div class="section">
 <h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">set_levels</span><span class="op">(</span><span class="va">levels</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-15">Arguments<a class="anchor" aria-label="anchor" href="#arguments-15"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>levels</code></dt>
 <dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> of <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
@@ -1001,28 +947,25 @@ List of character vectors of new levels, named by column names.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-11">Returns<a class="anchor" aria-label="anchor" href="#returns-11"></a></h4>
 <p>Modified <code>self</code>.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-12">Examples<a class="anchor" aria-label="anchor" href="#examples-12"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">set_levels</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"male"</span>, <span class="st">"female"</span>, <span class="st">"unknown"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">levels</span><span class="op">(</span><span class="st">"sex"</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-droplevels"></a><div class="section">
-<h3 id="method-droplevels-">Method <code><a href="https://rdrr.io/r/base/droplevels.html" class="external-link">droplevels()</a></code><a class="anchor" aria-label="anchor" href="#method-droplevels-"></a></h3>
+<p></p><hr><a id="method-Task-droplevels"></a><div class="section">
+<h3 id="task-droplevels-"><code>Task$droplevels()</code><a class="anchor" aria-label="anchor" href="#task-droplevels-"></a></h3>
 <p>Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
 <code>cols</code> defaults to all columns with storage type "factor" or "ordered".</p><div class="section">
 <h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">droplevels</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-16">Arguments<a class="anchor" aria-label="anchor" href="#arguments-16"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>cols</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code>NULL</code>)<br>
@@ -1030,57 +973,52 @@ Vector of column names.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-12">Returns<a class="anchor" aria-label="anchor" href="#returns-12"></a></h4>
 <p>Modified <code>self</code>.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-13">Examples<a class="anchor" aria-label="anchor" href="#examples-13"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">set_levels</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"male"</span>, <span class="st">"female"</span>, <span class="st">"unknown"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">levels</span><span class="op">(</span><span class="st">"sex"</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-add_strata"></a><div class="section">
-<h3 id="method-add-strata-">Method <code>add_strata()</code><a class="anchor" aria-label="anchor" href="#method-add-strata-"></a></h3>
+<p></p><hr><a id="method-Task-add_strata"></a><div class="section">
+<h3 id="task-add-strata-"><code>Task$add_strata()</code><a class="anchor" aria-label="anchor" href="#task-add-strata-"></a></h3>
 <p>Cuts numeric variables into new factors columns which are added to the task with role
 <code>"stratum"</code>.
 This ensures that all training and test splits contain observations from all bins.
 The columns are named <code>"..stratum_[col_name]"</code>.</p><div class="section">
 <h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">add_strata</span><span class="op">(</span><span class="va">cols</span>, bins <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-17">Arguments<a class="anchor" aria-label="anchor" href="#arguments-17"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>cols</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Names of columns to operate on.</p></dd>
 
-
-<dt><code>bins</code></dt>
+      <dt><code>bins</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Number of bins to cut into (passed to <code><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut()</a></code> as <code>breaks</code>).
 Replicated to have the same length as <code>cols</code>.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-13">Returns<a class="anchor" aria-label="anchor" href="#returns-13"></a></h4>
 <p>self (invisibly).</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-14">Examples<a class="anchor" aria-label="anchor" href="#examples-14"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="fu">add_strata</span><span class="op">(</span><span class="st">"flipper_length"</span>, bins <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-materialize_view"></a><div class="section">
-<h3 id="method-materialize-view-">Method <code>materialize_view()</code><a class="anchor" aria-label="anchor" href="#method-materialize-view-"></a></h3>
+<p></p><hr><a id="method-Task-materialize_view"></a><div class="section">
+<h3 id="task-materialize-view-"><code>Task$materialize_view()</code><a class="anchor" aria-label="anchor" href="#task-materialize-view-"></a></h3>
 <p>Certain operations change the view on the data, e.g., <code>$filter()</code> or <code>$select()</code>.
 This operation queries the <a href="DataBackend.html">DataBackend</a> for all data required in the active view and
 replaces the internal <a href="DataBackend.html">DataBackend</a> with the new one. In some scenarios this helps to
@@ -1088,9 +1026,7 @@ free up memory or speeds up accesses to the data, especially after several <code
 and <code>$cbind()</code> operations.</p><div class="section">
 <h4 id="usage-19">Usage<a class="anchor" aria-label="anchor" href="#usage-19"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">materialize_view</span><span class="op">(</span>internal_valid_task <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-18">Arguments<a class="anchor" aria-label="anchor" href="#arguments-18"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>internal_valid_task</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
@@ -1098,18 +1034,14 @@ Also materialize the internal validation task. Default is <code>TRUE</code>.</p>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="details-2">Details<a class="anchor" aria-label="anchor" href="#details-2"></a></h4>
 <p>For tasks containing the same observation more than once (duplicates in <code>$row_ids</code>),
 the resulting backend contains it only once.</p>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-14">Returns<a class="anchor" aria-label="anchor" href="#returns-14"></a></h4>
 <p>self (invisibly).</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-15">Examples<a class="anchor" aria-label="anchor" href="#examples-15"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="va">backend</span><span class="op">$</span><span class="va">nrow</span></span>
@@ -1117,15 +1049,14 @@ the resulting backend contains it only once.</p>
 <span><span class="va">task</span><span class="op">$</span><span class="va">backend</span><span class="op">$</span><span class="va">nrow</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Task-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+<p></p><hr><a id="method-Task-clone"></a><div class="section">
+<h3 id="task-clone-"><code>Task$clone()</code><a class="anchor" aria-label="anchor" href="#task-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-20">Usage<a class="anchor" aria-label="anchor" href="#usage-20"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-19">Arguments<a class="anchor" aria-label="anchor" href="#arguments-19"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -1135,6 +1066,7 @@ the resulting backend contains it only once.</p>
 </div>
 
 </div>
+
 
     </div>
 
@@ -1184,7 +1116,7 @@ the resulting backend contains it only once.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:   male     6</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$data`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$data()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -1198,7 +1130,7 @@ the resulting backend contains it only once.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:  Adelie female</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$formula`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$formula()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -1207,7 +1139,7 @@ the resulting backend contains it only once.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$head`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$head()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -1224,7 +1156,7 @@ the resulting backend contains it only once.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:  2007</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$levels`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$levels()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -1240,7 +1172,7 @@ the resulting backend contains it only once.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$missings`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$missings()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -1251,7 +1183,7 @@ the resulting backend contains it only once.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              0             11              0 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$filter`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$filter()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -1260,7 +1192,7 @@ the resulting backend contains it only once.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$select`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$select()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -1269,7 +1201,7 @@ the resulting backend contains it only once.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bill_depth"  "bill_length"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$rbind`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$rbind()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -1277,7 +1209,7 @@ the resulting backend contains it only once.</p>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">rbind</span><span class="op">(</span><span class="va">extra</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$cbind`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$cbind()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -1293,7 +1225,7 @@ the resulting backend contains it only once.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:         6</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$rename`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$rename()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -1303,14 +1235,14 @@ the resulting backend contains it only once.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5] "island"         "sex"            "year"          </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$set_row_roles`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$set_row_roles()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">set_row_roles</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, remove_from <span class="op">=</span> <span class="st">"use"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$set_col_roles`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$set_col_roles()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -1319,7 +1251,7 @@ the resulting backend contains it only once.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "sex"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$set_levels`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$set_levels()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -1330,7 +1262,7 @@ the resulting backend contains it only once.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$droplevels`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$droplevels()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -1341,14 +1273,14 @@ the resulting backend contains it only once.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$add_strata`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$add_strata()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">add_strata</span><span class="op">(</span><span class="st">"flipper_length"</span>, bins <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Task$materialize_view`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Task$materialize_view()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span></span></span>

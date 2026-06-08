@@ -297,7 +297,7 @@ for established default tuning spaces.</p></li>
     </div>
     <div class="section level2">
     <h2 id="super-classes">Super classes<a class="anchor" aria-label="anchor" href="#super-classes"></a></h2>
-    <p><code><a href="Learner.html">mlr3::Learner</a></code> -&gt; <code><a href="LearnerClassif.html">mlr3::LearnerClassif</a></code> -&gt; <code>LearnerClassifDebug</code></p>
+    <p><code><a href="Learner.html">Learner</a></code> -&gt; <code><a href="LearnerClassif.html">LearnerClassif</a></code> -&gt; <code>LearnerClassifDebug</code></p>
     </div>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
@@ -306,17 +306,17 @@ for established default tuning spaces.</p></li>
 Whether the learner has been marshaled.</p></dd>
 
 
-<dt><code>internal_valid_scores</code></dt>
+    <dt><code>internal_valid_scores</code></dt>
 <dd><p>Retrieves the internal validation scores as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
 Returns <code>NULL</code> if learner is not trained yet.</p></dd>
 
 
-<dt><code>internal_tuned_values</code></dt>
+    <dt><code>internal_tuned_values</code></dt>
 <dd><p>Retrieves the internally tuned values as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
 Returns <code>NULL</code> if learner is not trained yet.</p></dd>
 
 
-<dt><code>validate</code></dt>
+    <dt><code>validate</code></dt>
 <dd><p>How to construct the internal validation data. This parameter can be either <code>NULL</code>,
 a ratio in $(0, 1)$, <code>"test"</code>, or <code>"predefined"</code>.</p></dd>
 
@@ -328,40 +328,38 @@ a ratio in $(0, 1)$, <code>"test"</code>, or <code>"predefined"</code>.</p></dd>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-LearnerClassifDebug-new"><code>LearnerClassifDebug$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-LearnerClassifDebug-initialize"><code>LearnerClassifDebug$new()</code></a></p></li>
 <li><p><a href="#method-LearnerClassifDebug-marshal"><code>LearnerClassifDebug$marshal()</code></a></p></li>
 <li><p><a href="#method-LearnerClassifDebug-unmarshal"><code>LearnerClassifDebug$unmarshal()</code></a></p></li>
 <li><p><a href="#method-LearnerClassifDebug-importance"><code>LearnerClassifDebug$importance()</code></a></p></li>
 <li><p><a href="#method-LearnerClassifDebug-selected_features"><code>LearnerClassifDebug$selected_features()</code></a></p></li>
 <li><p><a href="#method-LearnerClassifDebug-clone"><code>LearnerClassifDebug$clone()</code></a></p></li>
-</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href="Learner.html#method-base_learner"><code>mlr3::Learner$base_learner()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="configure"><a href="Learner.html#method-configure"><code>mlr3::Learner$configure()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href="Learner.html#method-encapsulate"><code>mlr3::Learner$encapsulate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href="Learner.html#method-format"><code>mlr3::Learner$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href="Learner.html#method-help"><code>mlr3::Learner$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href="Learner.html#method-predict"><code>mlr3::Learner$predict()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href="Learner.html#method-predict_newdata"><code>mlr3::Learner$predict_newdata()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print"><a href="Learner.html#method-print"><code>mlr3::Learner$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href="Learner.html#method-reset"><code>mlr3::Learner$reset()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href="Learner.html#method-train"><code>mlr3::Learner$train()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="LearnerClassif" data-id="predict_newdata_fast"><a href="LearnerClassif.html#method-predict_newdata_fast"><code>mlr3::LearnerClassif$predict_newdata_fast()</code></a></span></li>
-</ul></details></p><hr><a id="method-LearnerClassifDebug-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href="Learner.html#method-base_learner"><code>Learner$base_learner()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="configure"><a href="Learner.html#method-configure"><code>Learner$configure()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href="Learner.html#method-encapsulate"><code>Learner$encapsulate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href="Learner.html#method-format"><code>Learner$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href="Learner.html#method-help"><code>Learner$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href="Learner.html#method-predict"><code>Learner$predict()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href="Learner.html#method-predict_newdata"><code>Learner$predict_newdata()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print"><a href="Learner.html#method-print"><code>Learner$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href="Learner.html#method-reset"><code>Learner$reset()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href="Learner.html#method-train"><code>Learner$train()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="LearnerClassif" data-id="predict_newdata_fast"><a href="LearnerClassif.html#method-predict_newdata_fast"><code>LearnerClassif$predict_newdata_fast()</code></a></span></li>
+</ul></details></p><hr><a id="method-LearnerClassifDebug-initialize"></a><div class="section">
+<h3 id="learnerclassifdebug-new-"><code>LearnerClassifDebug$new()</code><a class="anchor" aria-label="anchor" href="#learnerclassifdebug-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/mlr_learners_classif.debug.html">LearnerClassifDebug</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-LearnerClassifDebug-marshal"></a><div class="section">
-<h3 id="method-marshal-">Method <code>marshal()</code><a class="anchor" aria-label="anchor" href="#method-marshal-"></a></h3>
+<p></p><hr><a id="method-LearnerClassifDebug-marshal"></a><div class="section">
+<h3 id="learnerclassifdebug-marshal-"><code>LearnerClassifDebug$marshal()</code><a class="anchor" aria-label="anchor" href="#learnerclassifdebug-marshal-"></a></h3>
 <p>Marshal the learner's model.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LearnerClassifDebug</span><span class="op">$</span><span class="fu">marshal</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(any)<br>
@@ -371,14 +369,14 @@ Additional arguments passed to <code><a href="marshaling.html">marshal_model()</
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-LearnerClassifDebug-unmarshal"></a><div class="section">
-<h3 id="method-unmarshal-">Method <code>unmarshal()</code><a class="anchor" aria-label="anchor" href="#method-unmarshal-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-LearnerClassifDebug-unmarshal"></a><div class="section">
+<h3 id="learnerclassifdebug-unmarshal-"><code>LearnerClassifDebug$unmarshal()</code><a class="anchor" aria-label="anchor" href="#learnerclassifdebug-unmarshal-"></a></h3>
 <p>Unmarshal the learner's model.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LearnerClassifDebug</span><span class="op">$</span><span class="fu">unmarshal</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(any)<br>
@@ -388,38 +386,38 @@ Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-LearnerClassifDebug-importance"></a><div class="section">
-<h3 id="method-importance-">Method <code>importance()</code><a class="anchor" aria-label="anchor" href="#method-importance-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-LearnerClassifDebug-importance"></a><div class="section">
+<h3 id="learnerclassifdebug-importance-"><code>LearnerClassifDebug$importance()</code><a class="anchor" aria-label="anchor" href="#learnerclassifdebug-importance-"></a></h3>
 <p>Returns 0 for each feature seen in training.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LearnerClassifDebug</span><span class="op">$</span><span class="fu">importance</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p>Named <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-LearnerClassifDebug-selected_features"></a><div class="section">
-<h3 id="method-selected-features-">Method <code>selected_features()</code><a class="anchor" aria-label="anchor" href="#method-selected-features-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-LearnerClassifDebug-selected_features"></a><div class="section">
+<h3 id="learnerclassifdebug-selected-features-"><code>LearnerClassifDebug$selected_features()</code><a class="anchor" aria-label="anchor" href="#learnerclassifdebug-selected-features-"></a></h3>
 <p>Always returns character(0).</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LearnerClassifDebug</span><span class="op">$</span><span class="fu">selected_features</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-LearnerClassifDebug-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-LearnerClassifDebug-clone"></a><div class="section">
+<h3 id="learnerclassifdebug-clone-"><code>LearnerClassifDebug$clone()</code><a class="anchor" aria-label="anchor" href="#learnerclassifdebug-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LearnerClassifDebug</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -429,6 +427,7 @@ Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()
 </div>
 
 </div>
+
 
     </div>
 

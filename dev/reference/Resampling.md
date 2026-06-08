@@ -192,7 +192,7 @@ Other Resampling:
 
 ### Public methods
 
-- [`Resampling$new()`](#method-Resampling-new)
+- [`Resampling$new()`](#method-Resampling-initialize)
 
 - [`Resampling$format()`](#method-Resampling-format)
 
@@ -210,7 +210,7 @@ Other Resampling:
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `Resampling$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -263,7 +263,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method [`format()`](https://rdrr.io/r/base/format.html)
+### `Resampling$format()`
 
 Helper for print outputs.
 
@@ -279,7 +279,7 @@ Helper for print outputs.
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `Resampling$print()`
 
 Printer.
 
@@ -295,7 +295,7 @@ Printer.
 
 ------------------------------------------------------------------------
 
-### Method [`help()`](https://rdrr.io/r/utils/help.html)
+### `Resampling$help()`
 
 Opens the corresponding help page referenced by field `$man`.
 
@@ -305,7 +305,7 @@ Opens the corresponding help page referenced by field `$man`.
 
 ------------------------------------------------------------------------
 
-### Method `instantiate()`
+### `Resampling$instantiate()`
 
 Materializes fixed training and test splits for a given task and stores
 them in `r$instance` in an arbitrary format.
@@ -335,7 +335,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method `train_set()`
+### `Resampling$train_set()`
 
 Returns the row ids of the i-th training set.
 
@@ -362,7 +362,7 @@ Returns the row ids of the i-th training set.
 
 ------------------------------------------------------------------------
 
-### Method `test_set()`
+### `Resampling$test_set()`
 
 Returns the row ids of the i-th test set.
 
@@ -389,7 +389,7 @@ Returns the row ids of the i-th test set.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `Resampling$clone()`
 
 The objects of this class are cloneable with this method.
 
@@ -477,7 +477,7 @@ prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 #> 0.3496094 0.6503906 
 
 ## ------------------------------------------------
-## Method `Resampling$instantiate`
+## Method `Resampling$instantiate()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -485,7 +485,7 @@ resampling = rsmp("holdout")
 resampling$instantiate(task)
 
 ## ------------------------------------------------
-## Method `Resampling$train_set`
+## Method `Resampling$train_set()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -506,7 +506,7 @@ resampling$train_set(1)
 #> [217] 330 331 332 333 334 335 336 339 340 341 342 343 344
 
 ## ------------------------------------------------
-## Method `Resampling$test_set`
+## Method `Resampling$test_set()`
 ## ------------------------------------------------
 
 task = tsk("penguins")

@@ -103,7 +103,7 @@ tasks.</p></li>
     </div>
     <div class="section level2">
     <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
-    <p><code><a href="Resampling.html">mlr3::Resampling</a></code> -&gt; <code>ResamplingCustomCV</code></p>
+    <p><code><a href="Resampling.html">Resampling</a></code> -&gt; <code>ResamplingCustomCV</code></p>
     </div>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
@@ -119,46 +119,42 @@ Returns the number of resampling iterations, depending on the values stored in t
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-ResamplingCustomCV-new"><code>ResamplingCustomCV$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-ResamplingCustomCV-initialize"><code>ResamplingCustomCV$new()</code></a></p></li>
 <li><p><a href="#method-ResamplingCustomCV-instantiate"><code>ResamplingCustomCV$instantiate()</code></a></p></li>
 <li><p><a href="#method-ResamplingCustomCV-clone"><code>ResamplingCustomCV$clone()</code></a></p></li>
-</ul></div><p><details open><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href="Resampling.html#method-format"><code>mlr3::Resampling$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href="Resampling.html#method-help"><code>mlr3::Resampling$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href="Resampling.html#method-print"><code>mlr3::Resampling$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href="Resampling.html#method-test_set"><code>mlr3::Resampling$test_set()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href="Resampling.html#method-train_set"><code>mlr3::Resampling$train_set()</code></a></span></li>
-</ul></details></p><hr><a id="method-ResamplingCustomCV-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p><details open><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href="Resampling.html#method-format"><code>Resampling$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href="Resampling.html#method-help"><code>Resampling$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href="Resampling.html#method-print"><code>Resampling$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href="Resampling.html#method-test_set"><code>Resampling$test_set()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href="Resampling.html#method-train_set"><code>Resampling$train_set()</code></a></span></li>
+</ul></details></p><hr><a id="method-ResamplingCustomCV-initialize"></a><div class="section">
+<h3 id="resamplingcustomcv-new-"><code>ResamplingCustomCV$new()</code><a class="anchor" aria-label="anchor" href="#resamplingcustomcv-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/mlr_resamplings_custom_cv.html">ResamplingCustomCV</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-ResamplingCustomCV-instantiate"></a><div class="section">
-<h3 id="method-instantiate-">Method <code>instantiate()</code><a class="anchor" aria-label="anchor" href="#method-instantiate-"></a></h3>
+<p></p><hr><a id="method-ResamplingCustomCV-instantiate"></a><div class="section">
+<h3 id="resamplingcustomcv-instantiate-"><code>ResamplingCustomCV$instantiate()</code><a class="anchor" aria-label="anchor" href="#resamplingcustomcv-instantiate-"></a></h3>
 <p>Instantiate this <a href="Resampling.html">Resampling</a> as cross-validation with custom splits.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResamplingCustomCV</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span>, f <span class="op">=</span> <span class="cn">NULL</span>, col <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>task</code></dt>
 <dd><p><a href="Task.html">Task</a><br>
 Used to extract row ids.</p></dd>
 
-
-<dt><code>f</code></dt>
+      <dt><code>f</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor()</a></code> | <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Vector of type factor or character with the same length as <code>task$nrow</code>.
 Row ids are split on this vector, each distinct value results in a fold.
 Empty factor levels are dropped and row ids corresponding to missing values are removed,
 c.f. <code><a href="https://rdrr.io/r/base/split.html" class="external-link">split()</a></code>.</p></dd>
 
-
-<dt><code>col</code></dt>
+      <dt><code>col</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Name of the task column to use for splitting.
 Alternative and mutually exclusive to providing the factor levels as a vector via
@@ -168,14 +164,14 @@ parameter <code>f</code>.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-ResamplingCustomCV-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-ResamplingCustomCV-clone"></a><div class="section">
+<h3 id="resamplingcustomcv-clone-"><code>ResamplingCustomCV$clone()</code><a class="anchor" aria-label="anchor" href="#resamplingcustomcv-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResamplingCustomCV</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -185,6 +181,7 @@ parameter <code>f</code>.</p></dd>
 </div>
 
 </div>
+
 
     </div>
 

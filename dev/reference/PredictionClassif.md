@@ -72,8 +72,8 @@ Other Prediction:
 
 ## Super class
 
-[`mlr3::Prediction`](https://mlr3.mlr-org.com/dev/reference/Prediction.md)
--\> `PredictionClassif`
+[`Prediction`](https://mlr3.mlr-org.com/dev/reference/Prediction.md) -\>
+`PredictionClassif`
 
 ## Active bindings
 
@@ -97,7 +97,7 @@ Other Prediction:
 
 ### Public methods
 
-- [`PredictionClassif$new()`](#method-PredictionClassif-new)
+- [`PredictionClassif$new()`](#method-PredictionClassif-initialize)
 
 - [`PredictionClassif$set_threshold()`](#method-PredictionClassif-set_threshold)
 
@@ -105,16 +105,16 @@ Other Prediction:
 
 Inherited methods
 
-- [`mlr3::Prediction$filter()`](https://mlr3.mlr-org.com/dev/reference/Prediction.html#method-filter)
-- [`mlr3::Prediction$format()`](https://mlr3.mlr-org.com/dev/reference/Prediction.html#method-format)
-- [`mlr3::Prediction$help()`](https://mlr3.mlr-org.com/dev/reference/Prediction.html#method-help)
-- [`mlr3::Prediction$obs_loss()`](https://mlr3.mlr-org.com/dev/reference/Prediction.html#method-obs_loss)
-- [`mlr3::Prediction$print()`](https://mlr3.mlr-org.com/dev/reference/Prediction.html#method-print)
-- [`mlr3::Prediction$score()`](https://mlr3.mlr-org.com/dev/reference/Prediction.html#method-score)
+- [`Prediction$filter()`](https://mlr3.mlr-org.com/dev/reference/Prediction.html#method-filter)
+- [`Prediction$format()`](https://mlr3.mlr-org.com/dev/reference/Prediction.html#method-format)
+- [`Prediction$help()`](https://mlr3.mlr-org.com/dev/reference/Prediction.html#method-help)
+- [`Prediction$obs_loss()`](https://mlr3.mlr-org.com/dev/reference/Prediction.html#method-obs_loss)
+- [`Prediction$print()`](https://mlr3.mlr-org.com/dev/reference/Prediction.html#method-print)
+- [`Prediction$score()`](https://mlr3.mlr-org.com/dev/reference/Prediction.html#method-score)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `PredictionClassif$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -194,7 +194,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `set_threshold()`
+### `PredictionClassif$set_threshold()`
 
 Sets the prediction response based on the provided threshold. See the
 section on thresholding for more information.
@@ -224,7 +224,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `PredictionClassif$clone()`
 
 The objects of this class are cloneable with this method.
 

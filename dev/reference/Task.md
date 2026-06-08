@@ -543,7 +543,7 @@ Other Task:
 
 ### Public methods
 
-- [`Task$new()`](#method-Task-new)
+- [`Task$new()`](#method-Task-initialize)
 
 - [`Task$help()`](#method-Task-help)
 
@@ -587,7 +587,7 @@ Other Task:
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `Task$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -641,7 +641,7 @@ e.g.
 
 ------------------------------------------------------------------------
 
-### Method [`help()`](https://rdrr.io/r/utils/help.html)
+### `Task$help()`
 
 Opens the corresponding help page referenced by field `$man`.
 
@@ -651,7 +651,7 @@ Opens the corresponding help page referenced by field `$man`.
 
 ------------------------------------------------------------------------
 
-### Method [`format()`](https://rdrr.io/r/base/format.html)
+### `Task$format()`
 
 Helper for print outputs.
 
@@ -667,7 +667,7 @@ Helper for print outputs.
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `Task$print()`
 
 Printer.
 
@@ -683,7 +683,7 @@ Printer.
 
 ------------------------------------------------------------------------
 
-### Method [`data()`](https://rdrr.io/r/utils/data.html)
+### `Task$data()`
 
 Returns a slice of the data from the
 [DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md) as
@@ -739,7 +739,7 @@ but usually a
 
 ------------------------------------------------------------------------
 
-### Method [`formula()`](https://rdrr.io/r/stats/formula.html)
+### `Task$formula()`
 
 Constructs a [`formula()`](https://rdrr.io/r/stats/formula.html), e.g.
 `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`, using the
@@ -775,7 +775,7 @@ this purpose: `"modelmatrix"`.
 
 ------------------------------------------------------------------------
 
-### Method [`head()`](https://rdrr.io/r/utils/head.html)
+### `Task$head()`
 
 Get the first `n` observations with role `"use"` of all columns with
 role `"target"` or `"feature"`.
@@ -802,7 +802,7 @@ with `n` rows.
 
 ------------------------------------------------------------------------
 
-### Method [`levels()`](https://rdrr.io/r/base/levels.html)
+### `Task$levels()`
 
 Returns the distinct values for columns referenced in `cols` with
 storage type "factor" or "ordered". Argument `cols` defaults to all such
@@ -836,7 +836,7 @@ named [`list()`](https://rdrr.io/r/base/list.html).
 
 ------------------------------------------------------------------------
 
-### Method `missings()`
+### `Task$missings()`
 
 Returns the number of missing observations for columns referenced in
 `cols`. Considers only active rows with row role `"use"`. Argument
@@ -864,7 +864,7 @@ Named [`integer()`](https://rdrr.io/r/base/integer.html).
 
 ------------------------------------------------------------------------
 
-### Method [`filter()`](https://rdrr.io/r/stats/filter.html)
+### `Task$filter()`
 
 Subsets the task, keeping only the rows specified via row ids `rows`.
 
@@ -898,7 +898,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method `select()`
+### `Task$select()`
 
 Subsets the task, keeping only the features specified via column names
 `cols`. Note that you cannot deselect the target column, for obvious
@@ -932,7 +932,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method [`rbind()`](https://rdrr.io/r/base/cbind.html)
+### `Task$rbind()`
 
 Adds additional rows to the
 [DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md)
@@ -976,7 +976,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method [`cbind()`](https://rdrr.io/r/base/cbind.html)
+### `Task$cbind()`
 
 Adds additional columns to the
 [DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md)
@@ -1014,7 +1014,7 @@ mutators for more information.
 
 ------------------------------------------------------------------------
 
-### Method `rename()`
+### `Task$rename()`
 
 Renames columns by mapping column names in `old` to new column names in
 `new` (element-wise).
@@ -1052,7 +1052,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method `set_row_roles()`
+### `Task$set_row_roles()`
 
 Modifies the roles in `$row_roles` **in-place**.
 
@@ -1105,7 +1105,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method `set_col_roles()`
+### `Task$set_col_roles()`
 
 Modifies the roles in `$col_roles` **in-place**. See `$col_roles` for a
 list of possible roles.
@@ -1162,7 +1162,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method `set_levels()`
+### `Task$set_levels()`
 
 Set levels for columns of type `factor` and `ordered` in field
 `col_info`. You can add, remove or reorder the levels, affecting the
@@ -1196,7 +1196,7 @@ Modified `self`.
 
 ------------------------------------------------------------------------
 
-### Method [`droplevels()`](https://rdrr.io/r/base/droplevels.html)
+### `Task$droplevels()`
 
 Updates the cache of stored factor levels, removing all levels not
 present in the current set of active rows. `cols` defaults to all
@@ -1225,7 +1225,7 @@ Modified `self`.
 
 ------------------------------------------------------------------------
 
-### Method `add_strata()`
+### `Task$add_strata()`
 
 Cuts numeric variables into new factors columns which are added to the
 task with role `"stratum"`. This ensures that all training and test
@@ -1261,7 +1261,7 @@ self (invisibly).
 
 ------------------------------------------------------------------------
 
-### Method `materialize_view()`
+### `Task$materialize_view()`
 
 Certain operations change the view on the data, e.g., `$filter()` or
 `$select()`. This operation queries the
@@ -1301,7 +1301,7 @@ self (invisibly).
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `Task$clone()`
 
 The objects of this class are cloneable with this method.
 
@@ -1362,7 +1362,7 @@ head(task)
 #> 6:   male     6
 
 ## ------------------------------------------------
-## Method `Task$data`
+## Method `Task$data()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1376,7 +1376,7 @@ task$data(rows = 1:5, cols = c("species", "sex"))
 #> 5:  Adelie female
 
 ## ------------------------------------------------
-## Method `Task$formula`
+## Method `Task$formula()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1385,7 +1385,7 @@ task$formula()
 #> NULL
 
 ## ------------------------------------------------
-## Method `Task$head`
+## Method `Task$head()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1402,7 +1402,7 @@ task$head(3)
 #> 3:  2007
 
 ## ------------------------------------------------
-## Method `Task$levels`
+## Method `Task$levels()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1418,7 +1418,7 @@ task$levels()
 #> 
 
 ## ------------------------------------------------
-## Method `Task$missings`
+## Method `Task$missings()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1429,7 +1429,7 @@ task$missings()
 #>              0             11              0 
 
 ## ------------------------------------------------
-## Method `Task$filter`
+## Method `Task$filter()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1438,7 +1438,7 @@ task$nrow
 #> [1] 10
 
 ## ------------------------------------------------
-## Method `Task$select`
+## Method `Task$select()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1447,7 +1447,7 @@ task$feature_names
 #> [1] "bill_depth"  "bill_length"
 
 ## ------------------------------------------------
-## Method `Task$rbind`
+## Method `Task$rbind()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1455,7 +1455,7 @@ extra = task$data(rows = 1:2)
 task$rbind(extra)
 
 ## ------------------------------------------------
-## Method `Task$cbind`
+## Method `Task$cbind()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1471,7 +1471,7 @@ head(task$data(cols = "extra_col"))
 #> 6:         6
 
 ## ------------------------------------------------
-## Method `Task$rename`
+## Method `Task$rename()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1481,14 +1481,14 @@ task$feature_names
 #> [5] "island"         "sex"            "year"          
 
 ## ------------------------------------------------
-## Method `Task$set_row_roles`
+## Method `Task$set_row_roles()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
 task$set_row_roles(1:5, remove_from = "use")
 
 ## ------------------------------------------------
-## Method `Task$set_col_roles`
+## Method `Task$set_col_roles()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1497,7 +1497,7 @@ task$col_roles$stratum
 #> [1] "sex"
 
 ## ------------------------------------------------
-## Method `Task$set_levels`
+## Method `Task$set_levels()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1508,7 +1508,7 @@ task$levels("sex")
 #> 
 
 ## ------------------------------------------------
-## Method `Task$droplevels`
+## Method `Task$droplevels()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -1519,14 +1519,14 @@ task$levels("sex")
 #> 
 
 ## ------------------------------------------------
-## Method `Task$add_strata`
+## Method `Task$add_strata()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
 task$add_strata("flipper_length", bins = 4)
 
 ## ------------------------------------------------
-## Method `Task$materialize_view`
+## Method `Task$materialize_view()`
 ## ------------------------------------------------
 
 task = tsk("iris")

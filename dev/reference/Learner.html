@@ -299,12 +299,12 @@ if tasks with weights should be handled (by dropping the weights).
 See Section 'weights' for more details.</p></dd>
 
 
-<dt><code>model</code></dt>
+    <dt><code>model</code></dt>
 <dd><p>(any)<br>
 The fitted model. Only available after <code>$train()</code> has been called.</p></dd>
 
 
-<dt><code>native_model</code></dt>
+    <dt><code>native_model</code></dt>
 <dd><p>(any)<br>
 The native model object from the upstream package.
 For most learners, this is identical to <code>$model</code>.
@@ -316,7 +316,7 @@ from the upstream package.
 The default returns <code>$model</code>.</p></dd>
 
 
-<dt><code>timings</code></dt>
+    <dt><code>timings</code></dt>
 <dd><p>(named <code>numeric(2)</code>)<br>
 Elapsed time in seconds for the steps <code>"train"</code> and <code>"predict"</code>.</p>
 <p>When predictions for multiple predict sets were made during <code><a href="resample.html">resample()</a></code> or <code><a href="benchmark.html">benchmark()</a></code>,
@@ -325,7 +325,7 @@ If <code>learner$predict()</code> is called manually, the last predict time gets
 <p>Measured via <code><a href="https://mlr3misc.mlr-org.com/reference/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code>.</p></dd>
 
 
-<dt><code>log</code></dt>
+    <dt><code>log</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Returns the output (including warning and errors) as table with columns</p><ul><li><p><code>"stage"</code> ("train" or "predict"),</p></li>
 <li><p><code>"class"</code> ("output", "warning", or "error"), and</p></li>
@@ -333,17 +333,17 @@ Returns the output (including warning and errors) as table with columns</p><ul><
 </ul></dd>
 
 
-<dt><code>warnings</code></dt>
+    <dt><code>warnings</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 Logged warnings condition objects.</p></dd>
 
 
-<dt><code>errors</code></dt>
+    <dt><code>errors</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 Logged error condition objects.</p></dd>
 
 
-<dt><code>hash</code></dt>
+    <dt><code>hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Hash (unique identifier) for this object.
 The hash is calculated based on the learner id, the parameter settings,
@@ -351,13 +351,13 @@ the predict type, the fallback hash, the parallel predict setting,
 the validate setting, the predict sets, and the predict raw setting.</p></dd>
 
 
-<dt><code>phash</code></dt>
+    <dt><code>phash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Hash (unique identifier) for this partial object, excluding some components
 which are varied systematically during tuning (parameter values).</p></dd>
 
 
-<dt><code>predict_type</code></dt>
+    <dt><code>predict_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Stores the currently active predict type, e.g. <code>"response"</code>.
 Must be an element of <code>$predict_types</code>.
@@ -366,34 +366,34 @@ So there is no guarantee that changing the predict type after training will have
 or does not lead to errors.</p></dd>
 
 
-<dt><code>param_set</code></dt>
+    <dt><code>param_set</code></dt>
 <dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
 Set of hyperparameters.</p></dd>
 
 
-<dt><code>fallback</code></dt>
+    <dt><code>fallback</code></dt>
 <dd><p>(Learner)<br>
 Returns the fallback learner set with <code>$encapsulate()</code>.</p></dd>
 
 
-<dt><code>encapsulation</code></dt>
+    <dt><code>encapsulation</code></dt>
 <dd><p>(<code>character(2)</code>)<br>
 Returns the encapsulation settings set with <code>$encapsulate()</code>.</p></dd>
 
 
-<dt><code>hotstart_stack</code></dt>
+    <dt><code>hotstart_stack</code></dt>
 <dd><p>(<a href="HotstartStack.html">HotstartStack</a>)<br>.
 Stores <code>HotstartStack</code>.</p></dd>
 
 
-<dt><code>selected_features_impute</code></dt>
+    <dt><code>selected_features_impute</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Controls the behavior if the learner does not support feature selection.
 If set to <code>"error"</code>, an error is thrown.
 If set to <code>"all"</code> the complete feature set is returned.</p></dd>
 
 
-<dt><code>predict_types</code></dt>
+    <dt><code>predict_types</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Stores the possible predict types the learner is capable of.
 A complete list of candidate predict types, grouped by task type,
@@ -401,46 +401,46 @@ is stored in <code><a href="mlr_reflections.html">mlr_reflections$learner_predic
 This field is read-only.</p></dd>
 
 
-<dt><code>id</code></dt>
+    <dt><code>id</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Identifier of the object.
 Used in tables, plot and text output.</p></dd>
 
 
-<dt><code>label</code></dt>
+    <dt><code>label</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Label for this object.
 Can be used in tables, plot and text output instead of the ID.</p></dd>
 
 
-<dt><code>task_type</code></dt>
+    <dt><code>task_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
 <p>For a complete list of possible task types (depending on the loaded packages),
 see <code><a href="mlr_reflections.html">mlr_reflections$task_types$type</a></code>.</p></dd>
 
 
-<dt><code>feature_types</code></dt>
+    <dt><code>feature_types</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Stores the feature types the learner can handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.
 A complete list of candidate feature types, grouped by task type,
 is stored in <code><a href="mlr_reflections.html">mlr_reflections$task_feature_types</a></code>.</p></dd>
 
 
-<dt><code>properties</code></dt>
+    <dt><code>properties</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Stores a set of properties/capabilities the learner has.
 A complete list of candidate properties, grouped by task type,
 is stored in <code><a href="mlr_reflections.html">mlr_reflections$learner_properties</a></code>.</p></dd>
 
 
-<dt><code>packages</code></dt>
+    <dt><code>packages</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Set of required packages.
 These packages are loaded, but not attached.</p></dd>
 
 
-<dt><code>predict_sets</code></dt>
+    <dt><code>predict_sets</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 During <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>, a Learner can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (<code>predict_sets == "test"</code>).
@@ -453,7 +453,7 @@ Those can be combined via getters in <a href="ResampleResult.html">ResampleResul
 to operate on specific subsets of the calculated prediction sets.</p></dd>
 
 
-<dt><code>parallel_predict</code></dt>
+    <dt><code>parallel_predict</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If set to <code>TRUE</code>, use <a href="https://CRAN.R-project.org/package=future" class="external-link"><span class="pkg">future</span></a> to calculate predictions in parallel (default: <code>FALSE</code>).
 The row ids of the <code>task</code> will be split into <code><a href="https://future.futureverse.org/reference/nbrOfWorkers.html" class="external-link">future::nbrOfWorkers()</a></code> chunks,
@@ -465,7 +465,7 @@ to parallelize.</p>
 is not properly defined and depends on the parallelization backend.</p></dd>
 
 
-<dt><code>predict_raw</code></dt>
+    <dt><code>predict_raw</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If set to <code>TRUE</code>, the raw prediction object from the upstream model is stored in the
 <a href="Prediction.html">Prediction</a> object (default: <code>FALSE</code>).
@@ -475,7 +475,7 @@ Individual learner implementations must support this flag by including a <code>r
 by <code>$.predict()</code>.</p></dd>
 
 
-<dt><code>timeout</code></dt>
+    <dt><code>timeout</code></dt>
 <dd><p>(named <code>numeric(2)</code>)<br>
 Timeout for the learner's train and predict steps, in seconds.
 This works differently for different encapsulation methods, see
@@ -485,7 +485,15 @@ Also see the section on error handling in the mlr3book:
 <a href="https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling" class="external-link">https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling</a></p></dd>
 
 
-<dt><code>man</code></dt>
+    <dt><code>deadline</code></dt>
+<dd><p>(named <code>POSIXct(2)</code>)<br>
+Deadline for the learner's train and predict steps.
+This uses the same mechanism as <code>timeout</code>, but with absolute time (as
+date-time) instead of a relative time in seconds.
+Default is <code>as.POSIXct(c(train = Inf, predict = Inf))</code>.</p></dd>
+
+
+    <dt><code>man</code></dt>
 <dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
@@ -498,8 +506,7 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-Learner-new"><code>Learner$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-Learner-initialize"><code>Learner$new()</code></a></p></li>
 <li><p><a href="#method-Learner-format"><code>Learner$format()</code></a></p></li>
 <li><p><a href="#method-Learner-print"><code>Learner$print()</code></a></p></li>
 <li><p><a href="#method-Learner-help"><code>Learner$help()</code></a></p></li>
@@ -512,8 +519,8 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 <li><p><a href="#method-Learner-configure"><code>Learner$configure()</code></a></p></li>
 <li><p><a href="#method-Learner-selected_features"><code>Learner$selected_features()</code></a></p></li>
 <li><p><a href="#method-Learner-clone"><code>Learner$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-Learner-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p></p><hr><a id="method-Learner-initialize"></a><div class="section">
+<h3 id="learner-new-"><code>Learner$new()</code><a class="anchor" aria-label="anchor" href="#learner-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href="LearnerClassif.html">LearnerClassif</a> or <a href="LearnerRegr.html">LearnerRegr</a>.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
@@ -528,37 +535,30 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 <span>  label <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  man <span class="op">=</span> <span class="cn">NA_character_</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>id</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Identifier for the new instance.</p></dd>
 
-
-<dt><code>task_type</code></dt>
+      <dt><code>task_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Type of task, e.g. <code>"regr"</code> or <code>"classif"</code>.
 Must be an element of <a href="mlr_reflections.html">mlr_reflections$task_types$type</a>.</p></dd>
 
-
-<dt><code>param_set</code></dt>
+      <dt><code>param_set</code></dt>
 <dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
 Set of hyperparameters.</p></dd>
 
-
-<dt><code>predict_types</code></dt>
+      <dt><code>predict_types</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Supported predict types. Must be a subset of <code><a href="mlr_reflections.html">mlr_reflections$learner_predict_types</a></code>.</p></dd>
 
-
-<dt><code>feature_types</code></dt>
+      <dt><code>feature_types</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Feature types the learner operates on. Must be a subset of <code><a href="mlr_reflections.html">mlr_reflections$task_feature_types</a></code>.</p></dd>
 
-
-<dt><code>properties</code></dt>
+      <dt><code>properties</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Set of properties of the Learner.
 Must be a subset of <code><a href="mlr_reflections.html">mlr_reflections$learner_properties</a></code>.
@@ -577,20 +577,17 @@ If a learner is in a marshaled state, you call first need to call <code>$unmarsh
 <li><p>`"featureless": The learner does not use features.</p></li>
 </ul></dd>
 
-
-<dt><code>packages</code></dt>
+      <dt><code>packages</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Set of required packages.
 A warning is signaled by the constructor if at least one of the packages is not installed,
 but loaded (not attached) later on-demand via <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace()</a></code>.</p></dd>
 
-
-<dt><code>label</code></dt>
+      <dt><code>label</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Label for the new instance.</p></dd>
 
-
-<dt><code>man</code></dt>
+      <dt><code>man</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 The referenced help package can be opened via method <code>$help()</code>.</p></dd>
@@ -599,14 +596,14 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-Learner-format"></a><div class="section">
-<h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-Learner-format"></a><div class="section">
+<h3 id="learner-format-"><code>Learner$format()</code><a class="anchor" aria-label="anchor" href="#learner-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(ignored).</p></dd>
@@ -615,14 +612,14 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-Learner-print"></a><div class="section">
-<h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-Learner-print"></a><div class="section">
+<h3 id="learner-print-"><code>Learner$print()</code><a class="anchor" aria-label="anchor" href="#learner-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(ignored).</p></dd>
@@ -631,60 +628,57 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-Learner-help"></a><div class="section">
-<h3 id="method-help-">Method <code><a href="https://rdrr.io/r/utils/help.html" class="external-link">help()</a></code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-Learner-help"></a><div class="section">
+<h3 id="learner-help-"><code>Learner$help()</code><a class="anchor" aria-label="anchor" href="#learner-help-"></a></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">help</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Learner-train"></a><div class="section">
-<h3 id="method-train-">Method <code>train()</code><a class="anchor" aria-label="anchor" href="#method-train-"></a></h3>
+<p></p><hr><a id="method-Learner-train"></a><div class="section">
+<h3 id="learner-train-"><code>Learner$train()</code><a class="anchor" aria-label="anchor" href="#learner-train-"></a></h3>
 <p>Train the learner on a set of observations of the provided <code>task</code>.
 Mutates the learner by reference, i.e. stores the model alongside other information in field <code>$state</code>.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>task</code></dt>
 <dd><p>(<a href="Task.html">Task</a>).</p></dd>
 
-
-<dt><code>row_ids</code></dt>
+      <dt><code>row_ids</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Vector of training indices as subset of <code>task$row_ids</code>.
 For a simple split into training and test set, see <code><a href="partition.html">partition()</a></code>.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span>   <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span>
 <span><span class="va">learner</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Learner-predict"></a><div class="section">
-<h3 id="method-predict-">Method <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code><a class="anchor" aria-label="anchor" href="#method-predict-"></a></h3>
+<p></p><hr><a id="method-Learner-predict"></a><div class="section">
+<h3 id="learner-predict-"><code>Learner$predict()</code><a class="anchor" aria-label="anchor" href="#learner-predict-"></a></h3>
 <p>Uses the fitted model stored in <code>$state</code> to generate predictions for a set of observations
 from the provided <code>task</code>.
 This method requires that the learner has been previously trained using <code>$train()</code>.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>task</code></dt>
 <dd><p>(<a href="Task.html">Task</a>)<br>
@@ -692,8 +686,7 @@ The task containing the observations to predict on.
 Must be compatible with the learner's task type and feature types.
 Unlike <code>$predict_newdata()</code>, no type conversion is done.</p></dd>
 
-
-<dt><code>row_ids</code></dt>
+      <dt><code>row_ids</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Vector of row indices from <code>task$row_ids</code> to predict on.
 If <code>NULL</code> (default), predictions are made for all rows in the task.
@@ -701,21 +694,20 @@ For a simple train-test split, see <code><a href="partition.html">partition()</a
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p><a href="Prediction.html">Prediction</a> object containing the predictions for the specified observations.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-1">Examples<a class="anchor" aria-label="anchor" href="#examples-1"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="va">learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Learner-predict_newdata"></a><div class="section">
-<h3 id="method-predict-newdata-">Method <code>predict_newdata()</code><a class="anchor" aria-label="anchor" href="#method-predict-newdata-"></a></h3>
+<p></p><hr><a id="method-Learner-predict_newdata"></a><div class="section">
+<h3 id="learner-predict-newdata-"><code>Learner$predict_newdata()</code><a class="anchor" aria-label="anchor" href="#learner-predict-newdata-"></a></h3>
 <p>Uses the model fitted during <code>$train()</code> to create a new <a href="Prediction.html">Prediction</a> based on the new data in <code>newdata</code>.
 Object <code>task</code> is the task used during <code>$train()</code> and required for conversion of <code>newdata</code>.
 If the learner's <code>$train()</code> method has been called, there is a (size reduced) version
@@ -731,9 +723,7 @@ that column must be numeric with no missing values and is used as measure weight
 Otherwise, no measure weights are used.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">predict_newdata</span><span class="op">(</span><span class="va">newdata</span>, task <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-5">Arguments<a class="anchor" aria-label="anchor" href="#arguments-5"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>newdata</code></dt>
 <dd><p>(any object supported by <code><a href="as_data_backend.html">as_data_backend()</a></code>)<br>
@@ -743,57 +733,51 @@ All data formats convertible by <code><a href="as_data_backend.html">as_data_bac
 If a <a href="DataBackend.html">DataBackend</a> is provided as <code>newdata</code>, the row ids are preserved,
 otherwise they are set to the sequence <code>1:nrow(newdata)</code>.</p></dd>
 
-
-<dt><code>task</code></dt>
+      <dt><code>task</code></dt>
 <dd><p>(<a href="Task.html">Task</a>).</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
 <p><a href="Prediction.html">Prediction</a>.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-2">Examples<a class="anchor" aria-label="anchor" href="#examples-2"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="va">learner</span><span class="op">$</span><span class="fu">predict_newdata</span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Learner-reset"></a><div class="section">
-<h3 id="method-reset-">Method <code>reset()</code><a class="anchor" aria-label="anchor" href="#method-reset-"></a></h3>
+<p></p><hr><a id="method-Learner-reset"></a><div class="section">
+<h3 id="learner-reset-"><code>Learner$reset()</code><a class="anchor" aria-label="anchor" href="#learner-reset-"></a></h3>
 <p>Reset the learner, i.e. un-train by resetting the <code>state</code>.</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">reset</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-3">Examples<a class="anchor" aria-label="anchor" href="#examples-3"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="va">learner</span><span class="op">$</span><span class="fu">reset</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Learner-base_learner"></a><div class="section">
-<h3 id="method-base-learner-">Method <code>base_learner()</code><a class="anchor" aria-label="anchor" href="#method-base-learner-"></a></h3>
+<p></p><hr><a id="method-Learner-base_learner"></a><div class="section">
+<h3 id="learner-base-learner-"><code>Learner$base_learner()</code><a class="anchor" aria-label="anchor" href="#learner-base-learner-"></a></h3>
 <p>Extracts the base learner from nested learner objects like
 <code>GraphLearner</code> in <a href="https://CRAN.R-project.org/package=mlr3pipelines" class="external-link"><span class="pkg">mlr3pipelines</span></a> or <code>AutoTuner</code> in
 <a href="https://CRAN.R-project.org/package=mlr3tuning" class="external-link"><span class="pkg">mlr3tuning</span></a>.
 Returns the Learner itself for regular learners.</p><div class="section">
 <h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">base_learner</span><span class="op">(</span>recursive <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>recursive</code></dt>
 <dd><p>(<code>integer(1)</code>)<br>
@@ -801,14 +785,15 @@ Depth of recursion for multiple nested objects.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-4">Returns<a class="anchor" aria-label="anchor" href="#returns-4"></a></h4>
 <p>Learner</p>
 </div>
 
-</div><p></p><hr><a id="method-Learner-encapsulate"></a><div class="section">
-<h3 id="method-encapsulate-">Method <code>encapsulate()</code><a class="anchor" aria-label="anchor" href="#method-encapsulate-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-Learner-encapsulate"></a><div class="section">
+<h3 id="learner-encapsulate-"><code>Learner$encapsulate()</code><a class="anchor" aria-label="anchor" href="#learner-encapsulate-"></a></h3>
 <p>Sets the encapsulation method and fallback learner for the train and predict steps.
 There are currently four different methods implemented:</p><ul><li><p><code>"none"</code>: Just runs the learner in the current session and measures the elapsed time.
 Does not keep a log, output is printed directly to the console.
@@ -846,22 +831,18 @@ is trained.</p>
 <a href="https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling" class="external-link">https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling</a></p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">encapsulate</span><span class="op">(</span><span class="va">method</span>, fallback <span class="op">=</span> <span class="cn">NULL</span>, when <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>method</code></dt>
 <dd><p><code>character(1)</code><br>
-One of <code>"none"</code>, <code>"try"</code>, <code>"evaluate"</code> or <code>"callr"</code>.
+One of <code>"none"</code>, <code>"try"</code>, <code>"evaluate"</code>, <code>"callr"</code>, or <code>"mirai"</code>.
 See the description for details.</p></dd>
 
-
-<dt><code>fallback</code></dt>
+      <dt><code>fallback</code></dt>
 <dd><p>Learner<br>
 The fallback learner for failed predictions.</p></dd>
 
-
-<dt><code>when</code></dt>
+      <dt><code>when</code></dt>
 <dd><p>(<code>function(cond, stage)</code>)<br>
 Function that takes in the condition (<code>cond</code>) and the stage (<code>"train"</code> or <code>"predict"</code>) and
 returns <code>logical(1)</code> indicating whether to run the fallback learner.</p>
@@ -869,52 +850,48 @@ returns <code>logical(1)</code> indicating whether to run the fallback learner.<
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-5">Returns<a class="anchor" aria-label="anchor" href="#returns-5"></a></h4>
 <p><code>self</code> (invisibly).</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-4">Examples<a class="anchor" aria-label="anchor" href="#examples-4"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span>
 <span><span class="va">fallback</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.featureless"</span><span class="op">)</span></span>
 <span><span class="va">learner</span><span class="op">$</span><span class="fu">encapsulate</span><span class="op">(</span><span class="st">"try"</span>, fallback <span class="op">=</span> <span class="va">fallback</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Learner-configure"></a><div class="section">
-<h3 id="method-configure-">Method <code>configure()</code><a class="anchor" aria-label="anchor" href="#method-configure-"></a></h3>
+<p></p><hr><a id="method-Learner-configure"></a><div class="section">
+<h3 id="learner-configure-"><code>Learner$configure()</code><a class="anchor" aria-label="anchor" href="#learner-configure-"></a></h3>
 <p>Sets parameter values and fields of the learner.
 All arguments whose names match the name of a parameter of the <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a> are set as parameters.
 All remaining arguments are assumed to be regular fields.</p><div class="section">
 <h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">configure</span><span class="op">(</span><span class="va">...</span>, .values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(named <code>any</code>)<br>
 Named arguments to set parameter values and fields.</p></dd>
 
-
-<dt><code>.values</code></dt>
+      <dt><code>.values</code></dt>
 <dd><p>(named <code>any</code>)<br>
 Named list of parameter values and fields.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-5">Examples<a class="anchor" aria-label="anchor" href="#examples-5"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span>
 <span><span class="va">learner</span><span class="op">$</span><span class="fu">configure</span><span class="op">(</span>minsplit <span class="op">=</span> <span class="fl">3</span>, parallel_predict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">learner</span><span class="op">$</span><span class="fu">configure</span><span class="op">(</span>.values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cp <span class="op">=</span> <span class="fl">0.005</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Learner-selected_features"></a><div class="section">
-<h3 id="method-selected-features-">Method <code>selected_features()</code><a class="anchor" aria-label="anchor" href="#method-selected-features-"></a></h3>
+<p></p><hr><a id="method-Learner-selected_features"></a><div class="section">
+<h3 id="learner-selected-features-"><code>Learner$selected_features()</code><a class="anchor" aria-label="anchor" href="#learner-selected-features-"></a></h3>
 <p>Returns the features selected by the model.
 The field <code>selected_features_impute</code> controls the behavior if the learner does not support feature selection.
 If set to <code>"error"</code>, an error is thrown, otherwise all features are returned.</p><div class="section">
@@ -922,15 +899,14 @@ If set to <code>"error"</code>, an error is thrown, otherwise all features are r
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">selected_features</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Learner-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+<p></p><hr><a id="method-Learner-clone"></a><div class="section">
+<h3 id="learner-clone-"><code>Learner$clone()</code><a class="anchor" aria-label="anchor" href="#learner-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -941,13 +917,14 @@ If set to <code>"error"</code>, an error is thrown, otherwise all features are r
 
 </div>
 
+
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Learner$train`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Learner$train()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span>   <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -955,7 +932,7 @@ If set to <code>"error"</code>, an error is thrown, otherwise all features are r
 <span class="r-in"><span><span class="va">learner</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Learner$predict`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Learner$predict()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -973,7 +950,7 @@ If set to <code>"error"</code>, an error is thrown, otherwise all features are r
 <span class="r-out co"><span class="r-pr">#&gt;</span>      344 Chinstrap Chinstrap</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Learner$predict_newdata`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Learner$predict_newdata()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -989,7 +966,7 @@ If set to <code>"error"</code>, an error is thrown, otherwise all features are r
 <span class="r-out co"><span class="r-pr">#&gt;</span>        5 Adelie   Adelie</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Learner$reset`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Learner$reset()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -997,7 +974,7 @@ If set to <code>"error"</code>, an error is thrown, otherwise all features are r
 <span class="r-in"><span><span class="va">learner</span><span class="op">$</span><span class="fu">reset</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Learner$encapsulate`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Learner$encapsulate()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span></span>
@@ -1005,7 +982,7 @@ If set to <code>"error"</code>, an error is thrown, otherwise all features are r
 <span class="r-in"><span><span class="va">learner</span><span class="op">$</span><span class="fu">encapsulate</span><span class="op">(</span><span class="st">"try"</span>, fallback <span class="op">=</span> <span class="va">fallback</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Learner$configure`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Learner$configure()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span></span>

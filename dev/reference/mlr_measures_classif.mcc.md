@@ -28,8 +28,8 @@ for a multi-class confusion matrix \\C\\ with \\K\\ classes: \$\$
   \\k\\.
 
 The above formula is undefined if any of the four sums in the
-denominator is 0 in the binary case and more generally if either \\s^2 -
-\sum_k^K p_k^2\\ or \\s^2 - \sum_k^K t_k^2)\\ is equal to 0. The
+denominator is 0 in the binary case, and more generally if either
+\\s^2 - \sum_k^K p_k^2\\ or \\s^2 - \sum_k^K t_k^2)\\ is equal to 0. The
 denominator is then set to 1.
 
 When there are more than two classes, the MCC will no longer range

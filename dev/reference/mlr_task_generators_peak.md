@@ -59,26 +59,26 @@ Other TaskGenerator:
 
 ## Super class
 
-[`mlr3::TaskGenerator`](https://mlr3.mlr-org.com/dev/reference/TaskGenerator.md)
+[`TaskGenerator`](https://mlr3.mlr-org.com/dev/reference/TaskGenerator.md)
 -\> `TaskGeneratorPeak`
 
 ## Methods
 
 ### Public methods
 
-- [`TaskGeneratorPeak$new()`](#method-TaskGeneratorPeak-new)
+- [`TaskGeneratorPeak$new()`](#method-TaskGeneratorPeak-initialize)
 
 - [`TaskGeneratorPeak$clone()`](#method-TaskGeneratorPeak-clone)
 
 Inherited methods
 
-- [`mlr3::TaskGenerator$format()`](https://mlr3.mlr-org.com/dev/reference/TaskGenerator.html#method-format)
-- [`mlr3::TaskGenerator$generate()`](https://mlr3.mlr-org.com/dev/reference/TaskGenerator.html#method-generate)
-- [`mlr3::TaskGenerator$print()`](https://mlr3.mlr-org.com/dev/reference/TaskGenerator.html#method-print)
+- [`TaskGenerator$format()`](https://mlr3.mlr-org.com/dev/reference/TaskGenerator.html#method-format)
+- [`TaskGenerator$generate()`](https://mlr3.mlr-org.com/dev/reference/TaskGenerator.html#method-generate)
+- [`TaskGenerator$print()`](https://mlr3.mlr-org.com/dev/reference/TaskGenerator.html#method-print)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `TaskGeneratorPeak$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -89,7 +89,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `TaskGeneratorPeak$clone()`
 
 The objects of this class are cloneable with this method.
 
@@ -116,5 +116,5 @@ str(task$data())
 #>  $ x3: num  0.3501 0.0285 2.3538 1.2274 -0.0938 ...
 #>  $ x4: num  -1.6898 -1.2656 -0.1271 1.1405 0.0585 ...
 #>  $ x5: num  0.266 -0.16 -0.806 0.152 0.428 ...
-#>  - attr(*, ".internal.selfref")=<pointer: 0x561c61101ea0> 
+#>  - attr(*, ".internal.selfref")=<pointer: 0x56224d743ea0> 
 ```

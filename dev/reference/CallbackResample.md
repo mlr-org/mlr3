@@ -64,7 +64,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `CallbackResample$clone()`
 
 The objects of this class are cloneable with this method.
 

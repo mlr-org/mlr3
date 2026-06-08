@@ -74,7 +74,7 @@ Additionally, probability distributions implemented in package <code>distr6</cod
     </div>
     <div class="section level2">
     <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
-    <p><code><a href="Prediction.html">mlr3::Prediction</a></code> -&gt; <code>PredictionRegr</code></p>
+    <p><code><a href="Prediction.html">Prediction</a></code> -&gt; <code>PredictionRegr</code></p>
     </div>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
@@ -83,17 +83,17 @@ Additionally, probability distributions implemented in package <code>distr6</cod
 Access the stored predicted response.</p></dd>
 
 
-<dt><code>se</code></dt>
+    <dt><code>se</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br>
 Access the stored standard error.</p></dd>
 
 
-<dt><code>quantiles</code></dt>
+    <dt><code>quantiles</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code>)<br>
 Matrix of predicted quantiles. Observations are in rows, quantile (in ascending order) in columns.</p></dd>
 
 
-<dt><code>distr</code></dt>
+    <dt><code>distr</code></dt>
 <dd><p>(<code>VectorDistribution</code>)<br>
 Access the stored vector distribution.
 Requires package <code>distr6</code>(in repository <a href="https://raphaels1.r-universe.dev" class="external-link">https://raphaels1.r-universe.dev</a>) .</p></dd>
@@ -106,17 +106,16 @@ Requires package <code>distr6</code>(in repository <a href="https://raphaels1.r-
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-PredictionRegr-new"><code>PredictionRegr$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-PredictionRegr-initialize"><code>PredictionRegr$new()</code></a></p></li>
 <li><p><a href="#method-PredictionRegr-clone"><code>PredictionRegr$clone()</code></a></p></li>
-</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="filter"><a href="Prediction.html#method-filter"><code>mlr3::Prediction$filter()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format"><a href="Prediction.html#method-format"><code>mlr3::Prediction$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help"><a href="Prediction.html#method-help"><code>mlr3::Prediction$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="obs_loss"><a href="Prediction.html#method-obs_loss"><code>mlr3::Prediction$obs_loss()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print"><a href="Prediction.html#method-print"><code>mlr3::Prediction$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score"><a href="Prediction.html#method-score"><code>mlr3::Prediction$score()</code></a></span></li>
-</ul></details></p><hr><a id="method-PredictionRegr-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="filter"><a href="Prediction.html#method-filter"><code>Prediction$filter()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format"><a href="Prediction.html#method-format"><code>Prediction$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help"><a href="Prediction.html#method-help"><code>Prediction$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="obs_loss"><a href="Prediction.html#method-obs_loss"><code>Prediction$obs_loss()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print"><a href="Prediction.html#method-print"><code>Prediction$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score"><a href="Prediction.html#method-score"><code>Prediction$score()</code></a></span></li>
+</ul></details></p><hr><a id="method-PredictionRegr-initialize"></a><div class="section">
+<h3 id="predictionregr-new-"><code>PredictionRegr$new()</code><a class="anchor" aria-label="anchor" href="#predictionregr-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/PredictionRegr.html">PredictionRegr</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
@@ -132,65 +131,53 @@ Requires package <code>distr6</code>(in repository <a href="https://raphaels1.r-
 <span>  extra <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  raw <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>task</code></dt>
 <dd><p>(<a href="TaskRegr.html">TaskRegr</a>)<br>
 Task, used to extract defaults for <code>row_ids</code> and <code>truth</code>.</p></dd>
 
-
-<dt><code>row_ids</code></dt>
+      <dt><code>row_ids</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Row ids of the predicted observations, i.e. the row ids of the test set.</p></dd>
 
-
-<dt><code>truth</code></dt>
+      <dt><code>truth</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br>
 True (observed) response.</p></dd>
 
-
-<dt><code>response</code></dt>
+      <dt><code>response</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br>
 Vector of numeric response values.
 One element for each observation in the test set.</p></dd>
 
-
-<dt><code>se</code></dt>
+      <dt><code>se</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br>
 Numeric vector of predicted standard errors.
 One element for each observation in the test set.</p></dd>
 
-
-<dt><code>quantiles</code></dt>
+      <dt><code>quantiles</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code>)<br>
 Numeric matrix of predicted quantiles. One row per observation, one column per quantile.</p></dd>
 
-
-<dt><code>distr</code></dt>
+      <dt><code>distr</code></dt>
 <dd><p>(<code>VectorDistribution</code>)<br><code>VectorDistribution</code> from package distr6 (in repository <a href="https://raphaels1.r-universe.dev" class="external-link">https://raphaels1.r-universe.dev</a>).
 Each individual distribution in the vector represents the random variable 'survival time'
 for an individual observation.</p></dd>
 
-
-<dt><code>weights</code></dt>
+      <dt><code>weights</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br>
 Vector of measure weights for each observation. Should be constructed from
 the <code>Task</code>'s <code>weights_measure</code> column.</p></dd>
 
-
-<dt><code>check</code></dt>
+      <dt><code>check</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>TRUE</code>, performs some argument checks and predict type conversions.</p></dd>
 
-
-<dt><code>extra</code></dt>
+      <dt><code>extra</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 List of extra data to be stored in the prediction object.</p></dd>
 
-
-<dt><code>raw</code></dt>
+      <dt><code>raw</code></dt>
 <dd><p>(any)<br>
 Raw prediction object from the upstream model. Stored as-is without validation.</p></dd>
 
@@ -198,14 +185,14 @@ Raw prediction object from the upstream model. Stored as-is without validation.<
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-PredictionRegr-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-PredictionRegr-clone"></a><div class="section">
+<h3 id="predictionregr-clone-"><code>PredictionRegr$clone()</code><a class="anchor" aria-label="anchor" href="#predictionregr-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">PredictionRegr</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -215,6 +202,7 @@ Raw prediction object from the upstream model. Stored as-is without validation.<
 </div>
 
 </div>
+
 
     </div>
 
