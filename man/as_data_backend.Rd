@@ -49,7 +49,7 @@ as_data_backend(palmerpenguins::penguins)
 e.g. SQL servers or \CRANpkg{duckdb}.
 }
 
-Other DataBackend: 
+Other DataBackend:
 \code{\link{DataBackend}},
 \code{\link{DataBackendDataTable}}
 }

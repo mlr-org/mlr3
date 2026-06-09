@@ -16,58 +16,58 @@ For more information on callbacks, see the \code{\link[=callback_resample]{callb
 \code{\link[mlr3misc:Callback]{mlr3misc::Callback}} -> \code{CallbackResample}
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{on_resample_begin}}{(\verb{function()})\cr
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{on_resample_begin}}{(\verb{function()})\cr
 Stage called at the beginning of the resampling iteration.
 Called in \code{workhorse()} (internal).}
 
-\item{\code{on_resample_before_train}}{(\verb{function()})\cr
+    \item{\code{on_resample_before_train}}{(\verb{function()})\cr
 Stage called before training the learner.
 Called in \code{workhorse()} (internal).}
 
-\item{\code{on_resample_before_predict}}{(\verb{function()})\cr
+    \item{\code{on_resample_before_predict}}{(\verb{function()})\cr
 Stage called before predicting.
 Called in \code{workhorse()} (internal).}
 
-\item{\code{on_resample_end}}{(\verb{function()})\cr
+    \item{\code{on_resample_end}}{(\verb{function()})\cr
 Stage called at the end of the resample iteration.
 Called in \code{workhorse()} (internal).}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-CallbackResample-clone}{\code{CallbackResample$clone()}}
+  \itemize{
+    \item \href{#method-CallbackResample-clone}{\code{CallbackResample$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Callback" data-id="call"><a href='../../mlr3misc/html/Callback.html#method-Callback-call'><code>mlr3misc::Callback$call()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Callback" data-id="format"><a href='../../mlr3misc/html/Callback.html#method-Callback-format'><code>mlr3misc::Callback$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Callback" data-id="help"><a href='../../mlr3misc/html/Callback.html#method-Callback-help'><code>mlr3misc::Callback$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Callback" data-id="initialize"><a href='../../mlr3misc/html/Callback.html#method-Callback-initialize'><code>mlr3misc::Callback$initialize()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Callback" data-id="print"><a href='../../mlr3misc/html/Callback.html#method-Callback-print'><code>mlr3misc::Callback$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Callback" data-id="call"><a href='../../mlr3misc/html/Callback.html#method-Callback-call'><code>mlr3misc::Callback$call()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Callback" data-id="format"><a href='../../mlr3misc/html/Callback.html#method-Callback-format'><code>mlr3misc::Callback$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Callback" data-id="help"><a href='../../mlr3misc/html/Callback.html#method-Callback-help'><code>mlr3misc::Callback$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Callback" data-id="initialize"><a href='../../mlr3misc/html/Callback.html#method-Callback-initialize'><code>mlr3misc::Callback$initialize()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Callback" data-id="print"><a href='../../mlr3misc/html/Callback.html#method-Callback-print'><code>mlr3misc::Callback$print()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-CallbackResample-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-CallbackResample-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CallbackResample$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{CallbackResample$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{CallbackResample$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

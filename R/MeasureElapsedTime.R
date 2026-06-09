@@ -1,10 +1,7 @@
 #' @title Elapsed Time Measure
 #'
 #' @name mlr_measures_elapsed_time
-#' @aliases
-#'   mlr_measures_time_train
-#'   mlr_measures_time_predict
-#'   mlr_measures_time_both
+#' @aliases mlr_measures_time_train mlr_measures_time_predict mlr_measures_time_both
 #' @include Measure.R
 #'
 #' @description

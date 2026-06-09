@@ -56,5 +56,5 @@ as_measures.NULL = function(x, task_type = NULL, clone = FALSE, ...) {
 #' @rdname as_measure
 # nolint next
 as_measures.list = function(x, task_type = NULL, clone = FALSE, ...) {
-  lapply(x, as_measure, task_type = NULL, clone = clone, ...)
+  lapply(x, as_measure, task_type = task_type, clone = clone, ...)
 }

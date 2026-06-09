@@ -7,7 +7,7 @@
 #' @description
 #' A regression task for the [datasets::mtcars] data set.
 #' Target variable is `mpg` (Miles/(US) gallon).
-#' Rownames are stored as variable `"..rownames` with column role `"model"`.
+#' Rownames are stored as variable `"model"` with column role `"name"`.
 #'
 #' @section Construction:
 #' ```

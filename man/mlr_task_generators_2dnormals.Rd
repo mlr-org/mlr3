@@ -43,7 +43,7 @@ str(task$data())
 }
 }
 
-Other TaskGenerator: 
+Other TaskGenerator:
 \code{\link{TaskGenerator}},
 \code{\link{mlr_task_generators}},
 \code{\link{mlr_task_generators_cassini}},
@@ -58,74 +58,76 @@ Other TaskGenerator:
 }
 \concept{TaskGenerator}
 \section{Super class}{
-\code{\link[mlr3:TaskGenerator]{mlr3::TaskGenerator}} -> \code{TaskGenerator2DNormals}
+\code{\link[mlr3:TaskGenerator]{TaskGenerator}} -> \code{TaskGenerator2DNormals}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-TaskGenerator2DNormals-new}{\code{TaskGenerator2DNormals$new()}}
-\item \href{#method-TaskGenerator2DNormals-plot}{\code{TaskGenerator2DNormals$plot()}}
-\item \href{#method-TaskGenerator2DNormals-clone}{\code{TaskGenerator2DNormals$clone()}}
+  \itemize{
+    \item \href{#method-TaskGenerator2DNormals-initialize}{\code{TaskGenerator2DNormals$new()}}
+    \item \href{#method-TaskGenerator2DNormals-plot}{\code{TaskGenerator2DNormals$plot()}}
+    \item \href{#method-TaskGenerator2DNormals-clone}{\code{TaskGenerator2DNormals$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-format'><code>mlr3::TaskGenerator$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-generate'><code>mlr3::TaskGenerator$generate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-print'><code>mlr3::TaskGenerator$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-format'><code>TaskGenerator$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-generate'><code>TaskGenerator$generate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-print'><code>TaskGenerator$print()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TaskGenerator2DNormals-new"></a>}}
-\if{latex}{\out{\hypertarget{method-TaskGenerator2DNormals-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGenerator2DNormals$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-TaskGenerator2DNormals-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGenerator2DNormals-initialize}{}}}
+\subsection{\code{TaskGenerator2DNormals$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskGenerator2DNormals$new()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskGenerator2DNormals-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskGenerator2DNormals-plot}{}}}
-\subsection{Method \code{plot()}}{
-Creates a simple plot of generated data.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGenerator2DNormals$plot(n = 200L, pch = 19L, ...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{n}}{(\code{integer(1)})\cr
+\subsection{\code{TaskGenerator2DNormals$plot()}}{
+  Creates a simple plot of generated data.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskGenerator2DNormals$plot(n = 200L, pch = 19L, ...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{n}}{(\code{integer(1)})\cr
 Number of samples to draw for the plot. Default is 200.}
-
-\item{\code{pch}}{(\code{integer(1)})\cr
+      \item{\code{pch}}{(\code{integer(1)})\cr
 Point char. Passed to \code{\link[=plot]{plot()}}.}
-
-\item{\code{...}}{(any)\cr
+      \item{\code{...}}{(any)\cr
 Additional arguments passed to \code{\link[=plot]{plot()}}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskGenerator2DNormals-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskGenerator2DNormals-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGenerator2DNormals$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{TaskGenerator2DNormals$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskGenerator2DNormals$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

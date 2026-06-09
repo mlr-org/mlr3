@@ -31,186 +31,189 @@ as_data_backend(palmerpenguins::penguins)
 e.g. SQL servers or \CRANpkg{duckdb}.
 }
 
-Other DataBackend: 
+Other DataBackend:
 \code{\link{DataBackend}},
-\code{\link{as_data_backend}()}
+\code{\link[=as_data_backend]{as_data_backend()}}
 }
 \concept{DataBackend}
 \section{Super class}{
-\code{\link[mlr3:DataBackend]{mlr3::DataBackend}} -> \code{DataBackendDataTable}
+\code{\link[mlr3:DataBackend]{DataBackend}} -> \code{DataBackendDataTable}
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{compact_seq}}{\code{logical(1)}\cr
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{compact_seq}}{\code{logical(1)}\cr
 If \code{TRUE}, row ids are a natural sequence from 1 to \code{nrow(data)} (determined internally).
 In this case, row lookup uses faster positional indices instead of equi joins.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{rownames}}{(\code{integer()})\cr
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{rownames}}{(\code{integer()})\cr
 Returns vector of all distinct row identifiers, i.e. the contents of the primary key column.}
 
-\item{\code{colnames}}{(\code{character()})\cr
+    \item{\code{colnames}}{(\code{character()})\cr
 Returns vector of all column names, including the primary key column.}
 
-\item{\code{nrow}}{(\code{integer(1)})\cr
+    \item{\code{nrow}}{(\code{integer(1)})\cr
 Number of rows (observations).}
 
-\item{\code{ncol}}{(\code{integer(1)})\cr
+    \item{\code{ncol}}{(\code{integer(1)})\cr
 Number of columns (variables), including the primary key column.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-DataBackendDataTable-new}{\code{DataBackendDataTable$new()}}
-\item \href{#method-DataBackendDataTable-data}{\code{DataBackendDataTable$data()}}
-\item \href{#method-DataBackendDataTable-head}{\code{DataBackendDataTable$head()}}
-\item \href{#method-DataBackendDataTable-distinct}{\code{DataBackendDataTable$distinct()}}
-\item \href{#method-DataBackendDataTable-missings}{\code{DataBackendDataTable$missings()}}
+  \itemize{
+    \item \href{#method-DataBackendDataTable-initialize}{\code{DataBackendDataTable$new()}}
+    \item \href{#method-DataBackendDataTable-data}{\code{DataBackendDataTable$data()}}
+    \item \href{#method-DataBackendDataTable-head}{\code{DataBackendDataTable$head()}}
+    \item \href{#method-DataBackendDataTable-distinct}{\code{DataBackendDataTable$distinct()}}
+    \item \href{#method-DataBackendDataTable-missings}{\code{DataBackendDataTable$missings()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="DataBackend" data-id="format"><a href='../../mlr3/html/DataBackend.html#method-DataBackend-format'><code>mlr3::DataBackend$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="DataBackend" data-id="print"><a href='../../mlr3/html/DataBackend.html#method-DataBackend-print'><code>mlr3::DataBackend$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="DataBackend" data-id="format"><a href='../../mlr3/html/DataBackend.html#method-DataBackend-format'><code>DataBackend$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="DataBackend" data-id="print"><a href='../../mlr3/html/DataBackend.html#method-DataBackend-print'><code>DataBackend$print()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-DataBackendDataTable-new"></a>}}
-\if{latex}{\out{\hypertarget{method-DataBackendDataTable-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
+\if{html}{\out{<a id="method-DataBackendDataTable-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-DataBackendDataTable-initialize}{}}}
+\subsection{\code{DataBackendDataTable$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
 
 Note that \code{DataBackendDataTable} does not copy the input data,
 while \code{as_data_backend()} calls \code{\link[data.table:copy]{data.table::copy()}}.
 \code{as_data_backend()} also takes care about casting to a \code{data.table()} and adds a primary key column if necessary.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataBackendDataTable$new(data, primary_key)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{DataBackendDataTable$new(data, primary_key)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 The input \code{\link[=data.table]{data.table()}}.}
-
-\item{\code{primary_key}}{(\code{character(1)} | \code{integer()})\cr
+      \item{\code{primary_key}}{(\code{character(1)} | \code{integer()})\cr
 Name of the primary key column, or integer vector of row ids.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-DataBackendDataTable-data"></a>}}
 \if{latex}{\out{\hypertarget{method-DataBackendDataTable-data}{}}}
-\subsection{Method \code{data()}}{
-Returns a slice of the data.
+\subsection{\code{DataBackendDataTable$data()}}{
+  Returns a slice of the data.
 The rows must be addressed as vector of primary key values, columns must be referred to via column names.
 Queries for rows with no matching row id and queries for columns with no matching column name are
 silently ignored.
 Rows are guaranteed to be returned in the same order as \code{rows}, columns may be returned in an arbitrary order.
 Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataBackendDataTable$data(rows, cols)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{DataBackendDataTable$data(rows, cols)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
 Vector or row indices.
 Always refers to the complete data set, even after filtering.}
-
-\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
+      \item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-DataBackendDataTable-head"></a>}}
 \if{latex}{\out{\hypertarget{method-DataBackendDataTable-head}{}}}
-\subsection{Method \code{head()}}{
-Retrieve the first \code{n} rows.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataBackendDataTable$head(n = 6L)}\if{html}{\out{</div>}}
+\subsection{\code{DataBackendDataTable$head()}}{
+  Retrieve the first \code{n} rows.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{DataBackendDataTable$head(n = 6L)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{n}}{(\code{integer(1)})\cr
+Number of rows.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{\link[data.table:data.table]{data.table::data.table()}} of the first \code{n} rows.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{n}}{(\code{integer(1)})\cr
-Number of rows.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{\link[data.table:data.table]{data.table::data.table()}} of the first \code{n} rows.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-DataBackendDataTable-distinct"></a>}}
 \if{latex}{\out{\hypertarget{method-DataBackendDataTable-distinct}{}}}
-\subsection{Method \code{distinct()}}{
-Returns a named list of vectors of distinct values for each column
+\subsection{\code{DataBackendDataTable$distinct()}}{
+  Returns a named list of vectors of distinct values for each column
 specified. If \code{na_rm} is \code{TRUE}, missing values are removed from the
 returned vectors of distinct values. Non-existing rows and columns are
 silently ignored.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataBackendDataTable$distinct(rows, cols, na_rm = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{DataBackendDataTable$distinct(rows, cols, na_rm = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
 Vector or row indices.
 Always refers to the complete data set, even after filtering.}
-
-\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
+      \item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
-
-\item{\code{na_rm}}{\code{logical(1)}\cr
+      \item{\code{na_rm}}{\code{logical(1)}\cr
 Whether to remove NAs or not.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Named \code{list()} of distinct values.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Named \code{list()} of distinct values.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-DataBackendDataTable-missings"></a>}}
 \if{latex}{\out{\hypertarget{method-DataBackendDataTable-missings}{}}}
-\subsection{Method \code{missings()}}{
-Returns the number of missing values per column in the specified slice
+\subsection{\code{DataBackendDataTable$missings()}}{
+  Returns the number of missing values per column in the specified slice
 of data. Non-existing rows and columns are silently ignored.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataBackendDataTable$missings(rows, cols)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{DataBackendDataTable$missings(rows, cols)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
 Vector or row indices.
 Always refers to the complete data set, even after filtering.}
-
-\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
+      \item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Total of missing values per column (named \code{numeric()}).
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Total of missing values per column (named \code{numeric()}).
-}
-}
+
 }
