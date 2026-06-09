@@ -25,6 +25,7 @@
 ^\.ignore$
 ^\.lintr$
 ^\.vscode$
+^\.yolobox\.toml$
 ^attic$
 ^attic_local$
 ^cran-comments\.md$
