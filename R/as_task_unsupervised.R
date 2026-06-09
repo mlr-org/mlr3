@@ -47,7 +47,7 @@ as_task_unsupervised.DataBackend = function(x, id = deparse1(substitute(x)), lab
 #' @rdname as_task_unsupervised
 #' @export
 as_tasks_unsupervised = function(x, ...) {
-  UseMethod("as_tasks")
+  UseMethod("as_tasks_unsupervised")
 }
 
 #' @rdname as_task_unsupervised
@@ -56,7 +56,7 @@ as_tasks_unsupervised = function(x, ...) {
 #' @export
 # nolint next
 as_tasks_unsupervised.list = function(x, clone = FALSE, ...) {
-  lapply(x, as_task, clone = clone, ...)
+  lapply(x, as_task_unsupervised, clone = clone, ...)
 }
 
 #' @rdname as_task_unsupervised
