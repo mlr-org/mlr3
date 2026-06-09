@@ -124,7 +124,7 @@ LearnerRegr = R6Class(
       }
 
       if (!is.null(pred$quantiles)) {
-        miss = miss | apply(pred$quantiles, 1L, anyMissing)
+        miss = miss | row_any_na(pred$quantiles)
       }
 
       miss_ids = which(miss)

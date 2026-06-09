@@ -83,7 +83,7 @@ is_missing_prediction_data.PredictionDataRegr = function(pdata, ...) {
   }
 
   if (!is.null(pdata$quantiles)) {
-    miss = miss | apply(pdata$quantiles, 1L, anyMissing)
+    miss = miss | row_any_na(pdata$quantiles)
   }
 
   # weights may never be NA, so we don't need to check for missingness
