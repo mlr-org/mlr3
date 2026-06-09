@@ -9,7 +9,7 @@
 #' The aim is to predict creditworthiness, labeled as "good" and "bad".
 #' Positive class is set to label "good".
 #'
-#' See example for the creation of a [MeasureClassifCosts] as described misclassification costs.
+#' See the example for the creation of a [MeasureClassifCosts] with the described misclassification costs.
 #'
 #' @templateVar id german_credit
 #' @template task
