@@ -48,7 +48,7 @@ tsk("mtcars")
 }
 }
 
-Other Task: 
+Other Task:
 \code{\link{Task}},
 \code{\link{TaskClassif}},
 \code{\link{TaskRegr}},

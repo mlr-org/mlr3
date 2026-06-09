@@ -219,6 +219,7 @@ Learner = R6Class(
       private$.parallel_predict = FALSE
       private$.predict_raw = FALSE
       private$.timeout = c(train = Inf, predict = Inf)
+      private$.deadline = as.POSIXct(c(train = Inf, predict = Inf))
 
       if ("weights" %in% private$.properties) {
         private$.use_weights = "use"
@@ -1053,10 +1054,28 @@ Learner = R6Class(
         return(private$.timeout)
       }
       assert_numeric(rhs, lower = 0, any.missing = FALSE, .var.name = "timeout")
-      assert_names(names(rhs), subset.of = c("train", "predict"), .var.name = "names of timeout")
+      assert_names(names(rhs), type = "unique", subset.of = c("train", "predict"), .var.name = "names of timeout")
       # Merge with current timeout values
       private$.timeout[names(rhs)] = rhs
       private$.timeout
+    },
+
+    #' @field deadline (named `POSIXct(2)`)\cr
+    #' Deadline for the learner's train and predict steps.
+    #' This uses the same mechanism as `timeout`, but with absolute time (as
+    #' date-time) instead of a relative time in seconds.
+    #' Default is `as.POSIXct(c(train = Inf, predict = Inf))`.
+    deadline = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.deadline)
+      }
+      if (is.numeric(rhs)) {
+        rhs = as.POSIXct(rhs)
+      }
+      assert_names(names(rhs), type = "unique", subset.of = c("train", "predict"), .var.name = "names of deadline")
+      assert_names(names(rhs), subset.of = c("train", "predict"), .var.name = "names of deadline")
+      private$.deadline[names(rhs)] = rhs
+      private$.deadline = rhs
     },
 
     #' @template field_man
@@ -1079,6 +1098,7 @@ Learner = R6Class(
     .parallel_predict = NULL,
     .predict_raw = NULL,
     .timeout = NULL,
+    .deadline = NULL,
     .man = NULL,
     .when = NULL,
     .use_weights = NULL,

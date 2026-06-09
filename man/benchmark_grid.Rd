@@ -115,8 +115,8 @@ benchmark(grid)
 \item \CRANpkg{mlr3benchmark} for post-hoc analysis of benchmark results.
 }
 
-Other benchmark: 
+Other benchmark:
 \code{\link{BenchmarkResult}},
-\code{\link{benchmark}()}
+\code{\link[=benchmark]{benchmark()}}
 }
 \concept{benchmark}

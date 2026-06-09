@@ -2,6 +2,7 @@
 
 * refactor: Removed unused `task_prototype` from the learner state.
 * fix: Reset range of `MeasureClassifCost`.
+* feat: Encapsulated Learners now support a `deadline` (date-time) in addition to the existing `timeout` (seconds).
 
 # mlr3 1.6.0
 
