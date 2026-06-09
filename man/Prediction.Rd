@@ -43,214 +43,225 @@ the data of the former passed objects get overwritten by the data of the later p
 }
 }
 
-Other Prediction: 
+Other Prediction:
 \code{\link{PredictionClassif}},
 \code{\link{PredictionRegr}}
 }
 \concept{Prediction}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{data}}{(named \code{list()})\cr
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{data}}{(named \code{list()})\cr
 Internal data structure.}
 
-\item{\code{task_type}}{(\code{character(1)})\cr
+    \item{\code{task_type}}{(\code{character(1)})\cr
 Required type of the \link{Task}.}
 
-\item{\code{task_properties}}{(\code{character()})\cr
+    \item{\code{task_properties}}{(\code{character()})\cr
 Required properties of the \link{Task}.}
 
-\item{\code{predict_types}}{(\code{character()})\cr
+    \item{\code{predict_types}}{(\code{character()})\cr
 Set of predict types this object stores.}
 
-\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
+    \item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{row_ids}}{(\code{integer()})\cr
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{row_ids}}{(\code{integer()})\cr
 Vector of row ids for which predictions are stored.}
 
-\item{\code{truth}}{(any)\cr
+    \item{\code{truth}}{(any)\cr
 True (observed) outcome.}
 
-\item{\code{missing}}{(\code{integer()})\cr
+    \item{\code{missing}}{(\code{integer()})\cr
 Returns \code{row_ids} for which the predictions are missing or incomplete.}
 
-\item{\code{weights}}{(\code{numeric()})\cr
+    \item{\code{weights}}{(\code{numeric()})\cr
 Vector of measure weights, obtained from the \code{weights_measure} column of the \link{Task} if present.
 This is \code{NULL} if no weights are present.}
 
-\item{\code{extra}}{(\code{list()})\cr
+    \item{\code{extra}}{(\code{list()})\cr
 List of extra data stored in the prediction object.}
 
-\item{\code{raw}}{(any)\cr
+    \item{\code{raw}}{(any)\cr
 Raw prediction object from the upstream model.
 Only available if the learner's \code{predict_raw} flag was set to \code{TRUE} and the learner implementation
 supports it.
 The object is stored as-is, without validation or subsetting during filtering.
 When multiple predictions are combined via \code{c()}, the individual raw objects are collected into a \code{list()}.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-Prediction-format}{\code{Prediction$format()}}
-\item \href{#method-Prediction-print}{\code{Prediction$print()}}
-\item \href{#method-Prediction-help}{\code{Prediction$help()}}
-\item \href{#method-Prediction-score}{\code{Prediction$score()}}
-\item \href{#method-Prediction-obs_loss}{\code{Prediction$obs_loss()}}
-\item \href{#method-Prediction-filter}{\code{Prediction$filter()}}
-\item \href{#method-Prediction-clone}{\code{Prediction$clone()}}
-}
+  \itemize{
+    \item \href{#method-Prediction-format}{\code{Prediction$format()}}
+    \item \href{#method-Prediction-print}{\code{Prediction$print()}}
+    \item \href{#method-Prediction-help}{\code{Prediction$help()}}
+    \item \href{#method-Prediction-score}{\code{Prediction$score()}}
+    \item \href{#method-Prediction-obs_loss}{\code{Prediction$obs_loss()}}
+    \item \href{#method-Prediction-filter}{\code{Prediction$filter()}}
+    \item \href{#method-Prediction-clone}{\code{Prediction$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Prediction-format"></a>}}
 \if{latex}{\out{\hypertarget{method-Prediction-format}{}}}
-\subsection{Method \code{format()}}{
-Helper for print outputs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Prediction$format(...)}\if{html}{\out{</div>}}
+\subsection{\code{Prediction$format()}}{
+  Helper for print outputs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Prediction$format(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(ignored).}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(ignored).}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Prediction-print"></a>}}
 \if{latex}{\out{\hypertarget{method-Prediction-print}{}}}
-\subsection{Method \code{print()}}{
-Printer.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Prediction$print(...)}\if{html}{\out{</div>}}
+\subsection{\code{Prediction$print()}}{
+  Printer.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Prediction$print(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(ignored).}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(ignored).}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Prediction-help"></a>}}
 \if{latex}{\out{\hypertarget{method-Prediction-help}{}}}
-\subsection{Method \code{help()}}{
-Opens the corresponding help page referenced by field \verb{$man}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Prediction$help()}\if{html}{\out{</div>}}
+\subsection{\code{Prediction$help()}}{
+  Opens the corresponding help page referenced by field \verb{$man}.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Prediction$help()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Prediction-score"></a>}}
 \if{latex}{\out{\hypertarget{method-Prediction-score}{}}}
-\subsection{Method \code{score()}}{
-Calculates the performance for all provided measures
+\subsection{\code{Prediction$score()}}{
+  Calculates the performance for all provided measures
 \link{Task} and \link{Learner} may be \code{NULL} for most measures, but some measures need to extract information
 from these objects.
 Note that the \code{predict_sets} of the \code{measures} are ignored by this method,
 instead all predictions are used.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Prediction$score(
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Prediction$score(
   measures = NULL,
   task = NULL,
   learner = NULL,
   train_set = NULL
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
+      \item{\code{task}}{(\link{Task}).}
+      \item{\code{learner}}{(\link{Learner}).}
+      \item{\code{train_set}}{(\code{integer()}).}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \link{Prediction}.
+  }
+}
 
-\item{\code{task}}{(\link{Task}).}
-
-\item{\code{learner}}{(\link{Learner}).}
-
-\item{\code{train_set}}{(\code{integer()}).}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\link{Prediction}.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Prediction-obs_loss"></a>}}
 \if{latex}{\out{\hypertarget{method-Prediction-obs_loss}{}}}
-\subsection{Method \code{obs_loss()}}{
-Calculates the observation-wise loss via the \link{Measure}'s \code{obs_loss} method.
+\subsection{\code{Prediction$obs_loss()}}{
+  Calculates the observation-wise loss via the \link{Measure}'s \code{obs_loss} method.
 Returns a \code{data.table()} with the columns of the matching \link{Prediction} object plus one additional numeric column
 for each measure, named with the respective measure id.
 If there is no observation-wise loss function for the measure, the column is filled with \code{NA_real_} values.
 Note that some measures such as RMSE, do have an \verb{$obs_loss},
 but they require an additional transformation after aggregation,
 in this example taking the square-root.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Prediction$obs_loss(measures = NULL)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Prediction$obs_loss(measures = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
+Measure(s) to calculate.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
-Measure(s) to calculate.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Prediction-filter"></a>}}
 \if{latex}{\out{\hypertarget{method-Prediction-filter}{}}}
-\subsection{Method \code{filter()}}{
-Filters the \link{Prediction}, keeping only predictions for the provided row_ids.
+\subsection{\code{Prediction$filter()}}{
+  Filters the \link{Prediction}, keeping only predictions for the provided row_ids.
 This changes the object in-place, you need to create a clone to preserve
 the original \link{Prediction}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Prediction$filter(row_ids)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Prediction$filter(row_ids)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{row_ids}}{\code{integer()}\cr
+Row indices.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{self}, modified.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{row_ids}}{\code{integer()}\cr
-Row indices.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{self}, modified.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Prediction-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-Prediction-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Prediction$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{Prediction$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Prediction$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

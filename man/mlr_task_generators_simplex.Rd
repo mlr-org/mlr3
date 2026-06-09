@@ -47,7 +47,7 @@ str(task$data())
 }
 }
 
-Other TaskGenerator: 
+Other TaskGenerator:
 \code{\link{TaskGenerator}},
 \code{\link{mlr_task_generators}},
 \code{\link{mlr_task_generators_2dnormals}},
@@ -62,74 +62,76 @@ Other TaskGenerator:
 }
 \concept{TaskGenerator}
 \section{Super class}{
-\code{\link[mlr3:TaskGenerator]{mlr3::TaskGenerator}} -> \code{TaskGeneratorSimplex}
+\code{\link[mlr3:TaskGenerator]{TaskGenerator}} -> \code{TaskGeneratorSimplex}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-TaskGeneratorSimplex-new}{\code{TaskGeneratorSimplex$new()}}
-\item \href{#method-TaskGeneratorSimplex-plot}{\code{TaskGeneratorSimplex$plot()}}
-\item \href{#method-TaskGeneratorSimplex-clone}{\code{TaskGeneratorSimplex$clone()}}
+  \itemize{
+    \item \href{#method-TaskGeneratorSimplex-initialize}{\code{TaskGeneratorSimplex$new()}}
+    \item \href{#method-TaskGeneratorSimplex-plot}{\code{TaskGeneratorSimplex$plot()}}
+    \item \href{#method-TaskGeneratorSimplex-clone}{\code{TaskGeneratorSimplex$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-format'><code>mlr3::TaskGenerator$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-generate'><code>mlr3::TaskGenerator$generate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-print'><code>mlr3::TaskGenerator$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-format'><code>TaskGenerator$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-generate'><code>TaskGenerator$generate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-print'><code>TaskGenerator$print()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TaskGeneratorSimplex-new"></a>}}
-\if{latex}{\out{\hypertarget{method-TaskGeneratorSimplex-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGeneratorSimplex$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-TaskGeneratorSimplex-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGeneratorSimplex-initialize}{}}}
+\subsection{\code{TaskGeneratorSimplex$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskGeneratorSimplex$new()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskGeneratorSimplex-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskGeneratorSimplex-plot}{}}}
-\subsection{Method \code{plot()}}{
-Creates a simple plot of generated data.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGeneratorSimplex$plot(n = 200L, pch = 19L, ...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{n}}{(\code{integer(1)})\cr
+\subsection{\code{TaskGeneratorSimplex$plot()}}{
+  Creates a simple plot of generated data.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskGeneratorSimplex$plot(n = 200L, pch = 19L, ...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{n}}{(\code{integer(1)})\cr
 Number of samples to draw for the plot. Default is 200.}
-
-\item{\code{pch}}{(\code{integer(1)})\cr
+      \item{\code{pch}}{(\code{integer(1)})\cr
 Point char. Passed to \code{\link[=plot]{plot()}}.}
-
-\item{\code{...}}{(any)\cr
+      \item{\code{...}}{(any)\cr
 Additional arguments passed to \code{\link[=plot]{plot()}}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskGeneratorSimplex-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskGeneratorSimplex-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGeneratorSimplex$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{TaskGeneratorSimplex$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskGeneratorSimplex$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

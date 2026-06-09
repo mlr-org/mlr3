@@ -404,7 +404,7 @@ ResampleResult = R6Class(
 
     #' @field warnings ([data.table::data.table()])\cr
     #' A table with all warning messages.
-    #' Column names are `"iteration"` and `"msg"`.
+    #' Column names are `"iteration"` and `"condition"`.
     #' Note that there can be multiple rows per resampling iteration if multiple warnings have been recorded.
     warnings = function(rhs) {
       assert_ro_binding(rhs)
@@ -413,7 +413,7 @@ ResampleResult = R6Class(
 
     #' @field errors ([data.table::data.table()])\cr
     #' A table with all error messages.
-    #' Column names are `"iteration"` and `"msg"`.
+    #' Column names are `"iteration"` and `"condition"`.
     #' Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.
     errors = function(rhs) {
       assert_ro_binding(rhs)

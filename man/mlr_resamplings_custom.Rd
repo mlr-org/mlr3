@@ -41,7 +41,7 @@ custom$test_set(1)
 tasks.
 }
 
-Other Resampling: 
+Other Resampling:
 \code{\link{Resampling}},
 \code{\link{mlr_resamplings}},
 \code{\link{mlr_resamplings_bootstrap}},
@@ -55,86 +55,88 @@ Other Resampling:
 }
 \concept{Resampling}
 \section{Super class}{
-\code{\link[mlr3:Resampling]{mlr3::Resampling}} -> \code{ResamplingCustom}
+\code{\link[mlr3:Resampling]{Resampling}} -> \code{ResamplingCustom}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{iters}}{(\code{integer(1)})\cr
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{iters}}{(\code{integer(1)})\cr
 Returns the number of resampling iterations, depending on the values stored in the \code{param_set}.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-ResamplingCustom-new}{\code{ResamplingCustom$new()}}
-\item \href{#method-ResamplingCustom-instantiate}{\code{ResamplingCustom$instantiate()}}
-\item \href{#method-ResamplingCustom-clone}{\code{ResamplingCustom$clone()}}
+  \itemize{
+    \item \href{#method-ResamplingCustom-initialize}{\code{ResamplingCustom$new()}}
+    \item \href{#method-ResamplingCustom-instantiate}{\code{ResamplingCustom$instantiate()}}
+    \item \href{#method-ResamplingCustom-clone}{\code{ResamplingCustom$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href='../../mlr3/html/Resampling.html#method-Resampling-format'><code>mlr3::Resampling$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href='../../mlr3/html/Resampling.html#method-Resampling-help'><code>mlr3::Resampling$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href='../../mlr3/html/Resampling.html#method-Resampling-print'><code>mlr3::Resampling$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-test_set'><code>mlr3::Resampling$test_set()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-train_set'><code>mlr3::Resampling$train_set()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href='../../mlr3/html/Resampling.html#method-Resampling-format'><code>Resampling$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href='../../mlr3/html/Resampling.html#method-Resampling-help'><code>Resampling$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href='../../mlr3/html/Resampling.html#method-Resampling-print'><code>Resampling$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-test_set'><code>Resampling$test_set()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-train_set'><code>Resampling$train_set()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResamplingCustom-new"></a>}}
-\if{latex}{\out{\hypertarget{method-ResamplingCustom-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustom$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-ResamplingCustom-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-ResamplingCustom-initialize}{}}}
+\subsection{\code{ResamplingCustom$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResamplingCustom$new()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResamplingCustom-instantiate"></a>}}
 \if{latex}{\out{\hypertarget{method-ResamplingCustom-instantiate}{}}}
-\subsection{Method \code{instantiate()}}{
-Instantiate this \link{Resampling} with custom splits into training and test set.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustom$instantiate(task, train_sets, test_sets)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{task}}{\link{Task}\cr
+\subsection{\code{ResamplingCustom$instantiate()}}{
+  Instantiate this \link{Resampling} with custom splits into training and test set.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResamplingCustom$instantiate(task, train_sets, test_sets)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{task}}{\link{Task}\cr
 Mainly used to check if \code{train_sets} and \code{test_sets} are feasible.}
-
-\item{\code{train_sets}}{(list of \code{integer()})\cr
+      \item{\code{train_sets}}{(list of \code{integer()})\cr
 List with row ids for training, one list element per iteration.
 Must have the same length as \code{test_sets}.}
-
-\item{\code{test_sets}}{(list of \code{integer()})\cr
+      \item{\code{test_sets}}{(list of \code{integer()})\cr
 List with row ids for testing, one list element per iteration.
 Must have the same length as \code{train_sets}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResamplingCustom-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-ResamplingCustom-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustom$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{ResamplingCustom$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResamplingCustom$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

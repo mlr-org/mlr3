@@ -191,7 +191,7 @@ print(bmr1$combine(bmr2))
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 }
 
-Other resample: 
+Other resample:
 \code{\link{ResampleResult}}
 }
 \concept{resample}

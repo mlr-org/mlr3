@@ -45,55 +45,55 @@ rr$warnings
 rr$errors
 
 ## ------------------------------------------------
-## Method `ResampleResult$prediction`
+## Method `ResampleResult$prediction()`
 ## ------------------------------------------------
 
 rr$prediction()
 
 ## ------------------------------------------------
-## Method `ResampleResult$predictions`
+## Method `ResampleResult$predictions()`
 ## ------------------------------------------------
 
 rr$predictions()
 
 ## ------------------------------------------------
-## Method `ResampleResult$score`
+## Method `ResampleResult$score()`
 ## ------------------------------------------------
 
 rr$score(msr("classif.acc"))
 
 ## ------------------------------------------------
-## Method `ResampleResult$obs_loss`
+## Method `ResampleResult$obs_loss()`
 ## ------------------------------------------------
 
 rr$obs_loss(msr("classif.acc"))
 
 ## ------------------------------------------------
-## Method `ResampleResult$aggregate`
+## Method `ResampleResult$aggregate()`
 ## ------------------------------------------------
 
 rr$aggregate(msr("classif.acc"))
 
 ## ------------------------------------------------
-## Method `ResampleResult$filter`
+## Method `ResampleResult$filter()`
 ## ------------------------------------------------
 
 rr$filter(1L)
 
 ## ------------------------------------------------
-## Method `ResampleResult$marshal`
+## Method `ResampleResult$marshal()`
 ## ------------------------------------------------
 
 rr$marshal()
 
 ## ------------------------------------------------
-## Method `ResampleResult$unmarshal`
+## Method `ResampleResult$unmarshal()`
 ## ------------------------------------------------
 
 rr$unmarshal()
 
 ## ------------------------------------------------
-## Method `ResampleResult$set_threshold`
+## Method `ResampleResult$set_threshold()`
 ## ------------------------------------------------
 
 learner = lrn("classif.rpart", predict_type = "prob")
@@ -108,456 +108,460 @@ rr$set_threshold(0.6)
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 }
 
-Other resample: 
-\code{\link{resample}()}
+Other resample:
+\code{\link[=resample]{resample()}}
 }
 \concept{resample}
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{task_type}}{(\code{character(1)})\cr
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{task_type}}{(\code{character(1)})\cr
 Task type of objects in the \code{ResampleResult}, e.g. \code{"classif"} or \code{"regr"}.
 This is \code{NA} for empty \link{ResampleResult}s.}
 
-\item{\code{uhash}}{(\code{character(1)})\cr
+    \item{\code{uhash}}{(\code{character(1)})\cr
 Unique hash for this object.}
 
-\item{\code{iters}}{(\code{integer(1)})\cr
+    \item{\code{iters}}{(\code{integer(1)})\cr
 Number of resampling iterations stored in the \code{ResampleResult}.}
 
-\item{\code{task}}{(\link{Task})\cr
+    \item{\code{task}}{(\link{Task})\cr
 The task \code{\link[=resample]{resample()}} operated on.}
 
-\item{\code{learner}}{(\link{Learner})\cr
+    \item{\code{learner}}{(\link{Learner})\cr
 Learner prototype \code{\link[=resample]{resample()}} operated on.
 For a list of \strong{trained} learners, see methods \verb{$learners()}.}
 
-\item{\code{resampling}}{(\link{Resampling})\cr
+    \item{\code{resampling}}{(\link{Resampling})\cr
 Instantiated \link{Resampling} object which stores the splits into training and test.}
 
-\item{\code{learners}}{(list of \link{Learner})\cr
+    \item{\code{learners}}{(list of \link{Learner})\cr
 List of trained learners, sorted by resampling iteration.}
 
-\item{\code{data_extra}}{(list())\cr
+    \item{\code{data_extra}}{(list())\cr
 Additional data stored in the \link{ResampleResult}.}
 
-\item{\code{warnings}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+    \item{\code{warnings}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 A table with all warning messages.
-Column names are \code{"iteration"} and \code{"msg"}.
+Column names are \code{"iteration"} and \code{"condition"}.
 Note that there can be multiple rows per resampling iteration if multiple warnings have been recorded.}
 
-\item{\code{errors}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+    \item{\code{errors}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 A table with all error messages.
-Column names are \code{"iteration"} and \code{"msg"}.
+Column names are \code{"iteration"} and \code{"condition"}.
 Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-ResampleResult-new}{\code{ResampleResult$new()}}
-\item \href{#method-ResampleResult-format}{\code{ResampleResult$format()}}
-\item \href{#method-ResampleResult-print}{\code{ResampleResult$print()}}
-\item \href{#method-ResampleResult-help}{\code{ResampleResult$help()}}
-\item \href{#method-ResampleResult-prediction}{\code{ResampleResult$prediction()}}
-\item \href{#method-ResampleResult-predictions}{\code{ResampleResult$predictions()}}
-\item \href{#method-ResampleResult-score}{\code{ResampleResult$score()}}
-\item \href{#method-ResampleResult-obs_loss}{\code{ResampleResult$obs_loss()}}
-\item \href{#method-ResampleResult-aggregate}{\code{ResampleResult$aggregate()}}
-\item \href{#method-ResampleResult-filter}{\code{ResampleResult$filter()}}
-\item \href{#method-ResampleResult-discard}{\code{ResampleResult$discard()}}
-\item \href{#method-ResampleResult-marshal}{\code{ResampleResult$marshal()}}
-\item \href{#method-ResampleResult-unmarshal}{\code{ResampleResult$unmarshal()}}
-\item \href{#method-ResampleResult-set_threshold}{\code{ResampleResult$set_threshold()}}
-\item \href{#method-ResampleResult-clone}{\code{ResampleResult$clone()}}
-}
+  \itemize{
+    \item \href{#method-ResampleResult-initialize}{\code{ResampleResult$new()}}
+    \item \href{#method-ResampleResult-format}{\code{ResampleResult$format()}}
+    \item \href{#method-ResampleResult-print}{\code{ResampleResult$print()}}
+    \item \href{#method-ResampleResult-help}{\code{ResampleResult$help()}}
+    \item \href{#method-ResampleResult-prediction}{\code{ResampleResult$prediction()}}
+    \item \href{#method-ResampleResult-predictions}{\code{ResampleResult$predictions()}}
+    \item \href{#method-ResampleResult-score}{\code{ResampleResult$score()}}
+    \item \href{#method-ResampleResult-obs_loss}{\code{ResampleResult$obs_loss()}}
+    \item \href{#method-ResampleResult-aggregate}{\code{ResampleResult$aggregate()}}
+    \item \href{#method-ResampleResult-filter}{\code{ResampleResult$filter()}}
+    \item \href{#method-ResampleResult-discard}{\code{ResampleResult$discard()}}
+    \item \href{#method-ResampleResult-marshal}{\code{ResampleResult$marshal()}}
+    \item \href{#method-ResampleResult-unmarshal}{\code{ResampleResult$unmarshal()}}
+    \item \href{#method-ResampleResult-set_threshold}{\code{ResampleResult$set_threshold()}}
+    \item \href{#method-ResampleResult-clone}{\code{ResampleResult$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResampleResult-new"></a>}}
-\if{latex}{\out{\hypertarget{method-ResampleResult-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
+\if{html}{\out{<a id="method-ResampleResult-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-initialize}{}}}
+\subsection{\code{ResampleResult$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
 An alternative construction method is provided by \code{\link[=as_resample_result]{as_resample_result()}}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$new(data = ResultData$new(), view = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{data}}{(\link{ResultData} | \code{\link[=data.table]{data.table()}})\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$new(data = ResultData$new(), view = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{data}}{(\link{ResultData} | \code{\link[=data.table]{data.table()}})\cr
 An object of type \link{ResultData}, either extracted from another \link{ResampleResult}, another
 \link{BenchmarkResult}, or manually constructed with \code{\link[=as_result_data]{as_result_data()}}.}
-
-\item{\code{view}}{(\code{character()})\cr
+      \item{\code{view}}{(\code{character()})\cr
 Single \code{uhash} of the \link{ResultData} to operate on.
 Used internally for optimizations.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-format"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-format}{}}}
-\subsection{Method \code{format()}}{
-Helper for print outputs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$format(...)}\if{html}{\out{</div>}}
+\subsection{\code{ResampleResult$format()}}{
+  Helper for print outputs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$format(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(ignored).}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(ignored).}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-print"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-print}{}}}
-\subsection{Method \code{print()}}{
-Printer.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$print(...)}\if{html}{\out{</div>}}
+\subsection{\code{ResampleResult$print()}}{
+  Printer.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$print(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(ignored).}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(ignored).}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-help"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-help}{}}}
-\subsection{Method \code{help()}}{
-Opens the corresponding help page referenced by field \verb{$man}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$help()}\if{html}{\out{</div>}}
+\subsection{\code{ResampleResult$help()}}{
+  Opens the corresponding help page referenced by field \verb{$man}.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$help()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-prediction"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-prediction}{}}}
-\subsection{Method \code{prediction()}}{
-Combined \link{Prediction} of all individual resampling iterations, and all provided predict sets.
+\subsection{\code{ResampleResult$prediction()}}{
+  Combined \link{Prediction} of all individual resampling iterations, and all provided predict sets.
 Note that, per default, most performance measures do not operate on this object directly,
 but instead on the prediction objects from the resampling iterations separately, and then combine
 the performance scores with the aggregate function of the respective \link{Measure} (macro averaging).
 
 If you calculate the performance on this prediction object directly, this is called micro averaging.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$prediction(predict_sets = "test")}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{predict_sets}}{(\code{character()})\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$prediction(predict_sets = "test")}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{predict_sets}}{(\code{character()})\cr
 Subset of \verb{\{"train", "test"\}}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \link{Prediction} or empty \code{list()} if no predictions are available.
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{rr$prediction()
 }
-\if{html}{\out{</div>}}
+    \if{html}{\out{</div>}}
+  }
 }
-\subsection{Returns}{
-\link{Prediction} or empty \code{list()} if no predictions are available.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{rr$prediction()
-}
-\if{html}{\out{</div>}}
 
-}
-
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-predictions"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-predictions}{}}}
-\subsection{Method \code{predictions()}}{
-List of prediction objects, sorted by resampling iteration.
+\subsection{\code{ResampleResult$predictions()}}{
+  List of prediction objects, sorted by resampling iteration.
 If multiple sets are given, these are combined to a single one for each iteration.
 
 If you evaluate the performance on all of the returned prediction objects and then average them, this
 is called macro averaging. For micro averaging, operate on the combined prediction object as returned by
 \verb{$prediction()}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$predictions(predict_sets = "test")}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{predict_sets}}{(\code{character()})\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$predictions(predict_sets = "test")}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{predict_sets}}{(\code{character()})\cr
 Subset of \verb{\{"train", "test", "internal_valid"\}}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-List of \link{Prediction} objects, one per element in \code{predict_sets}.
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    List of \link{Prediction} objects, one per element in \code{predict_sets}.
 Or list of empty \code{list()}s if no predictions are available.
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{rr$predictions()
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{rr$predictions()
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
 
-}
-
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-score"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-score}{}}}
-\subsection{Method \code{score()}}{
-Returns a table with one row for each resampling iteration, including all involved objects:
+\subsection{\code{ResampleResult$score()}}{
+  Returns a table with one row for each resampling iteration, including all involved objects:
 \link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and (if enabled)
 one \link{Prediction} for each predict set of the \link{Learner}.
 Additionally, a column with the individual (per resampling iteration) performance is added
 for each \link{Measure} in \code{measures}, named with the id of the respective measure id.
 If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$score(
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$score(
   measures = NULL,
   ids = TRUE,
   conditions = FALSE,
   predictions = TRUE
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
-
-\item{\code{ids}}{(\code{logical(1)})\cr
+      \item{\code{ids}}{(\code{logical(1)})\cr
 If \code{ids} is \code{TRUE}, extra columns with the ids of objects (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"})
 are added to the returned table.
 These allow to subset more conveniently.}
-
-\item{\code{conditions}}{(\code{logical(1)})\cr
+      \item{\code{conditions}}{(\code{logical(1)})\cr
 Adds condition messages (\code{"warnings"}, \code{"errors"}) as extra
 list columns of character vectors to the returned table}
-
-\item{\code{predictions}}{(\code{logical(1)})\cr
+      \item{\code{predictions}}{(\code{logical(1)})\cr
 Additionally return prediction objects, one column for each \code{predict_set} of the learner.
 Columns are named \code{"prediction_train"}, \code{"prediction_test"} and \code{"prediction_internal_valid"},
 if present.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{\link[data.table:data.table]{data.table::data.table()}}.
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{rr$score(msr("classif.acc"))
 }
-\if{html}{\out{</div>}}
+    \if{html}{\out{</div>}}
+  }
 }
-\subsection{Returns}{
-\code{\link[data.table:data.table]{data.table::data.table()}}.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{rr$score(msr("classif.acc"))
-}
-\if{html}{\out{</div>}}
 
-}
-
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-obs_loss"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-obs_loss}{}}}
-\subsection{Method \code{obs_loss()}}{
-Calculates the observation-wise loss via the \link{Measure}'s \code{obs_loss} method.
+\subsection{\code{ResampleResult$obs_loss()}}{
+  Calculates the observation-wise loss via the \link{Measure}'s \code{obs_loss} method.
 Returns a \code{data.table()} with an \code{iteration} column plus one numeric column for each measure,
 named with the respective measure id.
 If there is no observation-wise loss function for the measure, the column is filled with \code{NA_real_} values.
 Note that some measures such as RMSE, do have an \verb{$obs_loss},
 but they require an additional transformation after aggregation,
 in this example taking the square-root.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$obs_loss(measures = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$obs_loss(measures = NULL, predict_sets = "test")}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
-
-\item{\code{predict_sets}}{(\code{character()})\cr
+      \item{\code{predict_sets}}{(\code{character()})\cr
 The predict sets.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{rr$obs_loss(msr("classif.acc"))
 }
-\if{html}{\out{</div>}}
+    \if{html}{\out{</div>}}
+  }
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{rr$obs_loss(msr("classif.acc"))
-}
-\if{html}{\out{</div>}}
 
-}
-
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-aggregate"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-aggregate}{}}}
-\subsection{Method \code{aggregate()}}{
-Calculates and aggregates performance values for all provided measures, according to the
+\subsection{\code{ResampleResult$aggregate()}}{
+  Calculates and aggregates performance values for all provided measures, according to the
 respective aggregation function in \link{Measure}.
 If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$aggregate(measures = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$aggregate(measures = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Named \code{numeric()}.
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{rr$aggregate(msr("classif.acc"))
 }
-\if{html}{\out{</div>}}
+    \if{html}{\out{</div>}}
+  }
 }
-\subsection{Returns}{
-Named \code{numeric()}.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{rr$aggregate(msr("classif.acc"))
-}
-\if{html}{\out{</div>}}
 
-}
-
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-filter"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-filter}{}}}
-\subsection{Method \code{filter()}}{
-Subsets the \link{ResampleResult}, reducing it to only keep the iterations specified in \code{iters}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$filter(iters)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{iters}}{(\code{integer()})\cr
+\subsection{\code{ResampleResult$filter()}}{
+  Subsets the \link{ResampleResult}, reducing it to only keep the iterations specified in \code{iters}.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$filter(iters)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{iters}}{(\code{integer()})\cr
 Resampling iterations to keep.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Returns the object itself, but modified \strong{by reference}.
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{rr$filter(1L)
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{rr$filter(1L)
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
 
-}
-
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-discard"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-discard}{}}}
-\subsection{Method \code{discard()}}{
-Shrinks the \link{ResampleResult} by discarding parts of the internally stored data.
+\subsection{\code{ResampleResult$discard()}}{
+  Shrinks the \link{ResampleResult} by discarding parts of the internally stored data.
 Note that certain operations might stop work, e.g. extracting
 importance values from learners or calculating measures requiring the task's data.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$discard(backends = FALSE, models = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{backends}}{(\code{logical(1)})\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$discard(backends = FALSE, models = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{backends}}{(\code{logical(1)})\cr
 If \code{TRUE}, the \link{DataBackend} is removed from all stored \link{Task}s.}
-
-\item{\code{models}}{(\code{logical(1)})\cr
+      \item{\code{models}}{(\code{logical(1)})\cr
 If \code{TRUE}, the stored model is removed from all \link{Learner}s.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Returns the object itself, but modified \strong{by reference}.
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-marshal"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-marshal}{}}}
-\subsection{Method \code{marshal()}}{
-Marshals all stored models.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$marshal(...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(any)\cr
+\subsection{\code{ResampleResult$marshal()}}{
+  Marshals all stored models.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$marshal(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(any)\cr
 Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{rr$marshal()
 }
-\if{html}{\out{</div>}}
+    \if{html}{\out{</div>}}
+  }
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{rr$marshal()
-}
-\if{html}{\out{</div>}}
 
-}
-
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-unmarshal"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-unmarshal}{}}}
-\subsection{Method \code{unmarshal()}}{
-Unmarshals all stored models.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$unmarshal(...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(any)\cr
+\subsection{\code{ResampleResult$unmarshal()}}{
+  Unmarshals all stored models.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$unmarshal(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(any)\cr
 Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{rr$unmarshal()
 }
-\if{html}{\out{</div>}}
+    \if{html}{\out{</div>}}
+  }
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{rr$unmarshal()
-}
-\if{html}{\out{</div>}}
 
-}
-
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-set_threshold"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-set_threshold}{}}}
-\subsection{Method \code{set_threshold()}}{
-Sets the threshold for the response prediction of classification learners, given they have
+\subsection{\code{ResampleResult$set_threshold()}}{
+  Sets the threshold for the response prediction of classification learners, given they have
 output a probability prediction for a binary classification task.
 This modifies the object in-place.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$set_threshold(threshold, ties_method = "random")}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{threshold}}{(\code{numeric(1)})\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$set_threshold(threshold, ties_method = "random")}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{threshold}}{(\code{numeric(1)})\cr
 Threshold value.}
-
-\item{\code{ties_method}}{(\code{character(1)})\cr
+      \item{\code{ties_method}}{(\code{character(1)})\cr
 Method to handle ties in probabilities when selecting a class label.
 Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding to the same options in \code{\link[=max.col]{max.col()}}).
 \itemize{
@@ -565,35 +569,36 @@ Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding t
 \item \code{"first"}: Select the first class label among tied values.
 \item \code{"last"}: Select the last class label among tied values.
 }}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{learner = lrn("classif.rpart", predict_type = "prob")
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{learner = lrn("classif.rpart", predict_type = "prob")
 rr = resample(tsk("sonar"), learner, rsmp("cv", folds = 3))
 rr$set_threshold(0.6)
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{ResampleResult$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResampleResult$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }
