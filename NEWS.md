@@ -1,6 +1,5 @@
 # mlr3 (development version)
 
-* fix: `as_tasks_unsupervised()` now correctly converts lists to `TaskUnsupervised`s.
 * fix: `as_measures()` now forwards `task_type` when converting a list.
 * fix: `as_task_classif()` and `as_task_regr()` now respect the `drop_original_target` and `drop_levels` arguments when converting a task instead of ignoring them.
 * refactor: Removed unused `task_prototype` from the learner state.
