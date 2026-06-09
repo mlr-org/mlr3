@@ -9,7 +9,8 @@ Measure to compare true observed response with predicted response in regression 
 \details{
 Kendall's tau is defined as Kendall's rank correlation coefficient between truth and response.
 It is defined as \deqn{
-  \tau = \frac{(\mathrm{number of concordant pairs)} - (\mathrm{number of discordant pairs)}}{\mathrm{(number of pairs)}}
+  \tau = \frac{(\mathrm{number of concordant pairs)} -
+  (\mathrm{number of discordant pairs)}}{\mathrm{(number of pairs)}}
   }{
     t = (number of concordant pairs) - (number of discordant pairs) / (number of pairs)}
 Calls \code{\link[stats:cor]{stats::cor()}} with \code{method} set to \code{"kendall"}.
@@ -51,7 +52,7 @@ Empty ParamSet
 
 \code{as.data.table(mlr_measures)} for a complete table of all (also dynamically created) \link{Measure} implementations.
 
-Other regression measures: 
+Other regression measures:
 \code{\link{mlr_measures_regr.bias}},
 \code{\link{mlr_measures_regr.mae}},
 \code{\link{mlr_measures_regr.mape}},

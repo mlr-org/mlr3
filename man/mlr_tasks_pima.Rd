@@ -7,7 +7,7 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.
 }
 \description{
-A classification task for the \link[mlbench:PimaIndiansDiabetes]{mlbench::PimaIndiansDiabetes2} data set.
+A classification task for the \link[mlbench:PimaIndiansDiabetes2]{mlbench::PimaIndiansDiabetes2} data set.
 Positive class is set to \code{"pos"}.
 }
 \section{Dictionary}{
@@ -48,7 +48,7 @@ tsk("pima")
 }
 }
 
-Other Task: 
+Other Task:
 \code{\link{Task}},
 \code{\link{TaskClassif}},
 \code{\link{TaskRegr}},

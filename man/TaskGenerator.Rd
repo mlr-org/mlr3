@@ -19,7 +19,7 @@ e.g. \code{\link[=mlr_task_generators_xor]{xor}}.
 }
 }
 
-Other TaskGenerator: 
+Other TaskGenerator:
 \code{\link{mlr_task_generators}},
 \code{\link{mlr_task_generators_2dnormals}},
 \code{\link{mlr_task_generators_cassini}},
@@ -34,160 +34,165 @@ Other TaskGenerator:
 }
 \concept{TaskGenerator}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{id}}{(\code{character(1)})\cr
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{id}}{(\code{character(1)})\cr
 Identifier of the object.
 Used in tables, plot and text output.}
 
-\item{\code{label}}{(\code{character(1)})\cr
+    \item{\code{label}}{(\code{character(1)})\cr
 Label for this object.
 Can be used in tables, plot and text output instead of the ID.}
 
-\item{\code{task_type}}{(\code{character(1)})\cr
+    \item{\code{task_type}}{(\code{character(1)})\cr
 Task type, e.g. \code{"classif"} or \code{"regr"}.
 
 For a complete list of possible task types (depending on the loaded packages),
 see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 
-\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+    \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
-\item{\code{packages}}{(\code{character(1)})\cr
+    \item{\code{packages}}{(\code{character(1)})\cr
 Set of required packages.
 These packages are loaded, but not attached.}
 
-\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
+    \item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-TaskGenerator-new}{\code{TaskGenerator$new()}}
-\item \href{#method-TaskGenerator-format}{\code{TaskGenerator$format()}}
-\item \href{#method-TaskGenerator-print}{\code{TaskGenerator$print()}}
-\item \href{#method-TaskGenerator-generate}{\code{TaskGenerator$generate()}}
-\item \href{#method-TaskGenerator-clone}{\code{TaskGenerator$clone()}}
-}
+  \itemize{
+    \item \href{#method-TaskGenerator-initialize}{\code{TaskGenerator$new()}}
+    \item \href{#method-TaskGenerator-format}{\code{TaskGenerator$format()}}
+    \item \href{#method-TaskGenerator-print}{\code{TaskGenerator$print()}}
+    \item \href{#method-TaskGenerator-generate}{\code{TaskGenerator$generate()}}
+    \item \href{#method-TaskGenerator-clone}{\code{TaskGenerator$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TaskGenerator-new"></a>}}
-\if{latex}{\out{\hypertarget{method-TaskGenerator-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGenerator$new(
+\if{html}{\out{<a id="method-TaskGenerator-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGenerator-initialize}{}}}
+\subsection{\code{TaskGenerator$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskGenerator$new(
   id,
   task_type,
   packages = character(),
   param_set = ps(),
   label = NA_character_,
   man = NA_character_
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{id}}{(\code{character(1)})\cr
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{id}}{(\code{character(1)})\cr
 Identifier for the new instance.}
-
-\item{\code{task_type}}{(\code{character(1)})\cr
+      \item{\code{task_type}}{(\code{character(1)})\cr
 Type of task, e.g. \code{"regr"} or \code{"classif"}.
 Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.}
-
-\item{\code{packages}}{(\code{character()})\cr
+      \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.
 A warning is signaled by the constructor if at least one of the packages is not installed,
 but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
-
-\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+      \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
-
-\item{\code{label}}{(\code{character(1)})\cr
+      \item{\code{label}}{(\code{character(1)})\cr
 Label for the new instance.}
-
-\item{\code{man}}{(\code{character(1)})\cr
+      \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskGenerator-format"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskGenerator-format}{}}}
-\subsection{Method \code{format()}}{
-Helper for print outputs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGenerator$format(...)}\if{html}{\out{</div>}}
+\subsection{\code{TaskGenerator$format()}}{
+  Helper for print outputs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskGenerator$format(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(ignored).}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(ignored).}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskGenerator-print"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskGenerator-print}{}}}
-\subsection{Method \code{print()}}{
-Printer.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGenerator$print(...)}\if{html}{\out{</div>}}
+\subsection{\code{TaskGenerator$print()}}{
+  Printer.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskGenerator$print(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(ignored).}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(ignored).}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskGenerator-generate"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskGenerator-generate}{}}}
-\subsection{Method \code{generate()}}{
-Creates a task of type \code{task_type} with \code{n} observations,
+\subsection{\code{TaskGenerator$generate()}}{
+  Creates a task of type \code{task_type} with \code{n} observations,
 possibly using additional settings stored in \code{param_set}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGenerator$generate(n)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskGenerator$generate(n)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{n}}{(\code{integer(1)})\cr
+Number of rows to generate.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \link{Task}.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{n}}{(\code{integer(1)})\cr
-Number of rows to generate.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\link{Task}.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskGenerator-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskGenerator-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGenerator$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{TaskGenerator$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskGenerator$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

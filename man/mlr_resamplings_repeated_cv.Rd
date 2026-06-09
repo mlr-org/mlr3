@@ -71,7 +71,7 @@ Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
 tasks.
 }
 
-Other Resampling: 
+Other Resampling:
 \code{\link{Resampling}},
 \code{\link{mlr_resamplings}},
 \code{\link{mlr_resamplings_bootstrap}},
@@ -85,104 +85,110 @@ Other Resampling:
 }
 \concept{Resampling}
 \section{Super class}{
-\code{\link[mlr3:Resampling]{mlr3::Resampling}} -> \code{ResamplingRepeatedCV}
+\code{\link[mlr3:Resampling]{Resampling}} -> \code{ResamplingRepeatedCV}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{iters}}{(\code{integer(1)})\cr
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{iters}}{(\code{integer(1)})\cr
 Returns the number of resampling iterations, depending on the values stored in the \code{param_set}.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-ResamplingRepeatedCV-new}{\code{ResamplingRepeatedCV$new()}}
-\item \href{#method-ResamplingRepeatedCV-folds}{\code{ResamplingRepeatedCV$folds()}}
-\item \href{#method-ResamplingRepeatedCV-repeats}{\code{ResamplingRepeatedCV$repeats()}}
-\item \href{#method-ResamplingRepeatedCV-clone}{\code{ResamplingRepeatedCV$clone()}}
+  \itemize{
+    \item \href{#method-ResamplingRepeatedCV-initialize}{\code{ResamplingRepeatedCV$new()}}
+    \item \href{#method-ResamplingRepeatedCV-folds}{\code{ResamplingRepeatedCV$folds()}}
+    \item \href{#method-ResamplingRepeatedCV-repeats}{\code{ResamplingRepeatedCV$repeats()}}
+    \item \href{#method-ResamplingRepeatedCV-clone}{\code{ResamplingRepeatedCV$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details><summary>Inherited methods</summary>
+\if{html}{\out{<details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href='../../mlr3/html/Resampling.html#method-Resampling-format'><code>mlr3::Resampling$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href='../../mlr3/html/Resampling.html#method-Resampling-help'><code>mlr3::Resampling$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="instantiate"><a href='../../mlr3/html/Resampling.html#method-Resampling-instantiate'><code>mlr3::Resampling$instantiate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href='../../mlr3/html/Resampling.html#method-Resampling-print'><code>mlr3::Resampling$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-test_set'><code>mlr3::Resampling$test_set()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-train_set'><code>mlr3::Resampling$train_set()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href='../../mlr3/html/Resampling.html#method-Resampling-format'><code>Resampling$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href='../../mlr3/html/Resampling.html#method-Resampling-help'><code>Resampling$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="instantiate"><a href='../../mlr3/html/Resampling.html#method-Resampling-instantiate'><code>Resampling$instantiate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href='../../mlr3/html/Resampling.html#method-Resampling-print'><code>Resampling$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-test_set'><code>Resampling$test_set()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-train_set'><code>Resampling$train_set()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResamplingRepeatedCV-new"></a>}}
-\if{latex}{\out{\hypertarget{method-ResamplingRepeatedCV-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingRepeatedCV$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-ResamplingRepeatedCV-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-ResamplingRepeatedCV-initialize}{}}}
+\subsection{\code{ResamplingRepeatedCV$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResamplingRepeatedCV$new()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResamplingRepeatedCV-folds"></a>}}
 \if{latex}{\out{\hypertarget{method-ResamplingRepeatedCV-folds}{}}}
-\subsection{Method \code{folds()}}{
-Translates iteration numbers to fold numbers.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingRepeatedCV$folds(iters)}\if{html}{\out{</div>}}
+\subsection{\code{ResamplingRepeatedCV$folds()}}{
+  Translates iteration numbers to fold numbers.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResamplingRepeatedCV$folds(iters)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{iters}}{(\code{integer()})\cr
+Iteration number.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{integer()} of fold numbers.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{iters}}{(\code{integer()})\cr
-Iteration number.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{integer()} of fold numbers.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResamplingRepeatedCV-repeats"></a>}}
 \if{latex}{\out{\hypertarget{method-ResamplingRepeatedCV-repeats}{}}}
-\subsection{Method \code{repeats()}}{
-Translates iteration numbers to repetition numbers.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingRepeatedCV$repeats(iters)}\if{html}{\out{</div>}}
+\subsection{\code{ResamplingRepeatedCV$repeats()}}{
+  Translates iteration numbers to repetition numbers.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResamplingRepeatedCV$repeats(iters)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{iters}}{(\code{integer()})\cr
+Iteration number.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{integer()} of repetition numbers.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{iters}}{(\code{integer()})\cr
-Iteration number.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{integer()} of repetition numbers.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResamplingRepeatedCV-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-ResamplingRepeatedCV-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingRepeatedCV$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{ResamplingRepeatedCV$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResamplingRepeatedCV$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

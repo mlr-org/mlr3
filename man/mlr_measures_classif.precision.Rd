@@ -19,7 +19,7 @@ Also know as "precision".
 This measure is undefined if TP + FP = 0.
 }
 \note{
-The score function calls \code{\link[mlr3measures:ppv]{mlr3measures::precision()}} from package \CRANpkg{mlr3measures}.
+The score function calls \code{\link[mlr3measures:precision]{mlr3measures::precision()}} from package \CRANpkg{mlr3measures}.
 
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.
@@ -55,7 +55,7 @@ Empty ParamSet
 
 \code{as.data.table(mlr_measures)} for a complete table of all (also dynamically created) \link{Measure} implementations.
 
-Other classification measures: 
+Other classification measures:
 \code{\link{mlr_measures_classif.acc}},
 \code{\link{mlr_measures_classif.auc}},
 \code{\link{mlr_measures_classif.bacc}},
@@ -89,7 +89,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.tp}},
 \code{\link{mlr_measures_classif.tpr}}
 
-Other binary classification measures: 
+Other binary classification measures:
 \code{\link{mlr_measures_classif.auc}},
 \code{\link{mlr_measures_classif.bbrier}},
 \code{\link{mlr_measures_classif.dor}},

@@ -27,7 +27,7 @@ The default measure for regression is \code{\link[=mlr_measures_regr.mse]{regr.m
 }
 }
 
-Other Measure: 
+Other Measure:
 \code{\link{Measure}},
 \code{\link{MeasureClassif}},
 \code{\link{MeasureSimilarity}},
@@ -46,34 +46,33 @@ Other Measure:
 }
 \concept{Measure}
 \section{Super class}{
-\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{MeasureRegr}
+\code{\link[mlr3:Measure]{Measure}} -> \code{MeasureRegr}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-MeasureRegr-new}{\code{MeasureRegr$new()}}
-\item \href{#method-MeasureRegr-clone}{\code{MeasureRegr$clone()}}
+  \itemize{
+    \item \href{#method-MeasureRegr-initialize}{\code{MeasureRegr$new()}}
+    \item \href{#method-MeasureRegr-clone}{\code{MeasureRegr$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details><summary>Inherited methods</summary>
+\if{html}{\out{<details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="obs_loss"><a href='../../mlr3/html/Measure.html#method-Measure-obs_loss'><code>mlr3::Measure$obs_loss()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>Measure$aggregate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>Measure$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>Measure$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="obs_loss"><a href='../../mlr3/html/Measure.html#method-Measure-obs_loss'><code>Measure$obs_loss()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>Measure$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>Measure$score()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MeasureRegr-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MeasureRegr-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureRegr$new(
+\if{html}{\out{<a id="method-MeasureRegr-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureRegr-initialize}{}}}
+\subsection{\code{MeasureRegr$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MeasureRegr$new(
   id,
   param_set = ps(),
   range,
@@ -87,28 +86,24 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   packages = character(),
   label = NA_character_,
   man = NA_character_
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{id}}{(\code{character(1)})\cr
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{id}}{(\code{character(1)})\cr
 Identifier for the new instance.}
-
-\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+      \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
-
-\item{\code{range}}{(\code{numeric(2)})\cr
+      \item{\code{range}}{(\code{numeric(2)})\cr
 Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
 Both bounds may be infinite.}
-
-\item{\code{minimize}}{(\code{logical(1)})\cr
+      \item{\code{minimize}}{(\code{logical(1)})\cr
 Set to \code{TRUE} if good predictions correspond to small values,
 and to \code{FALSE} if good predictions correspond to large values.
 If set to \code{NA} (default), tuning this measure is not possible.}
-
-\item{\code{average}}{(\code{character(1)})\cr
+      \item{\code{average}}{(\code{character(1)})\cr
 How to average multiple \link{Prediction}s from a \link{ResampleResult}.
 
 The default, \code{"macro"}, calculates the individual performances scores for each \link{Prediction} and then uses the
@@ -122,8 +117,7 @@ numbers of samples.
 
 If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
 The function in \verb{$aggregator} is not used in this case.}
-
-\item{\code{aggregator}}{(\verb{function()} | \code{NULL})\cr
+      \item{\code{aggregator}}{(\verb{function()} | \code{NULL})\cr
 Function to aggregate over multiple iterations. The role of this function depends on
 the value of field \code{"average"}:
 \itemize{
@@ -134,8 +128,7 @@ Instead, predictions from multiple iterations are first combined and then
 scored in one go.
 \item \code{"custom"}: A \link{ResampleResult} is passed to the aggregate function.
 }}
-
-\item{\code{properties}}{(\code{character()})\cr
+      \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.
 Must be a subset of \link[=mlr_reflections]{mlr_reflections$measure_properties}.
 Supported by \code{mlr3}:
@@ -151,51 +144,48 @@ that only use a subset of their iterations for the point estimate)
 \item \code{"requires_no_prediction"} (No prediction is required;
 This usually means that the measure extracts some information from the learner state.).
 }}
-
-\item{\code{predict_type}}{(\code{character(1)})\cr
+      \item{\code{predict_type}}{(\code{character(1)})\cr
 Required predict type of the \link{Learner}.
 Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.}
-
-\item{\code{predict_sets}}{(\code{character()})\cr
+      \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
 Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
-
-\item{\code{task_properties}}{(\code{character()})\cr
+      \item{\code{task_properties}}{(\code{character()})\cr
 Required task properties, see \link{Task}.}
-
-\item{\code{packages}}{(\code{character()})\cr
+      \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.
 A warning is signaled by the constructor if at least one of the packages is not installed,
 but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
-
-\item{\code{label}}{(\code{character(1)})\cr
+      \item{\code{label}}{(\code{character(1)})\cr
 Label for the new instance.}
-
-\item{\code{man}}{(\code{character(1)})\cr
+      \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MeasureRegr-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MeasureRegr-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureRegr$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{MeasureRegr$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MeasureRegr$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

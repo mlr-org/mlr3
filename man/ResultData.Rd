@@ -19,565 +19,570 @@ print(ResultData$new()$data)
 }
 \keyword{internal}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{data}}{(\code{list()})\cr
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{data}}{(\code{list()})\cr
 List of \code{\link[data.table:data.table]{data.table::data.table()}}, arranged in a star schema.
 Do not operate directly on this list.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{task_type}}{(\code{character(1)})\cr
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{task_type}}{(\code{character(1)})\cr
 Returns the task type of stored objects, e.g. \code{"classif"} or \code{"regr"}.
 Returns \code{NULL} if the \link{ResultData} is empty.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-ResultData-new}{\code{ResultData$new()}}
-\item \href{#method-ResultData-uhashes}{\code{ResultData$uhashes()}}
-\item \href{#method-ResultData-uhash_table}{\code{ResultData$uhash_table()}}
-\item \href{#method-ResultData-iterations}{\code{ResultData$iterations()}}
-\item \href{#method-ResultData-tasks}{\code{ResultData$tasks()}}
-\item \href{#method-ResultData-learners}{\code{ResultData$learners()}}
-\item \href{#method-ResultData-learner_states}{\code{ResultData$learner_states()}}
-\item \href{#method-ResultData-resamplings}{\code{ResultData$resamplings()}}
-\item \href{#method-ResultData-predictions}{\code{ResultData$predictions()}}
-\item \href{#method-ResultData-prediction}{\code{ResultData$prediction()}}
-\item \href{#method-ResultData-data_extra}{\code{ResultData$data_extra()}}
-\item \href{#method-ResultData-combine}{\code{ResultData$combine()}}
-\item \href{#method-ResultData-sweep}{\code{ResultData$sweep()}}
-\item \href{#method-ResultData-marshal}{\code{ResultData$marshal()}}
-\item \href{#method-ResultData-unmarshal}{\code{ResultData$unmarshal()}}
-\item \href{#method-ResultData-discard}{\code{ResultData$discard()}}
-\item \href{#method-ResultData-as_data_table}{\code{ResultData$as_data_table()}}
-\item \href{#method-ResultData-logs}{\code{ResultData$logs()}}
-\item \href{#method-ResultData-set_threshold}{\code{ResultData$set_threshold()}}
-\item \href{#method-ResultData-clone}{\code{ResultData$clone()}}
-}
+  \itemize{
+    \item \href{#method-ResultData-initialize}{\code{ResultData$new()}}
+    \item \href{#method-ResultData-uhashes}{\code{ResultData$uhashes()}}
+    \item \href{#method-ResultData-uhash_table}{\code{ResultData$uhash_table()}}
+    \item \href{#method-ResultData-iterations}{\code{ResultData$iterations()}}
+    \item \href{#method-ResultData-tasks}{\code{ResultData$tasks()}}
+    \item \href{#method-ResultData-learners}{\code{ResultData$learners()}}
+    \item \href{#method-ResultData-learner_states}{\code{ResultData$learner_states()}}
+    \item \href{#method-ResultData-resamplings}{\code{ResultData$resamplings()}}
+    \item \href{#method-ResultData-predictions}{\code{ResultData$predictions()}}
+    \item \href{#method-ResultData-prediction}{\code{ResultData$prediction()}}
+    \item \href{#method-ResultData-data_extra}{\code{ResultData$data_extra()}}
+    \item \href{#method-ResultData-combine}{\code{ResultData$combine()}}
+    \item \href{#method-ResultData-sweep}{\code{ResultData$sweep()}}
+    \item \href{#method-ResultData-marshal}{\code{ResultData$marshal()}}
+    \item \href{#method-ResultData-unmarshal}{\code{ResultData$unmarshal()}}
+    \item \href{#method-ResultData-discard}{\code{ResultData$discard()}}
+    \item \href{#method-ResultData-as_data_table}{\code{ResultData$as_data_table()}}
+    \item \href{#method-ResultData-logs}{\code{ResultData$logs()}}
+    \item \href{#method-ResultData-set_threshold}{\code{ResultData$set_threshold()}}
+    \item \href{#method-ResultData-clone}{\code{ResultData$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResultData-new"></a>}}
-\if{latex}{\out{\hypertarget{method-ResultData-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
+\if{html}{\out{<a id="method-ResultData-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-initialize}{}}}
+\subsection{\code{ResultData$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
 An alternative construction method is provided by \code{\link[=as_result_data]{as_result_data()}}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$new(data = NULL, data_extra = NULL, store_backends = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}}) | \code{NULL})\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$new(data = NULL, data_extra = NULL, store_backends = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}}) | \code{NULL})\cr
 Do not initialize this object yourself, use \code{\link[=as_result_data]{as_result_data()}} instead.}
-
-\item{\code{data_extra}}{(\code{list()})\cr
+      \item{\code{data_extra}}{(\code{list()})\cr
 Additional data to store.
 This can be used to store additional information for each iteration.}
-
-\item{\code{store_backends}}{(\code{logical(1)})\cr
+      \item{\code{store_backends}}{(\code{logical(1)})\cr
 If set to \code{FALSE}, the backends of the \link{Task}s provided in \code{data} are removed.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-uhashes"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-uhashes}{}}}
-\subsection{Method \code{uhashes()}}{
-Returns all unique hashes (\code{uhash} values) of all included \link{ResampleResult}s.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$uhashes(view = NULL)}\if{html}{\out{</div>}}
+\subsection{\code{ResultData$uhashes()}}{
+  Returns all unique hashes (\code{uhash} values) of all included \link{ResampleResult}s.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$uhashes(view = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{character()}.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
-Single \code{uhash} to restrict the results to.}
-
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
-Single \code{uhash} to restrict the results to.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{character()}.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-uhash_table"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-uhash_table}{}}}
-\subsection{Method \code{uhash_table()}}{
-Returns a \code{\link{data.table}} with columns \code{uhash}, \code{learner_id}, \code{task_id} and \code{resampling_id}
+\subsection{\code{ResultData$uhash_table()}}{
+  Returns a \code{\link{data.table}} with columns \code{uhash}, \code{learner_id}, \code{task_id} and \code{resampling_id}
 for the given view.
 The \code{uhash} uniquely identifies an individual \code{\link{ResampleResult}}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$uhash_table(view = NULL)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$uhash_table(view = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{data.table()}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
-Single \code{uhash} to restrict the results to.}
-
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
-Single \code{uhash} to restrict the results to.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{data.table()}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-iterations"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-iterations}{}}}
-\subsection{Method \code{iterations()}}{
-Returns the number of recorded iterations / experiments.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$iterations(view = NULL)}\if{html}{\out{</div>}}
+\subsection{\code{ResultData$iterations()}}{
+  Returns the number of recorded iterations / experiments.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$iterations(view = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{integer(1)}.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
-Single \code{uhash} to restrict the results to.}
-
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
-Single \code{uhash} to restrict the results to.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{integer(1)}.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-tasks"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-tasks}{}}}
-\subsection{Method \code{tasks()}}{
-Returns a table of included \link{Task}s.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$tasks(view = NULL)}\if{html}{\out{</div>}}
+\subsection{\code{ResultData$tasks()}}{
+  Returns a table of included \link{Task}s.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$tasks(view = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{data.table()} with columns \code{"task_hash"} (\code{character()}) and \code{"task"} (\link{Task}).
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
-Single \code{uhash} to restrict the results to.}
-
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
-Single \code{uhash} to restrict the results to.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{data.table()} with columns \code{"task_hash"} (\code{character()}) and \code{"task"} (\link{Task}).
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-learners"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-learners}{}}}
-\subsection{Method \code{learners()}}{
-Returns a table of included \link{Learner}s.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$learners(view = NULL, states = TRUE, reassemble = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+\subsection{\code{ResultData$learners()}}{
+  Returns a table of included \link{Learner}s.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$learners(view = NULL, states = TRUE, reassemble = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
-
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
-
-\item{\code{states}}{(\code{logical(1)})\cr
+      \item{\code{states}}{(\code{logical(1)})\cr
 If \code{TRUE}, returns a learner for each iteration/experiment in the \link{ResultData} object.
 If \code{FALSE}, returns an exemplary learner (without state) for each \link{ResampleResult}.}
-
-\item{\code{reassemble}}{(\code{logical(1)})\cr
+      \item{\code{reassemble}}{(\code{logical(1)})\cr
 Reassemble the learners, i.e. re-set the \code{state} and the hyperparameters which are stored separately before
 returning the learners.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{data.table()} with columns \code{"learner_hash"} (\code{character()}) and \code{"learner"} (\link{Learner}).
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{data.table()} with columns \code{"learner_hash"} (\code{character()}) and \code{"learner"} (\link{Learner}).
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-learner_states"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-learner_states}{}}}
-\subsection{Method \code{learner_states()}}{
-Returns a list of states of included \link{Learner}s without reassembling the learners.
+\subsection{\code{ResultData$learner_states()}}{
+  Returns a list of states of included \link{Learner}s without reassembling the learners.
 
 @return list of \code{list()}
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$learner_states(view = NULL)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$learner_states(view = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
-Single \code{uhash} to restrict the results to.}
-
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
-Single \code{uhash} to restrict the results to.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-resamplings"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-resamplings}{}}}
-\subsection{Method \code{resamplings()}}{
-Returns a table of included \link{Resampling}s.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$resamplings(view = NULL)}\if{html}{\out{</div>}}
+\subsection{\code{ResultData$resamplings()}}{
+  Returns a table of included \link{Resampling}s.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$resamplings(view = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{data.table()} with columns \code{"resampling_hash"} (\code{character()}) and \code{"resampling"} (\link{Resampling}).
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
-Single \code{uhash} to restrict the results to.}
-
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
-Single \code{uhash} to restrict the results to.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{data.table()} with columns \code{"resampling_hash"} (\code{character()}) and \code{"resampling"} (\link{Resampling}).
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-predictions"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-predictions}{}}}
-\subsection{Method \code{predictions()}}{
-Returns a list of \link{Prediction} objects.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$predictions(view = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+\subsection{\code{ResultData$predictions()}}{
+  Returns a list of \link{Prediction} objects.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$predictions(view = NULL, predict_sets = "test")}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
-
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
-
-\item{\code{predict_sets}}{(\code{character()})\cr
+      \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
 Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
-
-\item{\code{predict_sets}}{(\code{character()})\cr
+      \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
 Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
-
-\item{\code{predict_sets}}{(\code{character()})\cr
+      \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
 Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{list()} of \link{Prediction}.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{list()} of \link{Prediction}.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-prediction"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-prediction}{}}}
-\subsection{Method \code{prediction()}}{
-Returns a combined \link{Prediction} objects.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$prediction(view = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+\subsection{\code{ResultData$prediction()}}{
+  Returns a combined \link{Prediction} objects.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$prediction(view = NULL, predict_sets = "test")}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
-
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
-
-\item{\code{predict_sets}}{(\code{character()})\cr
+      \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
 Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
-
-\item{\code{predict_sets}}{(\code{character()})\cr
+      \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
 Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
-
-\item{\code{predict_sets}}{(\code{character()})\cr
+      \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
 Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \link{Prediction}.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\link{Prediction}.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-data_extra"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-data_extra}{}}}
-\subsection{Method \code{data_extra()}}{
-Returns additional data stored.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$data_extra(view = NULL)}\if{html}{\out{</div>}}
+\subsection{\code{ResultData$data_extra()}}{
+  Returns additional data stored.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$data_extra(view = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{\link[data.table:data.table]{data.table::data.table()}}.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
-Single \code{uhash} to restrict the results to.}
-
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
-Single \code{uhash} to restrict the results to.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{\link[data.table:data.table]{data.table::data.table()}}.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-combine"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-combine}{}}}
-\subsection{Method \code{combine()}}{
-Combines multiple \link{ResultData} objects, modifying \code{self} in-place.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$combine(rdata)}\if{html}{\out{</div>}}
+\subsection{\code{ResultData$combine()}}{
+  Combines multiple \link{ResultData} objects, modifying \code{self} in-place.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$combine(rdata)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{rdata}}{(\link{ResultData}).}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{self} (invisibly).
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{rdata}}{(\link{ResultData}).}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{self} (invisibly).
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-sweep"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-sweep}{}}}
-\subsection{Method \code{sweep()}}{
-Updates the \link{ResultData} object, removing rows from all tables which are not referenced
+\subsection{\code{ResultData$sweep()}}{
+  Updates the \link{ResultData} object, removing rows from all tables which are not referenced
 by the fact table anymore.
 E.g., can be called after filtering/subsetting the fact table.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$sweep()}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$sweep()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Modified \code{self} (invisibly).
+  }
 }
 
-\subsection{Returns}{
-Modified \code{self} (invisibly).
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-marshal"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-marshal}{}}}
-\subsection{Method \code{marshal()}}{
-Marshals all stored learner models.
+\subsection{\code{ResultData$marshal()}}{
+  Marshals all stored learner models.
 This will do nothing to models that are already marshaled.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$marshal(...)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$marshal(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(any)\cr
-Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-unmarshal"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-unmarshal}{}}}
-\subsection{Method \code{unmarshal()}}{
-Unmarshals all stored learner models.
+\subsection{\code{ResultData$unmarshal()}}{
+  Unmarshals all stored learner models.
 This will do nothing to models which are not marshaled.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$unmarshal(...)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$unmarshal(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(any)\cr
-Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-discard"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-discard}{}}}
-\subsection{Method \code{discard()}}{
-Shrinks the object by discarding parts of the stored data.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$discard(backends = FALSE, models = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{backends}}{(\code{logical(1)})\cr
+\subsection{\code{ResultData$discard()}}{
+  Shrinks the object by discarding parts of the stored data.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$discard(backends = FALSE, models = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{backends}}{(\code{logical(1)})\cr
 If \code{TRUE}, the \link{DataBackend} is removed from all stored \link{Task}s.}
-
-\item{\code{models}}{(\code{logical(1)})\cr
+      \item{\code{models}}{(\code{logical(1)})\cr
 If \code{TRUE}, the stored model is removed from all \link{Learner}s.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Modified \code{self} (invisibly).
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Modified \code{self} (invisibly).
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-as_data_table"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-as_data_table}{}}}
-\subsection{Method \code{as_data_table()}}{
-Combines internal tables into a single flat \code{\link[=data.table]{data.table()}}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$as_data_table(
+\subsection{\code{ResultData$as_data_table()}}{
+  Combines internal tables into a single flat \code{\link[=data.table]{data.table()}}.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$as_data_table(
   view = NULL,
   reassemble_learners = TRUE,
   convert_predictions = TRUE,
   predict_sets = "test"
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
-
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
-
-\item{\code{reassemble_learners}}{(\code{logical(1)})\cr
+      \item{\code{reassemble_learners}}{(\code{logical(1)})\cr
 Reassemble the tasks?}
-
-\item{\code{convert_predictions}}{(\code{logical(1)})\cr
+      \item{\code{convert_predictions}}{(\code{logical(1)})\cr
 Convert \link{PredictionData} to \link{Prediction}?}
-
-\item{\code{predict_sets}}{(\code{character()})\cr
+      \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
 Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
-
-\item{\code{predict_sets}}{(\code{character()})\cr
+      \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
 Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
-
-\item{\code{predict_sets}}{(\code{character()})\cr
+      \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
 Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-logs"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-logs}{}}}
-\subsection{Method \code{logs()}}{
-Get a table of recorded learner logs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$logs(view = NULL, condition)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+\subsection{\code{ResultData$logs()}}{
+  Get a table of recorded learner logs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$logs(view = NULL, condition)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
-
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
-
-\item{\code{condition}}{(\code{character(1)})
+      \item{\code{condition}}{(\code{character(1)})
 The condition to extract. One of \code{"message"}, \code{"warning"} or \code{"error"}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{\link[data.table:data.table]{data.table::data.table()}}.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{\link[data.table:data.table]{data.table::data.table()}}.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-set_threshold"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-set_threshold}{}}}
-\subsection{Method \code{set_threshold()}}{
-Sets the threshold for the response prediction of classification learners,
+\subsection{\code{ResultData$set_threshold()}}{
+  Sets the threshold for the response prediction of classification learners,
 given they have output a probability prediction.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$set_threshold(view = NULL, threshold, ties_method = "random")}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$set_threshold(view = NULL, threshold, ties_method = "random")}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
-
-\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
-
-\item{\code{threshold}}{(\code{numeric(1)})\cr
+      \item{\code{threshold}}{(\code{numeric(1)})\cr
 Threshold value.}
-
-\item{\code{ties_method}}{(\code{character(1)})\cr
+      \item{\code{ties_method}}{(\code{character(1)})\cr
 Method to handle ties in probabilities when selecting a class label.
 Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding to the same options in \code{\link[=max.col]{max.col()}}).
 \itemize{
@@ -585,25 +590,28 @@ Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding t
 \item \code{"first"}: Select the first class label among tied values.
 \item \code{"last"}: Select the last class label among tied values.
 }}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{ResultData$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResultData$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }
