@@ -50,14 +50,11 @@
 #'   predict type `"prob"` for a [LearnerClassif] provides the probabilities as well as the
 #'   predicted labels, therefore `"prob"` maps to `c("response", "prob")`.
 #'
-#' * `learner_predict_types` (list of list of `character()`)\cr
-#'   List of lists of supported [Learner] predict_types, named by their task type.
-#'
 #' * `learner_param_tags` (`character()`)\cr
 #'   Character vector of allowed 'tags' for the [paradox::ParamSet]s of a [Learner].
 #'
 #' * `predict_sets` (`character()`)\cr
-#'   Vector of possible predict sets. Currently supported are `"train"`, `"test"` and `"holdout"`.
+#'   Vector of possible predict sets. Currently supported are `"train"`, `"test"` and `"internal_valid"`.
 #'
 #' * `measure_properties` (list of `character()`)\cr
 #'   List of vectors of supported [Measure] properties, named by their task type.

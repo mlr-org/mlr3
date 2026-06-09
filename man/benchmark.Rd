@@ -213,8 +213,8 @@ rr$resampling$train_set(2)
 \item \CRANpkg{mlr3benchmark} for post-hoc analysis of benchmark results.
 }
 
-Other benchmark: 
+Other benchmark:
 \code{\link{BenchmarkResult}},
-\code{\link{benchmark_grid}()}
+\code{\link[=benchmark_grid]{benchmark_grid()}}
 }
 \concept{benchmark}

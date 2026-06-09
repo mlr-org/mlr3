@@ -34,7 +34,7 @@ The measure was tested against the Python implementation by \href{https://github
 }
 }
 \note{
-The score function calls \code{\link[mlr3measures:mauc_aunu]{mlr3measures::mauc_mu()}} from package \CRANpkg{mlr3measures}.
+The score function calls \code{\link[mlr3measures:mauc_mu]{mlr3measures::mauc_mu()}} from package \CRANpkg{mlr3measures}.
 
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.
@@ -70,7 +70,7 @@ Empty ParamSet
 
 \code{as.data.table(mlr_measures)} for a complete table of all (also dynamically created) \link{Measure} implementations.
 
-Other classification measures: 
+Other classification measures:
 \code{\link{mlr_measures_classif.acc}},
 \code{\link{mlr_measures_classif.auc}},
 \code{\link{mlr_measures_classif.bacc}},
@@ -104,7 +104,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.tp}},
 \code{\link{mlr_measures_classif.tpr}}
 
-Other multiclass classification measures: 
+Other multiclass classification measures:
 \code{\link{mlr_measures_classif.acc}},
 \code{\link{mlr_measures_classif.bacc}},
 \code{\link{mlr_measures_classif.ce}},

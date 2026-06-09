@@ -51,7 +51,7 @@ Empty ParamSet
 
 \code{as.data.table(mlr_measures)} for a complete table of all (also dynamically created) \link{Measure} implementations.
 
-Other regression measures: 
+Other regression measures:
 \code{\link{mlr_measures_regr.bias}},
 \code{\link{mlr_measures_regr.ktau}},
 \code{\link{mlr_measures_regr.mape}},
