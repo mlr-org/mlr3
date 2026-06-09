@@ -3,6 +3,9 @@
 ## mlr3 (development version)
 
 - fix:
+  [`as_measures()`](https://mlr3.mlr-org.com/dev/reference/as_measure.md)
+  now forwards `task_type` when converting a list.
+- fix:
   [`as_task_classif()`](https://mlr3.mlr-org.com/dev/reference/as_task_classif.md)
   and
   [`as_task_regr()`](https://mlr3.mlr-org.com/dev/reference/as_task_regr.md)
