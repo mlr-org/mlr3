@@ -95,15 +95,15 @@ Other resample:
 
   ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   A table with all warning messages. Column names are `"iteration"` and
-  `"msg"`. Note that there can be multiple rows per resampling iteration
-  if multiple warnings have been recorded.
+  `"condition"`. Note that there can be multiple rows per resampling
+  iteration if multiple warnings have been recorded.
 
 - `errors`:
 
   ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   A table with all error messages. Column names are `"iteration"` and
-  `"msg"`. Note that there can be multiple rows per resampling iteration
-  if multiple errors have been recorded.
+  `"condition"`. Note that there can be multiple rows per resampling
+  iteration if multiple errors have been recorded.
 
 ## Methods
 
@@ -792,9 +792,9 @@ rr$set_threshold(0.6)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: d690ea41-b3f1-4050-a048-0fd7788e6485         1 <learner_state[8]>  <list[1]>
-#> 2: d690ea41-b3f1-4050-a048-0fd7788e6485         2 <learner_state[8]>  <list[1]>
-#> 3: d690ea41-b3f1-4050-a048-0fd7788e6485         3 <learner_state[8]>  <list[1]>
+#> 1: fa2916e5-539e-4a63-94fe-59793e46413d         1 <learner_state[8]>  <list[1]>
+#> 2: fa2916e5-539e-4a63-94fe-59793e46413d         2 <learner_state[8]>  <list[1]>
+#> 3: fa2916e5-539e-4a63-94fe-59793e46413d         3 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
 #> 1: 2099aa995d4e20f7 f9791e97f9813150 5b2c800eb8611508 3aed56df550531a0

@@ -84,12 +84,6 @@ The following objects are set by
   provides the probabilities as well as the predicted labels, therefore
   `"prob"` maps to `c("response", "prob")`.
 
-- `learner_predict_types` (list of list of
-  [`character()`](https://rdrr.io/r/base/character.html))  
-  List of lists of supported
-  [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md)
-  predict_types, named by their task type.
-
 - `learner_param_tags`
   ([`character()`](https://rdrr.io/r/base/character.html))  
   Character vector of allowed 'tags' for the
@@ -99,7 +93,7 @@ The following objects are set by
 - `predict_sets`
   ([`character()`](https://rdrr.io/r/base/character.html))  
   Vector of possible predict sets. Currently supported are `"train"`,
-  `"test"` and `"holdout"`.
+  `"test"` and `"internal_valid"`.
 
 - `measure_properties` (list of
   [`character()`](https://rdrr.io/r/base/character.html))  
@@ -137,7 +131,7 @@ mlr_reflections
 
 ``` r
 ls.str(mlr_reflections)
-#> auto_converters : <environment: 0x5649b04f5318> 
+#> auto_converters : <environment: 0x5642be2d67d8> 
 #> default_measures : List of 3
 #>  $ classif     : chr "classif.ce"
 #>  $ regr        : chr "regr.mse"

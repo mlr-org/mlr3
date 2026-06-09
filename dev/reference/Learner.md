@@ -510,9 +510,8 @@ Other Learner:
   [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
   where you have other means to parallelize.
 
-  Note that the recorded time required for prediction reports the time
-  required to predict is not properly defined and depends on the
-  parallelization backend.
+  Note that the recorded time required for prediction is not properly
+  defined and depends on the parallelization backend.
 
 - `predict_raw`:
 
@@ -964,7 +963,7 @@ predict steps. There are currently four different methods implemented:
   `daemons(1, .compute = "mlr3_encapsulation")`, otherwise a new R
   session will be created for each encapsulated call. If a `daemon` is
   already running with compute profile `"mlr3_encapsulation"`, it will
-  be used to execute all calls. Using `mirai"` is similarly safe as
+  be used to execute all calls. Using `mirai` is similarly safe as
   `callr` but much faster if several learners are encapsulated one after
   the other on the same daemon.
 
@@ -995,7 +994,7 @@ Also see the section on error handling in the mlr3book:
 - `method`:
 
   `character(1)`  
-  One of `"none"`, `"try"`, `"evaluate"`, `"callr"`, or `"mirai"`. See
+  One of `"none"`, `"try"`, `"evaluate"`, `"callr"` or `"mirai"`. See
   the description for details.
 
 - `fallback`:

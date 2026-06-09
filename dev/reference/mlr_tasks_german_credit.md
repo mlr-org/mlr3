@@ -4,9 +4,9 @@ A classification task for the German credit data set. The aim is to
 predict creditworthiness, labeled as "good" and "bad". Positive class is
 set to label "good".
 
-See example for the creation of a
+See the example for the creation of a
 [MeasureClassifCosts](https://mlr3.mlr-org.com/dev/reference/mlr_measures_classif.costs.md)
-as described misclassification costs.
+with the described misclassification costs.
 
 ## Format
 

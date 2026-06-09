@@ -130,14 +130,14 @@ Additional data stored in the ResampleResult.</p></dd>
     <dt><code>warnings</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 A table with all warning messages.
-Column names are <code>"iteration"</code> and <code>"msg"</code>.
+Column names are <code>"iteration"</code> and <code>"condition"</code>.
 Note that there can be multiple rows per resampling iteration if multiple warnings have been recorded.</p></dd>
 
 
     <dt><code>errors</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 A table with all error messages.
-Column names are <code>"iteration"</code> and <code>"msg"</code>.
+Column names are <code>"iteration"</code> and <code>"condition"</code>.
 Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.</p></dd>
 
 
@@ -741,9 +741,9 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration      learner_state prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;             &lt;list&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: d690ea41-b3f1-4050-a048-0fd7788e6485         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: d690ea41-b3f1-4050-a048-0fd7788e6485         2 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: d690ea41-b3f1-4050-a048-0fd7788e6485         3 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: fa2916e5-539e-4a63-94fe-59793e46413d         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: fa2916e5-539e-4a63-94fe-59793e46413d         2 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: fa2916e5-539e-4a63-94fe-59793e46413d         3 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash        task_hash    learner_phash  resampling_hash</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;           &lt;char&gt;           &lt;char&gt;           &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2099aa995d4e20f7 f9791e97f9813150 5b2c800eb8611508 3aed56df550531a0</span>
