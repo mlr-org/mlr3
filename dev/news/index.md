@@ -2,6 +2,12 @@
 
 ## mlr3 (development version)
 
+- fix:
+  [`as_task_classif()`](https://mlr3.mlr-org.com/dev/reference/as_task_classif.md)
+  and
+  [`as_task_regr()`](https://mlr3.mlr-org.com/dev/reference/as_task_regr.md)
+  now respect the `drop_original_target` and `drop_levels` arguments
+  when converting a task instead of ignoring them.
 - refactor: Removed unused `task_prototype` from the learner state.
 - fix: Reset range of `MeasureClassifCost`.
 - feat: Encapsulated Learners now support a `deadline` (date-time) in
