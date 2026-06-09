@@ -9,7 +9,7 @@
 \description{
 A regression task for the \link[datasets:mtcars]{datasets::mtcars} data set.
 Target variable is \code{mpg} (Miles/(US) gallon).
-Rownames are stored as variable \verb{"..rownames} with column role \code{"model"}.
+Rownames are stored as variable \code{"model"} with column role \code{"name"}.
 }
 \section{Construction}{
 

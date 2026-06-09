@@ -418,8 +418,8 @@ This currently only works for methods \code{Learner$predict()} and \code{Learner
 and has no effect during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}} where you have other means
 to parallelize.
 
-Note that the recorded time required for prediction reports the time required to predict
-is not properly defined and depends on the parallelization backend.}
+Note that the recorded time required for prediction is not properly defined and
+depends on the parallelization backend.}
 
     \item{\code{predict_raw}}{(\code{logical(1)})\cr
 If set to \code{TRUE}, the raw prediction object from the upstream model is stored in the
@@ -785,7 +785,7 @@ The \code{daemon} can be pre-started via \code{daemons(1, .compute = "mlr3_encap
 otherwise a new R session will be created for each encapsulated call.
 If a \code{daemon} is already running with compute profile \code{"mlr3_encapsulation"},
 it will be used to execute all calls.
-Using \verb{mirai"} is similarly safe as \code{callr} but much faster if several learners
+Using \code{mirai} is similarly safe as \code{callr} but much faster if several learners
 are encapsulated one after the other on the same daemon.
 }
 
@@ -815,7 +815,7 @@ Also see the section on error handling in the mlr3book:
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{method}}{\code{character(1)}\cr
-One of \code{"none"}, \code{"try"}, \code{"evaluate"}, \code{"callr"}, or \code{"mirai"}.
+One of \code{"none"}, \code{"try"}, \code{"evaluate"}, \code{"callr"} or \code{"mirai"}.
 See the description for details.}
       \item{\code{fallback}}{\link{Learner}\cr
 The fallback learner for failed predictions.}

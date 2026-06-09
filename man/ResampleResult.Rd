@@ -143,12 +143,12 @@ Additional data stored in the \link{ResampleResult}.}
 
     \item{\code{warnings}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 A table with all warning messages.
-Column names are \code{"iteration"} and \code{"msg"}.
+Column names are \code{"iteration"} and \code{"condition"}.
 Note that there can be multiple rows per resampling iteration if multiple warnings have been recorded.}
 
     \item{\code{errors}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 A table with all error messages.
-Column names are \code{"iteration"} and \code{"msg"}.
+Column names are \code{"iteration"} and \code{"condition"}.
 Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.}
   }
   \if{html}{\out{</div>}}
