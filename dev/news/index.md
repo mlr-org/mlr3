@@ -4,6 +4,8 @@
 
 ## mlr3 1.7.0
 
+CRAN release: 2026-06-10
+
 - BREAKING CHANGE: Removed the deprecated `Task$divide()` method, use
   the `$internal_valid_task` field instead.
 - feat: Encapsulated Learners now support a `deadline` (date-time) in
