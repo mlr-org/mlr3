@@ -1,12 +1,26 @@
-# mlr3 (development version)
+# mlr3 1.7.0
 
+* BREAKING CHANGE: Removed the deprecated `Task$divide()` method, use the `$internal_valid_task` field instead.
+* feat: Encapsulated Learners now support a `deadline` (date-time) in addition to the existing `timeout` (seconds).
+* perf: Vectorized the row-wise `NA` check in the prediction fallback path.
+* refactor: Removed unused `task_prototype` from the learner state.
 * fix: `as_measures()` now forwards `task_type` when converting a list.
 * fix: `as_task_classif()` and `as_task_regr()` now respect the `drop_original_target` and `drop_levels` arguments when converting a task instead of ignoring them.
-* refactor: Removed unused `task_prototype` from the learner state.
-* fix: `c()` on regression `Prediction`s no longer drops the `probs` attribute of the combined `quantiles` matrix.
 * fix: `as_tasks_unsupervised()` now correctly converts lists to `TaskUnsupervised`s.
+* fix: `c()` on regression `Prediction`s no longer drops the `probs` attribute of the combined `quantiles` matrix.
+* fix: `importance()` and `selected_features()` now raise a learner error instead of an input error when the model is not trained yet.
+* fix: `Measure$obs_loss()` now forwards the `learner` argument to the private `.obs_loss()` method instead of dropping it.
+* fix: `Measure$score()` no longer errors during the `task_type` check when `prediction` is `NULL`.
 * fix: Reset range of `MeasureClassifCost`.
-* feat: Encapsulated Learners now support a `deadline` (date-time) in addition to the existing `timeout` (seconds).
+* fix: `MeasureClassifSimple` and `MeasureRegrSimple` now forward their hyperparameter values to the underlying scoring function instead of ignoring them.
+* fix: `mlr_measures_regr.aic` now accepts non-integer values for `k` by changing the parameter from an integer to a double.
+* fix: `MeasureRegrPinball` now declares the `"weights"` property and forwards sample weights to the underlying scoring function.
+* fix: `MeasureSimilarity$new()` no longer accepts the silently ignored `average` argument.
+* fix: `ResamplingCustom` and `ResamplingCustomCV` now invalidate the cached `$hash` on re-instantiation.
+* fix: `Task$hash` is now read-only.
+* fix: `TaskClassif$droplevels()` now forwards the `cols` argument to the parent method instead of dropping levels on all columns.
+* fix: The predict path now raises a learner-predict error instead of a learner-train error.
+* fix: Validation of the weights columns now uses the backend row names instead of a row sequence, fixing checks on tasks with non-contiguous row ids.
 
 # mlr3 1.6.0
 
