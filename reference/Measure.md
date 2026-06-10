@@ -312,7 +312,7 @@ Other Measure:
 
 ### Public methods
 
-- [`Measure$new()`](#method-Measure-new)
+- [`Measure$new()`](#method-Measure-initialize)
 
 - [`Measure$format()`](#method-Measure-format)
 
@@ -330,7 +330,7 @@ Other Measure:
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `Measure$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -531,7 +531,7 @@ or [MeasureRegr](https://mlr3.mlr-org.com/reference/MeasureRegr.md).
 
 ------------------------------------------------------------------------
 
-### Method [`format()`](https://rdrr.io/r/base/format.html)
+### `Measure$format()`
 
 Helper for print outputs.
 
@@ -547,7 +547,7 @@ Helper for print outputs.
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `Measure$print()`
 
 Printer.
 
@@ -563,7 +563,7 @@ Printer.
 
 ------------------------------------------------------------------------
 
-### Method [`help()`](https://rdrr.io/r/utils/help.html)
+### `Measure$help()`
 
 Opens the corresponding help page referenced by field `$man`.
 
@@ -573,15 +573,12 @@ Opens the corresponding help page referenced by field `$man`.
 
 ------------------------------------------------------------------------
 
-### Method `score()`
+### `Measure$score()`
 
 Takes a [Prediction](https://mlr3.mlr-org.com/reference/Prediction.md)
-(or a list of
-[Prediction](https://mlr3.mlr-org.com/reference/Prediction.md) objects
-named with valid `predict_sets`) and calculates a numeric score. If the
-measure if flagged with the properties `"requires_task"`,
-`"requires_learner"`, `"requires_model"` or `"requires_train_set"`, you
-must additionally pass the respective
+and calculates a numeric score. If the measure if flagged with the
+properties `"requires_task"`, `"requires_learner"`, `"requires_model"`
+or `"requires_train_set"`, you must additionally pass the respective
 [Task](https://mlr3.mlr-org.com/reference/Task.md), the (trained)
 [Learner](https://mlr3.mlr-org.com/reference/Learner.md) or the training
 set indices. This is handled internally during
@@ -595,9 +592,7 @@ set indices. This is handled internally during
 
 - `prediction`:
 
-  ([Prediction](https://mlr3.mlr-org.com/reference/Prediction.md) \|
-  named list of
-  [Prediction](https://mlr3.mlr-org.com/reference/Prediction.md)).
+  ([Prediction](https://mlr3.mlr-org.com/reference/Prediction.md)).
 
 - `task`:
 
@@ -624,7 +619,7 @@ set indices. This is handled internally during
 
 ------------------------------------------------------------------------
 
-### Method [`aggregate()`](https://rdrr.io/r/stats/aggregate.html)
+### `Measure$aggregate()`
 
 Aggregates multiple performance scores into a single score, e.g. by
 using the `aggregator` function of the measure.
@@ -652,7 +647,7 @@ using the `aggregator` function of the measure.
 
 ------------------------------------------------------------------------
 
-### Method `obs_loss()`
+### `Measure$obs_loss()`
 
 Calculates the observation-wise loss. Returns a
 [`numeric()`](https://rdrr.io/r/base/numeric.html) with one element for
@@ -695,7 +690,7 @@ each row in the
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `Measure$clone()`
 
 The objects of this class are cloneable with this method.
 
@@ -712,8 +707,9 @@ The objects of this class are cloneable with this method.
 ## Examples
 
 ``` r
+
 ## ------------------------------------------------
-## Method `Measure$score`
+## Method `Measure$score()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -723,7 +719,7 @@ msr("classif.ce")$score(prediction)
 #> [1] 0.03488372
 
 ## ------------------------------------------------
-## Method `Measure$aggregate`
+## Method `Measure$aggregate()`
 ## ------------------------------------------------
 
 task = tsk("penguins")
@@ -734,7 +730,7 @@ msr("classif.ce")$aggregate(rr)
 #> 0.05217391 
 
 ## ------------------------------------------------
-## Method `Measure$obs_loss`
+## Method `Measure$obs_loss()`
 ## ------------------------------------------------
 
 task = tsk("penguins")

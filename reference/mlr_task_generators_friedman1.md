@@ -58,26 +58,26 @@ Other TaskGenerator:
 
 ## Super class
 
-[`mlr3::TaskGenerator`](https://mlr3.mlr-org.com/reference/TaskGenerator.md)
+[`TaskGenerator`](https://mlr3.mlr-org.com/reference/TaskGenerator.md)
 -\> `TaskGeneratorFriedman1`
 
 ## Methods
 
 ### Public methods
 
-- [`TaskGeneratorFriedman1$new()`](#method-TaskGeneratorFriedman1-new)
+- [`TaskGeneratorFriedman1$new()`](#method-TaskGeneratorFriedman1-initialize)
 
 - [`TaskGeneratorFriedman1$clone()`](#method-TaskGeneratorFriedman1-clone)
 
 Inherited methods
 
-- [`mlr3::TaskGenerator$format()`](https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-format)
-- [`mlr3::TaskGenerator$generate()`](https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-generate)
-- [`mlr3::TaskGenerator$print()`](https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-print)
+- [`TaskGenerator$format()`](https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-format)
+- [`TaskGenerator$generate()`](https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-generate)
+- [`TaskGenerator$print()`](https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-print)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `TaskGeneratorFriedman1$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -88,7 +88,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `TaskGeneratorFriedman1$clone()`
 
 The objects of this class are cloneable with this method.
 
@@ -120,5 +120,5 @@ str(task$data())
 #>  $ unimportant3: num  0.0165 0.3787 0.8595 0.6584 0.1895 ...
 #>  $ unimportant4: num  0.392 0.647 0.081 0.373 0.786 ...
 #>  $ unimportant5: num  0.0198 0.5281 0.9636 0.5646 0.7617 ...
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+#>  - attr(*, ".internal.selfref")=<pointer: 0x55804bcb3ea0> 
 ```

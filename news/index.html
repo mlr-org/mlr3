@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Changelog"><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"></head><body>
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Changelog"><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,31 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.6.0" id="mlr3-160">mlr3 1.6.0<a class="anchor" aria-label="anchor" href="#mlr3-160"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.7.0" id="mlr3-170">mlr3 1.7.0<a class="anchor" aria-label="anchor" href="#mlr3-170"></a></h2>
+<ul><li>BREAKING CHANGE: Removed the deprecated <code>Task$divide()</code> method, use the <code>$internal_valid_task</code> field instead.</li>
+<li>feat: Encapsulated Learners now support a <code>deadline</code> (date-time) in addition to the existing <code>timeout</code> (seconds).</li>
+<li>perf: Vectorized the row-wise <code>NA</code> check in the prediction fallback path.</li>
+<li>refactor: Removed unused <code>task_prototype</code> from the learner state.</li>
+<li>fix: <code><a href="../reference/as_measure.html">as_measures()</a></code> now forwards <code>task_type</code> when converting a list.</li>
+<li>fix: <code><a href="../reference/as_task_classif.html">as_task_classif()</a></code> and <code><a href="../reference/as_task_regr.html">as_task_regr()</a></code> now respect the <code>drop_original_target</code> and <code>drop_levels</code> arguments when converting a task instead of ignoring them.</li>
+<li>fix: <code><a href="../reference/as_task_unsupervised.html">as_tasks_unsupervised()</a></code> now correctly converts lists to <code>TaskUnsupervised</code>s.</li>
+<li>fix: <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> on regression <code>Prediction</code>s no longer drops the <code>probs</code> attribute of the combined <code>quantiles</code> matrix.</li>
+<li>fix: <code>importance()</code> and <code>selected_features()</code> now raise a learner error instead of an input error when the model is not trained yet.</li>
+<li>fix: <code>Measure$obs_loss()</code> now forwards the <code>learner</code> argument to the private <code>.obs_loss()</code> method instead of dropping it.</li>
+<li>fix: <code>Measure$score()</code> no longer errors during the <code>task_type</code> check when <code>prediction</code> is <code>NULL</code>.</li>
+<li>fix: Reset range of <code>MeasureClassifCost</code>.</li>
+<li>fix: <code>MeasureClassifSimple</code> and <code>MeasureRegrSimple</code> now forward their hyperparameter values to the underlying scoring function instead of ignoring them.</li>
+<li>fix: <code>mlr_measures_regr.aic</code> now accepts non-integer values for <code>k</code> by changing the parameter from an integer to a double.</li>
+<li>fix: <code>MeasureRegrPinball</code> now declares the <code>"weights"</code> property and forwards sample weights to the underlying scoring function.</li>
+<li>fix: <code>MeasureSimilarity$new()</code> no longer accepts the silently ignored <code>average</code> argument.</li>
+<li>fix: <code>ResamplingCustom</code> and <code>ResamplingCustomCV</code> now invalidate the cached <code>$hash</code> on re-instantiation.</li>
+<li>fix: <code>Task$hash</code> is now read-only.</li>
+<li>fix: <code>TaskClassif$droplevels()</code> now forwards the <code>cols</code> argument to the parent method instead of dropping levels on all columns.</li>
+<li>fix: The predict path now raises a learner-predict error instead of a learner-train error.</li>
+<li>fix: Validation of the weights columns now uses the backend row names instead of a row sequence, fixing checks on tasks with non-contiguous row ids.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.6.0" id="mlr3-160">mlr3 1.6.0<a class="anchor" aria-label="anchor" href="#mlr3-160"></a></h2><p class="text-muted">CRAN release: 2026-04-02</p>
 <ul><li>feat: <code>Learner</code> gains a <code>predict_raw</code> flag and <code>Prediction</code> gains a <code>raw</code> field to store the raw prediction object from the upstream model alongside standardized predictions.</li>
 <li>fix: IDs containing <code>%</code> (e.g., from <code>deparse1(substitute(x))</code> with pipe expressions) now produce a clear error instead of causing cryptic <code>sprintf</code> failures downstream (<a href="https://github.com/mlr-org/mlr3/issues/1461" class="external-link">#1461</a>).</li>
 <li>fix: <code>Learner$predict_newdata()</code> now preserves the target’s factor level ordering from training, fixing inverted probabilities for binary classification when the positive class was not the first alphabetical level (<a href="https://github.com/mlr-org/mlr3/issues/1459" class="external-link">#1459</a>).</li>

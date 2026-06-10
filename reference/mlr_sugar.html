@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Syntactic Sugar for Object Construction — mlr_sugar"><meta name="description" content="Functions to retrieve objects, set hyperparameters and assign to fields in one go.
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Syntactic Sugar for Object Construction — mlr_sugar"><meta name="description" content="Functions to retrieve objects, set hyperparameters and assign to fields in one go.
 Relies on mlr3misc::dictionary_sugar_get() to extract objects from the respective mlr3misc::Dictionary:
 tsk() for a Task from mlr_tasks.
 tsks() for a list of Tasks from mlr_tasks.
@@ -49,7 +49,7 @@ where the $validate fields need to be configured on multiple levels."><meta prop
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -171,12 +171,12 @@ or a list of <a href="https://r6.r-lib.org/reference/R6Class.html" class="extern
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;TaskClassif&gt;</span><span style="font-weight: bold;"> (344x8): Palmer Penguins</span> <span style="color: #00BBBB;">──────────────────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Target: species</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • Target classes: Adelie (44%), Gentoo (36%), Chinstrap (20%)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Properties: multiclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Features (7):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   • int (3): body_mass, flipper_length, year</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   • dbl (2): bill_depth, bill_length</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   • fct (2): island, sex</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Target classes: Adelie (44%), Gentoo (36%), Chinstrap (20%)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># classification tree with different hyperparameters</span></span></span>
 <span class="r-in"><span><span class="co"># and predict type set to predict probabilities</span></span></span>

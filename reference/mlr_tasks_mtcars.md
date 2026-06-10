@@ -3,7 +3,7 @@
 A regression task for the
 [datasets::mtcars](https://rdrr.io/r/datasets/mtcars.html) data set.
 Target variable is `mpg` (Miles/(US) gallon). Rownames are stored as
-variable `"..rownames` with column role `"model"`.
+variable `"model"` with column role `"name"`.
 
 ## Format
 

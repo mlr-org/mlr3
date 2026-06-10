@@ -147,7 +147,7 @@ Other Prediction:
 
 ------------------------------------------------------------------------
 
-### Method [`format()`](https://rdrr.io/r/base/format.html)
+### `Prediction$format()`
 
 Helper for print outputs.
 
@@ -163,7 +163,7 @@ Helper for print outputs.
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `Prediction$print()`
 
 Printer.
 
@@ -179,7 +179,7 @@ Printer.
 
 ------------------------------------------------------------------------
 
-### Method [`help()`](https://rdrr.io/r/utils/help.html)
+### `Prediction$help()`
 
 Opens the corresponding help page referenced by field `$man`.
 
@@ -189,7 +189,7 @@ Opens the corresponding help page referenced by field `$man`.
 
 ------------------------------------------------------------------------
 
-### Method `score()`
+### `Prediction$score()`
 
 Calculates the performance for all provided measures
 [Task](https://mlr3.mlr-org.com/reference/Task.md) and
@@ -233,7 +233,7 @@ Prediction.
 
 ------------------------------------------------------------------------
 
-### Method `obs_loss()`
+### `Prediction$obs_loss()`
 
 Calculates the observation-wise loss via the
 [Measure](https://mlr3.mlr-org.com/reference/Measure.md)'s `obs_loss`
@@ -261,7 +261,7 @@ square-root.
 
 ------------------------------------------------------------------------
 
-### Method [`filter()`](https://rdrr.io/r/stats/filter.html)
+### `Prediction$filter()`
 
 Filters the Prediction, keeping only predictions for the provided
 row_ids. This changes the object in-place, you need to create a clone to
@@ -284,7 +284,7 @@ preserve the original Prediction.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `Prediction$clone()`
 
 The objects of this class are cloneable with this method.
 

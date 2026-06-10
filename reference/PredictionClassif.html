@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Prediction Object for Classification — PredictionClassif"><meta name="description" content="This object wraps the predictions returned by a learner of class LearnerClassif, i.e.
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Prediction Object for Classification — PredictionClassif"><meta name="description" content="This object wraps the predictions returned by a learner of class LearnerClassif, i.e.
 the predicted response and class probabilities.
 If the response is not provided during construction, but class probabilities are,
 the response is calculated from the probabilities: the class label with the highest
@@ -21,7 +21,7 @@ probability is chosen. In case of ties, a label is selected randomly."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,7 +111,7 @@ These are simply replaced by <code>0</code> and thus will never get selected.</p
     </div>
     <div class="section level2">
     <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
-    <p><code><a href="Prediction.html">mlr3::Prediction</a></code> -&gt; <code>PredictionClassif</code></p>
+    <p><code><a href="Prediction.html">Prediction</a></code> -&gt; <code>PredictionClassif</code></p>
     </div>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
@@ -120,12 +120,12 @@ These are simply replaced by <code>0</code> and thus will never get selected.</p
 Access to the stored predicted class labels.</p></dd>
 
 
-<dt><code>prob</code></dt>
+    <dt><code>prob</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code>)<br>
 Access to the stored probabilities.</p></dd>
 
 
-<dt><code>confusion</code></dt>
+    <dt><code>confusion</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code>)<br>
 Confusion matrix, as resulting from the comparison of truth and response.
 Truth is in columns, predicted response is in rows.</p></dd>
@@ -138,18 +138,17 @@ Truth is in columns, predicted response is in rows.</p></dd>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-PredictionClassif-new"><code>PredictionClassif$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-PredictionClassif-initialize"><code>PredictionClassif$new()</code></a></p></li>
 <li><p><a href="#method-PredictionClassif-set_threshold"><code>PredictionClassif$set_threshold()</code></a></p></li>
 <li><p><a href="#method-PredictionClassif-clone"><code>PredictionClassif$clone()</code></a></p></li>
-</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="filter"><a href="Prediction.html#method-filter"><code>mlr3::Prediction$filter()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format"><a href="Prediction.html#method-format"><code>mlr3::Prediction$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help"><a href="Prediction.html#method-help"><code>mlr3::Prediction$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="obs_loss"><a href="Prediction.html#method-obs_loss"><code>mlr3::Prediction$obs_loss()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print"><a href="Prediction.html#method-print"><code>mlr3::Prediction$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score"><a href="Prediction.html#method-score"><code>mlr3::Prediction$score()</code></a></span></li>
-</ul></details></p><hr><a id="method-PredictionClassif-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="filter"><a href="Prediction.html#method-filter"><code>Prediction$filter()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format"><a href="Prediction.html#method-format"><code>Prediction$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help"><a href="Prediction.html#method-help"><code>Prediction$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="obs_loss"><a href="Prediction.html#method-obs_loss"><code>Prediction$obs_loss()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print"><a href="Prediction.html#method-print"><code>Prediction$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score"><a href="Prediction.html#method-score"><code>Prediction$score()</code></a></span></li>
+</ul></details></p><hr><a id="method-PredictionClassif-initialize"></a><div class="section">
+<h3 id="predictionclassif-new-"><code>PredictionClassif$new()</code><a class="anchor" aria-label="anchor" href="#predictionclassif-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/PredictionClassif.html">PredictionClassif</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
@@ -163,34 +162,28 @@ Truth is in columns, predicted response is in rows.</p></dd>
 <span>  extra <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  raw <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>task</code></dt>
 <dd><p>(<a href="TaskClassif.html">TaskClassif</a>)<br>
 Task, used to extract defaults for <code>row_ids</code> and <code>truth</code>.</p></dd>
 
-
-<dt><code>row_ids</code></dt>
+      <dt><code>row_ids</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Row ids of the predicted observations, i.e. the row ids of the test set.</p></dd>
 
-
-<dt><code>truth</code></dt>
+      <dt><code>truth</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor()</a></code>)<br>
 True (observed) labels. See the note on manual construction.</p></dd>
 
-
-<dt><code>response</code></dt>
+      <dt><code>response</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor()</a></code>)<br>
 Vector of predicted class labels.
 One element for each observation in the test set.
 Character vectors are automatically converted to factors.
 See the note on manual construction.</p></dd>
 
-
-<dt><code>prob</code></dt>
+      <dt><code>prob</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code>)<br>
 Numeric matrix of posterior class probabilities with one column for each class
 and one row for each observation in the test set.
@@ -198,24 +191,20 @@ Columns must be named with class labels, row names are automatically removed.
 If <code>prob</code> is provided, but <code>response</code> is not, the class labels are calculated from
 the probabilities using <code><a href="https://rdrr.io/r/base/maxCol.html" class="external-link">max.col()</a></code> with <code>ties.method</code> set to <code>"random"</code>.</p></dd>
 
-
-<dt><code>weights</code></dt>
+      <dt><code>weights</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br>
 Vector of measure weights for each observation. Should be constructed from
 the <code>Task</code>'s <code>weights_measure</code> column.</p></dd>
 
-
-<dt><code>check</code></dt>
+      <dt><code>check</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>TRUE</code>, performs some argument checks and predict type conversions.</p></dd>
 
-
-<dt><code>extra</code></dt>
+      <dt><code>extra</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 List of extra data to be stored in the prediction object.</p></dd>
 
-
-<dt><code>raw</code></dt>
+      <dt><code>raw</code></dt>
 <dd><p>(any)<br>
 Raw prediction object from the upstream model. Stored as-is without validation.</p></dd>
 
@@ -223,43 +212,41 @@ Raw prediction object from the upstream model. Stored as-is without validation.<
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-PredictionClassif-set_threshold"></a><div class="section">
-<h3 id="method-set-threshold-">Method <code>set_threshold()</code><a class="anchor" aria-label="anchor" href="#method-set-threshold-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-PredictionClassif-set_threshold"></a><div class="section">
+<h3 id="predictionclassif-set-threshold-"><code>PredictionClassif$set_threshold()</code><a class="anchor" aria-label="anchor" href="#predictionclassif-set-threshold-"></a></h3>
 <p>Sets the prediction response based on the provided threshold.
 See the section on thresholding for more information.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">PredictionClassif</span><span class="op">$</span><span class="fu">set_threshold</span><span class="op">(</span><span class="va">threshold</span>, ties_method <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>threshold</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>).</p></dd>
 
-
-<dt><code>ties_method</code></dt>
+      <dt><code>ties_method</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 One of <code>"random"</code>, <code>"first"</code> or <code>"last"</code> (c.f. <code><a href="https://rdrr.io/r/base/maxCol.html" class="external-link">max.col()</a></code>) to determine how to deal with
 tied probabilities.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-PredictionClassif-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-PredictionClassif-clone"></a><div class="section">
+<h3 id="predictionclassif-clone-"><code>PredictionClassif$clone()</code><a class="anchor" aria-label="anchor" href="#predictionclassif-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">PredictionClassif</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -269,6 +256,7 @@ the object in its previous state.</p>
 </div>
 
 </div>
+
 
     </div>
 

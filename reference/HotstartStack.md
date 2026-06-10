@@ -47,7 +47,7 @@ with `"hotstart"` in learner's parameter set.
 
 ### Public methods
 
-- [`HotstartStack$new()`](#method-HotstartStack-new)
+- [`HotstartStack$new()`](#method-HotstartStack-initialize)
 
 - [`HotstartStack$add()`](#method-HotstartStack-add)
 
@@ -61,7 +61,7 @@ with `"hotstart"` in learner's parameter set.
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `HotstartStack$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -85,7 +85,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `add()`
+### `HotstartStack$add()`
 
 Add learners to hot start stack.
 
@@ -106,7 +106,7 @@ self (invisibly).
 
 ------------------------------------------------------------------------
 
-### Method `start_cost()`
+### `HotstartStack$start_cost()`
 
 Calculates the cost for each learner of the stack to hot start the
 target `learner`.
@@ -140,7 +140,7 @@ The following cost values can be returned:
 
 ------------------------------------------------------------------------
 
-### Method [`format()`](https://rdrr.io/r/base/format.html)
+### `HotstartStack$format()`
 
 Helper for print outputs.
 
@@ -156,7 +156,7 @@ Helper for print outputs.
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `HotstartStack$print()`
 
 Printer.
 
@@ -172,7 +172,7 @@ Printer.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `HotstartStack$clone()`
 
 The objects of this class are cloneable with this method.
 

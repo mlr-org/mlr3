@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Holdout Resampling — mlr_resamplings_holdout"><meta name="description" content="Splits data into a training set and a test set.
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Holdout Resampling — mlr_resamplings_holdout"><meta name="description" content="Splits data into a training set and a test set.
 Parameter ratio determines the ratio of observation going into the training set (default: 2/3)."><meta property="og:description" content="Splits data into a training set and a test set.
 Parameter ratio determines the ratio of observation going into the training set (default: 2/3)."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -15,7 +15,7 @@ Parameter ratio determines the ratio of observation going into the training set 
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,7 +103,7 @@ tasks.</p></li>
     </div>
     <div class="section level2">
     <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
-    <p><code><a href="Resampling.html">mlr3::Resampling</a></code> -&gt; <code>ResamplingHoldout</code></p>
+    <p><code><a href="Resampling.html">Resampling</a></code> -&gt; <code>ResamplingHoldout</code></p>
     </div>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
@@ -119,31 +119,29 @@ Returns the number of resampling iterations, depending on the values stored in t
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-ResamplingHoldout-new"><code>ResamplingHoldout$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-ResamplingHoldout-initialize"><code>ResamplingHoldout$new()</code></a></p></li>
 <li><p><a href="#method-ResamplingHoldout-clone"><code>ResamplingHoldout$clone()</code></a></p></li>
-</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href="Resampling.html#method-format"><code>mlr3::Resampling$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href="Resampling.html#method-help"><code>mlr3::Resampling$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="instantiate"><a href="Resampling.html#method-instantiate"><code>mlr3::Resampling$instantiate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href="Resampling.html#method-print"><code>mlr3::Resampling$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href="Resampling.html#method-test_set"><code>mlr3::Resampling$test_set()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href="Resampling.html#method-train_set"><code>mlr3::Resampling$train_set()</code></a></span></li>
-</ul></details></p><hr><a id="method-ResamplingHoldout-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href="Resampling.html#method-format"><code>Resampling$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href="Resampling.html#method-help"><code>Resampling$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="instantiate"><a href="Resampling.html#method-instantiate"><code>Resampling$instantiate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href="Resampling.html#method-print"><code>Resampling$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href="Resampling.html#method-test_set"><code>Resampling$test_set()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href="Resampling.html#method-train_set"><code>Resampling$train_set()</code></a></span></li>
+</ul></details></p><hr><a id="method-ResamplingHoldout-initialize"></a><div class="section">
+<h3 id="resamplingholdout-new-"><code>ResamplingHoldout$new()</code><a class="anchor" aria-label="anchor" href="#resamplingholdout-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/mlr_resamplings_holdout.html">ResamplingHoldout</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-ResamplingHoldout-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+<p></p><hr><a id="method-ResamplingHoldout-clone"></a><div class="section">
+<h3 id="resamplingholdout-clone-"><code>ResamplingHoldout$clone()</code><a class="anchor" aria-label="anchor" href="#resamplingholdout-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResamplingHoldout</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -153,6 +151,7 @@ Returns the number of resampling iterations, depending on the values stored in t
 </div>
 
 </div>
+
 
     </div>
 

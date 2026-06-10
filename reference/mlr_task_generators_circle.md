@@ -59,14 +59,14 @@ Other TaskGenerator:
 
 ## Super class
 
-[`mlr3::TaskGenerator`](https://mlr3.mlr-org.com/reference/TaskGenerator.md)
+[`TaskGenerator`](https://mlr3.mlr-org.com/reference/TaskGenerator.md)
 -\> `TaskGeneratorCircle`
 
 ## Methods
 
 ### Public methods
 
-- [`TaskGeneratorCircle$new()`](#method-TaskGeneratorCircle-new)
+- [`TaskGeneratorCircle$new()`](#method-TaskGeneratorCircle-initialize)
 
 - [`TaskGeneratorCircle$plot()`](#method-TaskGeneratorCircle-plot)
 
@@ -74,13 +74,13 @@ Other TaskGenerator:
 
 Inherited methods
 
-- [`mlr3::TaskGenerator$format()`](https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-format)
-- [`mlr3::TaskGenerator$generate()`](https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-generate)
-- [`mlr3::TaskGenerator$print()`](https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-print)
+- [`TaskGenerator$format()`](https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-format)
+- [`TaskGenerator$generate()`](https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-generate)
+- [`TaskGenerator$print()`](https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-print)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `TaskGeneratorCircle$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -91,7 +91,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method [`plot()`](https://rdrr.io/r/graphics/plot.default.html)
+### `TaskGeneratorCircle$plot()`
 
 Creates a simple plot of generated data.
 
@@ -120,7 +120,7 @@ Creates a simple plot of generated data.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `TaskGeneratorCircle$clone()`
 
 The objects of this class are cloneable with this method.
 
@@ -147,5 +147,5 @@ str(task$data())
 #>  $ y : Factor w/ 2 levels "A","B": 2 2 1 1 1 1 2 1 2 2 ...
 #>  $ x1: num  -0.5729 -0.7424 -0.1373 0.0614 -0.7421 ...
 #>  $ x2: num  -0.7623 0.9103 -0.0784 0.4543 0.0996 ...
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+#>  - attr(*, ".internal.selfref")=<pointer: 0x55804bcb3ea0> 
 ```

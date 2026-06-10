@@ -87,14 +87,14 @@ Other Learner:
 
 ## Super class
 
-[`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.md) -\>
+[`Learner`](https://mlr3.mlr-org.com/reference/Learner.md) -\>
 `LearnerClassif`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerClassif$new()`](#method-LearnerClassif-new)
+- [`LearnerClassif$new()`](#method-LearnerClassif-initialize)
 
 - [`LearnerClassif$predict_newdata_fast()`](#method-LearnerClassif-predict_newdata_fast)
 
@@ -102,21 +102,21 @@ Other Learner:
 
 Inherited methods
 
-- [`mlr3::Learner$base_learner()`](https://mlr3.mlr-org.com/reference/Learner.html#method-base_learner)
-- [`mlr3::Learner$configure()`](https://mlr3.mlr-org.com/reference/Learner.html#method-configure)
-- [`mlr3::Learner$encapsulate()`](https://mlr3.mlr-org.com/reference/Learner.html#method-encapsulate)
-- [`mlr3::Learner$format()`](https://mlr3.mlr-org.com/reference/Learner.html#method-format)
-- [`mlr3::Learner$help()`](https://mlr3.mlr-org.com/reference/Learner.html#method-help)
-- [`mlr3::Learner$predict()`](https://mlr3.mlr-org.com/reference/Learner.html#method-predict)
-- [`mlr3::Learner$predict_newdata()`](https://mlr3.mlr-org.com/reference/Learner.html#method-predict_newdata)
-- [`mlr3::Learner$print()`](https://mlr3.mlr-org.com/reference/Learner.html#method-print)
-- [`mlr3::Learner$reset()`](https://mlr3.mlr-org.com/reference/Learner.html#method-reset)
-- [`mlr3::Learner$selected_features()`](https://mlr3.mlr-org.com/reference/Learner.html#method-selected_features)
-- [`mlr3::Learner$train()`](https://mlr3.mlr-org.com/reference/Learner.html#method-train)
+- [`Learner$base_learner()`](https://mlr3.mlr-org.com/reference/Learner.html#method-base_learner)
+- [`Learner$configure()`](https://mlr3.mlr-org.com/reference/Learner.html#method-configure)
+- [`Learner$encapsulate()`](https://mlr3.mlr-org.com/reference/Learner.html#method-encapsulate)
+- [`Learner$format()`](https://mlr3.mlr-org.com/reference/Learner.html#method-format)
+- [`Learner$help()`](https://mlr3.mlr-org.com/reference/Learner.html#method-help)
+- [`Learner$predict()`](https://mlr3.mlr-org.com/reference/Learner.html#method-predict)
+- [`Learner$predict_newdata()`](https://mlr3.mlr-org.com/reference/Learner.html#method-predict_newdata)
+- [`Learner$print()`](https://mlr3.mlr-org.com/reference/Learner.html#method-print)
+- [`Learner$reset()`](https://mlr3.mlr-org.com/reference/Learner.html#method-reset)
+- [`Learner$selected_features()`](https://mlr3.mlr-org.com/reference/Learner.html#method-selected_features)
+- [`Learner$train()`](https://mlr3.mlr-org.com/reference/Learner.html#method-train)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `LearnerClassif$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -125,6 +125,7 @@ Creates a new instance of this
 
     LearnerClassif$new(
       id,
+      task_type = "classif",
       param_set = ps(),
       predict_types = "response",
       feature_types = character(),
@@ -140,6 +141,12 @@ Creates a new instance of this
 
   (`character(1)`)  
   Identifier for the new instance.
+
+- `task_type`:
+
+  (`character(1)`)  
+  Type of task, e.g. `"regr"` or `"classif"`. Must be an element of
+  [mlr_reflections\$task_types\$type](https://mlr3.mlr-org.com/reference/mlr_reflections.md).
 
 - `param_set`:
 
@@ -231,11 +238,12 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `predict_newdata_fast()`
+### `LearnerClassif$predict_newdata_fast()`
 
 Predicts outcomes for new data in `newdata` using the model fitted
 during `$train()`. This method is faster than `$predict_newdata()` as it
-skips assertions, type conversions, encapsulation, and logging.
+skips assertions, type conversions, encapsulation, and logging. The
+learner must be trained before calling this method.
 
 Unlike `$predict_newdata()`, this method does not return a
 [Prediction](https://mlr3.mlr-org.com/reference/Prediction.md) object.
@@ -277,7 +285,7 @@ or `"prob"` depending on the predict type.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `LearnerClassif$clone()`
 
 The objects of this class are cloneable with this method.
 

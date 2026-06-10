@@ -144,7 +144,7 @@ Other benchmark:
 
 ### Public methods
 
-- [`BenchmarkResult$new()`](#method-BenchmarkResult-new)
+- [`BenchmarkResult$new()`](#method-BenchmarkResult-initialize)
 
 - [`BenchmarkResult$help()`](#method-BenchmarkResult-help)
 
@@ -176,7 +176,7 @@ Other benchmark:
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `BenchmarkResult$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -197,7 +197,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method [`help()`](https://rdrr.io/r/utils/help.html)
+### `BenchmarkResult$help()`
 
 Opens the help page for this object.
 
@@ -207,7 +207,7 @@ Opens the help page for this object.
 
 ------------------------------------------------------------------------
 
-### Method [`format()`](https://rdrr.io/r/base/format.html)
+### `BenchmarkResult$format()`
 
 Helper for print outputs.
 
@@ -223,7 +223,7 @@ Helper for print outputs.
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `BenchmarkResult$print()`
 
 Printer.
 
@@ -233,7 +233,7 @@ Printer.
 
 ------------------------------------------------------------------------
 
-### Method `combine()`
+### `BenchmarkResult$combine()`
 
 Fuses a second BenchmarkResult into itself, mutating the BenchmarkResult
 in-place. If the second BenchmarkResult `bmr` is `NULL`, simply returns
@@ -260,7 +260,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method `marshal()`
+### `BenchmarkResult$marshal()`
 
 Marshals all stored models.
 
@@ -282,7 +282,7 @@ Marshals all stored models.
 
 ------------------------------------------------------------------------
 
-### Method `unmarshal()`
+### `BenchmarkResult$unmarshal()`
 
 Unmarshals all stored models.
 
@@ -304,7 +304,7 @@ Unmarshals all stored models.
 
 ------------------------------------------------------------------------
 
-### Method `score()`
+### `BenchmarkResult$score()`
 
 Returns a table with one row for each resampling iteration, including
 all involved objects:
@@ -369,7 +369,7 @@ id of the respective
 
 ------------------------------------------------------------------------
 
-### Method `obs_loss()`
+### `BenchmarkResult$obs_loss()`
 
 Calculates the observation-wise loss via the
 [Measure](https://mlr3.mlr-org.com/reference/Measure.md)'s `obs_loss`
@@ -406,7 +406,7 @@ aggregation, in this example taking the square-root.
 
 ------------------------------------------------------------------------
 
-### Method [`aggregate()`](https://rdrr.io/r/stats/aggregate.html)
+### `BenchmarkResult$aggregate()`
 
 Returns a result table where resampling iterations are combined into
 [ResampleResult](https://mlr3.mlr-org.com/reference/ResampleResult.md)s.
@@ -487,7 +487,7 @@ from the returned
 
 ------------------------------------------------------------------------
 
-### Method [`filter()`](https://rdrr.io/r/stats/filter.html)
+### `BenchmarkResult$filter()`
 
 Subsets the benchmark result. You can either directly provide the row
 IDs or the uhashes of the resample results to keep, or use the
@@ -553,7 +553,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method `resample_result()`
+### `BenchmarkResult$resample_result()`
 
 Retrieve the i-th
 [ResampleResult](https://mlr3.mlr-org.com/reference/ResampleResult.md),
@@ -615,7 +615,7 @@ IDs. All three options are mutually exclusive.
 
 ------------------------------------------------------------------------
 
-### Method `discard()`
+### `BenchmarkResult$discard()`
 
 Shrinks the BenchmarkResult by discarding parts of the internally stored
 data. Note that certain operations might stop work, e.g. extracting
@@ -654,7 +654,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method `set_threshold()`
+### `BenchmarkResult$set_threshold()`
 
 Sets the threshold for the response prediction of classification
 learners, given they have output a probability prediction for a binary
@@ -740,7 +740,7 @@ resample results.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `BenchmarkResult$clone()`
 
 The objects of this class are cloneable with this method.
 
@@ -790,8 +790,8 @@ bmr$tasks
 #> Key: <task_hash>
 #>           task_hash  task_id                   task
 #>              <char>   <char>                 <list>
-#> 1: 062d5c9e3bac138b    sonar    <TaskClassif:sonar>
-#> 2: d6c81c98ebae7f4d penguins <TaskClassif:penguins>
+#> 1: 40bc78f17c7a5f3d penguins <TaskClassif:penguins>
+#> 2: f9791e97f9813150    sonar    <TaskClassif:sonar>
 bmr$learners
 #> Key: <learner_hash>
 #>        learner_hash          learner_id
@@ -807,11 +807,11 @@ bmr$learners
 head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 #>                                   uhash                task
 #>                                  <char>              <list>
-#> 1: 1ee0a4ed-728a-4f62-8b5c-6f61fc0011b9 <TaskClassif:sonar>
-#> 2: 1ee0a4ed-728a-4f62-8b5c-6f61fc0011b9 <TaskClassif:sonar>
-#> 3: 1ee0a4ed-728a-4f62-8b5c-6f61fc0011b9 <TaskClassif:sonar>
-#> 4: 5161b771-4892-4460-a096-59d922dce977 <TaskClassif:sonar>
-#> 5: 5161b771-4892-4460-a096-59d922dce977 <TaskClassif:sonar>
+#> 1: 1831b30b-45ff-4497-8d1a-6ecd28ec72d8 <TaskClassif:sonar>
+#> 2: 1831b30b-45ff-4497-8d1a-6ecd28ec72d8 <TaskClassif:sonar>
+#> 3: 1831b30b-45ff-4497-8d1a-6ecd28ec72d8 <TaskClassif:sonar>
+#> 4: 59e5cceb-1262-4c2b-8356-d5c21d8aa1cc <TaskClassif:sonar>
+#> 5: 59e5cceb-1262-4c2b-8356-d5c21d8aa1cc <TaskClassif:sonar>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1
@@ -884,19 +884,19 @@ print(bmr)
 #>   2   sonar       classif.rpart            cv     3        0      0
 
 ## ------------------------------------------------
-## Method `BenchmarkResult$marshal`
+## Method `BenchmarkResult$marshal()`
 ## ------------------------------------------------
 
 bmr$marshal()
 
 ## ------------------------------------------------
-## Method `BenchmarkResult$unmarshal`
+## Method `BenchmarkResult$unmarshal()`
 ## ------------------------------------------------
 
 bmr$unmarshal()
 
 ## ------------------------------------------------
-## Method `BenchmarkResult$score`
+## Method `BenchmarkResult$score()`
 ## ------------------------------------------------
 
 bmr$score(msr("classif.acc"))
@@ -919,7 +919,7 @@ bmr$score(msr("classif.acc"))
 #> Hidden columns: uhash, task, learner, resampling
 
 ## ------------------------------------------------
-## Method `BenchmarkResult$obs_loss`
+## Method `BenchmarkResult$obs_loss()`
 ## ------------------------------------------------
 
 bmr$obs_loss(msr("classif.acc"))
@@ -951,7 +951,7 @@ bmr$obs_loss(msr("classif.acc"))
 #> 416:           1
 
 ## ------------------------------------------------
-## Method `BenchmarkResult$aggregate`
+## Method `BenchmarkResult$aggregate()`
 ## ------------------------------------------------
 
 bmr$aggregate()
@@ -962,7 +962,7 @@ bmr$aggregate()
 #> Hidden columns: resample_result
 
 ## ------------------------------------------------
-## Method `BenchmarkResult$filter`
+## Method `BenchmarkResult$filter()`
 ## ------------------------------------------------
 
 design = benchmark_grid(
@@ -989,7 +989,7 @@ bmr2
 #>   2   sonar classif.featureless       holdout     1        0      0
 
 ## ------------------------------------------------
-## Method `BenchmarkResult$resample_result`
+## Method `BenchmarkResult$resample_result()`
 ## ------------------------------------------------
 
 design = benchmark_grid(
@@ -1021,13 +1021,13 @@ bmr$resample_result(uhash = uhashes(bmr, learner_id = "classif.debug"))
 #>       0
 
 ## ------------------------------------------------
-## Method `BenchmarkResult$discard`
+## Method `BenchmarkResult$discard()`
 ## ------------------------------------------------
 
 bmr$discard(models = TRUE)
 
 ## ------------------------------------------------
-## Method `BenchmarkResult$set_threshold`
+## Method `BenchmarkResult$set_threshold()`
 ## ------------------------------------------------
 
 design = benchmark_grid(
@@ -1040,30 +1040,30 @@ bmr$set_threshold(0.8, learner_ids = "classif.featureless")
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 6392d0c9-6ab9-4a06-bef4-927978e5bf43         1 <learner_state[9]>  <list[1]>
-#> 2: 88ae0e43-43be-405c-87d7-c78dc12b835c         1 <learner_state[8]>  <list[1]>
+#> 1: 16d0f388-40df-4dfb-bf3d-1b95c262cc33         1 <learner_state[8]>  <list[1]>
+#> 2: 8082a34c-6e05-48a9-b6a7-52ffc87d0e81         1 <learner_state[9]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 0c19314a9481c0b7 062d5c9e3bac138b 4986460904b3902d 35db3d2bb507d357
-#> 2: c1c047f0c08761bb 062d5c9e3bac138b abe51fbaa6bac53b 35db3d2bb507d357
+#> 1: c1c047f0c08761bb f9791e97f9813150 abe51fbaa6bac53b 35db3d2bb507d357
+#> 2: 0c19314a9481c0b7 f9791e97f9813150 4986460904b3902d 35db3d2bb507d357
 bmr$set_threshold(0.3, i = 2)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 6392d0c9-6ab9-4a06-bef4-927978e5bf43         1 <learner_state[9]>  <list[1]>
-#> 2: 88ae0e43-43be-405c-87d7-c78dc12b835c         1 <learner_state[8]>  <list[1]>
+#> 1: 16d0f388-40df-4dfb-bf3d-1b95c262cc33         1 <learner_state[8]>  <list[1]>
+#> 2: 8082a34c-6e05-48a9-b6a7-52ffc87d0e81         1 <learner_state[9]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 0c19314a9481c0b7 062d5c9e3bac138b 4986460904b3902d 35db3d2bb507d357
-#> 2: c1c047f0c08761bb 062d5c9e3bac138b abe51fbaa6bac53b 35db3d2bb507d357
+#> 1: c1c047f0c08761bb f9791e97f9813150 abe51fbaa6bac53b 35db3d2bb507d357
+#> 2: 0c19314a9481c0b7 f9791e97f9813150 4986460904b3902d 35db3d2bb507d357
 bmr$set_threshold(0.7, uhashes = uhashes(bmr, learner_ids = "classif.featureless"))
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 6392d0c9-6ab9-4a06-bef4-927978e5bf43         1 <learner_state[9]>  <list[1]>
-#> 2: 88ae0e43-43be-405c-87d7-c78dc12b835c         1 <learner_state[8]>  <list[1]>
+#> 1: 16d0f388-40df-4dfb-bf3d-1b95c262cc33         1 <learner_state[8]>  <list[1]>
+#> 2: 8082a34c-6e05-48a9-b6a7-52ffc87d0e81         1 <learner_state[9]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 0c19314a9481c0b7 062d5c9e3bac138b 4986460904b3902d 35db3d2bb507d357
-#> 2: c1c047f0c08761bb 062d5c9e3bac138b abe51fbaa6bac53b 35db3d2bb507d357
+#> 1: c1c047f0c08761bb f9791e97f9813150 abe51fbaa6bac53b 35db3d2bb507d357
+#> 2: 0c19314a9481c0b7 f9791e97f9813150 4986460904b3902d 35db3d2bb507d357
 ```

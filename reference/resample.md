@@ -193,6 +193,12 @@ To get additional log output for debugging, increase the log level to
 
     lgr::get_logger("mlr3")$set_threshold("debug")
 
+To obtain a more informative traceback when an iteration fails, set
+`options(mlr3.debug = TRUE)`. This disables parallelization via
+[future](https://CRAN.R-project.org/package=future) so that errors are
+raised in the main process. Note that results computed in debug mode use
+a different seeding mechanism and are **not reproducible**.
+
 To log to a file or a data base, see the documentation of
 [lgr::lgr-package](https://s-fleck.github.io/lgr/reference/lgr-package.html).
 

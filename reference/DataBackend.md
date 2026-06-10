@@ -68,7 +68,7 @@ Other DataBackend:
 
 ### Public methods
 
-- [`DataBackend$new()`](#method-DataBackend-new)
+- [`DataBackend$new()`](#method-DataBackend-initialize)
 
 - [`DataBackend$format()`](#method-DataBackend-format)
 
@@ -76,7 +76,7 @@ Other DataBackend:
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `DataBackend$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -109,7 +109,7 @@ or via the S3 method
 
 ------------------------------------------------------------------------
 
-### Method [`format()`](https://rdrr.io/r/base/format.html)
+### `DataBackend$format()`
 
 Helper for print outputs.
 
@@ -125,7 +125,7 @@ Helper for print outputs.
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `DataBackend$print()`
 
 Printer.
 

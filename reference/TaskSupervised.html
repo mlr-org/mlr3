@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Supervised Task — TaskSupervised"><meta name="description" content="This is the abstract base class for task objects like TaskClassif and TaskRegr.
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Supervised Task — TaskSupervised"><meta name="description" content="This is the abstract base class for task objects like TaskClassif and TaskRegr.
 It extends Task with methods to handle a target column.
 Supervised tasks for probabilistic regression (including survival analysis) can be
 found in mlr3proba."><meta property="og:description" content="This is the abstract base class for task objects like TaskClassif and TaskRegr.
@@ -19,7 +19,7 @@ found in mlr3proba."><meta property="og:image" content="https://mlr3.mlr-org.com
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,39 +96,37 @@ found in <a href="https://CRAN.R-project.org/package=mlr3proba" class="external-
     </div>
     <div class="section level2">
     <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
-    <p><code><a href="Task.html">mlr3::Task</a></code> -&gt; <code>TaskSupervised</code></p>
+    <p><code><a href="Task.html">Task</a></code> -&gt; <code>TaskSupervised</code></p>
     </div>
     <div class="section level2">
     <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-TaskSupervised-new"><code>TaskSupervised$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-TaskSupervised-initialize"><code>TaskSupervised$new()</code></a></p></li>
 <li><p><a href="#method-TaskSupervised-truth"><code>TaskSupervised$truth()</code></a></p></li>
 <li><p><a href="#method-TaskSupervised-clone"><code>TaskSupervised$clone()</code></a></p></li>
-</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="add_strata"><a href="Task.html#method-add_strata"><code>mlr3::Task$add_strata()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href="Task.html#method-cbind"><code>mlr3::Task$cbind()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href="Task.html#method-data"><code>mlr3::Task$data()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="divide"><a href="Task.html#method-divide"><code>mlr3::Task$divide()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="droplevels"><a href="Task.html#method-droplevels"><code>mlr3::Task$droplevels()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href="Task.html#method-filter"><code>mlr3::Task$filter()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format"><a href="Task.html#method-format"><code>mlr3::Task$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="formula"><a href="Task.html#method-formula"><code>mlr3::Task$formula()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="head"><a href="Task.html#method-head"><code>mlr3::Task$head()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href="Task.html#method-help"><code>mlr3::Task$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href="Task.html#method-levels"><code>mlr3::Task$levels()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="materialize_view"><a href="Task.html#method-materialize_view"><code>mlr3::Task$materialize_view()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href="Task.html#method-missings"><code>mlr3::Task$missings()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print"><a href="Task.html#method-print"><code>mlr3::Task$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind"><a href="Task.html#method-rbind"><code>mlr3::Task$rbind()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href="Task.html#method-rename"><code>mlr3::Task$rename()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select"><a href="Task.html#method-select"><code>mlr3::Task$select()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_roles"><a href="Task.html#method-set_col_roles"><code>mlr3::Task$set_col_roles()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_levels"><a href="Task.html#method-set_levels"><code>mlr3::Task$set_levels()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_roles"><a href="Task.html#method-set_row_roles"><code>mlr3::Task$set_row_roles()</code></a></span></li>
-</ul></details></p><hr><a id="method-TaskSupervised-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="add_strata"><a href="Task.html#method-add_strata"><code>Task$add_strata()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href="Task.html#method-cbind"><code>Task$cbind()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href="Task.html#method-data"><code>Task$data()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="droplevels"><a href="Task.html#method-droplevels"><code>Task$droplevels()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href="Task.html#method-filter"><code>Task$filter()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format"><a href="Task.html#method-format"><code>Task$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="formula"><a href="Task.html#method-formula"><code>Task$formula()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="head"><a href="Task.html#method-head"><code>Task$head()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href="Task.html#method-help"><code>Task$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href="Task.html#method-levels"><code>Task$levels()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="materialize_view"><a href="Task.html#method-materialize_view"><code>Task$materialize_view()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href="Task.html#method-missings"><code>Task$missings()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print"><a href="Task.html#method-print"><code>Task$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind"><a href="Task.html#method-rbind"><code>Task$rbind()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href="Task.html#method-rename"><code>Task$rename()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select"><a href="Task.html#method-select"><code>Task$select()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_roles"><a href="Task.html#method-set_col_roles"><code>Task$set_col_roles()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_levels"><a href="Task.html#method-set_levels"><code>Task$set_levels()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_roles"><a href="Task.html#method-set_row_roles"><code>Task$set_row_roles()</code></a></span></li>
+</ul></details></p><hr><a id="method-TaskSupervised-initialize"></a><div class="section">
+<h3 id="tasksupervised-new-"><code>TaskSupervised$new()</code><a class="anchor" aria-label="anchor" href="#tasksupervised-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/TaskSupervised.html">TaskSupervised</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
@@ -139,38 +137,31 @@ found in <a href="https://CRAN.R-project.org/package=mlr3proba" class="external-
 <span>  label <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  extra_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>id</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Identifier for the new instance.</p></dd>
 
-
-<dt><code>task_type</code></dt>
+      <dt><code>task_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Type of task, e.g. <code>"regr"</code> or <code>"classif"</code>.
 Must be an element of <a href="mlr_reflections.html">mlr_reflections$task_types$type</a>.</p></dd>
 
-
-<dt><code>backend</code></dt>
+      <dt><code>backend</code></dt>
 <dd><p>(<a href="DataBackend.html">DataBackend</a>)<br>
 Either a <a href="DataBackend.html">DataBackend</a>, or any object which is convertible to a <a href="DataBackend.html">DataBackend</a> with <code><a href="as_data_backend.html">as_data_backend()</a></code>.
 E.g., a <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> will be converted to a <a href="DataBackendDataTable.html">DataBackendDataTable</a>.</p></dd>
 
-
-<dt><code>target</code></dt>
+      <dt><code>target</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Name of the target column.</p></dd>
 
-
-<dt><code>label</code></dt>
+      <dt><code>label</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Label for the new instance.</p></dd>
 
-
-<dt><code>extra_args</code></dt>
+      <dt><code>extra_args</code></dt>
 <dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 Named list of constructor arguments, required for converting task types
 via <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
@@ -179,15 +170,15 @@ via <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-TaskSupervised-truth"></a><div class="section">
-<h3 id="method-truth-">Method <code>truth()</code><a class="anchor" aria-label="anchor" href="#method-truth-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-TaskSupervised-truth"></a><div class="section">
+<h3 id="tasksupervised-truth-"><code>TaskSupervised$truth()</code><a class="anchor" aria-label="anchor" href="#tasksupervised-truth-"></a></h3>
 <p>True response for specified <code>row_ids</code>. Format depends on the task type.
 Defaults to all rows with role "use".</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskSupervised</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
 <dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> | <code>NULL</code>)<br>
@@ -198,14 +189,14 @@ Always refers to the complete data set, even after filtering.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-TaskSupervised-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-TaskSupervised-clone"></a><div class="section">
+<h3 id="tasksupervised-clone-"><code>TaskSupervised$clone()</code><a class="anchor" aria-label="anchor" href="#tasksupervised-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskSupervised</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -215,6 +206,7 @@ Always refers to the complete data set, even after filtering.</p></dd>
 </div>
 
 </div>
+
 
     </div>
 

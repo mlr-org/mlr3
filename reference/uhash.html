@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Obtain specific uhashes from a BenchmarkResult — uhashes"><meta name="description" content="In a BenchmarkResult, each ResampleResult is uniquely identified by a hash (uhash).
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Obtain specific uhashes from a BenchmarkResult — uhashes"><meta name="description" content="In a BenchmarkResult, each ResampleResult is uniquely identified by a hash (uhash).
 Operations that select specific ResampleResults from a BenchmarkResult operate using
 these hashes.
 This function allows to obtain uhashes for specific learners, tasks, and resamplings.
@@ -23,7 +23,7 @@ via the field $uhash_table."><meta property="og:image" content="https://mlr3.mlr
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,7 +59,7 @@ via the field $uhash_table."><meta property="og:image" content="https://mlr3.mlr
     </div>
 
     <div class="ref-description section level2">
-    <p>In a <code><a href="BenchmarkResult.html">BenchmarkResult</a></code>, each <a href="ResampleResult.html">ResampleResult</a> is <em>u</em>niquely identified by a <em>hash</em> (<em>uhash</em>).
+    <p>In a <code><a href="BenchmarkResult.html">BenchmarkResult</a></code>, each <a href="ResampleResult.html">ResampleResult</a> is uniquely identified by a <em>hash</em> (<em>uhash</em>).
 Operations that select specific <a href="ResampleResult.html">ResampleResult</a>s from a <a href="BenchmarkResult.html">BenchmarkResult</a> operate using
 these hashes.
 This function allows to obtain uhashes for specific learners, tasks, and resamplings.</p>
@@ -133,19 +133,19 @@ Resampling ID.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   5    iris classif.featureless       holdout     1        0      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   6    iris       classif.rpart       holdout     1        0      0</span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="va">uhashes</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "66158772-c831-40d7-af76-5419c3c88beb"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "f207b8cb-7d5d-4487-8572-64f2748a5277"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "2ad0d242-34c7-4202-b541-77f33279f7ef"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "f941afa9-2597-4199-86a3-0d86eaa1d73b"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "7db4b34c-3038-4d2d-a921-7d32a515f478"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "25637847-9c80-46da-9e38-d3c3c6fdf79b"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "6c09f39f-c111-42d9-ac23-f530f52a5e1a"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "b514b189-cd86-4563-8cd4-d4cdce775cd9"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "6be13d39-9471-437d-b6eb-0d084bdc71ad"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "a696d18f-7130-4477-a82b-47cda8ac08ca"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "d26ce5cb-2580-49df-bfee-29212105c757"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "37fba905-7518-4153-b7f7-cbdcaec8a4a9"</span>
 <span class="r-in"><span><span class="fu">uhash</span><span class="op">(</span><span class="va">bmr</span>, learner_id <span class="op">=</span> <span class="st">"classif.debug"</span>, task_id <span class="op">=</span> <span class="st">"sonar"</span>, resampling_id <span class="op">=</span> <span class="st">"holdout"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "66158772-c831-40d7-af76-5419c3c88beb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "6c09f39f-c111-42d9-ac23-f530f52a5e1a"</span>
 <span class="r-in"><span><span class="fu">uhashes</span><span class="op">(</span><span class="va">bmr</span>, learner_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.debug"</span>, <span class="st">"classif.featureless"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "66158772-c831-40d7-af76-5419c3c88beb"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "f207b8cb-7d5d-4487-8572-64f2748a5277"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "f941afa9-2597-4199-86a3-0d86eaa1d73b"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "7db4b34c-3038-4d2d-a921-7d32a515f478"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "6c09f39f-c111-42d9-ac23-f530f52a5e1a"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "b514b189-cd86-4563-8cd4-d4cdce775cd9"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "a696d18f-7130-4477-a82b-47cda8ac08ca"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "d26ce5cb-2580-49df-bfee-29212105c757"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

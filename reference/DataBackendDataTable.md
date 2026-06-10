@@ -19,8 +19,8 @@ Other DataBackend:
 
 ## Super class
 
-[`mlr3::DataBackend`](https://mlr3.mlr-org.com/reference/DataBackend.md)
--\> `DataBackendDataTable`
+[`DataBackend`](https://mlr3.mlr-org.com/reference/DataBackend.md) -\>
+`DataBackendDataTable`
 
 ## Public fields
 
@@ -58,7 +58,7 @@ Other DataBackend:
 
 ### Public methods
 
-- [`DataBackendDataTable$new()`](#method-DataBackendDataTable-new)
+- [`DataBackendDataTable$new()`](#method-DataBackendDataTable-initialize)
 
 - [`DataBackendDataTable$data()`](#method-DataBackendDataTable-data)
 
@@ -70,12 +70,12 @@ Other DataBackend:
 
 Inherited methods
 
-- [`mlr3::DataBackend$format()`](https://mlr3.mlr-org.com/reference/DataBackend.html#method-format)
-- [`mlr3::DataBackend$print()`](https://mlr3.mlr-org.com/reference/DataBackend.html#method-print)
+- [`DataBackend$format()`](https://mlr3.mlr-org.com/reference/DataBackend.html#method-format)
+- [`DataBackend$print()`](https://mlr3.mlr-org.com/reference/DataBackend.html#method-print)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `DataBackendDataTable$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -109,7 +109,7 @@ adds a primary key column if necessary.
 
 ------------------------------------------------------------------------
 
-### Method [`data()`](https://rdrr.io/r/utils/data.html)
+### `DataBackendDataTable$data()`
 
 Returns a slice of the data. The rows must be addressed as vector of
 primary key values, columns must be referred to via column names.
@@ -139,7 +139,7 @@ duplicated column names lead to an exception.
 
 ------------------------------------------------------------------------
 
-### Method [`head()`](https://rdrr.io/r/utils/head.html)
+### `DataBackendDataTable$head()`
 
 Retrieve the first `n` rows.
 
@@ -161,7 +161,7 @@ of the first `n` rows.
 
 ------------------------------------------------------------------------
 
-### Method `distinct()`
+### `DataBackendDataTable$distinct()`
 
 Returns a named list of vectors of distinct values for each column
 specified. If `na_rm` is `TRUE`, missing values are removed from the
@@ -197,7 +197,7 @@ Named [`list()`](https://rdrr.io/r/base/list.html) of distinct values.
 
 ------------------------------------------------------------------------
 
-### Method `missings()`
+### `DataBackendDataTable$missings()`
 
 Returns the number of missing values per column in the specified slice
 of data. Non-existing rows and columns are silently ignored.

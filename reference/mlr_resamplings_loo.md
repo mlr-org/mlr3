@@ -63,8 +63,8 @@ Other Resampling:
 
 ## Super class
 
-[`mlr3::Resampling`](https://mlr3.mlr-org.com/reference/Resampling.md)
--\> `ResamplingLOO`
+[`Resampling`](https://mlr3.mlr-org.com/reference/Resampling.md) -\>
+`ResamplingLOO`
 
 ## Active bindings
 
@@ -79,22 +79,22 @@ Other Resampling:
 
 ### Public methods
 
-- [`ResamplingLOO$new()`](#method-ResamplingLOO-new)
+- [`ResamplingLOO$new()`](#method-ResamplingLOO-initialize)
 
 - [`ResamplingLOO$clone()`](#method-ResamplingLOO-clone)
 
 Inherited methods
 
-- [`mlr3::Resampling$format()`](https://mlr3.mlr-org.com/reference/Resampling.html#method-format)
-- [`mlr3::Resampling$help()`](https://mlr3.mlr-org.com/reference/Resampling.html#method-help)
-- [`mlr3::Resampling$instantiate()`](https://mlr3.mlr-org.com/reference/Resampling.html#method-instantiate)
-- [`mlr3::Resampling$print()`](https://mlr3.mlr-org.com/reference/Resampling.html#method-print)
-- [`mlr3::Resampling$test_set()`](https://mlr3.mlr-org.com/reference/Resampling.html#method-test_set)
-- [`mlr3::Resampling$train_set()`](https://mlr3.mlr-org.com/reference/Resampling.html#method-train_set)
+- [`Resampling$format()`](https://mlr3.mlr-org.com/reference/Resampling.html#method-format)
+- [`Resampling$help()`](https://mlr3.mlr-org.com/reference/Resampling.html#method-help)
+- [`Resampling$instantiate()`](https://mlr3.mlr-org.com/reference/Resampling.html#method-instantiate)
+- [`Resampling$print()`](https://mlr3.mlr-org.com/reference/Resampling.html#method-print)
+- [`Resampling$test_set()`](https://mlr3.mlr-org.com/reference/Resampling.html#method-test_set)
+- [`Resampling$train_set()`](https://mlr3.mlr-org.com/reference/Resampling.html#method-train_set)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `ResamplingLOO$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -105,7 +105,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `ResamplingLOO$clone()`
 
 The objects of this class are cloneable with this method.
 

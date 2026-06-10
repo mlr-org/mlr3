@@ -80,7 +80,7 @@ Other TaskGenerator:
 
 ### Public methods
 
-- [`TaskGenerator$new()`](#method-TaskGenerator-new)
+- [`TaskGenerator$new()`](#method-TaskGenerator-initialize)
 
 - [`TaskGenerator$format()`](#method-TaskGenerator-format)
 
@@ -92,7 +92,7 @@ Other TaskGenerator:
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `TaskGenerator$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -148,7 +148,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method [`format()`](https://rdrr.io/r/base/format.html)
+### `TaskGenerator$format()`
 
 Helper for print outputs.
 
@@ -164,7 +164,7 @@ Helper for print outputs.
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `TaskGenerator$print()`
 
 Printer.
 
@@ -180,7 +180,7 @@ Printer.
 
 ------------------------------------------------------------------------
 
-### Method `generate()`
+### `TaskGenerator$generate()`
 
 Creates a task of type `task_type` with `n` observations, possibly using
 additional settings stored in `param_set`.
@@ -202,7 +202,7 @@ additional settings stored in `param_set`.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `TaskGenerator$clone()`
 
 The objects of this class are cloneable with this method.
 

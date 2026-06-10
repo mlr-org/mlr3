@@ -82,12 +82,6 @@ The following objects are set by
   provides the probabilities as well as the predicted labels, therefore
   `"prob"` maps to `c("response", "prob")`.
 
-- `learner_predict_types` (list of list of
-  [`character()`](https://rdrr.io/r/base/character.html))  
-  List of lists of supported
-  [Learner](https://mlr3.mlr-org.com/reference/Learner.md)
-  predict_types, named by their task type.
-
 - `learner_param_tags`
   ([`character()`](https://rdrr.io/r/base/character.html))  
   Character vector of allowed 'tags' for the
@@ -97,7 +91,7 @@ The following objects are set by
 - `predict_sets`
   ([`character()`](https://rdrr.io/r/base/character.html))  
   Vector of possible predict sets. Currently supported are `"train"`,
-  `"test"` and `"holdout"`.
+  `"test"` and `"internal_valid"`.
 
 - `measure_properties` (list of
   [`character()`](https://rdrr.io/r/base/character.html))  
@@ -135,7 +129,7 @@ mlr_reflections
 
 ``` r
 ls.str(mlr_reflections)
-#> auto_converters : <environment: 0x55cf3c105148> 
+#> auto_converters : <environment: 0x558053c02440> 
 #> default_measures : List of 3
 #>  $ classif     : chr "classif.ce"
 #>  $ regr        : chr "regr.mse"
@@ -153,7 +147,7 @@ ls.str(mlr_reflections)
 #>  $ classif: chr [1:9] "na_score" "requires_task" "requires_learner" "requires_model" ...
 #>  $ regr   : chr [1:9] "na_score" "requires_task" "requires_learner" "requires_model" ...
 #> package_version : Classes 'package_version', 'numeric_version'  hidden list of 1
-#>  $ : int [1:3] 1 6 0
+#>  $ : int [1:3] 1 7 0
 #> predict_sets :  chr [1:3] "train" "test" "internal_valid"
 #> resampling_properties :  chr [1:2] "duplicated_ids" "weights"
 #> rr_names :  chr [1:4] "task" "learner" "resampling" "iteration"

@@ -94,21 +94,21 @@ Other resample:
 
   ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   A table with all warning messages. Column names are `"iteration"` and
-  `"msg"`. Note that there can be multiple rows per resampling iteration
-  if multiple warnings have been recorded.
+  `"condition"`. Note that there can be multiple rows per resampling
+  iteration if multiple warnings have been recorded.
 
 - `errors`:
 
   ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   A table with all error messages. Column names are `"iteration"` and
-  `"msg"`. Note that there can be multiple rows per resampling iteration
-  if multiple errors have been recorded.
+  `"condition"`. Note that there can be multiple rows per resampling
+  iteration if multiple errors have been recorded.
 
 ## Methods
 
 ### Public methods
 
-- [`ResampleResult$new()`](#method-ResampleResult-new)
+- [`ResampleResult$new()`](#method-ResampleResult-initialize)
 
 - [`ResampleResult$format()`](#method-ResampleResult-format)
 
@@ -140,7 +140,7 @@ Other resample:
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `ResampleResult$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class. An alternative
@@ -173,7 +173,7 @@ construction method is provided by
 
 ------------------------------------------------------------------------
 
-### Method [`format()`](https://rdrr.io/r/base/format.html)
+### `ResampleResult$format()`
 
 Helper for print outputs.
 
@@ -189,7 +189,7 @@ Helper for print outputs.
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `ResampleResult$print()`
 
 Printer.
 
@@ -205,7 +205,7 @@ Printer.
 
 ------------------------------------------------------------------------
 
-### Method [`help()`](https://rdrr.io/r/utils/help.html)
+### `ResampleResult$help()`
 
 Opens the corresponding help page referenced by field `$man`.
 
@@ -215,7 +215,7 @@ Opens the corresponding help page referenced by field `$man`.
 
 ------------------------------------------------------------------------
 
-### Method `prediction()`
+### `ResampleResult$prediction()`
 
 Combined [Prediction](https://mlr3.mlr-org.com/reference/Prediction.md)
 of all individual resampling iterations, and all provided predict sets.
@@ -252,7 +252,7 @@ available.
 
 ------------------------------------------------------------------------
 
-### Method `predictions()`
+### `ResampleResult$predictions()`
 
 List of prediction objects, sorted by resampling iteration. If multiple
 sets are given, these are combined to a single one for each iteration.
@@ -286,7 +286,7 @@ available.
 
 ------------------------------------------------------------------------
 
-### Method `score()`
+### `ResampleResult$score()`
 
 Returns a table with one row for each resampling iteration, including
 all involved objects:
@@ -350,7 +350,7 @@ in `measures`, named with the id of the respective measure id. If
 
 ------------------------------------------------------------------------
 
-### Method `obs_loss()`
+### `ResampleResult$obs_loss()`
 
 Calculates the observation-wise loss via the
 [Measure](https://mlr3.mlr-org.com/reference/Measure.md)'s `obs_loss`
@@ -386,7 +386,7 @@ example taking the square-root.
 
 ------------------------------------------------------------------------
 
-### Method [`aggregate()`](https://rdrr.io/r/stats/aggregate.html)
+### `ResampleResult$aggregate()`
 
 Calculates and aggregates performance values for all provided measures,
 according to the respective aggregation function in
@@ -416,7 +416,7 @@ Named [`numeric()`](https://rdrr.io/r/base/numeric.html).
 
 ------------------------------------------------------------------------
 
-### Method [`filter()`](https://rdrr.io/r/stats/filter.html)
+### `ResampleResult$filter()`
 
 Subsets the ResampleResult, reducing it to only keep the iterations
 specified in `iters`.
@@ -444,7 +444,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method `discard()`
+### `ResampleResult$discard()`
 
 Shrinks the ResampleResult by discarding parts of the internally stored
 data. Note that certain operations might stop work, e.g. extracting
@@ -479,7 +479,7 @@ object in its previous state.
 
 ------------------------------------------------------------------------
 
-### Method `marshal()`
+### `ResampleResult$marshal()`
 
 Marshals all stored models.
 
@@ -501,7 +501,7 @@ Marshals all stored models.
 
 ------------------------------------------------------------------------
 
-### Method `unmarshal()`
+### `ResampleResult$unmarshal()`
 
 Unmarshals all stored models.
 
@@ -523,7 +523,7 @@ Unmarshals all stored models.
 
 ------------------------------------------------------------------------
 
-### Method `set_threshold()`
+### `ResampleResult$set_threshold()`
 
 Sets the threshold for the response prediction of classification
 learners, given they have output a probability prediction for a binary
@@ -561,7 +561,7 @@ classification task. This modifies the object in-place.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `ResampleResult$clone()`
 
 The objects of this class are cloneable with this method.
 
@@ -661,7 +661,7 @@ rr$errors
 #> Empty data.table (0 rows and 2 cols): iteration,condition
 
 ## ------------------------------------------------
-## Method `ResampleResult$prediction`
+## Method `ResampleResult$prediction()`
 ## ------------------------------------------------
 
 rr$prediction()
@@ -677,7 +677,7 @@ rr$prediction()
 #>      344 Chinstrap Chinstrap
 
 ## ------------------------------------------------
-## Method `ResampleResult$predictions`
+## Method `ResampleResult$predictions()`
 ## ------------------------------------------------
 
 rr$predictions()
@@ -719,7 +719,7 @@ rr$predictions()
 #> 
 
 ## ------------------------------------------------
-## Method `ResampleResult$score`
+## Method `ResampleResult$score()`
 ## ------------------------------------------------
 
 rr$score(msr("classif.acc"))
@@ -731,7 +731,7 @@ rr$score(msr("classif.acc"))
 #> Hidden columns: task, learner, resampling, prediction_test
 
 ## ------------------------------------------------
-## Method `ResampleResult$obs_loss`
+## Method `ResampleResult$obs_loss()`
 ## ------------------------------------------------
 
 rr$obs_loss(msr("classif.acc"))
@@ -750,7 +750,7 @@ rr$obs_loss(msr("classif.acc"))
 #> 344:         3     344 Chinstrap Chinstrap           1
 
 ## ------------------------------------------------
-## Method `ResampleResult$aggregate`
+## Method `ResampleResult$aggregate()`
 ## ------------------------------------------------
 
 rr$aggregate(msr("classif.acc"))
@@ -758,25 +758,25 @@ rr$aggregate(msr("classif.acc"))
 #>   0.9332062 
 
 ## ------------------------------------------------
-## Method `ResampleResult$filter`
+## Method `ResampleResult$filter()`
 ## ------------------------------------------------
 
 rr$filter(1L)
 
 ## ------------------------------------------------
-## Method `ResampleResult$marshal`
+## Method `ResampleResult$marshal()`
 ## ------------------------------------------------
 
 rr$marshal()
 
 ## ------------------------------------------------
-## Method `ResampleResult$unmarshal`
+## Method `ResampleResult$unmarshal()`
 ## ------------------------------------------------
 
 rr$unmarshal()
 
 ## ------------------------------------------------
-## Method `ResampleResult$set_threshold`
+## Method `ResampleResult$set_threshold()`
 ## ------------------------------------------------
 
 learner = lrn("classif.rpart", predict_type = "prob")
@@ -785,12 +785,12 @@ rr$set_threshold(0.6)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 745b36bb-a88e-4903-866b-9f8b121b674d         1 <learner_state[8]>  <list[1]>
-#> 2: 745b36bb-a88e-4903-866b-9f8b121b674d         2 <learner_state[8]>  <list[1]>
-#> 3: 745b36bb-a88e-4903-866b-9f8b121b674d         3 <learner_state[8]>  <list[1]>
+#> 1: 6285960f-6699-4832-a727-23f6c9ebd8d1         1 <learner_state[8]>  <list[1]>
+#> 2: 6285960f-6699-4832-a727-23f6c9ebd8d1         2 <learner_state[8]>  <list[1]>
+#> 3: 6285960f-6699-4832-a727-23f6c9ebd8d1         3 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 2099aa995d4e20f7 062d5c9e3bac138b 5b2c800eb8611508 9c305b322d6fd7d3
-#> 2: 2099aa995d4e20f7 062d5c9e3bac138b 5b2c800eb8611508 9c305b322d6fd7d3
-#> 3: 2099aa995d4e20f7 062d5c9e3bac138b 5b2c800eb8611508 9c305b322d6fd7d3
+#> 1: 2099aa995d4e20f7 f9791e97f9813150 5b2c800eb8611508 3aed56df550531a0
+#> 2: 2099aa995d4e20f7 f9791e97f9813150 5b2c800eb8611508 3aed56df550531a0
+#> 3: 2099aa995d4e20f7 f9791e97f9813150 5b2c800eb8611508 3aed56df550531a0
 ```

@@ -126,10 +126,10 @@ as.data.table(mlr_measures)
 #> 46:             regr.mse                                  Mean Squared Error
 #> 47:            regr.msle                              Mean Squared Log Error
 #> 48:           regr.pbias                                        Percent Bias
-#> 49:         regr.pinball                                                <NA>
+#> 49:         regr.pinball                                Average Pinball Loss
 #> 50:            regr.rmse                             Root Mean Squared Error
 #> 51:           regr.rmsle                         Root Mean Squared Log Error
-#> 52:             regr.rqr                                                <NA>
+#> 52:             regr.rqr                   R-Squared for Quantile Regression
 #> 53:             regr.rsq                                                <NA>
 #> 54:             regr.sae                              Sum of Absolute Errors
 #> 55:           regr.smape               Symmetric Mean Absolute Percent Error
@@ -215,38 +215,38 @@ as.data.table(mlr_measures)
 #>  1:      na_score,requires_learner,requires_model,requires_no_prediction
 #>  2:      na_score,requires_learner,requires_model,requires_no_prediction
 #>  3:                                                     weights,obs_loss
-#>  4:                                                                     
+#>  4:                                                              weights
 #>  5:                                                              weights
 #>  6:                                                     weights,obs_loss
 #>  7:                                                     weights,obs_loss
 #>  8:                                                              weights
-#>  9:                                                                     
-#> 10:                                                                     
-#> 11:                                                                     
-#> 12:                                                                     
-#> 13:                                                                     
-#> 14:                                                                     
-#> 15:                                                                     
-#> 16:                                                                     
+#>  9:                                                              weights
+#> 10:                                                              weights
+#> 11:                                                              weights
+#> 12:                                                              weights
+#> 13:                                                              weights
+#> 14:                                                              weights
+#> 15:                                                              weights
+#> 16:                                                              weights
 #> 17:                                                     weights,obs_loss
 #> 18:                                                                     
 #> 19:                                                                     
 #> 20:                                                                     
 #> 21:                                                                     
 #> 22:                                                                     
-#> 23:                                                                     
-#> 24:                                                                     
-#> 25:                                                                     
-#> 26:                                                                     
+#> 23:                                                              weights
+#> 24:                                                              weights
+#> 25:                                                              weights
+#> 26:                                                              weights
 #> 27:                                                                     
-#> 28:                                                                     
-#> 29:                                                                     
-#> 30:                                                                     
-#> 31:                                                                     
-#> 32:                                                                     
-#> 33:                                                                     
-#> 34:                                                                     
-#> 35:                                                                     
+#> 28:                                                              weights
+#> 29:                                                              weights
+#> 30:                                                              weights
+#> 31:                                                              weights
+#> 32:                                                              weights
+#> 33:                                                              weights
+#> 34:                                                              weights
+#> 35:                                                              weights
 #> 36:                                                             na_score
 #> 37:                     na_score,requires_learner,requires_no_prediction
 #> 38:                     na_score,requires_learner,requires_no_prediction
@@ -260,13 +260,13 @@ as.data.table(mlr_measures)
 #> 46:                                                     weights,obs_loss
 #> 47:                                                     weights,obs_loss
 #> 48:                                                              weights
-#> 49:                                                                     
+#> 49:                                                              weights
 #> 50:                                                     weights,obs_loss
 #> 51:                                                              weights
 #> 52:                                                               [NULL]
 #> 53:                                                              weights
 #> 54:                                                     weights,obs_loss
-#> 55:                                                                     
+#> 55:                                                              weights
 #> 56:                                                                     
 #> 57:                                                     weights,obs_loss
 #> 58: requires_task,requires_learner,requires_model,requires_no_prediction

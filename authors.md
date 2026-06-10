@@ -43,6 +43,8 @@
 - **Maximilian Mücke**. Contributor.
   [](https://orcid.org/0009-0000-9432-9795)
 
+- **Keno Mersmann**. Contributor.
+
 ## Citation
 
 Source:
@@ -52,7 +54,7 @@ Lang M, Binder M, Richter J, Schratz P, Pfisterer F, Coors S, Au Q,
 Casalicchio G, Kotthoff L, Bischl B (2019). “mlr3: A modern
 object-oriented machine learning framework in R.” *Journal of Open
 Source Software*.
-[doi:10.21105/joss.01903](https://doi.org/10.21105/joss.01903),
+[doi:10.21105/joss.01903](https://doi.org/10.21105/joss.01903).
 <https://joss.theoj.org/papers/10.21105/joss.01903>.
 
     @Article{mlr3,

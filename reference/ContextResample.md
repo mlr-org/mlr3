@@ -60,7 +60,7 @@ for a list of stages that access `ContextResample`.
 
 ### Public methods
 
-- [`ContextResample$new()`](#method-ContextResample-new)
+- [`ContextResample$new()`](#method-ContextResample-initialize)
 
 - [`ContextResample$clone()`](#method-ContextResample-clone)
 
@@ -71,7 +71,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `ContextResample$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -104,7 +104,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `ContextResample$clone()`
 
 The objects of this class are cloneable with this method.
 

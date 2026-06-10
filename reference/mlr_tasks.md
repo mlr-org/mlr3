@@ -143,12 +143,12 @@ mlr_tasks$get("penguins.binary")
 #> 
 #> ── <TaskClassif> (344x8) ───────────────────────────────────────────────────────
 #> • Target: species
-#> • Target classes: 1 (positive class, 44%), 0 (56%)
 #> • Properties: twoclass
 #> • Features (7):
 #>   • int (3): body_mass_g, flipper_length_mm, year
 #>   • dbl (2): bill_depth_mm, bill_length_mm
 #>   • fct (2): island, sex
+#> • Target classes: 1 (positive class, 44%), 0 (56%)
 
 # remove task again
 mlr_tasks$remove("penguins.binary")

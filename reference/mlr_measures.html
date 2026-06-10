@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Dictionary of Performance Measures — mlr_measures"><meta name="description" content="A simple mlr3misc::Dictionary storing objects of class Measure.
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Dictionary of Performance Measures — mlr_measures"><meta name="description" content="A simple mlr3misc::Dictionary storing objects of class Measure.
 Each measure has an associated help page, see mlr_measures_[id].
 This dictionary can get populated with additional measures by add-on packages.
 E.g., mlr3proba adds survival measures and mlr3cluster adds
@@ -23,7 +23,7 @@ For a more convenient way to retrieve and construct measures, see msr()/msrs()."
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -168,10 +168,10 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 46:             regr.mse                                  Mean Squared Error</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 47:            regr.msle                              Mean Squared Log Error</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 48:           regr.pbias                                        Percent Bias</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49:         regr.pinball                                                &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49:         regr.pinball                                Average Pinball Loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 50:            regr.rmse                             Root Mean Squared Error</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 51:           regr.rmsle                         Root Mean Squared Log Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52:             regr.rqr                                                &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52:             regr.rqr                   R-Squared for Quantile Regression</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 53:             regr.rsq                                                &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 54:             regr.sae                              Sum of Absolute Errors</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 55:           regr.smape               Symmetric Mean Absolute Percent Error</span>
@@ -257,38 +257,38 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1:      na_score,requires_learner,requires_model,requires_no_prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2:      na_score,requires_learner,requires_model,requires_no_prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  3:                                                     weights,obs_loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4:                                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  5:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  6:                                                     weights,obs_loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  7:                                                     weights,obs_loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  8:                                                              weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16:                                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17:                                                     weights,obs_loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18:                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19:                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20:                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 21:                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26:                                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 27:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35:                                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 36:                                                             na_score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 37:                     na_score,requires_learner,requires_no_prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 38:                     na_score,requires_learner,requires_no_prediction</span>
@@ -302,13 +302,13 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 46:                                                     weights,obs_loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 47:                                                     weights,obs_loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 48:                                                              weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49:                                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 50:                                                     weights,obs_loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 51:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 52:                                                               [NULL]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 53:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 54:                                                     weights,obs_loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 55:                                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 56:                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 57:                                                     weights,obs_loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 58: requires_task,requires_learner,requires_model,requires_no_prediction</span>

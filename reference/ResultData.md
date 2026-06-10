@@ -34,7 +34,7 @@ requirements.
 
 ### Public methods
 
-- [`ResultData$new()`](#method-ResultData-new)
+- [`ResultData$new()`](#method-ResultData-initialize)
 
 - [`ResultData$uhashes()`](#method-ResultData-uhashes)
 
@@ -76,7 +76,7 @@ requirements.
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `ResultData$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class. An alternative
@@ -112,7 +112,7 @@ construction method is provided by
 
 ------------------------------------------------------------------------
 
-### Method [`uhashes()`](https://mlr3.mlr-org.com/reference/uhash.md)
+### `ResultData$uhashes()`
 
 Returns all unique hashes (`uhash` values) of all included
 [ResampleResult](https://mlr3.mlr-org.com/reference/ResampleResult.md)s.
@@ -139,7 +139,7 @@ Returns all unique hashes (`uhash` values) of all included
 
 ------------------------------------------------------------------------
 
-### Method `uhash_table()`
+### `ResultData$uhash_table()`
 
 Returns a
 [`data.table`](https://rdrr.io/pkg/data.table/man/data.table.html) with
@@ -169,7 +169,7 @@ given view. The `uhash` uniquely identifies an individual
 
 ------------------------------------------------------------------------
 
-### Method `iterations()`
+### `ResultData$iterations()`
 
 Returns the number of recorded iterations / experiments.
 
@@ -195,7 +195,7 @@ Returns the number of recorded iterations / experiments.
 
 ------------------------------------------------------------------------
 
-### Method `tasks()`
+### `ResultData$tasks()`
 
 Returns a table of included
 [Task](https://mlr3.mlr-org.com/reference/Task.md)s.
@@ -225,7 +225,7 @@ with columns `"task_hash"`
 
 ------------------------------------------------------------------------
 
-### Method `learners()`
+### `ResultData$learners()`
 
 Returns a table of included
 [Learner](https://mlr3.mlr-org.com/reference/Learner.md)s.
@@ -270,7 +270,7 @@ with columns `"learner_hash"`
 
 ------------------------------------------------------------------------
 
-### Method `learner_states()`
+### `ResultData$learner_states()`
 
 Returns a list of states of included
 [Learner](https://mlr3.mlr-org.com/reference/Learner.md)s without
@@ -296,7 +296,7 @@ reassembling the learners.
 
 ------------------------------------------------------------------------
 
-### Method `resamplings()`
+### `ResultData$resamplings()`
 
 Returns a table of included
 [Resampling](https://mlr3.mlr-org.com/reference/Resampling.md)s.
@@ -327,7 +327,7 @@ with columns `"resampling_hash"`
 
 ------------------------------------------------------------------------
 
-### Method `predictions()`
+### `ResultData$predictions()`
 
 Returns a list of
 [Prediction](https://mlr3.mlr-org.com/reference/Prediction.md) objects.
@@ -397,7 +397,7 @@ Returns a list of
 
 ------------------------------------------------------------------------
 
-### Method `prediction()`
+### `ResultData$prediction()`
 
 Returns a combined
 [Prediction](https://mlr3.mlr-org.com/reference/Prediction.md) objects.
@@ -466,7 +466,7 @@ Returns a combined
 
 ------------------------------------------------------------------------
 
-### Method `data_extra()`
+### `ResultData$data_extra()`
 
 Returns additional data stored.
 
@@ -492,7 +492,7 @@ Returns additional data stored.
 
 ------------------------------------------------------------------------
 
-### Method `combine()`
+### `ResultData$combine()`
 
 Combines multiple ResultData objects, modifying `self` in-place.
 
@@ -512,7 +512,7 @@ Combines multiple ResultData objects, modifying `self` in-place.
 
 ------------------------------------------------------------------------
 
-### Method [`sweep()`](https://rdrr.io/r/base/sweep.html)
+### `ResultData$sweep()`
 
 Updates the ResultData object, removing rows from all tables which are
 not referenced by the fact table anymore. E.g., can be called after
@@ -528,7 +528,7 @@ Modified `self` (invisibly).
 
 ------------------------------------------------------------------------
 
-### Method `marshal()`
+### `ResultData$marshal()`
 
 Marshals all stored learner models. This will do nothing to models that
 are already marshaled.
@@ -547,7 +547,7 @@ are already marshaled.
 
 ------------------------------------------------------------------------
 
-### Method `unmarshal()`
+### `ResultData$unmarshal()`
 
 Unmarshals all stored learner models. This will do nothing to models
 which are not marshaled.
@@ -566,7 +566,7 @@ which are not marshaled.
 
 ------------------------------------------------------------------------
 
-### Method `discard()`
+### `ResultData$discard()`
 
 Shrinks the object by discarding parts of the stored data.
 
@@ -596,7 +596,7 @@ Modified `self` (invisibly).
 
 ------------------------------------------------------------------------
 
-### Method `as_data_table()`
+### `ResultData$as_data_table()`
 
 Combines internal tables into a single flat
 [`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
@@ -678,7 +678,7 @@ Combines internal tables into a single flat
 
 ------------------------------------------------------------------------
 
-### Method `logs()`
+### `ResultData$logs()`
 
 Get a table of recorded learner logs.
 
@@ -709,7 +709,7 @@ Get a table of recorded learner logs.
 
 ------------------------------------------------------------------------
 
-### Method `set_threshold()`
+### `ResultData$set_threshold()`
 
 Sets the threshold for the response prediction of classification
 learners, given they have output a probability prediction.
@@ -750,7 +750,7 @@ learners, given they have output a probability prediction.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `ResultData$clone()`
 
 The objects of this class are cloneable with this method.
 

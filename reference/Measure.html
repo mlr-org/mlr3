@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Measure Class — Measure"><meta name="description" content="This is the abstract base class for measures like MeasureClassif and MeasureRegr.
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Measure Class — Measure"><meta name="description" content="This is the abstract base class for measures like MeasureClassif and MeasureRegr.
 Measures are classes tailored around two functions doing the work:
 A function $score() which quantifies the performance on a Prediction object, so a set
 of predicted observation via a scalar number – usually an aggregate of losses on the contained observations,
@@ -43,7 +43,7 @@ mlr3book."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -187,7 +187,7 @@ Those can be combined via getters in <a href="ResampleResult.html">ResampleResul
 to operate on specific subsets of the calculated prediction sets.</p></dd>
 
 
-<dt><code>hash</code></dt>
+    <dt><code>hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Hash (unique identifier) for this object.
 The hash is calculated based on the id, the parameter settings, predict sets and the <code>$score</code>,
@@ -195,12 +195,12 @@ The hash is calculated based on the id, the parameter settings, predict sets and
 Measure can define additional fields to be included in the hash by setting the field <code>$.extra_hash</code>.</p></dd>
 
 
-<dt><code>properties</code></dt>
+    <dt><code>properties</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Properties of this measure.</p></dd>
 
 
-<dt><code>average</code></dt>
+    <dt><code>average</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Method for aggregation:</p><ul><li><p><code>"micro"</code>:
 All predictions from multiple resampling iterations are first combined into a single <a href="Prediction.html">Prediction</a> object.
@@ -220,12 +220,12 @@ The measure comes with a custom aggregation method which directly operates on a 
 </ul></dd>
 
 
-<dt><code>aggregator</code></dt>
+    <dt><code>aggregator</code></dt>
 <dd><p>(<code>function()</code>)<br>
 Function to aggregate scores computed on different resampling iterations.</p></dd>
 
 
-<dt><code>use_weights</code></dt>
+    <dt><code>use_weights</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 How to handle weights.
 Settings are <code>"use"</code>, <code>"ignore"</code>, and <code>"error"</code>.</p><ul><li><p><code>"use"</code>: Weights are used automatically if found in the task, as supported by the measure.</p></li>
@@ -240,36 +240,36 @@ For measures that do not support weights,
 <code>use_weights</code> needs to be set to <code>"ignore"</code> if tasks with weights should be handled (by dropping the weights).</p></dd>
 
 
-<dt><code>id</code></dt>
+    <dt><code>id</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Identifier of the object.
 Used in tables, plot and text output.</p></dd>
 
 
-<dt><code>label</code></dt>
+    <dt><code>label</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Label for this object.
 Can be used in tables, plot and text output instead of the ID.</p></dd>
 
 
-<dt><code>task_type</code></dt>
+    <dt><code>task_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
 <p>For a complete list of possible task types (depending on the loaded packages),
 see <code><a href="mlr_reflections.html">mlr_reflections$task_types$type</a></code>.</p></dd>
 
 
-<dt><code>param_set</code></dt>
+    <dt><code>param_set</code></dt>
 <dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
 Set of hyperparameters.</p></dd>
 
 
-<dt><code>predict_type</code></dt>
+    <dt><code>predict_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Required predict type of the <a href="Learner.html">Learner</a>.</p></dd>
 
 
-<dt><code>check_prerequisites</code></dt>
+    <dt><code>check_prerequisites</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 How to proceed if one of the following prerequisites is not met:</p><ul><li><p>wrong predict type (e.g., probabilities required, but only labels available).</p></li>
 <li><p>wrong predict set (e.g., learner predicted on training set, but predictions of test set required).</p></li>
@@ -278,34 +278,34 @@ How to proceed if one of the following prerequisites is not met:</p><ul><li><p>w
 raise a warning before returning <code>NaN</code>).</p></dd>
 
 
-<dt><code>task_properties</code></dt>
+    <dt><code>task_properties</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Required properties of the <a href="Task.html">Task</a>.</p></dd>
 
 
-<dt><code>range</code></dt>
+    <dt><code>range</code></dt>
 <dd><p>(<code>numeric(2)</code>)<br>
 Lower and upper bound of possible performance scores.</p></dd>
 
 
-<dt><code>minimize</code></dt>
+    <dt><code>minimize</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>TRUE</code>, good predictions correspond to small values of performance scores.</p></dd>
 
 
-<dt><code>packages</code></dt>
+    <dt><code>packages</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Set of required packages.
 These packages are loaded, but not attached.</p></dd>
 
 
-<dt><code>man</code></dt>
+    <dt><code>man</code></dt>
 <dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
 
-<dt><code>trafo</code></dt>
+    <dt><code>trafo</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> | <code>NULL</code>)<br><code>NULL</code> or a list with two elements:</p><ul><li><p><code>fn</code>: the transformation function applied after aggregating
 observation-wise losses (e.g. <code>sqrt</code> for RMSE)</p></li>
 <li><p><code>deriv</code>: The derivative of the <code>fn</code>.</p></li>
@@ -319,8 +319,7 @@ observation-wise losses (e.g. <code>sqrt</code> for RMSE)</p></li>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-Measure-new"><code>Measure$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-Measure-initialize"><code>Measure$new()</code></a></p></li>
 <li><p><a href="#method-Measure-format"><code>Measure$format()</code></a></p></li>
 <li><p><a href="#method-Measure-print"><code>Measure$print()</code></a></p></li>
 <li><p><a href="#method-Measure-help"><code>Measure$help()</code></a></p></li>
@@ -328,8 +327,8 @@ observation-wise losses (e.g. <code>sqrt</code> for RMSE)</p></li>
 <li><p><a href="#method-Measure-aggregate"><code>Measure$aggregate()</code></a></p></li>
 <li><p><a href="#method-Measure-obs_loss"><code>Measure$obs_loss()</code></a></p></li>
 <li><p><a href="#method-Measure-clone"><code>Measure$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-Measure-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p></p><hr><a id="method-Measure-initialize"></a><div class="section">
+<h3 id="measure-new-"><code>Measure$new()</code><a class="anchor" aria-label="anchor" href="#measure-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href="MeasureClassif.html">MeasureClassif</a> or <a href="MeasureRegr.html">MeasureRegr</a>.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
@@ -350,40 +349,33 @@ observation-wise losses (e.g. <code>sqrt</code> for RMSE)</p></li>
 <span>  man <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  trafo <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>id</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Identifier for the new instance.</p></dd>
 
-
-<dt><code>task_type</code></dt>
+      <dt><code>task_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Type of task, e.g. <code>"regr"</code> or <code>"classif"</code>.
 Must be an element of <a href="mlr_reflections.html">mlr_reflections$task_types$type</a>.</p></dd>
 
-
-<dt><code>param_set</code></dt>
+      <dt><code>param_set</code></dt>
 <dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
 Set of hyperparameters.</p></dd>
 
-
-<dt><code>range</code></dt>
+      <dt><code>range</code></dt>
 <dd><p>(<code>numeric(2)</code>)<br>
 Feasible range for this measure as <code>c(lower_bound, upper_bound)</code>.
 Both bounds may be infinite.</p></dd>
 
-
-<dt><code>minimize</code></dt>
+      <dt><code>minimize</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 Set to <code>TRUE</code> if good predictions correspond to small values,
 and to <code>FALSE</code> if good predictions correspond to large values.
 If set to <code>NA</code> (default), tuning this measure is not possible.</p></dd>
 
-
-<dt><code>average</code></dt>
+      <dt><code>average</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 How to average multiple <a href="Prediction.html">Prediction</a>s from a <a href="ResampleResult.html">ResampleResult</a>.</p>
 <p>The default, <code>"macro"</code>, calculates the individual performances scores for each <a href="Prediction.html">Prediction</a> and then uses the
@@ -396,8 +388,7 @@ numbers of samples.</p>
 <p>If set to <code>"micro"</code>, the individual <a href="Prediction.html">Prediction</a> objects are first combined into a single new <a href="Prediction.html">Prediction</a> object which is then used to assess the performance.
 The function in <code>$aggregator</code> is not used in this case.</p></dd>
 
-
-<dt><code>aggregator</code></dt>
+      <dt><code>aggregator</code></dt>
 <dd><p>(<code>function()</code> | <code>NULL</code>)<br>
 Function to aggregate over multiple iterations. The role of this function depends on
 the value of field <code>"average"</code>:</p><ul><li><p><code>"macro"</code>: A numeric vector of scores (one per iteration) is passed.
@@ -408,8 +399,7 @@ scored in one go.</p></li>
 <li><p><code>"custom"</code>: A <a href="ResampleResult.html">ResampleResult</a> is passed to the aggregate function.</p></li>
 </ul></dd>
 
-
-<dt><code>properties</code></dt>
+      <dt><code>properties</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Properties of the measure.
 Must be a subset of <a href="mlr_reflections.html">mlr_reflections$measure_properties</a>.
@@ -425,14 +415,12 @@ that only use a subset of their iterations for the point estimate)</p></li>
 This usually means that the measure extracts some information from the learner state.).</p></li>
 </ul></dd>
 
-
-<dt><code>predict_type</code></dt>
+      <dt><code>predict_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Required predict type of the <a href="Learner.html">Learner</a>.
 Possible values are stored in <a href="mlr_reflections.html">mlr_reflections$learner_predict_types</a>.</p></dd>
 
-
-<dt><code>predict_sets</code></dt>
+      <dt><code>predict_sets</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Prediction sets to operate on, used in <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href="ResampleResult.html">ResampleResult</a>.
 Multiple predict sets are calculated by the respective <a href="Learner.html">Learner</a> during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.
@@ -440,31 +428,26 @@ Must be a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is <code>"test"</code>.</p></dd>
 
-
-<dt><code>task_properties</code></dt>
+      <dt><code>task_properties</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Required task properties, see <a href="Task.html">Task</a>.</p></dd>
 
-
-<dt><code>packages</code></dt>
+      <dt><code>packages</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Set of required packages.
 A warning is signaled by the constructor if at least one of the packages is not installed,
 but loaded (not attached) later on-demand via <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace()</a></code>.</p></dd>
 
-
-<dt><code>label</code></dt>
+      <dt><code>label</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Label for the new instance.</p></dd>
 
-
-<dt><code>man</code></dt>
+      <dt><code>man</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 The referenced help package can be opened via method <code>$help()</code>.</p></dd>
 
-
-<dt><code>trafo</code></dt>
+      <dt><code>trafo</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> | <code>NULL</code>)<br>
 An optional list with two elements, containing the transformation <code>"fn"</code> and its derivative <code>"deriv"</code>.
 The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
@@ -474,14 +457,14 @@ this requires an <code>$obs_loss</code> to be present. An example is <code>sqrt<
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-Measure-format"></a><div class="section">
-<h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-Measure-format"></a><div class="section">
+<h3 id="measure-format-"><code>Measure$format()</code><a class="anchor" aria-label="anchor" href="#measure-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Measure</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(ignored).</p></dd>
@@ -490,14 +473,14 @@ this requires an <code>$obs_loss</code> to be present. An example is <code>sqrt<
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-Measure-print"></a><div class="section">
-<h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-Measure-print"></a><div class="section">
+<h3 id="measure-print-"><code>Measure$print()</code><a class="anchor" aria-label="anchor" href="#measure-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Measure</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(ignored).</p></dd>
@@ -506,51 +489,46 @@ this requires an <code>$obs_loss</code> to be present. An example is <code>sqrt<
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-Measure-help"></a><div class="section">
-<h3 id="method-help-">Method <code><a href="https://rdrr.io/r/utils/help.html" class="external-link">help()</a></code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-Measure-help"></a><div class="section">
+<h3 id="measure-help-"><code>Measure$help()</code><a class="anchor" aria-label="anchor" href="#measure-help-"></a></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Measure</span><span class="op">$</span><span class="fu">help</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Measure-score"></a><div class="section">
-<h3 id="method-score-">Method <code>score()</code><a class="anchor" aria-label="anchor" href="#method-score-"></a></h3>
-<p>Takes a <a href="Prediction.html">Prediction</a> (or a list of <a href="Prediction.html">Prediction</a> objects named with valid <code>predict_sets</code>)
-and calculates a numeric score.
+<p></p><hr><a id="method-Measure-score"></a><div class="section">
+<h3 id="measure-score-"><code>Measure$score()</code><a class="anchor" aria-label="anchor" href="#measure-score-"></a></h3>
+<p>Takes a <a href="Prediction.html">Prediction</a> and calculates a numeric score.
 If the measure if flagged with the properties <code>"requires_task"</code>, <code>"requires_learner"</code>,
 <code>"requires_model"</code> or <code>"requires_train_set"</code>, you must additionally
 pass the respective <a href="Task.html">Task</a>, the (trained) <a href="Learner.html">Learner</a> or the training set indices.
 This is handled internally during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Measure</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">prediction</span>, task <span class="op">=</span> <span class="cn">NULL</span>, learner <span class="op">=</span> <span class="cn">NULL</span>, train_set <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>prediction</code></dt>
-<dd><p>(<a href="Prediction.html">Prediction</a> | named list of <a href="Prediction.html">Prediction</a>).</p></dd>
+<dd><p>(<a href="Prediction.html">Prediction</a>).</p></dd>
 
-
-<dt><code>task</code></dt>
+      <dt><code>task</code></dt>
 <dd><p>(<a href="Task.html">Task</a>).</p></dd>
 
-
-<dt><code>learner</code></dt>
+      <dt><code>learner</code></dt>
 <dd><p>(<a href="Learner.html">Learner</a>).</p></dd>
 
-
-<dt><code>train_set</code></dt>
+      <dt><code>train_set</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>).</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p><code>numeric(1)</code>.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
@@ -558,28 +536,25 @@ This is handled internally during <code><a href="resample.html">resample()</a></
 <span><span class="fu"><a href="../reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span><span class="op">)</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">prediction</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Measure-aggregate"></a><div class="section">
-<h3 id="method-aggregate-">Method <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code><a class="anchor" aria-label="anchor" href="#method-aggregate-"></a></h3>
+<p></p><hr><a id="method-Measure-aggregate"></a><div class="section">
+<h3 id="measure-aggregate-"><code>Measure$aggregate()</code><a class="anchor" aria-label="anchor" href="#measure-aggregate-"></a></h3>
 <p>Aggregates multiple performance scores into a single score, e.g. by using the <code>aggregator</code>
 function of the measure.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Measure</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rr</code></dt>
 <dd><p><a href="ResampleResult.html">ResampleResult</a>.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p><code>numeric(1)</code>.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-1">Examples<a class="anchor" aria-label="anchor" href="#examples-1"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span>
@@ -587,37 +562,32 @@ function of the measure.</p><div class="section">
 <span><span class="fu"><a href="../reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span><span class="op">)</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Measure-obs_loss"></a><div class="section">
-<h3 id="method-obs-loss-">Method <code>obs_loss()</code><a class="anchor" aria-label="anchor" href="#method-obs-loss-"></a></h3>
+<p></p><hr><a id="method-Measure-obs_loss"></a><div class="section">
+<h3 id="measure-obs-loss-"><code>Measure$obs_loss()</code><a class="anchor" aria-label="anchor" href="#measure-obs-loss-"></a></h3>
 <p>Calculates the observation-wise loss.
 Returns a <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code> with one element for each row in the <a href="Prediction.html">Prediction</a>.
 If there is no observation-wise loss function for the measure, <code>NA_real_</code> values are returned.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Measure</span><span class="op">$</span><span class="fu">obs_loss</span><span class="op">(</span><span class="va">prediction</span>, task <span class="op">=</span> <span class="cn">NULL</span>, learner <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-5">Arguments<a class="anchor" aria-label="anchor" href="#arguments-5"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>prediction</code></dt>
 <dd><p>(<a href="Prediction.html">Prediction</a>).</p></dd>
 
-
-<dt><code>task</code></dt>
+      <dt><code>task</code></dt>
 <dd><p>(<a href="Task.html">Task</a>).</p></dd>
 
-
-<dt><code>learner</code></dt>
+      <dt><code>learner</code></dt>
 <dd><p>(<a href="Learner.html">Learner</a>).</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
 <p><code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code> with one element for each row in the <a href="Prediction.html">Prediction</a>.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-2">Examples<a class="anchor" aria-label="anchor" href="#examples-2"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span>
@@ -626,15 +596,14 @@ If there is no observation-wise loss function for the measure, <code>NA_real_</c
 <span><span class="fu"><a href="../reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span><span class="op">)</span><span class="op">$</span><span class="fu">obs_loss</span><span class="op">(</span><span class="va">prediction</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-Measure-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+<p></p><hr><a id="method-Measure-clone"></a><div class="section">
+<h3 id="measure-clone-"><code>Measure$clone()</code><a class="anchor" aria-label="anchor" href="#measure-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Measure</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -645,13 +614,14 @@ If there is no observation-wise loss function for the measure, <code>NA_real_</c
 
 </div>
 
+
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Measure$score`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Measure$score()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -661,7 +631,7 @@ If there is no observation-wise loss function for the measure, <code>NA_real_</c
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.03488372</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Measure$aggregate`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Measure$aggregate()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -672,7 +642,7 @@ If there is no observation-wise loss function for the measure, <code>NA_real_</c
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.05217391 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `Measure$obs_loss`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Measure$obs_loss()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
