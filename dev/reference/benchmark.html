@@ -91,7 +91,7 @@ Additionally, you can set the additional column 'param_values', see <code><a hre
 <dt id="arg-store-models">store_models<a class="anchor" aria-label="anchor" href="#arg-store-models"></a></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 Store the fitted model in the resulting object=
-Set to <code>TRUE</code> if you want to further analyse the models or want to
+Set to <code>TRUE</code> if you want to further analyze the models or want to
 extract information like variable importance.</p></dd>
 
 
@@ -99,7 +99,7 @@ extract information like variable importance.</p></dd>
 <dd><p>(<code>logical(1)</code>)<br>
 Keep the <a href="DataBackend.html">DataBackend</a> of the <a href="Task.html">Task</a> in the <a href="ResampleResult.html">ResampleResult</a>?
 Set to <code>TRUE</code> if your performance measures require a <a href="Task.html">Task</a>,
-or to analyse results more conveniently.
+or to analyze results more conveniently.
 Set to <code>FALSE</code> to reduce the file size and memory footprint
 after serialization.
 The current default is <code>TRUE</code>, but this eventually will be changed
@@ -258,12 +258,12 @@ Note that results computed in debug mode use a different seeding mechanism and a
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                   task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 88d7d042-b729-4598-a74a-09f4dbf3163d &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 88d7d042-b729-4598-a74a-09f4dbf3163d &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 88d7d042-b729-4598-a74a-09f4dbf3163d &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 13c4de9f-0bf9-4590-8292-0e37f178e13a &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 13c4de9f-0bf9-4590-8292-0e37f178e13a &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 13c4de9f-0bf9-4590-8292-0e37f178e13a &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 1d995597-7250-4550-a236-e28c31591d84 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 1d995597-7250-4550-a236-e28c31591d84 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 1d995597-7250-4550-a236-e28c31591d84 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: a20788d0-bff5-439d-b718-33c391be530e &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: a20788d0-bff5-439d-b718-33c391be530e &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: a20788d0-bff5-439d-b718-33c391be530e &lt;TaskClassif:penguins&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>

@@ -44,7 +44,7 @@ resample(
 
   (`logical(1)`)  
   Store the fitted model in the resulting object= Set to `TRUE` if you
-  want to further analyse the models or want to extract information like
+  want to further analyze the models or want to extract information like
   variable importance.
 
 - store_backends:
@@ -55,7 +55,7 @@ resample(
   of the [Task](https://mlr3.mlr-org.com/dev/reference/Task.md) in the
   [ResampleResult](https://mlr3.mlr-org.com/dev/reference/ResampleResult.md)?
   Set to `TRUE` if your performance measures require a
-  [Task](https://mlr3.mlr-org.com/dev/reference/Task.md), or to analyse
+  [Task](https://mlr3.mlr-org.com/dev/reference/Task.md), or to analyze
   results more conveniently. Set to `FALSE` to reduce the file size and
   memory footprint after serialization. The current default is `TRUE`,
   but this eventually will be changed in a future release.

@@ -53,7 +53,7 @@ benchmark(
 
   (`logical(1)`)  
   Store the fitted model in the resulting object= Set to `TRUE` if you
-  want to further analyse the models or want to extract information like
+  want to further analyze the models or want to extract information like
   variable importance.
 
 - store_backends:
@@ -64,7 +64,7 @@ benchmark(
   of the [Task](https://mlr3.mlr-org.com/dev/reference/Task.md) in the
   [ResampleResult](https://mlr3.mlr-org.com/dev/reference/ResampleResult.md)?
   Set to `TRUE` if your performance measures require a
-  [Task](https://mlr3.mlr-org.com/dev/reference/Task.md), or to analyse
+  [Task](https://mlr3.mlr-org.com/dev/reference/Task.md), or to analyze
   results more conveniently. Set to `FALSE` to reduce the file size and
   memory footprint after serialization. The current default is `TRUE`,
   but this eventually will be changed in a future release.
@@ -251,12 +251,12 @@ bmr = benchmark(design)
 head(as.data.table(bmr))
 #>                                   uhash                   task
 #>                                  <char>                 <list>
-#> 1: 88d7d042-b729-4598-a74a-09f4dbf3163d <TaskClassif:penguins>
-#> 2: 88d7d042-b729-4598-a74a-09f4dbf3163d <TaskClassif:penguins>
-#> 3: 88d7d042-b729-4598-a74a-09f4dbf3163d <TaskClassif:penguins>
-#> 4: 13c4de9f-0bf9-4590-8292-0e37f178e13a <TaskClassif:penguins>
-#> 5: 13c4de9f-0bf9-4590-8292-0e37f178e13a <TaskClassif:penguins>
-#> 6: 13c4de9f-0bf9-4590-8292-0e37f178e13a <TaskClassif:penguins>
+#> 1: 1d995597-7250-4550-a236-e28c31591d84 <TaskClassif:penguins>
+#> 2: 1d995597-7250-4550-a236-e28c31591d84 <TaskClassif:penguins>
+#> 3: 1d995597-7250-4550-a236-e28c31591d84 <TaskClassif:penguins>
+#> 4: a20788d0-bff5-439d-b718-33c391be530e <TaskClassif:penguins>
+#> 5: a20788d0-bff5-439d-b718-33c391be530e <TaskClassif:penguins>
+#> 6: a20788d0-bff5-439d-b718-33c391be530e <TaskClassif:penguins>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1
