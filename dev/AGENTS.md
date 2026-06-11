@@ -66,7 +66,7 @@
 
 - Use `checkmate` for arg-checks
 - Use `data.table` for efficient table structures
-- For OOP-stype use `R6`
+- For OOP-style use `R6`
 - Use `cli` to format messages, warnings, errors and prints
 
 ## Testing
@@ -130,8 +130,8 @@
 
 ## Natural Language
 
-- The following applies to all natural language text, so docs,
-  commments, NEWS, etc, but not code
+- The following applies to all natural language text, so docs, comments,
+  NEWS, etc, but not code
 - Use American english
 - Use the Oxford comma
 - Do not capitalize normal nouns or method names. “Bayesian” is
