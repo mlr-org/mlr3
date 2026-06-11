@@ -10,6 +10,12 @@ test_that("LearnerRegr predict_newdata_fast response works", {
   expect_numeric(pred$response)
 })
 
+test_that("LearnerRegr predict_newdata_fast errors on untrained learner", {
+  task = tsk("mtcars")
+  learner = lrn("regr.debug")
+  expect_error(learner$predict_newdata_fast(task$data(), task), "has not been trained yet")
+})
+
 test_that("LearnerRegr predict_newdata_fast se works", {
   learner = lrn("regr.debug", predict_type = "se")
   task = tsk("mtcars")

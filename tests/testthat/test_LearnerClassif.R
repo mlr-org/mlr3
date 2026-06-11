@@ -10,6 +10,12 @@ test_that("LearnerClassif predict_newdata_fast response works", {
   expect_character(pred$response)
 })
 
+test_that("LearnerClassif predict_newdata_fast errors on untrained learner", {
+  task = tsk("pima")
+  learner = lrn("classif.debug")
+  expect_error(learner$predict_newdata_fast(task$data(), task), "has not been trained yet")
+})
+
 test_that("LearnerClassif predict_newdata_fast prob works", {
   learner = lrn("classif.debug", predict_type = "prob")
   task = tsk("pima")
