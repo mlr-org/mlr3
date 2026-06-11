@@ -74,6 +74,12 @@ Defaults to \code{"mlr3_encapsulation"}.
 \item \code{"mlr3.print_class_ratio_threshold"}: Maximum number of rows for which class ratios are computed
 when printing a classification task. For tasks with more rows, only class names are shown.
 Defaults to \code{1000000}.
+\item \code{"mlr3.shared_memory"}: If set to \code{TRUE}, \code{\link[=resample]{resample()}} and \code{\link[=benchmark]{benchmark()}} move the data of tasks
+with a \link{DataBackendDataTable} into OS-level shared memory via package \CRANpkg{mori}.
+Parallel workers on the same machine then map the data directly instead of receiving a serialized copy,
+which reduces the time and memory required to transfer large tasks.
+Do not enable this option with workers on remote machines, as they cannot access the shared memory.
+Defaults to \code{FALSE}.
 }
 }
 

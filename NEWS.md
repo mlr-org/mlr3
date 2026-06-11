@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* feat: `benchmark()` and `resample()` can now move task data into OS-level shared memory via the new option `mlr3.shared_memory` and package mori, so that parallel workers on the same machine map the data directly instead of receiving a serialized copy.
+
 # mlr3 1.7.1
 
 * fix: `Learner$new()` and the `$deadline` setter now pass `origin` to `as.POSIXct()`, fixing learner construction and numeric deadline assignment on R versions below 4.3.

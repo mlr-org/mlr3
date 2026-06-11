@@ -136,6 +136,9 @@ resample = function(
     data.table(learner = replicate(n, learner), mode = "train")
   }
 
+  shared_backends = share_backends(list(task))
+  on.exit(unshare_backends(shared_backends), add = TRUE)
+
   res = future_map(
     n,
     workhorse,

@@ -64,6 +64,12 @@
 #' * `"mlr3.print_class_ratio_threshold"`: Maximum number of rows for which class ratios are computed
 #'   when printing a classification task. For tasks with more rows, only class names are shown.
 #'   Defaults to `1000000`.
+#' * `"mlr3.shared_memory"`: If set to `TRUE`, [resample()] and [benchmark()] move the data of tasks
+#'   with a [DataBackendDataTable] into OS-level shared memory via package \CRANpkg{mori}.
+#'   Parallel workers on the same machine then map the data directly instead of receiving a serialized copy,
+#'   which reduces the time and memory required to transfer large tasks.
+#'   Do not enable this option with workers on remote machines, as they cannot access the shared memory.
+#'   Defaults to `FALSE`.
 #'
 #' @section Error Classes:
 #' * `Mlr3Error`: The base mlr3 error class.

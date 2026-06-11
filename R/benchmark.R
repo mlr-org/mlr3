@@ -204,6 +204,9 @@ benchmark = function(
     set(grid, j = "mode", value = hotstart_grid$mode)
   }
 
+  shared_backends = share_backends(grid$task)
+  on.exit(unshare_backends(shared_backends), add = TRUE)
+
   res = future_map(
     n,
     workhorse,

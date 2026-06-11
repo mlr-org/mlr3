@@ -72,6 +72,7 @@ Suggests:
     datasets,
     future.callr,
     mlr3data,
+    mori,
     progressr,
     remotes,
     RhpcBLASctl,
@@ -196,6 +197,7 @@ Collate:
     'helper_data_table.R'
     'helper_exec.R'
     'helper_hashes.R'
+    'helper_shared_memory.R'
     'install_pkgs.R'
     'marshal.R'
     'mlr_callbacks.R'
