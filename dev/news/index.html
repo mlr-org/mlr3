@@ -49,7 +49,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3-development-version">mlr3 (development version)<a class="anchor" aria-label="anchor" href="#mlr3-development-version"></a></h2>
-</div>
+<ul><li>fix: <code>Learner$new()</code> and the <code>$deadline</code> setter now pass <code>origin</code> to <code><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct()</a></code>, fixing learner construction and numeric deadline assignment on R versions below 4.3.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.7.0" id="mlr3-170">mlr3 1.7.0<a class="anchor" aria-label="anchor" href="#mlr3-170"></a></h2><p class="text-muted">CRAN release: 2026-06-10</p>
 <ul><li>BREAKING CHANGE: Removed the deprecated <code>Task$divide()</code> method, use the <code>$internal_valid_task</code> field instead.</li>

@@ -2,6 +2,11 @@
 
 ## mlr3 (development version)
 
+- fix: `Learner$new()` and the `$deadline` setter now pass `origin` to
+  [`as.POSIXct()`](https://rdrr.io/r/base/as.POSIXlt.html), fixing
+  learner construction and numeric deadline assignment on R versions
+  below 4.3.
+
 ## mlr3 1.7.0
 
 CRAN release: 2026-06-10
