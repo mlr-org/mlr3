@@ -51,7 +51,7 @@
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3-development-version">mlr3 (development version)<a class="anchor" aria-label="anchor" href="#mlr3-development-version"></a></h2>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.7.1" id="mlr3-171">mlr3 1.7.1<a class="anchor" aria-label="anchor" href="#mlr3-171"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.7.1" id="mlr3-171">mlr3 1.7.1<a class="anchor" aria-label="anchor" href="#mlr3-171"></a></h2><p class="text-muted">CRAN release: 2026-06-11</p>
 <ul><li>fix: <code>Learner$new()</code> and the <code>$deadline</code> setter now pass <code>origin</code> to <code><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct()</a></code>, fixing learner construction and numeric deadline assignment on R versions below 4.3.</li>
 <li>fix: The <code>Learner$deadline</code> setter now merges partial assignments instead of overwriting the whole field and validates the input as a named <code>POSIXct</code>, so setting only <code>train</code> or <code>predict</code> no longer drops the other entry or crashes at predict time.</li>
 <li>fix: <code>Learner$predict_newdata_fast()</code> now restores the fallback learner’s state and predict type from the main learner before delegating, so it works after <code><a href="../reference/resample.html">resample()</a></code> and <code><a href="../reference/benchmark.html">benchmark()</a></code> where the fallback object itself carries no trained state or a mismatched predict type. It also aligns the fallback’s probability columns by class name so imputed predictions are no longer silently misassigned.</li>
