@@ -96,3 +96,18 @@ test_that("LearnerClassif predict_newdata_fast restores fallback state after par
   pred = resample_parallel(predict_missing = 0.5)$predict_newdata_fast(newdata, task)
   expect_character(pred$response, len = nrow(newdata), any.missing = FALSE)
 })
+
+test_that("LearnerClassif predict_newdata_fast syncs fallback predict_type", {
+  task = tsk("pima")
+  newdata = task$data()
+
+  # main learner predicts "prob" while the fallback is left at its default "response":
+  # the predict type is only synced in the predict path, so the fallback object stays unsynced after train
+  learner = lrn("classif.debug", predict_missing = 0.5, predict_type = "prob")
+  expect_warning(learner$encapsulate("evaluate", fallback = lrn("classif.featureless")), "different predict types")
+  learner$train(task)
+  expect_equal(learner$fallback$predict_type, "response")
+
+  pred = learner$predict_newdata_fast(newdata)
+  expect_matrix(pred$prob, nrows = nrow(newdata), ncols = length(task$class_names), any.missing = FALSE)
+})

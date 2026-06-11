@@ -138,3 +138,18 @@ test_that("LearnerRegr predict_newdata_fast restores fallback state after parall
   pred = resample_parallel(predict_missing = 0.5)$predict_newdata_fast(newdata, task)
   expect_numeric(pred$response, len = nrow(newdata), any.missing = FALSE)
 })
+
+test_that("LearnerRegr predict_newdata_fast syncs fallback predict_type", {
+  task = tsk("mtcars")
+  newdata = task$data()
+
+  # main learner predicts "se" while the fallback is left at its default "response":
+  # the predict type is only synced in the predict path, so the fallback object stays unsynced after train
+  learner = lrn("regr.debug", predict_missing = 0.5, predict_type = "se")
+  expect_warning(learner$encapsulate("evaluate", fallback = lrn("regr.featureless")), "different predict types")
+  learner$train(task)
+  expect_equal(learner$fallback$predict_type, "response")
+
+  pred = learner$predict_newdata_fast(newdata)
+  expect_numeric(pred$se, len = nrow(newdata), any.missing = FALSE)
+})

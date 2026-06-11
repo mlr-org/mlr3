@@ -2,7 +2,7 @@
 
 * fix: `Learner$new()` and the `$deadline` setter now pass `origin` to `as.POSIXct()`, fixing learner construction and numeric deadline assignment on R versions below 4.3.
 * fix: The `Learner$deadline` setter now merges partial assignments instead of overwriting the whole field and validates the input as a named `POSIXct`, so setting only `train` or `predict` no longer drops the other entry or crashes at predict time.
-* fix: `Learner$predict_newdata_fast()` now restores the fallback learner's state from the main learner's state before delegating, so it works after `resample()` and `benchmark()` where the fallback object itself carries no trained state.
+* fix: `Learner$predict_newdata_fast()` now restores the fallback learner's state and predict type from the main learner before delegating, so it works after `resample()` and `benchmark()` where the fallback object itself carries no trained state or a mismatched predict type.
 
 # mlr3 1.7.0
 
