@@ -1,6 +1,30 @@
 # Changelog
 
+## mlr3 1.7.1
+
+- fix: `Learner$new()` and the `$deadline` setter now pass `origin` to
+  [`as.POSIXct()`](https://rdrr.io/r/base/as.POSIXlt.html), fixing
+  learner construction and numeric deadline assignment on R versions
+  below 4.3.
+- fix: The `Learner$deadline` setter now merges partial assignments
+  instead of overwriting the whole field and validates the input as a
+  named `POSIXct`, so setting only `train` or `predict` no longer drops
+  the other entry or crashes at predict time.
+- fix: `Learner$predict_newdata_fast()` now restores the fallback
+  learner’s state and predict type from the main learner before
+  delegating, so it works after
+  [`resample()`](https://mlr3.mlr-org.com/reference/resample.md) and
+  [`benchmark()`](https://mlr3.mlr-org.com/reference/benchmark.md) where
+  the fallback object itself carries no trained state or a mismatched
+  predict type. It also aligns the fallback’s probability columns by
+  class name so imputed predictions are no longer silently misassigned.
+- fix: `Learner$predict_newdata_fast()` now raises a clear error when
+  the learner has not been trained yet instead of failing with a cryptic
+  error from the underlying predict method.
+
 ## mlr3 1.7.0
+
+CRAN release: 2026-06-10
 
 - BREAKING CHANGE: Removed the deprecated `Task$divide()` method, use
   the `$internal_valid_task` field instead.

@@ -19,7 +19,7 @@ This package runs benchmark experiments on high-performance computing clusters a
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,7 +91,7 @@ Additionally, you can set the additional column 'param_values', see <code><a hre
 <dt id="arg-store-models">store_models<a class="anchor" aria-label="anchor" href="#arg-store-models"></a></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 Store the fitted model in the resulting object=
-Set to <code>TRUE</code> if you want to further analyse the models or want to
+Set to <code>TRUE</code> if you want to further analyze the models or want to
 extract information like variable importance.</p></dd>
 
 
@@ -99,7 +99,7 @@ extract information like variable importance.</p></dd>
 <dd><p>(<code>logical(1)</code>)<br>
 Keep the <a href="DataBackend.html">DataBackend</a> of the <a href="Task.html">Task</a> in the <a href="ResampleResult.html">ResampleResult</a>?
 Set to <code>TRUE</code> if your performance measures require a <a href="Task.html">Task</a>,
-or to analyse results more conveniently.
+or to analyze results more conveniently.
 Set to <code>FALSE</code> to reduce the file size and memory footprint
 after serialization.
 The current default is <code>TRUE</code>, but this eventually will be changed
@@ -258,12 +258,12 @@ Note that results computed in debug mode use a different seeding mechanism and a
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                   task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: a6e82b73-72c4-4e8e-bb1e-35aae701d15a &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: a6e82b73-72c4-4e8e-bb1e-35aae701d15a &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: a6e82b73-72c4-4e8e-bb1e-35aae701d15a &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 0acedbd9-419c-4e75-8fa3-36c8b4eb68bf &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 0acedbd9-419c-4e75-8fa3-36c8b4eb68bf &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 0acedbd9-419c-4e75-8fa3-36c8b4eb68bf &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 539d79b7-ed1a-4b55-9f7a-aee86c8df59b &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 539d79b7-ed1a-4b55-9f7a-aee86c8df59b &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 539d79b7-ed1a-4b55-9f7a-aee86c8df59b &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: fc48859f-a852-445f-abe1-36d79f099ac7 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: fc48859f-a852-445f-abe1-36d79f099ac7 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: fc48859f-a852-445f-abe1-36d79f099ac7 &lt;TaskClassif:penguins&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>
