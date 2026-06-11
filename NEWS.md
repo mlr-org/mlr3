@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* fix: `Learner$new()` and the `$deadline` setter now pass `origin` to `as.POSIXct()`, fixing learner construction and numeric deadline assignment on R versions below 4.3.
+
 # mlr3 1.7.0
 
 * BREAKING CHANGE: Removed the deprecated `Task$divide()` method, use the `$internal_valid_task` field instead.

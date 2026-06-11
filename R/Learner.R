@@ -219,7 +219,8 @@ Learner = R6Class(
       private$.parallel_predict = FALSE
       private$.predict_raw = FALSE
       private$.timeout = c(train = Inf, predict = Inf)
-      private$.deadline = as.POSIXct(c(train = Inf, predict = Inf))
+      # origin is required for R < 4.3
+      private$.deadline = as.POSIXct(c(train = Inf, predict = Inf), origin = "1970-01-01")
 
       if ("weights" %in% private$.properties) {
         private$.use_weights = "use"
@@ -1070,7 +1071,8 @@ Learner = R6Class(
         return(private$.deadline)
       }
       if (is.numeric(rhs)) {
-        rhs = as.POSIXct(rhs)
+        # origin is required for R < 4.3
+        rhs = as.POSIXct(rhs, origin = "1970-01-01")
       }
       assert_names(names(rhs), type = "unique", subset.of = c("train", "predict"), .var.name = "names of deadline")
       assert_names(names(rhs), subset.of = c("train", "predict"), .var.name = "names of deadline")
