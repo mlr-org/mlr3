@@ -1,6 +1,7 @@
 # mlr3 (development version)
 
 * fix: `Learner$new()` and the `$deadline` setter now pass `origin` to `as.POSIXct()`, fixing learner construction and numeric deadline assignment on R versions below 4.3.
+* fix: The `Learner$deadline` setter now merges partial assignments instead of overwriting the whole field and validates the input as a named `POSIXct`, so setting only `train` or `predict` no longer drops the other entry or crashes at predict time.
 
 # mlr3 1.7.0
 

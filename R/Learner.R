@@ -1074,10 +1074,11 @@ Learner = R6Class(
         # origin is required for R < 4.3
         rhs = as.POSIXct(rhs, origin = "1970-01-01")
       }
+      assert_posixct(rhs, any.missing = FALSE, .var.name = "deadline")
       assert_names(names(rhs), type = "unique", subset.of = c("train", "predict"), .var.name = "names of deadline")
-      assert_names(names(rhs), subset.of = c("train", "predict"), .var.name = "names of deadline")
+      # Merge with current deadline values
       private$.deadline[names(rhs)] = rhs
-      private$.deadline = rhs
+      private$.deadline
     },
 
     #' @template field_man

@@ -1230,6 +1230,34 @@ test_that("native_model can be overwritten by learner", {
   expect_true("response" %in% names(learner$native_model))
 })
 
+test_that("deadline setter merges, validates, and keeps POSIXct(2)", {
+  l = lrn("classif.debug")
+
+  # partial assignment merges instead of overwriting
+  l$deadline = c(train = Sys.time() + 60)
+  expect_posixct(l$deadline, len = 2L)
+  expect_set_equal(names(l$deadline), c("train", "predict"))
+  expect_true(is.infinite(as.numeric(l$deadline[["predict"]])))
+
+  # numeric input is converted to POSIXct
+  l$deadline = c(predict = 0)
+  expect_posixct(l$deadline, len = 2L)
+
+  # non-numeric, non-POSIXct input is rejected
+  expect_error(
+    {
+      l$deadline = c(train = "tomorrow")
+    },
+    "deadline"
+  )
+  expect_error(
+    {
+      l$deadline = c(foo = Sys.time())
+    },
+    "names of deadline"
+  )
+})
+
 test_that("deadline works as intended: callr", {
   # no runtime test on CRAN
   skip_on_cran()
