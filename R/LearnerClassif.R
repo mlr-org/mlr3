@@ -150,7 +150,8 @@ LearnerClassif = R6Class(
         }
 
         if (!is.null(pred$prob)) {
-          pred$prob[miss_ids, ] = pred_miss$prob
+          # the fallback may order its probability columns differently, so align by class name
+          pred$prob[miss_ids, ] = pred_miss$prob[, colnames(pred$prob), drop = FALSE]
         }
       }
 

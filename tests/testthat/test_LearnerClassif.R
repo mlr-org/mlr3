@@ -111,3 +111,22 @@ test_that("LearnerClassif predict_newdata_fast syncs fallback predict_type", {
   pred = learner$predict_newdata_fast(newdata)
   expect_matrix(pred$prob, nrows = nrow(newdata), ncols = length(task$class_names), any.missing = FALSE)
 })
+
+test_that("LearnerClassif predict_newdata_fast aligns fallback prob columns by name", {
+  # target levels are not in appearance order, so the fallback (orders columns by appearance) and the main
+  # learner (orders by level) produce prob matrices with different column orders; a positional substitution
+  # would silently report each class's probability under the wrong class name
+  set.seed(1)
+  dt = data.table(x = rnorm(100), y = factor(c(rep("a", 70), rep("b", 20), rep("c", 10)), levels = c("c", "b", "a")))
+  task = TaskClassif$new("align", dt, target = "y")
+
+  prior = lrn("classif.featureless", predict_type = "prob")$train(task)$predict_newdata_fast(dt[1])$prob[1, ]
+
+  # predict_missing = 1 imputes every row with the fallback, so the whole prob matrix must equal the priors
+  learner = lrn("classif.debug", predict_type = "prob", predict_missing = 1)
+  learner$encapsulate("evaluate", fallback = lrn("classif.featureless", predict_type = "prob"))
+  learner$train(task)
+  pred = learner$predict_newdata_fast(dt)
+
+  expect_equal(pred$prob[1, names(prior)], prior)
+})
