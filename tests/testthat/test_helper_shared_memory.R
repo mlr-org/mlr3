@@ -23,7 +23,10 @@ test_that("share_backends() moves backend data into shared memory and unshare_ba
   expect_identical(task$hash, hash)
 })
 
-test_that("share_backends() is a no-op if the option is not set", {
+test_that("share_backends() is a no-op if the option is disabled", {
+  old_opts = options(mlr3.shared_memory = FALSE)
+  on.exit(options(old_opts))
+
   task = tsk("mtcars")
   expect_list(share_backends(list(task)), len = 0L)
   expect_false(mori::is_shared(get_private(task$backend)$.data))
@@ -44,10 +47,11 @@ test_that("resample() with option mlr3.shared_memory", {
   learner = lrn("regr.featureless")
   resampling = rsmp("cv", folds = 3L)$instantiate(task)
 
+  old_opts = options(mlr3.shared_memory = FALSE)
+  on.exit(options(old_opts))
   rr1 = resample(task, learner, resampling)
 
-  old_opts = options(mlr3.shared_memory = TRUE)
-  on.exit(options(old_opts))
+  options(mlr3.shared_memory = TRUE)
   rr2 = resample(task, learner, resampling)
 
   expect_resample_result(rr2)
