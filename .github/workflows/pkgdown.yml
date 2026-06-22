@@ -38,7 +38,7 @@ jobs:
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: r-lib/actions/setup-pandoc@v2
 

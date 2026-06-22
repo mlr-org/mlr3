@@ -47,7 +47,7 @@ jobs:
           - {os: ubuntu-latest,   r: 'release'}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: r-lib/actions/setup-pandoc@v2
 
