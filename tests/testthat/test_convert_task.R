@@ -156,6 +156,28 @@ test_that("convert_task preserves internal_valid_task", {
   expect_class(result2$internal_valid_task, "TaskClassif")
 })
 
+test_that("as_task_classif.TaskRegr forwards drop_original_target and drop_levels", {
+  task = tsk("california_housing")
+
+  keep = as_task_classif(task, target = "ocean_proximity", drop_original_target = FALSE)
+  expect_class(keep, "TaskClassif")
+  expect_true("median_house_value" %chin% keep$feature_names)
+
+  drop = as_task_classif(task, target = "ocean_proximity", drop_original_target = TRUE)
+  expect_true("median_house_value" %nin% drop$feature_names)
+})
+
+test_that("as_task_regr.TaskClassif forwards drop_original_target and drop_levels", {
+  task = tsk("iris")
+
+  keep = as_task_regr(task, target = "Sepal.Width", drop_original_target = FALSE)
+  expect_class(keep, "TaskRegr")
+  expect_true("Species" %chin% keep$feature_names)
+
+  drop = as_task_regr(task, target = "Sepal.Width", drop_original_target = TRUE)
+  expect_true("Species" %nin% drop$feature_names)
+})
+
 test_that("data.frame converters", {
   data("mtcars", package = "datasets")
   task = as_task_regr(mtcars, "mpg")

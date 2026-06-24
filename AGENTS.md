@@ -59,7 +59,7 @@ Rscript -e "devtools::check()"
 ## Core dependencies
 * Use `checkmate` for arg-checks
 * Use `data.table` for efficient table structures
-* For OOP-stype use `R6`
+* For OOP-style use `R6`
 * Use `cli` to format messages, warnings, errors and prints
 
 ## Testing
@@ -106,13 +106,17 @@ Rscript -e "devtools::check()"
 
 ## Natural Language
 
-- The following applies to all natural language text, so docs, commments, NEWS, etc, but not code
+- The following applies to all natural language text, so docs, comments, NEWS, etc, but not code
 - Use American english
 - Use the Oxford comma
 - Do not capitalize normal nouns or method names. "Bayesian" is capitalized, "random forest" is not.
 - Use cspell to check against typos, and add needed words to .cspell/project-words.txt if reasonable
 
 ## Further agents files
-- Read and respect all files in the `extra-rules` folder
+
+@extra-rules/commit-messages.md
+@extra-rules/mlr3.md
+@extra-rules/rush.md
+@extra-rules/yolobox.md
 
 

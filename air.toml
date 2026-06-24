@@ -5,6 +5,7 @@ indent-style = "space"              # same as .editorconfig
 line-ending = "lf"                  # same as .editorconfig
 persistent-line-breaks = true       # preserve existing line breaks when reformatting
 default-exclude = true              # use built-in default exclusions
+assignment-style = "equal"
 
 
 # you can use "exclude" and "skip" to avoid formatting certain globs

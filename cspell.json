@@ -10,6 +10,7 @@
     "*.rda",  // R binary data
     "*.Rds",  // R binary data
     "*.lock", // lockfiles
+    "attic/", // scrap code, not part of the package
     "man/",   // generated man pages
     "renv/"   // renv library
   ],

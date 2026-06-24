@@ -83,7 +83,7 @@ is_missing_prediction_data.PredictionDataRegr = function(pdata, ...) {
   }
 
   if (!is.null(pdata$quantiles)) {
-    miss = miss | apply(pdata$quantiles, 1L, anyMissing)
+    miss = miss | row_any_na(pdata$quantiles)
   }
 
   # weights may never be NA, so we don't need to check for missingness
@@ -125,7 +125,7 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) {
     quantiles = map(dots, "quantiles")
     attrs = attributes(quantiles[[1L]])
     quantiles = do.call(rbind, quantiles)
-    setattr(quantiles, "probs", attrs$props)
+    setattr(quantiles, "probs", attrs$probs)
     setattr(quantiles, "response", attrs$response)
   }
   extra = if ("extra" %chin% nn) {

@@ -83,7 +83,7 @@ as_task_regr.DataBackend = function(x, target, id = deparse1(substitute(x)), lab
 #' @export
 # nolint next
 as_task_regr.TaskClassif = function(x, target, drop_original_target = FALSE, drop_levels = TRUE, ...) {
-  convert_task(intask = x, target = target, new_type = "regr", drop_original_target = FALSE, drop_levels = TRUE)
+  convert_task(intask = x, target = target, new_type = "regr", drop_original_target = drop_original_target, drop_levels = drop_levels)
 }
 
 #' @rdname as_task_regr

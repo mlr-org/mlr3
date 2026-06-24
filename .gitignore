@@ -180,3 +180,6 @@ revdep/
 # AI
 .claude/settings.local.json
 CLAUDE.md
+.claude/worktrees
+.yolobox.toml
+extra-rules/yolobox.md

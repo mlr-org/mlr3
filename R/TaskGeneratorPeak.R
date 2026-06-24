@@ -53,9 +53,7 @@ TaskGeneratorPeak = R6Class(
         n = n,
         .args = self$param_set$values
       )
-      colnames(obj$x) = c(
-        sprintf("x%0i", seq_len(ncol(obj$x)))
-      )
+      colnames(obj$x) = c(sprintf("x%0i", seq_col(obj$x)))
       data = insert_named(as.data.table(obj$x), list(y = obj$y))
       TaskRegr$new(sprintf("%s_%i", self$id, n), data, target = "y")
     }

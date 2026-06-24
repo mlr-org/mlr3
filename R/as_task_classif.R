@@ -104,7 +104,7 @@ as_task_classif.DataBackend = function(
 #' @export
 # nolint next
 as_task_classif.TaskRegr = function(x, target, drop_original_target = FALSE, drop_levels = TRUE, ...) {
-  convert_task(intask = x, target = target, new_type = "classif", drop_original_target = FALSE, drop_levels = TRUE)
+  convert_task(intask = x, target = target, new_type = "classif", drop_original_target = drop_original_target, drop_levels = drop_levels)
 }
 
 #' @rdname as_task_classif

@@ -25,13 +25,13 @@ Additionally, you can set the additional column 'param_values', see \code{\link[
 
 \item{store_models}{(\code{logical(1)})\cr
 Store the fitted model in the resulting object=
-Set to \code{TRUE} if you want to further analyse the models or want to
+Set to \code{TRUE} if you want to further analyze the models or want to
 extract information like variable importance.}
 
 \item{store_backends}{(\code{logical(1)})\cr
 Keep the \link{DataBackend} of the \link{Task} in the \link{ResampleResult}?
 Set to \code{TRUE} if your performance measures require a \link{Task},
-or to analyse results more conveniently.
+or to analyze results more conveniently.
 Set to \code{FALSE} to reduce the file size and memory footprint
 after serialization.
 The current default is \code{TRUE}, but this eventually will be changed
@@ -213,8 +213,8 @@ rr$resampling$train_set(2)
 \item \CRANpkg{mlr3benchmark} for post-hoc analysis of benchmark results.
 }
 
-Other benchmark: 
+Other benchmark:
 \code{\link{BenchmarkResult}},
-\code{\link{benchmark_grid}()}
+\code{\link[=benchmark_grid]{benchmark_grid()}}
 }
 \concept{benchmark}
