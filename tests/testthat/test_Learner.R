@@ -331,7 +331,7 @@ test_that("train task is cloned (#382)", {
 })
 
 test_that("Error on missing data (#413)", {
-  task = tsk("penguins")
+  task = tsk("diabetes")
   learner = lrn("classif.rpart")
   learner$properties = setdiff(learner$properties, "missings")
   expect_error(learner$train(task), "missing values")

@@ -64,6 +64,7 @@ Other Task:
 \code{\link{california_housing}},
 \code{\link{mlr_tasks}},
 \code{\link{mlr_tasks_breast_cancer}},
+\code{\link{mlr_tasks_diabetes}},
 \code{\link{mlr_tasks_german_credit}},
 \code{\link{mlr_tasks_mtcars}},
 \code{\link{mlr_tasks_penguins}},

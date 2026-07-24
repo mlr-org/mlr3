@@ -423,7 +423,7 @@ test_that("task$droplevels works", {
 })
 
 test_that("task$missings() works", {
-  task = tsk("penguins")
+  task = tsk("diabetes")
   x = task$missings()
   y = map_int(task$data(), count_missing)
   expect_equal(x, y[match(names(x), names(y))])
