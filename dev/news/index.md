@@ -2,6 +2,10 @@
 
 ## mlr3 (development version)
 
+- perf: `TaskClassif$print()` now caches the class distribution of the
+  target column and only recomputes it when the task hash changes.
+  Querying the target column can be slow for tasks with many rows.
+
 ## mlr3 1.7.1
 
 CRAN release: 2026-06-11

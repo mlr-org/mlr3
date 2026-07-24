@@ -49,7 +49,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3-development-version">mlr3 (development version)<a class="anchor" aria-label="anchor" href="#mlr3-development-version"></a></h2>
-</div>
+<ul><li>perf: <code>TaskClassif$print()</code> now caches the class distribution of the target column and only recomputes it when the task hash changes. Querying the target column can be slow for tasks with many rows.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.7.1" id="mlr3-171">mlr3 1.7.1<a class="anchor" aria-label="anchor" href="#mlr3-171"></a></h2><p class="text-muted">CRAN release: 2026-06-11</p>
 <ul><li>fix: <code>Learner$new()</code> and the <code>$deadline</code> setter now pass <code>origin</code> to <code><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct()</a></code>, fixing learner construction and numeric deadline assignment on R versions below 4.3.</li>
@@ -550,7 +551,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>
