@@ -1,5 +1,5 @@
 test_that("learner is hotstarted when the hotstart parameter is increased", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
   id = learner_1$model$id
@@ -15,7 +15,7 @@ test_that("learner is hotstarted when the hotstart parameter is increased", {
 })
 
 test_that("learner is directly returned when hotstart and target learner are equal", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
   id = learner_1$model$id
@@ -29,7 +29,7 @@ test_that("learner is directly returned when hotstart and target learner are equ
 })
 
 test_that("learner is trained when target learner has an additional non-hotstart parameter", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
   id = learner_1$model$id
@@ -46,7 +46,7 @@ test_that("learner is trained when target learner has an additional non-hotstart
 })
 
 test_that("learner is trained when target learner has an additional hotstart parameter", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner_1 = lrn("classif.debug", x = 0)
   learner_1$train(task)
   learner_1$state$param_vals$iter = NULL # iter set by default. Assume it is not.
@@ -61,7 +61,7 @@ test_that("learner is trained when target learner has an additional hotstart par
 })
 
 test_that("learner is trained when target learner when both hotstart and non-hotstart parameters are increased", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
   id = learner_1$model$id
@@ -75,7 +75,7 @@ test_that("learner is trained when target learner when both hotstart and non-hot
 })
 
 test_that("learner is trained when the hotstart parameter are equal but the non-hotstart parameter is altered", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner_1 = lrn("classif.debug", iter = 1, x = 0)
   learner_1$train(task)
   id = learner_1$model$id
@@ -89,7 +89,7 @@ test_that("learner is trained when the hotstart parameter are equal but the non-
 })
 
 test_that("learner is hotstarted when the non-hotstart parameter are equal but the hotstart parameter is increased", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner_1 = lrn("classif.debug", iter = 1, x = 0)
   learner_1$train(task)
   id = learner_1$model$id
@@ -103,7 +103,7 @@ test_that("learner is hotstarted when the non-hotstart parameter are equal but t
 })
 
 test_that("learner is trained when the task is different", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
   id = learner_1$model$id
@@ -117,7 +117,7 @@ test_that("learner is trained when the task is different", {
 })
 
 test_that("learner is trained when the stack is empty", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.debug", iter = 2)
   learner$hotstart_stack = HotstartStack$new()
   learner$train(tsk("iris"))
@@ -126,7 +126,7 @@ test_that("learner is trained when the stack is empty", {
 })
 
 test_that("learners are hotstarted when resample is used", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner_1 = lrn("classif.debug", iter = 1)
   resampling = rsmp("cv", folds = 3)
   resampling$instantiate(task)
@@ -148,7 +148,7 @@ test_that("learners are hotstarted when resample is used", {
 })
 
 test_that("learners are hotstarted when benchmark is called", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_2 = lrn("classif.debug", iter = 2)
   resampling = rsmp("cv", folds = 3)
@@ -177,7 +177,7 @@ test_that("learners are hotstarted when benchmark is called", {
 })
 
 test_that("learners are trained and hotstarted when benchmark is called", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_2 = lrn("classif.debug", iter = 2)
   resampling = rsmp("cv", folds = 3)
@@ -213,7 +213,7 @@ test_that("learners are trained and hotstarted when benchmark is called", {
 })
 
 test_that("learners are cloned when hotstarting is applied", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner_1 = lrn("classif.debug", iter = 1)
   resampling = rsmp("holdout")
   resampling$instantiate(task)
@@ -236,7 +236,7 @@ test_that("learners are cloned when hotstarting is applied", {
 })
 
 test_that("hotstarting works when col role is set in task", {
-  task = tsk("pima")
+  task = tsk("sonar")
   task$col_roles$stratum = task$target_names
   learner_1 = lrn("classif.debug", iter = 1)
   resampling = rsmp("holdout")

@@ -1,4 +1,4 @@
-task_classif = tsk("pima") # mlr3 1.4.0
+task_classif = tsk("sonar") # mlr3 1.4.0
 saveRDS(task_classif, "tests/testthat/_object_snapshots/task_classif.rds")
 
 task_regr = tsk("mtcars") # mlr3 1.4.0

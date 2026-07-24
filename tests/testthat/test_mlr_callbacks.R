@@ -1,5 +1,5 @@
 test_that("model extractor works", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
@@ -16,7 +16,7 @@ test_that("model extractor works", {
 })
 
 test_that("holdout task works", {
-  task = tsk("pima")
+  task = tsk("sonar")
   task_holdout = task$clone()
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)

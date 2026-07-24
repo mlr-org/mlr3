@@ -17,7 +17,7 @@ as named list (see example).
 The callback is very helpful to call \verb{$selected_features()}, \verb{$importance()}, \verb{$oob_error()} on the learner.
 }
 \examples{
-task = tsk("pima")
+task = tsk("sonar")
 learner = lrn("classif.rpart")
 resampling = rsmp("cv", folds = 3)
 

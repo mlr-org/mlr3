@@ -1,7 +1,7 @@
 test_that("score_roc_measure works", {
   learner = lrn("classif.rpart", predict_type = "prob")
-  splits = partition(task = tsk("pima"), ratio = 0.7)
-  task = tsk("pima")
+  splits = partition(task = tsk("sonar"), ratio = 0.7)
+  task = tsk("sonar")
   learner$train(task)
   pred = learner$predict(task)
   res = score_roc_measures(pred)

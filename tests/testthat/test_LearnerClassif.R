@@ -1,6 +1,6 @@
 test_that("LearnerClassif predict_newdata_fast response works", {
   learner = lrn("classif.debug")
-  task = tsk("pima")
+  task = tsk("sonar")
   newdata = task$data()
   learner$train(task)
   pred = learner$predict_newdata_fast(newdata)
@@ -11,14 +11,14 @@ test_that("LearnerClassif predict_newdata_fast response works", {
 })
 
 test_that("LearnerClassif predict_newdata_fast errors on untrained learner", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.debug")
   expect_error(learner$predict_newdata_fast(task$data(), task), "has not been trained yet")
 })
 
 test_that("LearnerClassif predict_newdata_fast prob works", {
   learner = lrn("classif.debug", predict_type = "prob")
-  task = tsk("pima")
+  task = tsk("sonar")
   newdata = task$data()
   learner$train(task)
   pred = learner$predict_newdata_fast(newdata)
@@ -31,7 +31,7 @@ test_that("LearnerClassif predict_newdata_fast prob works", {
 test_that("LearnerClassif predict_newdata_fast works with missing values", {
   learner = lrn("classif.debug", predict_missing = 0.5)
   learner$encapsulate("evaluate", fallback = lrn("classif.featureless"))
-  task = tsk("pima")
+  task = tsk("sonar")
   newdata = task$data()
   learner$train(task)
   pred = learner$predict_newdata_fast(newdata)
@@ -42,7 +42,7 @@ test_that("LearnerClassif predict_newdata_fast works with missing values", {
 
   learner = lrn("classif.debug", predict_missing = 0.5, predict_type = "prob")
   learner$encapsulate("evaluate", fallback = lrn("classif.featureless", predict_type = "prob"))
-  task = tsk("pima")
+  task = tsk("sonar")
   newdata = task$data()
   learner$train(task)
   pred = learner$predict_newdata_fast(newdata)
@@ -55,7 +55,7 @@ test_that("LearnerClassif predict_newdata_fast works with missing values", {
 test_that("LearnerClassif predict_newdata_fast works with failed train", {
   learner = lrn("classif.debug", predict_missing = 0.5, error_train = 1)
   learner$encapsulate("evaluate", fallback = lrn("classif.featureless"))
-  task = tsk("pima")
+  task = tsk("sonar")
   newdata = task$data()
   learner$train(task)
   pred = learner$predict_newdata_fast(newdata)
@@ -66,7 +66,7 @@ test_that("LearnerClassif predict_newdata_fast works with failed train", {
 
   learner = lrn("classif.debug", predict_missing = 0.5, predict_type = "prob", error_train = 1)
   learner$encapsulate("evaluate", fallback = lrn("classif.featureless", predict_type = "prob"))
-  task = tsk("pima")
+  task = tsk("sonar")
   newdata = task$data()
   learner$train(task)
   pred = learner$predict_newdata_fast(newdata)
@@ -80,7 +80,7 @@ test_that("LearnerClassif predict_newdata_fast restores fallback state after par
   skip_if_not_installed("future")
   skip_if_not_installed("future.callr")
 
-  task = tsk("pima")
+  task = tsk("sonar")
   newdata = task$data()
 
   # parallel execution sends the learner across a process boundary, so the trained fallback survives
@@ -104,7 +104,7 @@ test_that("LearnerClassif predict_newdata_fast restores fallback state after par
 })
 
 test_that("LearnerClassif predict_newdata_fast syncs fallback predict_type", {
-  task = tsk("pima")
+  task = tsk("sonar")
   newdata = task$data()
 
   # main learner predicts "prob" while the fallback is left at its default "response":

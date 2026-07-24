@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* BREAKING CHANGE: Removed the `pima` task (`mlr_tasks_pima`) because the `PimaIndiansDiabetes2` data set was removed from the `mlbench` package.
+
 # mlr3 1.7.1
 
 * fix: `Learner$new()` and the `$deadline` setter now pass `origin` to `as.POSIXct()`, fixing learner construction and numeric deadline assignment on R versions below 4.3.

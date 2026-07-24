@@ -78,7 +78,7 @@ test_that("discarding model", {
 })
 
 test_that("bmr$combine()", {
-  bmr_new = benchmark(benchmark_grid(mlr_tasks$mget("pima"), learners, resamplings))
+  bmr_new = benchmark(benchmark_grid(mlr_tasks$mget("wine"), learners, resamplings))
 
   combined = list(
     bmr$clone(deep = TRUE)$combine(bmr_new),
@@ -94,9 +94,9 @@ test_that("bmr$combine()", {
     expect_data_table(get_private(bmr_new)$.data$data$fact, nrows = 6L)
     expect_data_table(get_private(bmr_combined)$.data$data$fact, nrows = 24L)
 
-    expect_false("pima" %chin% bmr$tasks$task_id)
-    expect_true("pima" %chin% bmr_new$tasks$task_id)
-    expect_true("pima" %chin% bmr_combined$tasks$task_id)
+    expect_false("wine" %chin% bmr$tasks$task_id)
+    expect_true("wine" %chin% bmr_new$tasks$task_id)
+    expect_true("wine" %chin% bmr_combined$tasks$task_id)
   }
 
   rr = resample(tsk("zoo"), lrn("classif.rpart"), rsmp("holdout"))
@@ -161,7 +161,7 @@ test_that("memory footprint", {
 
 test_that("resampling validation in benchmark_grid", {
   task1 = tsk("iris")
-  task2 = tsk("pima")
+  task2 = tsk("sonar")
   resampling_1 = rsmp("holdout")
   resampling_2 = rsmp("holdout")
 
@@ -438,7 +438,7 @@ test_that("task and learner assertions", {
 
 
 test_that("benchmark_grid works if paired = TRUE", {
-  tasks = mlr3::tsks(c("pima", "iris"))
+  tasks = mlr3::tsks(c("sonar", "iris"))
   learners = lrns(c("classif.featureless", "classif.rpart"))
   resampling = rsmp("cv")
   resamplings = pmap(
@@ -463,13 +463,13 @@ test_that("benchmark_grid works if paired = TRUE", {
   expect_false(identical(design$learner[[2]], design$learner[[3]]))
 
   # Resamplings must be instantiated
-  tasks = tsks(c("pima", "iris"))
+  tasks = tsks(c("sonar", "iris"))
   learners = lrns(c("classif.featureless", "classif.rpart"))
   resamplings = mlr3::rsmps(c("cv", "holdout"))
   expect_error(benchmark_grid(tasks, learners, resamplings, paired = TRUE))
 
   # Resamplings and tasks must have the same length
-  tasks = tsks(c("pima", "iris"))
+  tasks = tsks(c("sonar", "iris"))
   learners = lrns(c("classif.featureless", "classif.rpart"))
   resamplings = pmap(
     list(tasks, mlr3::rsmps(c("cv", "holdout"))),
@@ -480,7 +480,7 @@ test_that("benchmark_grid works if paired = TRUE", {
 
   # Resamplings and tasks must have corresponding hashes
 
-  tasks = tsks(c("pima", "iris"))
+  tasks = tsks(c("sonar", "iris"))
   learners = lrns(c("classif.featureless", "classif.rpart"))
   resamplings = pmap(
     list(tasks, mlr3::rsmps(c("cv", "holdout"))),
@@ -664,7 +664,7 @@ test_that("predictions retrieved with as.data.table and predictions method are e
 test_that("score works with predictions and empty predictions", {
   learner_1 = lrn("classif.rpart", predict_sets = "train", id = "learner_1")
   learner_2 = lrn("classif.rpart", predict_sets = "test", id = "learner_2")
-  task = tsk("pima")
+  task = tsk("sonar")
 
   design = benchmark_grid(task, list(learner_1, learner_2), rsmp("holdout"))
 
@@ -689,11 +689,11 @@ test_that("benchmark_grid only allows unique learner ids", {
 
 test_that("benchmark allows that param_values overwrites tune token", {
   learner = lrn("classif.rpart", cp = to_tune(0.01, 0.1))
-  design = benchmark_grid(tsk("pima"), learner, rsmp("cv", folds = 3), param_values = list(list(list(cp = 0.01))))
+  design = benchmark_grid(tsk("sonar"), learner, rsmp("cv", folds = 3), param_values = list(list(list(cp = 0.01))))
   expect_benchmark_result(benchmark(design))
 
   learner = lrn("classif.rpart", cp = to_tune(0.01, 0.1))
-  design = benchmark_grid(tsk("pima"), learner, rsmp("cv", folds = 3))
+  design = benchmark_grid(tsk("sonar"), learner, rsmp("cv", folds = 3))
   expect_error(benchmark(design), "cannot be trained with TuneToken present")
 })
 
@@ -842,7 +842,7 @@ test_that("resampling validation", {
 
   # test with resampling instantiated on wrong task
   task1 = tsk("iris")
-  task2 = tsk("pima")
+  task2 = tsk("sonar")
   resampling = rsmp("holdout")
   resampling$instantiate(task1)
   design = data.table(task = list(task2), learner = list(learner), resampling = list(resampling))

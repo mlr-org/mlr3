@@ -22,7 +22,7 @@ test_that("results are ordered", {
   expect_equal(unique(hashes(tab$learner)), rev(hashes(grid$learner)))
   expect_equal(unique(hashes(tab$resampling)), rev(hashes(grid$resampling)))
 
-  rr = resample(tsk("pima"), lrn("classif.rpart"), rsmp("holdout"))
+  rr = resample(tsk("sonar"), lrn("classif.rpart"), rsmp("holdout"))
   rdata$combine(get_private(rr)$.data)
   expect_resultdata(rdata)
   expect_equal(rdata$uhashes()[3], rr$uhash)

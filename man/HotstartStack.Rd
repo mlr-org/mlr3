@@ -30,8 +30,8 @@ iterations, and a random forest can go backwards by removing trees.
 The fidelity parameters are tagged with \code{"hotstart"} in learner's parameter set.
 }
 \examples{
-# train learner on pima task
-task = tsk("pima")
+# train learner on sonar task
+task = tsk("sonar")
 learner = lrn("classif.debug", iter = 1)
 learner$train(task)
 

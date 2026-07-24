@@ -119,24 +119,30 @@ test_that("target is encoded as factor (#629)", {
 })
 
 test_that("offset column role works with binary tasks", {
-  task = tsk("pima")
+  data = data.table(
+    y = factor(rep(c("pos", "neg"), 50)),
+    off = as.double(1:100),
+    with_na = c(NA_real_, as.double(2:100)),
+    x = as.double(1:100)
+  )
+  task = as_task_classif(data, target = "y", positive = "pos")
   expect_null(task$offset)
 
-  task$set_col_roles("age", "offset")
+  task$set_col_roles("off", "offset")
   expect_subset("offset", task$properties)
   expect_data_table(task$offset, nrows = task$nrow, ncols = 2)
   expect_subset(c("row_id", "offset"), names(task$offset))
 
   expect_error(
     {
-      task$col_roles$offset = c("glucose", "diabetes")
+      task$col_roles$offset = c("off", "x")
     },
     "There may only be up to one column with role"
   )
 
   expect_error(
     {
-      task$col_roles$offset = c("glucose")
+      task$col_roles$offset = c("with_na")
     },
     "contain missing values"
   )

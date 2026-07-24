@@ -41,8 +41,8 @@ test_that("Extra data slots of learners are kept / reset", {
 
 test_that("task is checked in train() / predict()", {
   learner = lrn("regr.rpart")
-  expect_error(learner$train(tsk("pima")), "type")
-  expect_error(learner$predict(tsk("pima")), "type")
+  expect_error(learner$train(tsk("sonar")), "type")
+  expect_error(learner$predict(tsk("sonar")), "type")
 })
 
 test_that("learner timings", {
@@ -331,7 +331,7 @@ test_that("train task is cloned (#382)", {
 })
 
 test_that("Error on missing data (#413)", {
-  task = tsk("pima")
+  task = tsk("penguins")
   learner = lrn("classif.rpart")
   learner$properties = setdiff(learner$properties, "missings")
   expect_error(learner$train(task), "missing values")

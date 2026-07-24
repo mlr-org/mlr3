@@ -423,7 +423,7 @@ test_that("task$droplevels works", {
 })
 
 test_that("task$missings() works", {
-  task = tsk("pima")
+  task = tsk("penguins")
   x = task$missings()
   y = map_int(task$data(), count_missing)
   expect_equal(x, y[match(names(x), names(y))])
@@ -525,7 +525,7 @@ test_that("Task$row_names", {
 })
 
 test_that("Task$set_row_roles", {
-  task = tsk("pima")
+  task = tsk("sonar")
 
   task$set_row_roles(1:10, remove_from = "use")
   expect_true(all(1:10 %nin% task$row_ids))
@@ -536,25 +536,25 @@ test_that("Task$set_row_roles", {
 
 
 test_that("Task$set_col_roles", {
-  task = tsk("pima")
-  expect_equal(task$n_features, 8L)
+  task = tsk("sonar")
+  expect_equal(task$n_features, 60L)
 
-  task$set_col_roles("mass", remove_from = "feature")
-  expect_equal(task$n_features, 7L)
-  expect_true("mass" %nin% task$feature_names)
+  task$set_col_roles("V1", remove_from = "feature")
+  expect_equal(task$n_features, 59L)
+  expect_true("V1" %nin% task$feature_names)
 
-  task$set_col_roles("mass", add_to = "feature")
-  expect_equal(task$n_features, 8L)
-  expect_true("mass" %chin% task$feature_names)
+  task$set_col_roles("V1", add_to = "feature")
+  expect_equal(task$n_features, 60L)
+  expect_true("V1" %chin% task$feature_names)
 
-  task$set_col_roles("age", roles = "weights_learner")
-  expect_equal(task$n_features, 7L)
-  expect_true("age" %nin% task$feature_names)
+  task$set_col_roles("V2", roles = "weights_learner")
+  expect_equal(task$n_features, 59L)
+  expect_true("V2" %nin% task$feature_names)
   expect_data_table(task$weights_learner)
 
-  task$set_col_roles("age", add_to = "feature", remove_from = "weights_learner")
-  expect_equal(task$n_features, 8L)
-  expect_true("age" %chin% task$feature_names)
+  task$set_col_roles("V2", add_to = "feature", remove_from = "weights_learner")
+  expect_equal(task$n_features, 60L)
+  expect_true("V2" %chin% task$feature_names)
   expect_null(task$weights_learner)
 })
 
@@ -988,7 +988,7 @@ test_that("$data() is not called during task construction", {
 })
 
 test_that("row_hash works correctly", {
-  task = tsk("pima")
+  task = tsk("sonar")
   original_hash = task$row_hash
 
   # hash should change when row ids change with filter
@@ -1010,15 +1010,15 @@ test_that("row_hash works correctly", {
 })
 
 test_that("row_ids_backend works correctly", {
-  task = tsk("pima")
+  task = tsk("sonar")
 
   # should not change when filtering
   task$filter(1:100)
-  expect_set_equal(task$row_ids_backend, 1:768)
+  expect_set_equal(task$row_ids_backend, 1:208)
 
   # should not change when modifying row roles
   task$set_row_roles(1:50, remove_from = "use")
-  expect_set_equal(task$row_ids_backend, 1:768)
+  expect_set_equal(task$row_ids_backend, 1:208)
 
   # should be read-only
   expect_error(
@@ -1034,7 +1034,7 @@ test_that("row_ids_backend works correctly", {
   # should include all rows even after multiple filters
   task$filter(1:50)
   task$filter(1:25)
-  expect_set_equal(task$row_ids_backend, 1:768)
+  expect_set_equal(task$row_ids_backend, 1:208)
 })
 
 test_that("$levels with cols works (#1323)", {

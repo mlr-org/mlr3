@@ -148,7 +148,6 @@ Collate:
     'TaskClassif_german_credit.R'
     'TaskClassif_iris.R'
     'TaskClassif_penguins.R'
-    'TaskClassif_pima.R'
     'TaskClassif_sonar.R'
     'TaskClassif_spam.R'
     'TaskClassif_wine.R'

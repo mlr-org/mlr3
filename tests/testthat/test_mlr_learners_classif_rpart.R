@@ -73,7 +73,7 @@ test_that("default_values on rpart", {
     minbucket = p_int(1, 64, logscale = TRUE),
     cp = p_dbl(1e-04, 1e-1, logscale = TRUE)
   )
-  task = tsk("pima")
+  task = tsk("sonar")
 
   values = default_values(learner, search_space, task)
   expect_names(names(values), permutation.of = c("minsplit", "minbucket", "cp"))

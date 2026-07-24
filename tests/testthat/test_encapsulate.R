@@ -140,7 +140,7 @@ test_that("mirai compute profile can be changed", {
   with_mirai(
     {
       options(mlr3.mirai_encapsulation = "mlr3_encapsulation2")
-      task = tsk("pima")
+      task = tsk("sonar")
       learner = lrn("classif.debug")
       learner$encapsulate("mirai", lrn("classif.featureless"))
       learner$train(task)
