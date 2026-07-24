@@ -1,6 +1,8 @@
 # mlr3 (development version)
 
 * BREAKING CHANGE: Removed the `pima` task (`mlr_tasks_pima`) because the `PimaIndiansDiabetes2` data set was removed from the `mlbench` package.
+* perf: `TaskClassif$print()` now caches the class distribution of the target column and only recomputes it when the task hash changes.
+  Querying the target column can be slow for tasks with many rows.
 
 # mlr3 1.7.1
 

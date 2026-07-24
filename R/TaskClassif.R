@@ -73,8 +73,7 @@ TaskClassif = R6Class(
       super$print(...)
 
       if (!is.null(private$.backend) && self$nrow <= getOption("mlr3.print_class_ratio_threshold", 1000000L)) {
-        class_freqs = table(self$truth()) / self$nrow * 100
-        class_freqs = class_freqs[order(-class_freqs, names(class_freqs))]
+        class_freqs = private$get_class_freqs()
         classes = if ("twoclass" %in% self$properties) {
           sprintf(
             "%s (positive class, %.0f%%), %s (%.0f%%)",
@@ -165,6 +164,24 @@ TaskClassif = R6Class(
         return(NA_character_)
       }
       lvls[2L]
+    }
+  ),
+
+  private = list(
+    .class_freqs = NULL,
+    .class_freqs_hash = NULL,
+
+    # Relative class frequencies (in percent), sorted decreasingly.
+    # Querying the target column can be slow for tasks with many rows, so the result is cached
+    # and only recomputed when the task hash changed.
+    get_class_freqs = function() {
+      hash = self$hash
+      if (!identical(private$.class_freqs_hash, hash)) {
+        class_freqs = table(self$truth()) / self$nrow * 100
+        private$.class_freqs = class_freqs[order(-class_freqs, names(class_freqs))]
+        private$.class_freqs_hash = hash
+      }
+      private$.class_freqs
     }
   )
 )

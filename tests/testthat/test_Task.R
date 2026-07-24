@@ -1113,6 +1113,20 @@ test_that("class ratios are not printed for large tasks (#1382)", {
   expect_output(print(task), "setosa, versicolor, virginica", fixed = TRUE)
 })
 
+test_that("class ratios are cached and invalidated via the task hash", {
+  task = tsk("iris")
+  expect_output(print(task), "setosa \\(33%\\), versicolor \\(33%\\), virginica \\(33%\\)")
+
+  # cache is populated and keyed on the current hash
+  expect_equal(get_private(task)$.class_freqs_hash, task$hash)
+  expect_output(print(task), "setosa \\(33%\\), versicolor \\(33%\\), virginica \\(33%\\)")
+
+  # mutating the task invalidates the cache
+  task$filter(1:60)
+  expect_output(print(task), "setosa \\(83%\\), versicolor \\(17%\\)")
+  expect_equal(get_private(task)$.class_freqs_hash, task$hash)
+})
+
 test_that("id must not contain percent character (#1461)", {
   expect_error(TaskClassif$new("a %>% b", backend = iris, target = "Species"), "must not contain")
   task = tsk("iris")
