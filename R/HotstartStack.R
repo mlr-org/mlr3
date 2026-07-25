@@ -28,8 +28,8 @@
 #'
 #' @export
 #' @examples
-#' # train learner on pima task
-#' task = tsk("pima")
+#' # train learner on sonar task
+#' task = tsk("sonar")
 #' learner = lrn("classif.debug", iter = 1)
 #' learner$train(task)
 #'

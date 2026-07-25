@@ -75,7 +75,7 @@ We highly discourage changing the task, learner and resampling objects via the c
 }
 \examples{
 learner = lrn("classif.rpart")
-task = tsk("pima")
+task = tsk("sonar")
 resampling = rsmp("cv", folds = 3)
 
 # save selected features callback
@@ -96,7 +96,7 @@ callback = callback_resample("holdout_task",
   }
 )
 
-task_holdout = tsk("pima")
+task_holdout = tsk("sonar")
 splits = partition(task, 0.7)
 task$filter(splits$train)
 task_holdout$filter(splits$test)

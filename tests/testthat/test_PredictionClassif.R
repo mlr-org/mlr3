@@ -318,7 +318,7 @@ test_that("predict_raw with resample", {
 
 test_that("obs_loss works", {
   learner = lrn("classif.rpart", predict_type = "prob")
-  task = tsk("pima")
+  task = tsk("sonar")
   learner$train(task)
   prediction = learner$predict(task)
   # binary simple measure

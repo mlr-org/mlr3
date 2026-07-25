@@ -47,7 +47,7 @@ test_that("NA predictions", {
 test_that("default_values", {
   learner = lrn("classif.debug")
   search_space = ps(iter = p_int(1, 10))
-  task = tsk("pima")
+  task = tsk("sonar")
 
   values = default_values(learner, search_space, task)
   expect_names(names(values), identical.to = "iter")

@@ -1,5 +1,5 @@
 test_that("ContextResample works", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
   iteration = 1

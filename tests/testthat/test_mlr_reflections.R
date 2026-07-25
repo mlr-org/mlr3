@@ -51,8 +51,8 @@ TaskClassifTest = R6Class(
   )
 )
 
-b = as_data_backend(load_dataset("PimaIndiansDiabetes2", "mlbench"))
-task = TaskClassifTest$new("test", b, target = "diabetes", positive = "pos", label = "Pima Indian Diabetes")
+b = as_data_backend(load_dataset("Sonar", "mlbench"))
+task = TaskClassifTest$new("test", b, target = "Class", positive = "M", label = "Sonar")
 learner = lrn("classif.rpart")
 measure = msr("classif.ce")
 
@@ -111,8 +111,8 @@ test_that("benchmark works", {
 })
 
 test_that("set column roles works", {
-  expect_task(task$set_col_roles("age", "test"))
-  expect_equal(task$col_roles$test, "age")
+  expect_task(task$set_col_roles("V1", "test"))
+  expect_equal(task$col_roles$test, "V1")
 })
 
 test_that("external packages can set column roles", {
@@ -128,7 +128,7 @@ test_that("external packages can set column roles", {
 
   x$task_col_roles$classif = c(x$task_col_roles$classif, "extra_role")
 
-  task = tsk("pima")
+  task = tsk("sonar")
 
   with_future(future::multisession, {
     rr = resample(task, lrn("classif.rpart"), rsmp("cv", folds = 3))

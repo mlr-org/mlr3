@@ -1,7 +1,7 @@
 # stages -----------------------------------------------------------------------
 
 test_that("on_resample_begin works", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
@@ -22,7 +22,7 @@ test_that("on_resample_begin works", {
 })
 
 test_that("on_resample_before_train works", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
@@ -42,7 +42,7 @@ test_that("on_resample_before_train works", {
 })
 
 test_that("on_resample_before_predict works", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
@@ -61,7 +61,7 @@ test_that("on_resample_before_predict works", {
 })
 
 test_that("on_resample_end works", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
@@ -83,7 +83,7 @@ test_that("on_resample_end works", {
 # learner state ----------------------------------------------------------------
 
 test_that("writing to learner$state works", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
@@ -114,7 +114,7 @@ test_that("writing to learner$state works", {
 # data_extra -------------------------------------------------------------------
 
 test_that("writing to data_extra works", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
@@ -148,7 +148,7 @@ test_that("writing to data_extra works", {
 })
 
 test_that("data_extra is a list column", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.rpart")
   resampling = rsmp("holdout")
 
@@ -167,7 +167,7 @@ test_that("data_extra is a list column", {
 })
 
 test_that("data_extra is null", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
@@ -196,7 +196,7 @@ test_that("data_extra is null", {
 })
 
 test_that("learner cloning in workhorse is passed to context", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.rpart")
   resampling = rsmp("holdout")
 
@@ -225,7 +225,7 @@ test_that("learner cloning in workhorse is passed to context", {
 
 test_that("returning data_extra sometimes works ", {
   learners = lrns(c("classif.rpart", "classif.featureless"))
-  task = tsk("pima")
+  task = tsk("sonar")
   resampling = rsmp("cv", folds = 3)
 
   callback = callback_resample("test", on_resample_end = function(callback, context) {

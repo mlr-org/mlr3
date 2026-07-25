@@ -119,7 +119,7 @@ test_that("target is encoded as factor (#629)", {
 })
 
 test_that("offset column role works with binary tasks", {
-  task = tsk("pima")
+  task = tsk("diabetes")
   expect_null(task$offset)
 
   task$set_col_roles("age", "offset")

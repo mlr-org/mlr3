@@ -16,7 +16,7 @@ test_that("learner classif backward compatibility", {
   learner_classif = readRDS(file.path(github_path, "tests", "testthat", "_object_snapshots", "learner_classif.rds"))
   expect_learner(learner_classif)
 
-  task = tsk("pima")
+  task = tsk("sonar")
   suppressWarnings({
     pred = learner_classif$predict(task)
   })
@@ -71,7 +71,7 @@ test_that("measure backward compatibility", {
   measure = readRDS(file.path(github_path, "tests", "testthat", "_object_snapshots", "measure.rds"))
   expect_measure(measure)
 
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.rpart")
   learner$train(task)
   pred = learner$predict(task)

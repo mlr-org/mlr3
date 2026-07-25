@@ -94,7 +94,7 @@ CallbackResample = R6Class(
 #' @export
 #' @examples
 #' learner = lrn("classif.rpart")
-#' task = tsk("pima")
+#' task = tsk("sonar")
 #' resampling = rsmp("cv", folds = 3)
 #'
 #' # save selected features callback
@@ -115,7 +115,7 @@ CallbackResample = R6Class(
 #'   }
 #' )
 #'
-#' task_holdout = tsk("pima")
+#' task_holdout = tsk("sonar")
 #' splits = partition(task, 0.7)
 #' task$filter(splits$train)
 #' task_holdout$filter(splits$test)

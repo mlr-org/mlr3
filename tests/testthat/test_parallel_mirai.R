@@ -3,7 +3,7 @@ skip_if_not_installed("mirai")
 test_that("parallel resample", {
   with_mirai(
     {
-      task = tsk("pima")
+      task = tsk("sonar")
       learner = lrn("classif.rpart")
       rr = resample(task, learner, rsmp("cv", folds = 3))
       expect_resample_result(rr)
@@ -14,7 +14,7 @@ test_that("parallel resample", {
 })
 
 test_that("parallel benchmark", {
-  task = tsk("pima")
+  task = tsk("sonar")
   learner = lrn("classif.rpart")
 
   with_mirai(
@@ -31,7 +31,7 @@ test_that("parallel benchmark", {
 test_that("mirai resample is reproducible", {
   with_mirai(
     {
-      task = tsk("pima")
+      task = tsk("sonar")
       learner = lrn("classif.debug")
       resampling = rsmp("cv", folds = 3)
       rr = resample(task, learner, resampling, store_models = TRUE)
@@ -43,7 +43,7 @@ test_that("mirai resample is reproducible", {
 
   with_mirai(
     {
-      task = tsk("pima")
+      task = tsk("sonar")
       learner = lrn("classif.debug")
       resampling = rsmp("cv", folds = 3)
       rr = resample(task, learner, resampling, store_models = TRUE)
@@ -92,7 +92,7 @@ test_that("parallel resample and encapsulation works", {
         .compute = "mlr3_parallelization"
       )
 
-      task = tsk("pima")
+      task = tsk("sonar")
       learner = lrn("classif.debug")
       learner$encapsulate("mirai", lrn("classif.featureless"))
       resampling = rsmp("cv", folds = 3)
@@ -125,7 +125,7 @@ test_that("mirai compute profile can be changed", {
   with_mirai(
     {
       options(mlr3.mirai_parallelization = "mlr3_parallelization2")
-      task = tsk("pima")
+      task = tsk("sonar")
       learner = lrn("classif.debug")
       resampling = rsmp("cv", folds = 3)
       rr = resample(task, learner, resampling, store_models = TRUE)

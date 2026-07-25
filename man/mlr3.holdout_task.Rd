@@ -11,7 +11,7 @@ The holdout task.}
 This \link{CallbackResample} predicts on an additional holdout task after training.
 }
 \examples{
-task = tsk("pima")
+task = tsk("sonar")
 task_holdout = task$clone()
 learner = lrn("classif.rpart")
 resampling = rsmp("cv", folds = 3)

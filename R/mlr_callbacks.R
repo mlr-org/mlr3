@@ -16,7 +16,7 @@
 #'   The function must return a named list.
 #'
 #' @examples
-#' task = tsk("pima")
+#' task = tsk("sonar")
 #' learner = lrn("classif.rpart")
 #' resampling = rsmp("cv", folds = 3)
 #'
@@ -56,7 +56,7 @@ load_callback_model_extractor = function() {
 #'  The holdout task.
 #'
 #' @examples
-#' task = tsk("pima")
+#' task = tsk("sonar")
 #' task_holdout = task$clone()
 #' learner = lrn("classif.rpart")
 #' resampling = rsmp("cv", folds = 3)

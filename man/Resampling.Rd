@@ -89,7 +89,7 @@ r = rsmp("cv")$instantiate(task)
 r$train_set(1)
 
 # Stratification
-task = tsk("pima")
+task = tsk("sonar")
 prop.table(table(task$truth())) # moderately unbalanced
 task$col_roles$stratum = task$target_names
 

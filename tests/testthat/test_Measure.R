@@ -342,7 +342,7 @@ test_that("checks on predict_sets", {
 
 test_that("measure and prediction type is checked", {
   learner = lrn("classif.rpart")
-  task = tsk("pima")
+  task = tsk("sonar")
   learner$train(task)
   pred = learner$predict(task)
 
@@ -373,7 +373,7 @@ test_that("obs_loss works", {
 
   measure = MeasureTest$new()
   learner = lrn("classif.rpart", predict_type = "prob")
-  task = tsk("pima")
+  task = tsk("sonar")
   learner$train(task)
   pred = learner$predict(task)
   obs_loss = measure$obs_loss(pred)
