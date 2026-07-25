@@ -14,7 +14,7 @@ predicts on an additional holdout task after training.
 ## Examples
 
 ``` r
-task = tsk("pima")
+task = tsk("sonar")
 task_holdout = task$clone()
 learner = lrn("classif.rpart")
 resampling = rsmp("cv", folds = 3)
@@ -31,7 +31,7 @@ rr$data_extra
 #> Key: <uhash, iteration>
 #>                                   uhash iteration data_extra
 #>                                  <char>     <int>     <list>
-#> 1: 254aaf5c-3e83-4a7e-ac70-49bde34e7952         1  <list[1]>
-#> 2: 254aaf5c-3e83-4a7e-ac70-49bde34e7952         2  <list[1]>
-#> 3: 254aaf5c-3e83-4a7e-ac70-49bde34e7952         3  <list[1]>
+#> 1: 399c9e57-711f-4f60-a681-7cccfe04a4c2         1  <list[1]>
+#> 2: 399c9e57-711f-4f60-a681-7cccfe04a4c2         2  <list[1]>
+#> 3: 399c9e57-711f-4f60-a681-7cccfe04a4c2         3  <list[1]>
 ```

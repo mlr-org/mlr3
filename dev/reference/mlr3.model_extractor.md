@@ -20,7 +20,7 @@ named list (see example). The callback is very helpful to call
 ## Examples
 
 ``` r
-task = tsk("pima")
+task = tsk("sonar")
 learner = lrn("classif.rpart")
 resampling = rsmp("cv", folds = 3)
 
@@ -36,7 +36,7 @@ rr$data_extra
 #> Key: <uhash, iteration>
 #>                                   uhash iteration data_extra
 #>                                  <char>     <int>     <list>
-#> 1: 722fd427-8ca3-4e56-a2fa-47170bbe4dd1         1  <list[1]>
-#> 2: 722fd427-8ca3-4e56-a2fa-47170bbe4dd1         2  <list[1]>
-#> 3: 722fd427-8ca3-4e56-a2fa-47170bbe4dd1         3  <list[1]>
+#> 1: 2068bc1b-570b-4d50-bbae-9c96af11c843         1  <list[1]>
+#> 2: 2068bc1b-570b-4d50-bbae-9c96af11c843         2  <list[1]>
+#> 3: 2068bc1b-570b-4d50-bbae-9c96af11c843         3  <list[1]>
 ```

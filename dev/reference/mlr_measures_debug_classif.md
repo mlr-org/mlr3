@@ -141,7 +141,7 @@ rr$score(measure)
 #> 1:    wine classif.featureless            cv         1            NA
 #> 2:    wine classif.featureless            cv         2            NA
 #> 3:    wine classif.featureless            cv         3            36
-#> 4:    wine classif.featureless            cv         4            NA
-#> 5:    wine classif.featureless            cv         5            NA
+#> 4:    wine classif.featureless            cv         4            35
+#> 5:    wine classif.featureless            cv         5            35
 #> Hidden columns: task, learner, resampling, prediction_test
 ```

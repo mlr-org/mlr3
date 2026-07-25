@@ -181,7 +181,7 @@ We highly discourage changing the task, learner and resampling objects via the c
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"pima"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"sonar"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span>, folds <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># save selected features callback</span></span></span>
@@ -193,7 +193,7 @@ We highly discourage changing the task, learner and resampling objects via the c
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span>, <span class="va">resampling</span>, callbacks <span class="op">=</span> <span class="va">callback</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="va">learners</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">state</span><span class="op">$</span><span class="va">selected_features</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "glucose"  "mass"     "age"      "pressure" "insulin"  "pregnant"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "V11" "V17" "V21"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># holdout task callback</span></span></span>
 <span class="r-in"><span><span class="va">callback</span> <span class="op">=</span> <span class="fu">callback_resample</span><span class="op">(</span><span class="st">"holdout_task"</span>,</span></span>
@@ -203,7 +203,7 @@ We highly discourage changing the task, learner and resampling objects via the c
 <span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">task_holdout</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"pima"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">task_holdout</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"sonar"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">splits</span> <span class="op">=</span> <span class="fu"><a href="partition.html">partition</a></span><span class="op">(</span><span class="va">task</span>, <span class="fl">0.7</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span><span class="va">splits</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task_holdout</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span><span class="va">splits</span><span class="op">$</span><span class="va">test</span><span class="op">)</span></span></span>
@@ -215,9 +215,9 @@ We highly discourage changing the task, learner and resampling objects via the c
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration data_extra</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 1020a6db-9cbc-4b40-813c-8281d66fffce         1  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 1020a6db-9cbc-4b40-813c-8281d66fffce         2  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 1020a6db-9cbc-4b40-813c-8281d66fffce         3  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: ec70e3ac-5f3b-4d3e-b39c-71938becd7f1         1  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: ec70e3ac-5f3b-4d3e-b39c-71938becd7f1         2  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: ec70e3ac-5f3b-4d3e-b39c-71938becd7f1         3  &lt;list[1]&gt;</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

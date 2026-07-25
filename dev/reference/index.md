@@ -56,6 +56,8 @@
   Dictionary of Tasks
 - [`mlr_tasks_breast_cancer`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_breast_cancer.md)
   : Wisconsin Breast Cancer Classification Task
+- [`mlr_tasks_diabetes`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_diabetes.md)
+  : Synthetic Diabetes Classification Task
 - [`mlr_tasks_german_credit`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_german_credit.md)
   : German Credit Classification Task
 - [`mlr_tasks_iris`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_iris.md)
@@ -64,8 +66,6 @@
   : Motor Trend Regression Task
 - [`mlr_tasks_penguins`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_penguins.md)
   : Palmer Penguins Data Set
-- [`mlr_tasks_pima`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_pima.md)
-  : Pima Indian Diabetes Classification Task
 - [`mlr_tasks_sonar`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_sonar.md)
   : Sonar Classification Task
 - [`mlr_tasks_spam`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_spam.md)

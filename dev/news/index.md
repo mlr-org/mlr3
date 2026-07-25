@@ -2,6 +2,12 @@
 
 ## mlr3 (development version)
 
+- feat: Added the synthetic `diabetes` task (`mlr_tasks_diabetes`),
+  which mimics the structure of the former `pima` task including missing
+  values, for use in examples and tests.
+- BREAKING CHANGE: Removed the `pima` task (`mlr_tasks_pima`) because
+  the `PimaIndiansDiabetes2` data set was removed from the `mlbench`
+  package, use `tsk("diabetes")` or `tsk("sonar")` instead.
 - perf: `TaskClassif$print()` now caches the class distribution of the
   target column and only recomputes it when the task hash changes.
   Querying the target column can be slow for tasks with many rows.

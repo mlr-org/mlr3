@@ -1,10 +1,11 @@
-# Spam Classification Task
+# Synthetic Diabetes Classification Task
 
-Spam data set from the UCI machine learning repository
-(<http://archive.ics.uci.edu/dataset/94/spambase>). Data set collected
-at Hewlett-Packard Labs to classify emails as spam or non-spam. 57
-variables indicate the frequency of certain words and characters in the
-e-mail. The positive class is set to "spam".
+A synthetic binary classification task that mimics the structure of the
+former `pima` task. It has the same eight numeric features and a
+`diabetes` target with the positive class set to `"pos"`. Some feature
+columns contain missing values, which makes the task useful for
+preprocessing examples and tests. The data is fully synthetic and
+contains no real patient data.
 
 ## Format
 
@@ -14,13 +15,8 @@ from
 
 ## Source
 
-Creators: Mark Hopkins, Erik Reeber, George Forman, Jaap Suermondt.
-Hewlett-Packard Labs, 1501 Page Mill Rd., Palo Alto, CA 94304
-
-Donor: George Forman (gforman at nospam hpl.hp.com) 650-857-7835
-
-Preprocessing: Columns have been renamed. Preprocessed data taken from
-the [kernlab](https://CRAN.R-project.org/package=kernlab) package.
+The data set is generated deterministically by the script in
+`system.file("extdata", "diabetes.R", package = "mlr3")`.
 
 ## Dictionary
 
@@ -31,35 +27,23 @@ instantiated via the
 the associated sugar function
 [`tsk()`](https://mlr3.mlr-org.com/dev/reference/mlr_sugar.md):
 
-    mlr_tasks$get("spam")
-    tsk("spam")
+    mlr_tasks$get("diabetes")
+    tsk("diabetes")
 
 ## Meta Information
 
 - Task type: “classif”
 
-- Dimensions: 4601x58
+- Dimensions: 128x9
 
 - Properties: “twoclass”
 
-- Has Missings: `FALSE`
+- Has Missings: `TRUE`
 
-- Target: “type”
+- Target: “diabetes”
 
-- Features: “address”, “addresses”, “all”, “business”, “capitalAve”,
-  “capitalLong”, “capitalTotal”, “charDollar”, “charExclamation”,
-  “charHash”, “charRoundbracket”, “charSemicolon”, “charSquarebracket”,
-  “conference”, “credit”, “cs”, “data”, “direct”, “edu”, “email”,
-  “font”, “free”, “george”, “hp”, “hpl”, “internet”, “lab”, “labs”,
-  “mail”, “make”, “meeting”, “money”, “num000”, “num1999”, “num3d”,
-  “num415”, “num650”, “num85”, “num857”, “order”, “original”, “our”,
-  “over”, “parts”, “people”, “pm”, “project”, “re”, “receive”, “remove”,
-  “report”, “table”, “technology”, “telnet”, “will”, “you”, “your”
-
-## References
-
-Dua, Dheeru, Graff, Casey (2017). “UCI Machine Learning Repository.”
-<http://archive.ics.uci.edu/datasets>.
+- Features: “age”, “glucose”, “insulin”, “mass”, “pedigree”, “pregnant”,
+  “pressure”, “triceps”
 
 ## See also
 
@@ -103,11 +87,11 @@ Other Task: [`Task`](https://mlr3.mlr-org.com/dev/reference/Task.md),
 [`california_housing`](https://mlr3.mlr-org.com/dev/reference/california_housing.md),
 [`mlr_tasks`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks.md),
 [`mlr_tasks_breast_cancer`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_breast_cancer.md),
-[`mlr_tasks_diabetes`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_diabetes.md),
 [`mlr_tasks_german_credit`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_german_credit.md),
 [`mlr_tasks_iris`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_iris.md),
 [`mlr_tasks_mtcars`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_mtcars.md),
 [`mlr_tasks_penguins`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_penguins.md),
 [`mlr_tasks_sonar`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_sonar.md),
+[`mlr_tasks_spam`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_spam.md),
 [`mlr_tasks_wine`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_wine.md),
 [`mlr_tasks_zoo`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_zoo.md)

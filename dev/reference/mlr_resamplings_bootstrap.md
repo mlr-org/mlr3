@@ -137,9 +137,9 @@ bootstrap$instantiate(task)
 
 # Individual sets:
 bootstrap$train_set(1)
-#>  [1] 1 2 3 3 3 3 5 6 7 8
+#>  [1]  1  3  4  5  6  7  7  8  9 10
 bootstrap$test_set(1)
-#> [1]  4  9 10
+#> [1] 2
 
 # Disjunct sets:
 intersect(bootstrap$train_set(1), bootstrap$test_set(1))
@@ -150,13 +150,13 @@ bootstrap$instance$M # Matrix of counts
 #>        
 #>         [,1] [,2]
 #>    [1,]    1    1
-#>    [2,]    1    0
-#>    [3,]    4    0
-#>    [4,]    0    1
-#>    [5,]    1    2
-#>    [6,]    1    2
-#>    [7,]    1    0
+#>    [2,]    0    2
+#>    [3,]    1    0
+#>    [4,]    1    0
+#>    [5,]    1    3
+#>    [6,]    1    0
+#>    [7,]    2    1
 #>    [8,]    1    1
-#>    [9,]    0    1
-#>   [10,]    0    2
+#>    [9,]    1    2
+#>   [10,]    1    0
 ```
