@@ -1,4 +1,4 @@
-# mlr3 (development version)
+# mlr3 1.8.0
 
 * feat: Added the synthetic `diabetes` task (`mlr_tasks_diabetes`), which mimics the structure of the former `pima` task including missing values, for use in examples and tests.
 * BREAKING CHANGE: Removed the `pima` task (`mlr_tasks_pima`) because the `PimaIndiansDiabetes2` data set was removed from the `mlbench` package, use `tsk("diabetes")` or `tsk("sonar")` instead.
