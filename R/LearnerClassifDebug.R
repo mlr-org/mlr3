@@ -168,6 +168,12 @@ LearnerClassifDebug = R6Class(
     internal_valid_scores = function() {
       self$state$internal_valid_scores
     },
+    #' @field best_valid_scores
+    #' Retrieves the best internal validation scores as a named `list()`.
+    #' Returns `NULL` if learner is not trained yet.
+    best_valid_scores = function() {
+      self$state$best_valid_scores
+    },
     #' @field internal_tuned_values
     #' Retrieves the internally tuned values as a named `list()`.
     #' Returns `NULL` if learner is not trained yet.
@@ -248,6 +254,16 @@ LearnerClassifDebug = R6Class(
         if (self$predict_type == "prob") {
           model$internal_valid_scores$mbrier = mlr3measures::mbrier(valid_truth, valid_pred$prob)
         }
+
+        # The debug learner has no real validation curve, so we simulate one:
+        # with early stopping enabled, the best iteration is better than the final one by a fixed margin.
+        model$best_valid_scores = model$internal_valid_scores
+        if (isTRUE(pv$early_stopping)) {
+          model$best_valid_scores$acc = min(1, model$internal_valid_scores$acc + 0.1)
+          if (!is.null(model$internal_valid_scores$mbrier)) {
+            model$best_valid_scores$mbrier = max(0, model$internal_valid_scores$mbrier - 0.1)
+          }
+        }
       }
 
       if (isTRUE(pv$save_tasks)) {
@@ -272,11 +288,16 @@ LearnerClassifDebug = R6Class(
         self$model["iter"]
       }
     },
-    .extract_internal_valid_scores = function() {
-      if (is.null(self$model$internal_valid_scores)) {
-        named_list()
+    .extract_internal_valid_scores = function(which = "last") {
+      scores = if (which == "best") {
+        self$model$best_valid_scores
       } else {
         self$model$internal_valid_scores
+      }
+      if (is.null(scores)) {
+        named_list()
+      } else {
+        scores
       }
     },
     .predict = function(task) {

@@ -108,6 +108,7 @@ Collate:
     'mlr_measures.R'
     'MeasureAIC.R'
     'MeasureBIC.R'
+    'MeasureBestValidScore.R'
     'MeasureClassif.R'
     'MeasureClassifCosts.R'
     'MeasureDebug.R'
@@ -212,3 +213,4 @@ Collate:
     'worker.R'
     'zzz.R'
 Config/roxygen2/version: 8.0.0.9000
+RoxygenNote: 7.3.3

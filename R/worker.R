@@ -1,3 +1,15 @@
+# Calls the learner's `.extract_internal_valid_scores()` for either the last or the best iteration.
+# The `which` argument was added after the extractor was introduced, so learners implementing the old
+# signature (without `which`) are still supported: for those we call the extractor without arguments
+# and report no best scores, because we cannot know whether they refer to the last or the best iteration.
+extract_internal_valid_scores = function(learner, which) {
+  extractor = get_private(learner)$.extract_internal_valid_scores
+  if ("which" %nin% names(formals(extractor))) {
+    return(if (which == "last") extractor())
+  }
+  extractor(which = which)
+}
+
 learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NULL, mode = "train") {
   # This wrapper calls learner$.train, and additionally performs some basic
   # checks that the training was successful.
@@ -28,11 +40,15 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     learner$state$param_vals = learner$param_set$values
 
     # Extract internal valid scores and tuned values if applicable.
-    internal_valid_scores = if (
-      !is.null(get0("validate", learner)) &&
-        exists(".extract_internal_valid_scores", get_private(learner))
-    ) {
-      get_private(learner)$.extract_internal_valid_scores()
+    has_valid_extractor = !is.null(get0("validate", learner)) &&
+      exists(".extract_internal_valid_scores", get_private(learner))
+
+    internal_valid_scores = if (has_valid_extractor) {
+      extract_internal_valid_scores(learner, "last")
+    }
+
+    best_valid_scores = if (has_valid_extractor) {
+      extract_internal_valid_scores(learner, "best")
     }
 
     internal_tuned_values = if (exists(".extract_internal_tuned_values", get_private(learner))) {
@@ -51,6 +67,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     list(
       model = model,
       internal_valid_scores = internal_valid_scores,
+      best_valid_scores = best_valid_scores,
       internal_tuned_values = internal_tuned_values,
       oob_error = oob_error
     )
@@ -166,6 +183,11 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   # otherwise this information is only available with store_models = TRUE
   if (!is.null(result$result$internal_valid_scores)) {
     learner$state$internal_valid_scores = result$result$internal_valid_scores
+    learner$state$internal_valid_task_hash = task$internal_valid_task$hash
+  }
+
+  if (!is.null(result$result$best_valid_scores)) {
+    learner$state$best_valid_scores = result$result$best_valid_scores
     learner$state$internal_valid_task_hash = task$internal_valid_task$hash
   }
 

@@ -62,7 +62,12 @@
 #' * `oob_error(...)`: Returns the out-of-bag error of the model as `numeric(1)`.
 #'   The learner must be tagged with property `"oob_error"`.
 #'
-#' * `internal_valid_scores`: Returns the internal validation score(s) of the model as a named `list()`.
+#' * `internal_valid_scores`: Returns the internal validation score(s) of the *final* model as a named `list()`.
+#'   Only available for [`Learner`]s with the `"validation"` property.
+#'   If the learner is not trained yet, this returns `NULL`.
+#'
+#' * `best_valid_scores`: Returns the *best* internal validation score(s) observed during training as a named
+#'   `list()`.
 #'   Only available for [`Learner`]s with the `"validation"` property.
 #'   If the learner is not trained yet, this returns `NULL`.
 #'
@@ -120,9 +125,25 @@
 #' To do so, one must:
 #' * annotate the learner with the `"validation"` property
 #' * implement the active binding `$internal_valid_scores` (see section *Optional Extractors*), as well as the
-#'   private method `$.extract_internal_valid_scores()` which returns the (final) internal validation scores from the
+#'   private method `$.extract_internal_valid_scores()` which returns the internal validation scores from the
 #'   model of the [`Learner`] and returns them as a named `list()` of `numeric(1)`.
 #'   If the model is not trained yet, this method should return `NULL`.
+#'
+#' The extractor can take an optional argument `which`, which is either `"last"` or `"best"`:
+#' * `"last"`: the validation scores of the *final* model, i.e. after the last iteration.
+#' * `"best"`: the *best* validation scores that were observed during training.
+#'
+#' Implementing `which` is relevant for learners that also do internal tuning (see section
+#' *Implementing Internal Tuning*), because there the internally tuned values usually correspond to the iteration
+#' with the best validation score, while the final model is the one after the last iteration.
+#' Supporting it allows users to tune on [`msr("best_valid_score")`][mlr_measures_best_valid_score] in addition to
+#' [`msr("internal_valid_score")`][mlr_measures_internal_valid_score].
+#' If a learner does not track a validation curve, both values can simply return the same scores.
+#'
+#' The `which` argument is optional for backward compatibility:
+#' extractors that do not have it are called without arguments and are assumed to return the scores of the final
+#' model, i.e. `$best_valid_scores` is then `NULL`.
+#' New implementations should support it.
 #' * Add the `validate` parameter, which can be either `NULL`, a ratio in $(0, 1)$, `"test"`, or `"predefined"`:
 #'   * `NULL`: no validation
 #'   * `ratio`: only proportion `1 - ratio` of the task is used for training and `ratio` is used for validation.

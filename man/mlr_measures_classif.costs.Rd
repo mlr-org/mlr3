@@ -83,6 +83,7 @@ Other Measure:
 \code{\link{MeasureSimilarity}},
 \code{\link{mlr_measures}},
 \code{\link{mlr_measures_aic}},
+\code{\link{mlr_measures_best_valid_score}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_debug_classif}},
 \code{\link{mlr_measures_elapsed_time}},

@@ -8,6 +8,10 @@
 #' Returns `NA` for unsupported learners, when no validation was done, or when the selected id was not found.
 #' The `id` of this measure is set to the value of `select` if provided.
 #'
+#' This is the validation score of the *final* model.
+#' To obtain the *best* validation score that was observed during training, use
+#' [`msr("best_valid_score")`][mlr_measures_best_valid_score].
+#'
 #' @templateVar id internal_valid_score
 #' @template measure
 #'

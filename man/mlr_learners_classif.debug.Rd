@@ -137,6 +137,9 @@ Whether the learner has been marshaled.}
     \item{\code{internal_valid_scores}}{Retrieves the internal validation scores as a named \code{list()}.
 Returns \code{NULL} if learner is not trained yet.}
 
+    \item{\code{best_valid_scores}}{Retrieves the best internal validation scores as a named \code{list()}.
+Returns \code{NULL} if learner is not trained yet.}
+
     \item{\code{internal_tuned_values}}{Retrieves the internally tuned values as a named \code{list()}.
 Returns \code{NULL} if learner is not trained yet.}
 

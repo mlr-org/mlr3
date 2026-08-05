@@ -50,7 +50,11 @@ To filter variables using the importance scores, see package \CRANpkg{mlr3filter
 The learner must be tagged with property \code{"selected_features"}.
 \item \code{oob_error(...)}: Returns the out-of-bag error of the model as \code{numeric(1)}.
 The learner must be tagged with property \code{"oob_error"}.
-\item \code{internal_valid_scores}: Returns the internal validation score(s) of the model as a named \code{list()}.
+\item \code{internal_valid_scores}: Returns the internal validation score(s) of the \emph{final} model as a named \code{list()}.
+Only available for \code{\link{Learner}}s with the \code{"validation"} property.
+If the learner is not trained yet, this returns \code{NULL}.
+\item \code{best_valid_scores}: Returns the \emph{best} internal validation score(s) observed during training as a named
+\code{list()}.
 Only available for \code{\link{Learner}}s with the \code{"validation"} property.
 If the learner is not trained yet, this returns \code{NULL}.
 \item \code{internal_tuned_values}: Returns the internally tuned hyperparameters of the model as a named \code{list()}.
@@ -117,9 +121,29 @@ To do so, one must:
 \itemize{
 \item annotate the learner with the \code{"validation"} property
 \item implement the active binding \verb{$internal_valid_scores} (see section \emph{Optional Extractors}), as well as the
-private method \verb{$.extract_internal_valid_scores()} which returns the (final) internal validation scores from the
+private method \verb{$.extract_internal_valid_scores()} which returns the internal validation scores from the
 model of the \code{\link{Learner}} and returns them as a named \code{list()} of \code{numeric(1)}.
 If the model is not trained yet, this method should return \code{NULL}.
+}
+
+The extractor can take an optional argument \code{which}, which is either \code{"last"} or \code{"best"}:
+\itemize{
+\item \code{"last"}: the validation scores of the \emph{final} model, i.e. after the last iteration.
+\item \code{"best"}: the \emph{best} validation scores that were observed during training.
+}
+
+Implementing \code{which} is relevant for learners that also do internal tuning (see section
+\emph{Implementing Internal Tuning}), because there the internally tuned values usually correspond to the iteration
+with the best validation score, while the final model is the one after the last iteration.
+Supporting it allows users to tune on \code{\link[=mlr_measures_best_valid_score]{msr("best_valid_score")}} in addition to
+\code{\link[=mlr_measures_internal_valid_score]{msr("internal_valid_score")}}.
+If a learner does not track a validation curve, both values can simply return the same scores.
+
+The \code{which} argument is optional for backward compatibility:
+extractors that do not have it are called without arguments and are assumed to return the scores of the final
+model, i.e. \verb{$best_valid_scores} is then \code{NULL}.
+New implementations should support it.
+\itemize{
 \item Add the \code{validate} parameter, which can be either \code{NULL}, a ratio in $(0, 1)$, \code{"test"}, or \code{"predefined"}:
 \itemize{
 \item \code{NULL}: no validation
