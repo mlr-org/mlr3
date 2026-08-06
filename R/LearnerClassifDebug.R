@@ -288,16 +288,18 @@ LearnerClassifDebug = R6Class(
         self$model["iter"]
       }
     },
-    .extract_internal_valid_scores = function(which = "last") {
-      scores = if (which == "best") {
-        self$model$best_valid_scores
+    .extract_internal_valid_scores = function() {
+      if (is.null(self$model$internal_valid_scores)) {
+        named_list()
       } else {
         self$model$internal_valid_scores
       }
-      if (is.null(scores)) {
+    },
+    .extract_best_valid_scores = function() {
+      if (is.null(self$model$best_valid_scores)) {
         named_list()
       } else {
-        scores
+        self$model$best_valid_scores
       }
     },
     .predict = function(task) {

@@ -127,26 +127,27 @@ model of the \code{\link{Learner}} and returns them as a named \code{list()} of 
 If the model is not trained yet, this method should return \code{NULL}.
 }
 
-The extractor can take an optional argument \code{which}, which is either \code{"last"} or \code{"best"}:
-\itemize{
-\item \code{"last"}: the validation scores of the \emph{final} model, i.e. after the last iteration.
-\item \code{"best"}: the \emph{best} validation scores that were observed during training.
-}
+\verb{$.extract_internal_valid_scores()} returns the scores of the \emph{final} model, i.e. after the last iteration.
+In addition, a learner can implement the active binding \verb{$best_valid_scores} and the private method
+\verb{$.extract_best_valid_scores()}, which takes no arguments and returns the \emph{best} validation scores that were
+observed during training.
 
-\code{which} should only be implemented by learners that also have the \code{"internal_tuning"} property (see section
-\emph{Implementing Internal Tuning}), because tracking a best iteration only makes sense for learners that iterate.
+\verb{$.extract_best_valid_scores()} should only be implemented by learners that also have the \code{"internal_tuning"}
+property (see section \emph{Implementing Internal Tuning}), because tracking a best iteration only makes sense for
+learners that iterate.
+This is a convention and is not enforced: \CRANpkg{mlr3} only checks whether the method exists, not whether the
+learner has the property.
 It is relevant there because the internally tuned values usually correspond to the iteration
 with the best validation score, while the final model is the one after the last iteration.
-Supporting it allows users to tune on \code{\link[=mlr_measures_best_valid_score]{msr("best_valid_score")}} in addition to
+Implementing it allows users to tune on \code{\link[=mlr_measures_best_valid_score]{msr("best_valid_score")}} in addition to
 \code{\link[=mlr_measures_internal_valid_score]{msr("internal_valid_score")}}.
 Note that some learners automatically use the best found model when early stopping is enabled, e.g. XGBoost also
 predicts with the best \code{nrounds}.
-For those learners both values should be identical, but whether this is the case can depend on the
+For those learners both methods should return identical values, but whether this is the case can depend on the
 hyperparameter that controls this behavior, so it has to be decided per learner.
 
-Extractors that do not have the \code{which} argument are called without arguments and are assumed to return the
-scores of the final model, i.e. \verb{$best_valid_scores} is then \code{NULL}.
-New implementations should support it.
+Learners that do not implement \verb{$.extract_best_valid_scores()} keep working unchanged, their
+\verb{$best_valid_scores} is then \code{NULL}.
 \itemize{
 \item Add the \code{validate} parameter, which can be either \code{NULL}, a ratio in $(0, 1)$, \code{"test"}, or \code{"predefined"}:
 \itemize{

@@ -12,9 +12,11 @@ Returns \code{NA} for unsupported learners, when no validation was done, or when
 The \code{id} of this measure is set to the value of \code{select} if provided.
 
 Note that not every such learner tracks the best validation score:
-this requires the learner's \verb{$.extract_internal_valid_scores()} method to support the \code{which} argument
+this requires the learner to implement the private method \verb{$.extract_best_valid_scores()}
 (see \code{\link{Learner}}, section \emph{Implementing Validation}).
 For learners that do not, this measure returns \code{NA}.
+Whether a learner has the \code{"internal_tuning"} property is not checked, only whether it implements that method,
+so this measure relies on learners following that convention.
 
 While \code{\link[=mlr_measures_internal_valid_score]{msr("internal_valid_score")}} reports the validation score of the
 \emph{final} model, this measure reports the \emph{best} validation score observed during training.

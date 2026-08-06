@@ -11,9 +11,11 @@
 #' The `id` of this measure is set to the value of `select` if provided.
 #'
 #' Note that not every such learner tracks the best validation score:
-#' this requires the learner's `$.extract_internal_valid_scores()` method to support the `which` argument
+#' this requires the learner to implement the private method `$.extract_best_valid_scores()`
 #' (see [`Learner`], section *Implementing Validation*).
 #' For learners that do not, this measure returns `NA`.
+#' Whether a learner has the `"internal_tuning"` property is not checked, only whether it implements that method,
+#' so this measure relies on learners following that convention.
 #'
 #' While [`msr("internal_valid_score")`][mlr_measures_internal_valid_score] reports the validation score of the
 #' *final* model, this measure reports the *best* validation score observed during training.

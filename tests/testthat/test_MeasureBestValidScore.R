@@ -96,26 +96,50 @@ test_that("no best valid scores without validation", {
   expect_null(learner$internal_valid_scores)
 })
 
-test_that("extractors without the `which` argument are still supported", {
-  # learners implemented before `which` was introduced must keep working and report no best scores
-  LearnerLegacyValid = R6Class(
-    "LearnerLegacyValid",
-    inherit = LearnerClassifDebug,
-    private = list(
-      .extract_internal_valid_scores = function() {
-        list(acc = 0.5)
+test_that("learners without the best score extractor report no best scores", {
+  # A learner that validates but has no "internal_tuning" property has no notion of a best iteration,
+  # so it does not implement `.extract_best_valid_scores()`. This is also the situation of every learner
+  # that was implemented before that method existed, which must keep working unchanged.
+  LearnerValidOnly = R6Class(
+    "LearnerValidOnly",
+    inherit = LearnerClassif,
+    public = list(
+      initialize = function() {
+        super$initialize(
+          id = "classif.valid_only",
+          param_set = ps(),
+          feature_types = c("logical", "integer", "numeric", "factor", "ordered"),
+          predict_types = "response",
+          properties = c("twoclass", "multiclass", "validation")
+        )
       }
+    ),
+    active = list(
+      internal_valid_scores = function() self$state$internal_valid_scores,
+      best_valid_scores = function() self$state$best_valid_scores,
+      validate = function(rhs) {
+        if (!missing(rhs)) {
+          private$.validate = assert_validate(rhs)
+        }
+        private$.validate
+      }
+    ),
+    private = list(
+      .validate = NULL,
+      .train = function(task) list(response = as.character(task$truth()[1L])),
+      .predict = function(task) list(response = rep(self$model$response, task$nrow)),
+      .extract_internal_valid_scores = function() list(acc = 0.5)
     )
   )
 
-  task = tsk("iris")
-  learner = LearnerLegacyValid$new()
-  learner$id = "classif.legacy_valid"
+  learner = LearnerValidOnly$new()
   learner$validate = 0.2
+  expect_false(exists(".extract_best_valid_scores", get_private(learner)))
 
-  rr = resample(task, learner, rsmp("holdout"))
+  rr = resample(tsk("iris"), learner, rsmp("holdout"))
   expect_equal(rr$learners[[1]]$state$internal_valid_scores, list(acc = 0.5))
   expect_null(rr$learners[[1]]$state$best_valid_scores)
+  expect_null(rr$learners[[1]]$best_valid_scores)
   expect_equal(rr$score(msr("internal_valid_score", select = "acc"))$acc, 0.5)
   expect_equal(rr$score(msr("best_valid_score", select = "acc"))$acc, NA_real_)
 })

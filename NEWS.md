@@ -1,8 +1,8 @@
 # mlr3 (development version)
 
 * feat: Added `msr("best_valid_score")` (`mlr_measures_best_valid_score`), which reports the *best* internal validation score observed during training, while `msr("internal_valid_score")` reports the score of the *final* model.
-  Learners support this via the new optional `which` argument (`"last"` or `"best"`) of their private `$.extract_internal_valid_scores()` method and the `$best_valid_scores` field.
-  Extractors without the argument keep working unchanged.
+  Learners support this via the new private method `$.extract_best_valid_scores()` and the `$best_valid_scores` field.
+  Learners that do not implement it keep working unchanged.
 
 * feat: Added the synthetic `diabetes` task (`mlr_tasks_diabetes`), which mimics the structure of the former `pima` task including missing values, for use in examples and tests.
 * BREAKING CHANGE: Removed the `pima` task (`mlr_tasks_pima`) because the `PimaIndiansDiabetes2` data set was removed from the `mlbench` package, use `tsk("diabetes")` or `tsk("sonar")` instead.
