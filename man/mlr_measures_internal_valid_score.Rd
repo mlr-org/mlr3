@@ -76,8 +76,8 @@ Other Measure:
 \code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
-\section{Super class}{
-\code{\link[mlr3:Measure]{Measure}} -> \code{MeasureInternalValidScore}
+\section{Super classes}{
+\code{\link[mlr3:Measure]{Measure}} -> \code{mlr3::MeasureValidScore} -> \code{MeasureInternalValidScore}
 }
 \section{Methods}{
 \subsection{Public methods}{

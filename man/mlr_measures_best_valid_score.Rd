@@ -5,23 +5,25 @@
 \alias{MeasureBestValidScore}
 \title{Measure Best Validation Score}
 \description{
-Returns the selected best internal validation score of the \link{Learner} for learners with property \code{"validation"}.
+Returns the selected best internal validation score of the \link{Learner}.
+This is only available for learners that have both the \code{"validation"} and the \code{"internal_tuning"} property,
+because tracking a best iteration only makes sense for learners that iterate.
 Returns \code{NA} for unsupported learners, when no validation was done, or when the selected id was not found.
 The \code{id} of this measure is set to the value of \code{select} if provided.
 
-Note that not every learner with the \code{"validation"} property tracks the best validation score:
+Note that not every such learner tracks the best validation score:
 this requires the learner's \verb{$.extract_internal_valid_scores()} method to support the \code{which} argument
 (see \code{\link{Learner}}, section \emph{Implementing Validation}).
 For learners that do not, this measure returns \code{NA}.
 
 While \code{\link[=mlr_measures_internal_valid_score]{msr("internal_valid_score")}} reports the validation score of the
 \emph{final} model, this measure reports the \emph{best} validation score observed during training.
-For learners that internally tune a hyperparameter such as the number of boosting rounds or epochs, these two
-can differ: the internally tuned values (see \verb{$internal_tuned_values}) usually correspond to the iteration with
-the best validation score, whereas the final model is the one after the last iteration.
-Which of the two is the appropriate tuning measure depends on the learner:
-if the model that is used for prediction is the one from the best iteration, use this measure,
-otherwise use \code{\link[=mlr_measures_internal_valid_score]{msr("internal_valid_score")}}.
+These two can differ: the internally tuned values (see \verb{$internal_tuned_values}) usually correspond to the
+iteration with the best validation score, whereas the final model is the one after the last iteration.
+
+Some learners automatically use the best found model for prediction instead of the one from the last iteration.
+For those the two measures report the same value.
+Whether a learner does this is always documented with the learner itself.
 }
 \section{Dictionary}{
 
@@ -86,8 +88,8 @@ Other Measure:
 \code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
-\section{Super class}{
-\code{\link[mlr3:Measure]{Measure}} -> \code{MeasureBestValidScore}
+\section{Super classes}{
+\code{\link[mlr3:Measure]{Measure}} -> \code{mlr3::MeasureValidScore} -> \code{MeasureBestValidScore}
 }
 \section{Methods}{
 \subsection{Public methods}{

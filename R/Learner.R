@@ -68,7 +68,8 @@
 #'
 #' * `best_valid_scores`: Returns the *best* internal validation score(s) observed during training as a named
 #'   `list()`.
-#'   Only available for [`Learner`]s with the `"validation"` property.
+#'   Only available for [`Learner`]s with both the `"validation"` and the `"internal_tuning"` property, because
+#'   tracking a best iteration only makes sense for learners that iterate.
 #'   If the learner is not trained yet, this returns `NULL`.
 #'
 #' * `internal_tuned_values`: Returns the internally tuned hyperparameters of the model as a named `list()`.
@@ -133,16 +134,19 @@
 #' * `"last"`: the validation scores of the *final* model, i.e. after the last iteration.
 #' * `"best"`: the *best* validation scores that were observed during training.
 #'
-#' Implementing `which` is relevant for learners that also do internal tuning (see section
-#' *Implementing Internal Tuning*), because there the internally tuned values usually correspond to the iteration
+#' `which` should only be implemented by learners that also have the `"internal_tuning"` property (see section
+#' *Implementing Internal Tuning*), because tracking a best iteration only makes sense for learners that iterate.
+#' It is relevant there because the internally tuned values usually correspond to the iteration
 #' with the best validation score, while the final model is the one after the last iteration.
 #' Supporting it allows users to tune on [`msr("best_valid_score")`][mlr_measures_best_valid_score] in addition to
 #' [`msr("internal_valid_score")`][mlr_measures_internal_valid_score].
-#' If a learner does not track a validation curve, both values can simply return the same scores.
+#' Note that some learners automatically use the best found model when early stopping is enabled, e.g. XGBoost also
+#' predicts with the best `nrounds`.
+#' For those learners both values should be identical, but whether this is the case can depend on the
+#' hyperparameter that controls this behavior, so it has to be decided per learner.
 #'
-#' The `which` argument is optional for backward compatibility:
-#' extractors that do not have it are called without arguments and are assumed to return the scores of the final
-#' model, i.e. `$best_valid_scores` is then `NULL`.
+#' Extractors that do not have the `which` argument are called without arguments and are assumed to return the
+#' scores of the final model, i.e. `$best_valid_scores` is then `NULL`.
 #' New implementations should support it.
 #' * Add the `validate` parameter, which can be either `NULL`, a ratio in $(0, 1)$, `"test"`, or `"predefined"`:
 #'   * `NULL`: no validation

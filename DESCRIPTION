@@ -108,6 +108,7 @@ Collate:
     'mlr_measures.R'
     'MeasureAIC.R'
     'MeasureBIC.R'
+    'MeasureValidScore.R'
     'MeasureBestValidScore.R'
     'MeasureClassif.R'
     'MeasureClassifCosts.R'
