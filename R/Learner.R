@@ -62,7 +62,7 @@
 #' * `oob_error(...)`: Returns the out-of-bag error of the model as `numeric(1)`.
 #'   The learner must be tagged with property `"oob_error"`.
 #'
-#' * `internal_valid_scores`: Returns the internal validation score(s) of the *final* model as a named `list()`.
+#' * `internal_valid_scores`: Returns the (final) internal validation score(s) of the *final* model as a named `list()`.
 #'   Only available for [`Learner`]s with the `"validation"` property.
 #'   If the learner is not trained yet, this returns `NULL`.
 #'
@@ -138,19 +138,11 @@
 #' `$.extract_best_valid_scores()` should only be implemented by learners that also have the `"internal_tuning"`
 #' property (see section *Implementing Internal Tuning*), because tracking a best iteration only makes sense for
 #' learners that iterate.
-#' This is a convention and is not enforced: \CRANpkg{mlr3} only checks whether the method exists, not whether the
-#' learner has the property.
-#' It is relevant there because the internally tuned values usually correspond to the iteration
-#' with the best validation score, while the final model is the one after the last iteration.
-#' Implementing it allows users to tune on [`msr("best_valid_score")`][mlr_measures_best_valid_score] in addition to
-#' [`msr("internal_valid_score")`][mlr_measures_internal_valid_score].
 #' Note that some learners automatically use the best found model when early stopping is enabled, e.g. XGBoost also
 #' predicts with the best `nrounds`.
 #' For those learners both methods should return identical values, but whether this is the case can depend on the
 #' hyperparameter that controls this behavior, so it has to be decided per learner.
 #'
-#' Learners that do not implement `$.extract_best_valid_scores()` keep working unchanged, their
-#' `$best_valid_scores` is then `NULL`.
 #' * Add the `validate` parameter, which can be either `NULL`, a ratio in $(0, 1)$, `"test"`, or `"predefined"`:
 #'   * `NULL`: no validation
 #'   * `ratio`: only proportion `1 - ratio` of the task is used for training and `ratio` is used for validation.
