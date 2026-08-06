@@ -50,7 +50,7 @@ To filter variables using the importance scores, see package \CRANpkg{mlr3filter
 The learner must be tagged with property \code{"selected_features"}.
 \item \code{oob_error(...)}: Returns the out-of-bag error of the model as \code{numeric(1)}.
 The learner must be tagged with property \code{"oob_error"}.
-\item \code{internal_valid_scores}: Returns the internal validation score(s) of the \emph{final} model as a named \code{list()}.
+\item \code{internal_valid_scores}: Returns the (final) internal validation score(s) of the \emph{final} model as a named \code{list()}.
 Only available for \code{\link{Learner}}s with the \code{"validation"} property.
 If the learner is not trained yet, this returns \code{NULL}.
 \item \code{best_valid_scores}: Returns the \emph{best} internal validation score(s) observed during training as a named
@@ -135,19 +135,10 @@ observed during training.
 \verb{$.extract_best_valid_scores()} should only be implemented by learners that also have the \code{"internal_tuning"}
 property (see section \emph{Implementing Internal Tuning}), because tracking a best iteration only makes sense for
 learners that iterate.
-This is a convention and is not enforced: \CRANpkg{mlr3} only checks whether the method exists, not whether the
-learner has the property.
-It is relevant there because the internally tuned values usually correspond to the iteration
-with the best validation score, while the final model is the one after the last iteration.
-Implementing it allows users to tune on \code{\link[=mlr_measures_best_valid_score]{msr("best_valid_score")}} in addition to
-\code{\link[=mlr_measures_internal_valid_score]{msr("internal_valid_score")}}.
 Note that some learners automatically use the best found model when early stopping is enabled, e.g. XGBoost also
 predicts with the best \code{nrounds}.
 For those learners both methods should return identical values, but whether this is the case can depend on the
 hyperparameter that controls this behavior, so it has to be decided per learner.
-
-Learners that do not implement \verb{$.extract_best_valid_scores()} keep working unchanged, their
-\verb{$best_valid_scores} is then \code{NULL}.
 \itemize{
 \item Add the \code{validate} parameter, which can be either \code{NULL}, a ratio in $(0, 1)$, \code{"test"}, or \code{"predefined"}:
 \itemize{
