@@ -69,6 +69,7 @@ Other Measure:
 [`MeasureSimilarity`](https://mlr3.mlr-org.com/dev/reference/MeasureSimilarity.md),
 [`mlr_measures`](https://mlr3.mlr-org.com/dev/reference/mlr_measures.md),
 [`mlr_measures_aic`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_aic.md),
+[`mlr_measures_best_valid_score`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_best_valid_score.md),
 [`mlr_measures_bic`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_bic.md),
 [`mlr_measures_classif.costs`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_classif.costs.md),
 [`mlr_measures_elapsed_time`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_elapsed_time.md),
@@ -138,10 +139,10 @@ rr = resample(task, learner, rsmp("cv", folds = 5))
 rr$score(measure)
 #>    task_id          learner_id resampling_id iteration debug_classif
 #>     <char>              <char>        <char>     <int>         <num>
-#> 1:    wine classif.featureless            cv         1            NA
-#> 2:    wine classif.featureless            cv         2            NA
+#> 1:    wine classif.featureless            cv         1            36
+#> 2:    wine classif.featureless            cv         2            36
 #> 3:    wine classif.featureless            cv         3            36
 #> 4:    wine classif.featureless            cv         4            35
-#> 5:    wine classif.featureless            cv         5            35
+#> 5:    wine classif.featureless            cv         5            NA
 #> Hidden columns: task, learner, resampling, prediction_test
 ```

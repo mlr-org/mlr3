@@ -72,6 +72,7 @@ Other Measure:
 [`MeasureSimilarity`](https://mlr3.mlr-org.com/dev/reference/MeasureSimilarity.md),
 [`mlr_measures`](https://mlr3.mlr-org.com/dev/reference/mlr_measures.md),
 [`mlr_measures_aic`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_aic.md),
+[`mlr_measures_best_valid_score`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_best_valid_score.md),
 [`mlr_measures_bic`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_bic.md),
 [`mlr_measures_debug_classif`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_debug_classif.md),
 [`mlr_measures_elapsed_time`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_elapsed_time.md),
@@ -213,5 +214,5 @@ learner = lrn("classif.rpart")
 rr = resample(task, learner, rsmp("cv", folds = 3))
 rr$aggregate(m)
 #> german_credit_costs 
-#>            315.3333 
+#>            336.3333 
 ```

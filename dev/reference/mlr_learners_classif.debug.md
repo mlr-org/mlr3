@@ -206,6 +206,12 @@ Other Learner:
   [`list()`](https://rdrr.io/r/base/list.html). Returns `NULL` if
   learner is not trained yet.
 
+- `best_valid_scores`:
+
+  Retrieves the best internal validation scores as a named
+  [`list()`](https://rdrr.io/r/base/list.html). Returns `NULL` if
+  learner is not trained yet.
+
 - `internal_tuned_values`:
 
   Retrieves the internally tuned values as a named

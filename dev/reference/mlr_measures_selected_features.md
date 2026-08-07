@@ -75,6 +75,7 @@ Other Measure:
 [`MeasureSimilarity`](https://mlr3.mlr-org.com/dev/reference/MeasureSimilarity.md),
 [`mlr_measures`](https://mlr3.mlr-org.com/dev/reference/mlr_measures.md),
 [`mlr_measures_aic`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_aic.md),
+[`mlr_measures_best_valid_score`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_best_valid_score.md),
 [`mlr_measures_bic`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_bic.md),
 [`mlr_measures_classif.costs`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_classif.costs.md),
 [`mlr_measures_debug_classif`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_debug_classif.md),
@@ -145,7 +146,7 @@ scores = rr$score(msr("selected_features"))
 scores[, c("iteration", "selected_features")]
 #>    iteration selected_features
 #>        <int>             <num>
-#> 1:         1                 7
-#> 2:         2                 9
-#> 3:         3                10
+#> 1:         1                11
+#> 2:         2                 7
+#> 3:         3                 8
 ```

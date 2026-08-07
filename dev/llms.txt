@@ -462,6 +462,9 @@ article](https://doi.org/10.21105/joss.01903):
 - [`mlr_measures_aic`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_aic.md)
   [`MeasureAIC`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_aic.md)
   : Akaike Information Criterion Measure
+- [`mlr_measures_best_valid_score`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_best_valid_score.md)
+  [`MeasureBestValidScore`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_best_valid_score.md)
+  : Measure Best Validation Score
 - [`mlr_measures_bic`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_bic.md)
   [`MeasureBIC`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_bic.md)
   : Bayesian Information Criterion Measure

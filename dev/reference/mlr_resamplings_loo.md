@@ -133,9 +133,9 @@ loo$instantiate(task)
 
 # Individual sets:
 loo$train_set(1)
-#> [1]  2 10  8  6  3  1  9  5  7
+#> [1]  8  1  6  3  5 10  7  9  4
 loo$test_set(1)
-#> [1] 4
+#> [1] 2
 
 # Disjunct sets:
 intersect(loo$train_set(1), loo$test_set(1))
@@ -143,7 +143,7 @@ intersect(loo$train_set(1), loo$test_set(1))
 
 # Internal storage:
 loo$instance # vector
-#>  [1]  4  2 10  8  6  3  1  9  5  7
+#>  [1]  2  8  1  6  3  5 10  7  9  4
 
 # Combine with group feature of tasks:
 task = tsk("penguins")

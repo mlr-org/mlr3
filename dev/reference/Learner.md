@@ -76,10 +76,19 @@ For the following operations, extractors are standardized:
 - `oob_error(...)`: Returns the out-of-bag error of the model as
   `numeric(1)`. The learner must be tagged with property `"oob_error"`.
 
-- `internal_valid_scores`: Returns the internal validation score(s) of
-  the model as a named [`list()`](https://rdrr.io/r/base/list.html).
-  Only available for `Learner`s with the `"validation"` property. If the
-  learner is not trained yet, this returns `NULL`.
+- `internal_valid_scores`: Returns the (final) internal validation
+  score(s) of the *final* model as a named
+  [`list()`](https://rdrr.io/r/base/list.html). Only available for
+  `Learner`s with the `"validation"` property. If the learner is not
+  trained yet, this returns `NULL`.
+
+- `best_valid_scores`: Returns the *best* internal validation score(s)
+  observed during training as a named
+  [`list()`](https://rdrr.io/r/base/list.html). Only available for
+  `Learner`s with both the `"validation"` and the `"internal_tuning"`
+  property, because tracking a best iteration only makes sense for
+  learners that iterate. If the learner is not trained yet, this returns
+  `NULL`.
 
 - `internal_tuned_values`: Returns the internally tuned hyperparameters
   of the model as a named [`list()`](https://rdrr.io/r/base/list.html).
@@ -149,10 +158,26 @@ independent validation set during training. To do so, one must:
 
 - implement the active binding `$internal_valid_scores` (see section
   *Optional Extractors*), as well as the private method
-  `$.extract_internal_valid_scores()` which returns the (final) internal
+  `$.extract_internal_valid_scores()` which returns the internal
   validation scores from the model of the `Learner` and returns them as
   a named [`list()`](https://rdrr.io/r/base/list.html) of `numeric(1)`.
   If the model is not trained yet, this method should return `NULL`.
+
+`$.extract_internal_valid_scores()` returns the scores of the *final*
+model, i.e. after the last iteration. In addition, a learner can
+implement the active binding `$best_valid_scores` and the private method
+`$.extract_best_valid_scores()`, which takes no arguments and returns
+the *best* validation scores that were observed during training.
+
+`$.extract_best_valid_scores()` should only be implemented by learners
+that also have the `"internal_tuning"` property (see section
+*Implementing Internal Tuning*), because tracking a best iteration only
+makes sense for learners that iterate. Note that some learners
+automatically use the best found model when early stopping is enabled,
+e.g. XGBoost also predicts with the best `nrounds`. For those learners
+both methods should return identical values, but whether this is the
+case can depend on the hyperparameter that controls this behavior, so it
+has to be decided per learner.
 
 - Add the `validate` parameter, which can be either `NULL`, a ratio in
   \$(0, 1)\$, `"test"`, or `"predefined"`:

@@ -2,6 +2,9 @@
 
 ## mlr3 (development version)
 
+- feat: Added `msr("best_valid_score")`
+  (`mlr_measures_best_valid_score`), which reports the *best* internal
+  validation score observed during training/
 - feat: Added the synthetic `diabetes` task (`mlr_tasks_diabetes`),
   which mimics the structure of the former `pima` task including missing
   values, for use in examples and tests.

@@ -75,6 +75,7 @@
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_learners_regr.rpart.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_measures.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_measures_aic.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_measures_best_valid_score.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_measures_bic.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_measures_classif.acc.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_measures_classif.auc.html</loc></url>

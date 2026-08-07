@@ -1,15 +1,22 @@
-# Measure Internal Validation Score
+# Measure Best Validation Score
 
-Returns the selected internal validation score of the
-[Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md) for
-learners with property `"validation"`. Returns `NA` for unsupported
+Returns the selected best internal validation score of the
+[Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md). This is
+only available for learners that have both the `"validation"` and the
+`"internal_tuning"` property, because tracking a best iteration only
+makes sense for learners that iterate. Returns `NA` for unsupported
 learners, when no validation was done, or when the selected id was not
 found. The `id` of this measure is set to the value of `select` if
 provided.
 
-This is the validation score of the *final* model. To obtain the *best*
-validation score that was observed during training, use
-[`msr("best_valid_score")`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_best_valid_score.md).
+While
+[`msr("internal_valid_score")`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_internal_valid_score.md)
+reports the validation score of the *final* model, this measure reports
+the *best* validation score observed during training.
+
+Some learners automatically use the best found model for prediction
+instead of the one from the last iteration. For those the two measures
+report the same value.
 
 ## Dictionary
 
@@ -20,8 +27,8 @@ instantiated via the
 or with the associated sugar function
 [`msr()`](https://mlr3.mlr-org.com/dev/reference/mlr_sugar.md):
 
-    mlr_measures$get("internal_valid_score")
-    msr("internal_valid_score")
+    mlr_measures$get("best_valid_score")
+    msr("best_valid_score")
 
 ## Meta Information
 
@@ -71,11 +78,11 @@ Other Measure:
 [`MeasureSimilarity`](https://mlr3.mlr-org.com/dev/reference/MeasureSimilarity.md),
 [`mlr_measures`](https://mlr3.mlr-org.com/dev/reference/mlr_measures.md),
 [`mlr_measures_aic`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_aic.md),
-[`mlr_measures_best_valid_score`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_best_valid_score.md),
 [`mlr_measures_bic`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_bic.md),
 [`mlr_measures_classif.costs`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_classif.costs.md),
 [`mlr_measures_debug_classif`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_debug_classif.md),
 [`mlr_measures_elapsed_time`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_elapsed_time.md),
+[`mlr_measures_internal_valid_score`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_internal_valid_score.md),
 [`mlr_measures_oob_error`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_oob_error.md),
 [`mlr_measures_regr.pinball`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_regr.pinball.md),
 [`mlr_measures_regr.rqr`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_regr.rqr.md),
@@ -85,15 +92,15 @@ Other Measure:
 ## Super classes
 
 [`Measure`](https://mlr3.mlr-org.com/dev/reference/Measure.md) -\>
-`mlr3::MeasureValidScore` -\> `MeasureInternalValidScore`
+`mlr3::MeasureValidScore` -\> `MeasureBestValidScore`
 
 ## Methods
 
 ### Public methods
 
-- [`MeasureInternalValidScore$new()`](#method-MeasureInternalValidScore-initialize)
+- [`MeasureBestValidScore$new()`](#method-MeasureBestValidScore-initialize)
 
-- [`MeasureInternalValidScore$clone()`](#method-MeasureInternalValidScore-clone)
+- [`MeasureBestValidScore$clone()`](#method-MeasureBestValidScore-clone)
 
 Inherited methods
 
@@ -106,21 +113,21 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `MeasureInternalValidScore$new()`
+### `MeasureBestValidScore$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    MeasureInternalValidScore$new(select = NULL, minimize = NA)
+    MeasureBestValidScore$new(select = NULL, minimize = NA)
 
 #### Arguments
 
 - `select`:
 
   (`character(1)`)  
-  Which of the internal validation scores to select. Which scores are
+  Which of the best validation scores to select. Which scores are
   available depends on the learner and its configuration. By default,
   the first score is chosen.
 
@@ -131,13 +138,13 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### `MeasureInternalValidScore$clone()`
+### `MeasureBestValidScore$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    MeasureInternalValidScore$clone(deep = FALSE)
+    MeasureBestValidScore$clone(deep = FALSE)
 
 #### Arguments
 
@@ -149,9 +156,9 @@ The objects of this class are cloneable with this method.
 
 ``` r
 rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3), rsmp("holdout"))
-rr$score(msr("internal_valid_score", select = "acc"))
-#>    task_id    learner_id resampling_id iteration   acc
-#>     <char>        <char>        <char>     <int> <num>
-#> 1:    iris classif.debug       holdout         1   0.4
+rr$score(msr("best_valid_score", select = "acc"))
+#>    task_id    learner_id resampling_id iteration       acc
+#>     <char>        <char>        <char>     <int>     <num>
+#> 1:    iris classif.debug       holdout         1 0.3666667
 #> Hidden columns: task, learner, resampling, prediction_test
 ```
