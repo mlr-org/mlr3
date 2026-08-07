@@ -8,6 +8,10 @@
 Returns the selected internal validation score of the \link{Learner} for learners with property \code{"validation"}.
 Returns \code{NA} for unsupported learners, when no validation was done, or when the selected id was not found.
 The \code{id} of this measure is set to the value of \code{select} if provided.
+
+This is the validation score of the \emph{final} model.
+To obtain the \emph{best} validation score that was observed during training, use
+\code{\link[=mlr_measures_best_valid_score]{msr("best_valid_score")}}.
 }
 \section{Dictionary}{
 
@@ -60,6 +64,7 @@ Other Measure:
 \code{\link{MeasureSimilarity}},
 \code{\link{mlr_measures}},
 \code{\link{mlr_measures_aic}},
+\code{\link{mlr_measures_best_valid_score}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_debug_classif}},
@@ -71,8 +76,8 @@ Other Measure:
 \code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
-\section{Super class}{
-\code{\link[mlr3:Measure]{Measure}} -> \code{MeasureInternalValidScore}
+\section{Super classes}{
+\code{\link[mlr3:Measure]{Measure}} -> \code{mlr3::MeasureValidScore} -> \code{MeasureInternalValidScore}
 }
 \section{Methods}{
 \subsection{Public methods}{

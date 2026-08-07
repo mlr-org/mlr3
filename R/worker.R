@@ -28,11 +28,18 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     learner$state$param_vals = learner$param_set$values
 
     # Extract internal valid scores and tuned values if applicable.
+    does_validation = !is.null(get0("validate", learner))
+
     internal_valid_scores = if (
-      !is.null(get0("validate", learner)) &&
-        exists(".extract_internal_valid_scores", get_private(learner))
+      does_validation && exists(".extract_internal_valid_scores", get_private(learner))
     ) {
       get_private(learner)$.extract_internal_valid_scores()
+    }
+
+    best_valid_scores = if (
+      does_validation && exists(".extract_best_valid_scores", get_private(learner))
+    ) {
+      get_private(learner)$.extract_best_valid_scores()
     }
 
     internal_tuned_values = if (exists(".extract_internal_tuned_values", get_private(learner))) {
@@ -51,6 +58,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     list(
       model = model,
       internal_valid_scores = internal_valid_scores,
+      best_valid_scores = best_valid_scores,
       internal_tuned_values = internal_tuned_values,
       oob_error = oob_error
     )
@@ -166,6 +174,11 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   # otherwise this information is only available with store_models = TRUE
   if (!is.null(result$result$internal_valid_scores)) {
     learner$state$internal_valid_scores = result$result$internal_valid_scores
+    learner$state$internal_valid_task_hash = task$internal_valid_task$hash
+  }
+
+  if (!is.null(result$result$best_valid_scores)) {
+    learner$state$best_valid_scores = result$result$best_valid_scores
     learner$state$internal_valid_task_hash = task$internal_valid_task$hash
   }
 

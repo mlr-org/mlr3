@@ -54,6 +54,7 @@ Other Measure:
 \code{\link{MeasureRegr}},
 \code{\link{MeasureSimilarity}},
 \code{\link{mlr_measures_aic}},
+\code{\link{mlr_measures_best_valid_score}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_debug_classif}},
