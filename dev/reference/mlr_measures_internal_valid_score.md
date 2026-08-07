@@ -85,7 +85,7 @@ Other Measure:
 ## Super classes
 
 [`Measure`](https://mlr3.mlr-org.com/dev/reference/Measure.md) -\>
-`mlr3::MeasureValidScore` -\> `MeasureInternalValidScore`
+`MeasureValidScore` -\> `MeasureInternalValidScore`
 
 ## Methods
 
