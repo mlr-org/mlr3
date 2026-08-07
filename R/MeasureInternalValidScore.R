@@ -1,12 +1,16 @@
 #' @title Measure Internal Validation Score
 #'
 #' @name mlr_measures_internal_valid_score
-#' @include Measure.R
+#' @include MeasureValidScore.R
 #'
 #' @description
 #' Returns the selected internal validation score of the [Learner] for learners with property `"validation"`.
 #' Returns `NA` for unsupported learners, when no validation was done, or when the selected id was not found.
 #' The `id` of this measure is set to the value of `select` if provided.
+#'
+#' This is the validation score of the *final* model.
+#' To obtain the *best* validation score that was observed during training, use
+#' [`msr("best_valid_score")`][mlr_measures_best_valid_score].
 #'
 #' @templateVar id internal_valid_score
 #' @template measure
@@ -18,7 +22,7 @@
 #' rr$score(msr("internal_valid_score", select = "acc"))
 MeasureInternalValidScore = R6Class(
   "MeasureInternalValidScore",
-  inherit = Measure,
+  inherit = MeasureValidScore,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -30,26 +34,14 @@ MeasureInternalValidScore = R6Class(
     #'   Whether smaller values are better.
     #'   Must be set to use for tuning.
     initialize = function(select = NULL, minimize = NA) {
-      private$.select = assert_string(select, null.ok = TRUE)
       super$initialize(
-        id = select %??% "internal_valid_score",
-        task_type = NA_character_,
-        properties = c("na_score", "requires_learner", "requires_no_prediction"),
-        predict_sets = NULL,
-        predict_type = NA_character_,
-        range = c(-Inf, Inf),
-        minimize = assert_flag(minimize, na.ok = TRUE),
+        scores_field = "internal_valid_scores",
+        id = "internal_valid_score",
         label = "Internal Validation Score",
-        man = "mlr3::mlr_measures_internal_valid_score"
+        man = "mlr3::mlr_measures_internal_valid_score",
+        select = select,
+        minimize = minimize
       )
-    }
-  ),
-
-  private = list(
-    .select = NULL,
-    .score = function(prediction, learner, ...) {
-      x = get0("internal_valid_scores", learner)
-      x[[private$.select %??% 1]] %??% NA_real_
     }
   )
 )
