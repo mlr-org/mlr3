@@ -59,7 +59,7 @@ Imports:
     lgr (>= 0.3.4),
     mirai (>= 2.4.1),
     methods,
-    mlbench,
+    mlbench (>= 2.1-11),
     mlr3measures (>= 1.2.0),
     mlr3misc (>= 0.21.0),
     parallelly,
