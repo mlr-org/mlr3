@@ -50,8 +50,8 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3-development-version">mlr3 (development version)<a class="anchor" aria-label="anchor" href="#mlr3-development-version"></a></h2>
 <ul><li>feat: Added <code>msr("best_valid_score")</code> (<code>mlr_measures_best_valid_score</code>), which reports the <em>best</em> internal validation score observed during training/</li>
-<li>feat: Added the synthetic <code>diabetes</code> task (<code>mlr_tasks_diabetes</code>), which mimics the structure of the former <code>pima</code> task including missing values, for use in examples and tests.</li>
-<li>BREAKING CHANGE: Removed the <code>pima</code> task (<code>mlr_tasks_pima</code>) because the <code>PimaIndiansDiabetes2</code> data set was removed from the <code>mlbench</code> package, use <code>tsk("diabetes")</code> or <code>tsk("sonar")</code> instead.</li>
+<li>feat: Added the <code>diabetes</code> task (<code>mlr_tasks_diabetes</code>) for the synthetic <code><a href="https://rdrr.io/pkg/mlbench/man/SynthDiabetes.html" class="external-link">mlbench::SynthDiabetes2</a></code> data set, which has the same structure as the former <code>pima</code> task including missing values, for use in examples and tests.</li>
+<li>BREAKING CHANGE: Removed the <code>pima</code> task (<code>mlr_tasks_pima</code>) because the <code>PimaIndiansDiabetes2</code> data set was removed from the <code>mlbench</code> package, use <code>tsk("diabetes")</code> instead.</li>
 <li>perf: <code>TaskClassif$print()</code> now caches the class distribution of the target column and only recomputes it when the task hash changes. Querying the target column can be slow for tasks with many rows.</li>
 </ul></div>
     <div class="section level2">

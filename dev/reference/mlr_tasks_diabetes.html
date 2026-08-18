@@ -5,13 +5,17 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Synthetic Diabetes Classification Task — mlr_tasks_diabetes"><meta name="description" content='A synthetic binary classification task that mimics the structure of the former pima task.
-It has the same eight numeric features and a diabetes target with the positive class set to "pos".
-Some feature columns contain missing values, which makes the task useful for preprocessing examples and tests.
-The data is fully synthetic and contains no real patient data.'><meta property="og:description" content='A synthetic binary classification task that mimics the structure of the former pima task.
-It has the same eight numeric features and a diabetes target with the positive class set to "pos".
-Some feature columns contain missing values, which makes the task useful for preprocessing examples and tests.
-The data is fully synthetic and contains no real patient data.'><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Synthetic Diabetes Classification Task — mlr_tasks_diabetes"><meta name="description" content='A binary classification task for the mlbench::SynthDiabetes2 data set.
+Positive class is set to "pos".
+Several feature columns contain missing values, which makes the task useful for preprocessing examples and tests.
+The data is fully synthetic and contains no real patient data.
+It replaces the former pima task, which was based on the PimaIndiansDiabetes2 data set.
+That data set was removed from mlbench at the request of the institute that conducted the underlying study.'><meta property="og:description" content='A binary classification task for the mlbench::SynthDiabetes2 data set.
+Positive class is set to "pos".
+Several feature columns contain missing values, which makes the task useful for preprocessing examples and tests.
+The data is fully synthetic and contains no real patient data.
+It replaces the former pima task, which was based on the PimaIndiansDiabetes2 data set.
+That data set was removed from mlbench at the request of the institute that conducted the underlying study.'><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -55,20 +59,18 @@ The data is fully synthetic and contains no real patient data.'><meta property="
     </div>
 
     <div class="ref-description section level2">
-    <p>A synthetic binary classification task that mimics the structure of the former <code>pima</code> task.
-It has the same eight numeric features and a <code>diabetes</code> target with the positive class set to <code>"pos"</code>.
-Some feature columns contain missing values, which makes the task useful for preprocessing examples and tests.
-The data is fully synthetic and contains no real patient data.</p>
+    <p>A binary classification task for the <a href="https://rdrr.io/pkg/mlbench/man/SynthDiabetes.html" class="external-link">mlbench::SynthDiabetes2</a> data set.
+Positive class is set to <code>"pos"</code>.
+Several feature columns contain missing values, which makes the task useful for preprocessing examples and tests.</p>
+<p>The data is fully synthetic and contains no real patient data.
+It replaces the former <code>pima</code> task, which was based on the <code>PimaIndiansDiabetes2</code> data set.
+That data set was removed from <a href="https://CRAN.R-project.org/package=mlbench" class="external-link"><span class="pkg">mlbench</span></a> at the request of the institute that conducted the underlying study.</p>
     </div>
 
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
     <p><a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6::R6Class</a> inheriting from <a href="TaskClassif.html">TaskClassif</a>.</p>
-    </div>
-    <div class="section level2">
-    <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
-    <p>The data set is generated deterministically by the script in <code>system.file("extdata", "diabetes.R", package = "mlr3")</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="dictionary">Dictionary<a class="anchor" aria-label="anchor" href="#dictionary"></a></h2>
@@ -83,7 +85,7 @@ The data is fully synthetic and contains no real patient data.</p>
 
 
 <ul><li><p>Task type: “classif”</p></li>
-<li><p>Dimensions: 128x9</p></li>
+<li><p>Dimensions: 768x9</p></li>
 <li><p>Properties: “twoclass”</p></li>
 <li><p>Has Missings: <code>TRUE</code></p></li>
 <li><p>Target: “diabetes”</p></li>

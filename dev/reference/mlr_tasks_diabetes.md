@@ -1,22 +1,22 @@
 # Synthetic Diabetes Classification Task
 
-A synthetic binary classification task that mimics the structure of the
-former `pima` task. It has the same eight numeric features and a
-`diabetes` target with the positive class set to `"pos"`. Some feature
-columns contain missing values, which makes the task useful for
-preprocessing examples and tests. The data is fully synthetic and
-contains no real patient data.
+A binary classification task for the
+[mlbench::SynthDiabetes2](https://rdrr.io/pkg/mlbench/man/SynthDiabetes.html)
+data set. Positive class is set to `"pos"`. Several feature columns
+contain missing values, which makes the task useful for preprocessing
+examples and tests.
+
+The data is fully synthetic and contains no real patient data. It
+replaces the former `pima` task, which was based on the
+`PimaIndiansDiabetes2` data set. That data set was removed from
+[mlbench](https://CRAN.R-project.org/package=mlbench) at the request of
+the institute that conducted the underlying study.
 
 ## Format
 
 [R6::R6Class](https://r6.r-lib.org/reference/R6Class.html) inheriting
 from
 [TaskClassif](https://mlr3.mlr-org.com/dev/reference/TaskClassif.md).
-
-## Source
-
-The data set is generated deterministically by the script in
-`system.file("extdata", "diabetes.R", package = "mlr3")`.
 
 ## Dictionary
 
@@ -34,7 +34,7 @@ the associated sugar function
 
 - Task type: “classif”
 
-- Dimensions: 128x9
+- Dimensions: 768x9
 
 - Properties: “twoclass”
 

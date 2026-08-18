@@ -82,7 +82,7 @@ as.data.table(mlr_tasks)
 #>                 <char>                  <char>    <char> <int> <int>     <list>
 #>  1:      breast_cancer Wisconsin Breast Cancer   classif   683    10   twoclass
 #>  2: california_housing  California House Value      regr 20640    10           
-#>  3:           diabetes      Synthetic Diabetes   classif   128     9   twoclass
+#>  3:           diabetes      Synthetic Diabetes   classif   768     9   twoclass
 #>  4:      german_credit           German Credit   classif  1000    21   twoclass
 #>  5:               iris            Iris Flowers   classif   150     5 multiclass
 #>  6:             mtcars            Motor Trends      regr    32    11           
@@ -95,7 +95,7 @@ as.data.table(mlr_tasks)
 #>     <int> <int> <int> <int> <int> <int> <int> <int>
 #>  1:     0     0     0     0     0     9     0     0
 #>  2:     0     0     8     0     1     0     0     0
-#>  3:     0     2     6     0     0     0     0     0
+#>  3:     0     0     8     0     0     0     0     0
 #>  4:     0     3     0     0    14     3     0     0
 #>  5:     0     0     4     0     0     0     0     0
 #>  6:     0     0    10     0     0     0     0     0
