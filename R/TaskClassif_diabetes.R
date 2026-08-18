@@ -5,22 +5,22 @@
 #' @include mlr_tasks.R
 #'
 #' @description
-#' A synthetic binary classification task that mimics the structure of the former `pima` task.
-#' It has the same eight numeric features and a `diabetes` target with the positive class set to `"pos"`.
-#' Some feature columns contain missing values, which makes the task useful for preprocessing examples and tests.
+#' A binary classification task for the [mlbench::SynthDiabetes2] data set.
+#' Positive class is set to `"pos"`.
+#' Several feature columns contain missing values, which makes the task useful for preprocessing examples and tests.
+#'
 #' The data is fully synthetic and contains no real patient data.
+#' It replaces the former `pima` task, which was based on the `PimaIndiansDiabetes2` data set.
+#' That data set was removed from \CRANpkg{mlbench} at the request of the institute that conducted the underlying study.
 #'
 #' @templateVar id diabetes
 #' @template task
-#'
-#' @source
-#' The data set is generated deterministically by the script in `system.file("extdata", "diabetes.R", package = "mlr3")`.
 #'
 #' @template seealso_task
 NULL
 
 load_task_diabetes = function(id = "diabetes") {
-  b = as_data_backend(readRDS(system.file("extdata", "diabetes.rds", package = "mlr3")))
+  b = as_data_backend(load_dataset("SynthDiabetes2", "mlbench"))
   task = TaskClassif$new(id, b, target = "diabetes", positive = "pos", label = "Synthetic Diabetes")
   b$hash = task$man = "mlr3::mlr_tasks_diabetes"
   task

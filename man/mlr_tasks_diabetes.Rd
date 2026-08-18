@@ -6,14 +6,14 @@
 \format{
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.
 }
-\source{
-The data set is generated deterministically by the script in \code{system.file("extdata", "diabetes.R", package = "mlr3")}.
-}
 \description{
-A synthetic binary classification task that mimics the structure of the former \code{pima} task.
-It has the same eight numeric features and a \code{diabetes} target with the positive class set to \code{"pos"}.
-Some feature columns contain missing values, which makes the task useful for preprocessing examples and tests.
+A binary classification task for the \link[mlbench:SynthDiabetes2]{mlbench::SynthDiabetes2} data set.
+Positive class is set to \code{"pos"}.
+Several feature columns contain missing values, which makes the task useful for preprocessing examples and tests.
+
 The data is fully synthetic and contains no real patient data.
+It replaces the former \code{pima} task, which was based on the \code{PimaIndiansDiabetes2} data set.
+That data set was removed from \CRANpkg{mlbench} at the request of the institute that conducted the underlying study.
 }
 \section{Dictionary}{
 
@@ -28,7 +28,7 @@ tsk("diabetes")
 
 \itemize{
 \item Task type: \dQuote{classif}
-\item Dimensions: 128x9
+\item Dimensions: 768x9
 \item Properties: \dQuote{twoclass}
 \item Has Missings: \code{TRUE}
 \item Target: \dQuote{diabetes}
