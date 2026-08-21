@@ -282,31 +282,43 @@ import(data.table)
 import(mlr3misc)
 import(palmerpenguins)
 import(paradox)
-importFrom(R6,R6Class)
-importFrom(R6,is.R6)
-importFrom(data.table,as.data.table)
-importFrom(data.table,data.table)
-importFrom(future,nbrOfWorkers)
-importFrom(future,plan)
+importFrom(R6,
+  R6Class,
+  is.R6
+)
+importFrom(data.table,
+  as.data.table,
+  data.table
+)
+importFrom(future,
+  nbrOfWorkers,
+  plan
+)
 importFrom(graphics,plot)
 importFrom(methods,formalArgs)
-importFrom(mlr3misc,clbk)
-importFrom(mlr3misc,clbks)
-importFrom(mlr3misc,mlr_callbacks)
+importFrom(mlr3misc,
+  clbk,
+  clbks,
+  mlr_callbacks
+)
 importFrom(parallelly,availableCores)
-importFrom(stats,contr.treatment)
-importFrom(stats,model.frame)
-importFrom(stats,predict)
-importFrom(stats,quantile)
-importFrom(stats,rnorm)
-importFrom(stats,runif)
-importFrom(stats,sd)
-importFrom(stats,terms)
-importFrom(stats,weighted.mean)
-importFrom(utils,bibentry)
-importFrom(utils,data)
-importFrom(utils,getFromNamespace)
-importFrom(utils,head)
-importFrom(utils,packageVersion)
-importFrom(utils,tail)
+importFrom(stats,
+  contr.treatment,
+  model.frame,
+  predict,
+  quantile,
+  rnorm,
+  runif,
+  sd,
+  terms,
+  weighted.mean
+)
+importFrom(utils,
+  bibentry,
+  data,
+  getFromNamespace,
+  head,
+  packageVersion,
+  tail
+)
 importFrom(uuid,UUIDgenerate)

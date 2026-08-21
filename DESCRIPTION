@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 1.7.1.9000
+Version: 1.8.0
 Authors@R:
   c(
     person("Michel", "Lang", , "michellang@gmail.com", role = "aut",
@@ -213,5 +213,4 @@ Collate:
     'task_converters.R'
     'worker.R'
     'zzz.R'
-Config/roxygen2/version: 8.0.0.9000
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.1.0
