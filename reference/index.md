@@ -56,6 +56,8 @@
   Dictionary of Tasks
 - [`mlr_tasks_breast_cancer`](https://mlr3.mlr-org.com/reference/mlr_tasks_breast_cancer.md)
   : Wisconsin Breast Cancer Classification Task
+- [`mlr_tasks_diabetes`](https://mlr3.mlr-org.com/reference/mlr_tasks_diabetes.md)
+  : Synthetic Diabetes Classification Task
 - [`mlr_tasks_german_credit`](https://mlr3.mlr-org.com/reference/mlr_tasks_german_credit.md)
   : German Credit Classification Task
 - [`mlr_tasks_iris`](https://mlr3.mlr-org.com/reference/mlr_tasks_iris.md)
@@ -64,8 +66,6 @@
   : Motor Trend Regression Task
 - [`mlr_tasks_penguins`](https://mlr3.mlr-org.com/reference/mlr_tasks_penguins.md)
   : Palmer Penguins Data Set
-- [`mlr_tasks_pima`](https://mlr3.mlr-org.com/reference/mlr_tasks_pima.md)
-  : Pima Indian Diabetes Classification Task
 - [`mlr_tasks_sonar`](https://mlr3.mlr-org.com/reference/mlr_tasks_sonar.md)
   : Sonar Classification Task
 - [`mlr_tasks_spam`](https://mlr3.mlr-org.com/reference/mlr_tasks_spam.md)
@@ -154,6 +154,9 @@
 - [`mlr_measures_aic`](https://mlr3.mlr-org.com/reference/mlr_measures_aic.md)
   [`MeasureAIC`](https://mlr3.mlr-org.com/reference/mlr_measures_aic.md)
   : Akaike Information Criterion Measure
+- [`mlr_measures_best_valid_score`](https://mlr3.mlr-org.com/reference/mlr_measures_best_valid_score.md)
+  [`MeasureBestValidScore`](https://mlr3.mlr-org.com/reference/mlr_measures_best_valid_score.md)
+  : Measure Best Validation Score
 - [`mlr_measures_bic`](https://mlr3.mlr-org.com/reference/mlr_measures_bic.md)
   [`MeasureBIC`](https://mlr3.mlr-org.com/reference/mlr_measures_bic.md)
   : Bayesian Information Criterion Measure

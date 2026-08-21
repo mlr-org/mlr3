@@ -9,9 +9,9 @@ that takes a learner as input and returns the extracted information as
 named list (see example). The callback is very helpful to call
 `$selected_features()`, `$importance()`, `$oob_error()` on the learner.
 
-## Arguments
+## Parameters
 
-- fun:
+- `fun`:
 
   (`function(learner)`)  
   Function to extract information from the learner. The function must
@@ -20,7 +20,7 @@ named list (see example). The callback is very helpful to call
 ## Examples
 
 ``` r
-task = tsk("pima")
+task = tsk("sonar")
 learner = lrn("classif.rpart")
 resampling = rsmp("cv", folds = 3)
 
@@ -36,7 +36,7 @@ rr$data_extra
 #> Key: <uhash, iteration>
 #>                                   uhash iteration data_extra
 #>                                  <char>     <int>     <list>
-#> 1: d7b68e29-69ef-485e-9a56-41037e671786         1  <list[1]>
-#> 2: d7b68e29-69ef-485e-9a56-41037e671786         2  <list[1]>
-#> 3: d7b68e29-69ef-485e-9a56-41037e671786         3  <list[1]>
+#> 1: 5c044012-6ad0-4905-840d-d0beda52e185         1  <list[1]>
+#> 2: 5c044012-6ad0-4905-840d-d0beda52e185         2  <list[1]>
+#> 3: 5c044012-6ad0-4905-840d-d0beda52e185         3  <list[1]>
 ```

@@ -63,11 +63,11 @@ Other Task: [`Task`](https://mlr3.mlr-org.com/reference/Task.md),
 [`TaskUnsupervised`](https://mlr3.mlr-org.com/reference/TaskUnsupervised.md),
 [`california_housing`](https://mlr3.mlr-org.com/reference/california_housing.md),
 [`mlr_tasks_breast_cancer`](https://mlr3.mlr-org.com/reference/mlr_tasks_breast_cancer.md),
+[`mlr_tasks_diabetes`](https://mlr3.mlr-org.com/reference/mlr_tasks_diabetes.md),
 [`mlr_tasks_german_credit`](https://mlr3.mlr-org.com/reference/mlr_tasks_german_credit.md),
 [`mlr_tasks_iris`](https://mlr3.mlr-org.com/reference/mlr_tasks_iris.md),
 [`mlr_tasks_mtcars`](https://mlr3.mlr-org.com/reference/mlr_tasks_mtcars.md),
 [`mlr_tasks_penguins`](https://mlr3.mlr-org.com/reference/mlr_tasks_penguins.md),
-[`mlr_tasks_pima`](https://mlr3.mlr-org.com/reference/mlr_tasks_pima.md),
 [`mlr_tasks_sonar`](https://mlr3.mlr-org.com/reference/mlr_tasks_sonar.md),
 [`mlr_tasks_spam`](https://mlr3.mlr-org.com/reference/mlr_tasks_spam.md),
 [`mlr_tasks_wine`](https://mlr3.mlr-org.com/reference/mlr_tasks_wine.md),
@@ -82,11 +82,11 @@ as.data.table(mlr_tasks)
 #>                 <char>                  <char>    <char> <int> <int>     <list>
 #>  1:      breast_cancer Wisconsin Breast Cancer   classif   683    10   twoclass
 #>  2: california_housing  California House Value      regr 20640    10           
-#>  3:      german_credit           German Credit   classif  1000    21   twoclass
-#>  4:               iris            Iris Flowers   classif   150     5 multiclass
-#>  5:             mtcars            Motor Trends      regr    32    11           
-#>  6:           penguins         Palmer Penguins   classif   344     8 multiclass
-#>  7:               pima    Pima Indian Diabetes   classif   768     9   twoclass
+#>  3:           diabetes      Synthetic Diabetes   classif   768     9   twoclass
+#>  4:      german_credit           German Credit   classif  1000    21   twoclass
+#>  5:               iris            Iris Flowers   classif   150     5 multiclass
+#>  6:             mtcars            Motor Trends      regr    32    11           
+#>  7:           penguins         Palmer Penguins   classif   344     8 multiclass
 #>  8:              sonar  Sonar: Mines vs. Rocks   classif   208    61   twoclass
 #>  9:               spam       HP Spam Detection   classif  4601    58   twoclass
 #> 10:               wine            Wine Regions   classif   178    14 multiclass
@@ -95,11 +95,11 @@ as.data.table(mlr_tasks)
 #>     <int> <int> <int> <int> <int> <int> <int> <int>
 #>  1:     0     0     0     0     0     9     0     0
 #>  2:     0     0     8     0     1     0     0     0
-#>  3:     0     3     0     0    14     3     0     0
-#>  4:     0     0     4     0     0     0     0     0
-#>  5:     0     0    10     0     0     0     0     0
-#>  6:     0     3     2     0     2     0     0     0
-#>  7:     0     0     8     0     0     0     0     0
+#>  3:     0     0     8     0     0     0     0     0
+#>  4:     0     3     0     0    14     3     0     0
+#>  5:     0     0     4     0     0     0     0     0
+#>  6:     0     0    10     0     0     0     0     0
+#>  7:     0     3     2     0     2     0     0     0
 #>  8:     0     0    60     0     0     0     0     0
 #>  9:     0     0    57     0     0     0     0     0
 #> 10:     0     2    11     0     0     0     0     0
@@ -133,9 +133,9 @@ mlr_tasks$add("penguins.binary", task)
 
 # list available tasks
 mlr_tasks$keys()
-#>  [1] "breast_cancer"      "california_housing" "german_credit"     
-#>  [4] "iris"               "mtcars"             "penguins"          
-#>  [7] "penguins.binary"    "pima"               "sonar"             
+#>  [1] "breast_cancer"      "california_housing" "diabetes"          
+#>  [4] "german_credit"      "iris"               "mtcars"            
+#>  [7] "penguins"           "penguins.binary"    "sonar"             
 #> [10] "spam"               "wine"               "zoo"               
 
 # retrieve from dictionary

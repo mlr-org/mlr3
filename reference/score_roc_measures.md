@@ -51,20 +51,20 @@ above mentioned measures.
 
 ``` r
 learner = lrn("classif.rpart", predict_type = "prob")
-splits = partition(task = tsk("pima"), ratio = 0.7)
-task = tsk("pima")
+splits = partition(task = tsk("sonar"), ratio = 0.7)
+task = tsk("sonar")
 learner$train(task)
 pred = learner$predict(task)
 score_roc_measures(pred)
 #> 
 #> ── ROC Measures ──
 #> 
-#>      predicted
-#> true  pos       neg                                 
-#>   pos 207       73         tpr: 0.77      fnr: 0.23 
-#>   neg 61        427        fpr: 0.15      tnr: 0.85 
-#>       ppv: 0.74 fomr: 0.12 lr_plus: 5.29  acc: 0.83 
-#>       fdr: 0.26 npv: 0.88  lr_minus: 0.27 dor: 19.85
+#>     predicted
+#> true M        R                                   
+#>    M 95       10         tpr: 0.86      fnr: 0.14 
+#>    R 16       87         fpr: 0.1       tnr: 0.9  
+#>      ppv: 0.9 fomr: 0.16 lr_plus: 8.3   acc: 0.88 
+#>      fdr: 0.1 npv: 0.84  lr_minus: 0.16 dor: 51.66
 #> 
 #> ── Abbreviations: 
 #> • tpr - True positive rate (Sensitivity, Recall)

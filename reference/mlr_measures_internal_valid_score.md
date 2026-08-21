@@ -6,6 +6,10 @@ with property `"validation"`. Returns `NA` for unsupported learners,
 when no validation was done, or when the selected id was not found. The
 `id` of this measure is set to the value of `select` if provided.
 
+This is the validation score of the *final* model. To obtain the *best*
+validation score that was observed during training, use
+[`msr("best_valid_score")`](https://mlr3.mlr-org.com/reference/mlr_measures_best_valid_score.md).
+
 ## Dictionary
 
 This [Measure](https://mlr3.mlr-org.com/reference/Measure.md) can be
@@ -66,6 +70,7 @@ Other Measure:
 [`MeasureSimilarity`](https://mlr3.mlr-org.com/reference/MeasureSimilarity.md),
 [`mlr_measures`](https://mlr3.mlr-org.com/reference/mlr_measures.md),
 [`mlr_measures_aic`](https://mlr3.mlr-org.com/reference/mlr_measures_aic.md),
+[`mlr_measures_best_valid_score`](https://mlr3.mlr-org.com/reference/mlr_measures_best_valid_score.md),
 [`mlr_measures_bic`](https://mlr3.mlr-org.com/reference/mlr_measures_bic.md),
 [`mlr_measures_classif.costs`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.costs.md),
 [`mlr_measures_debug_classif`](https://mlr3.mlr-org.com/reference/mlr_measures_debug_classif.md),
@@ -76,10 +81,10 @@ Other Measure:
 [`mlr_measures_regr.rsq`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.rsq.md),
 [`mlr_measures_selected_features`](https://mlr3.mlr-org.com/reference/mlr_measures_selected_features.md)
 
-## Super class
+## Super classes
 
 [`Measure`](https://mlr3.mlr-org.com/reference/Measure.md) -\>
-`MeasureInternalValidScore`
+`MeasureValidScore` -\> `MeasureInternalValidScore`
 
 ## Methods
 
@@ -144,8 +149,8 @@ The objects of this class are cloneable with this method.
 ``` r
 rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3), rsmp("holdout"))
 rr$score(msr("internal_valid_score", select = "acc"))
-#>    task_id    learner_id resampling_id iteration       acc
-#>     <char>        <char>        <char>     <int>     <num>
-#> 1:    iris classif.debug       holdout         1 0.4666667
+#>    task_id    learner_id resampling_id iteration   acc
+#>     <char>        <char>        <char>     <int> <num>
+#> 1:    iris classif.debug       holdout         1   0.4
 #> Hidden columns: task, learner, resampling, prediction_test
 ```

@@ -42,6 +42,6 @@ boxplot(y ~ split, data = data)
 
 
 # classification task partitioned into training, test and validation set
-task = tsk("pima")
+task = tsk("sonar")
 split = partition(task, c(0.66, 0.14))
 ```

@@ -102,7 +102,7 @@ callback.
 
 ``` r
 learner = lrn("classif.rpart")
-task = tsk("pima")
+task = tsk("sonar")
 resampling = rsmp("cv", folds = 3)
 
 # save selected features callback
@@ -114,7 +114,7 @@ callback = callback_resample("selected_features",
 
 rr = resample(task, learner, resampling, callbacks = callback)
 rr$learners[[1]]$state$selected_features
-#> [1] "glucose"  "mass"     "age"      "pressure" "insulin"  "pregnant"
+#> [1] "V11" "V17" "V21"
 
 # holdout task callback
 callback = callback_resample("holdout_task",
@@ -124,7 +124,7 @@ callback = callback_resample("holdout_task",
   }
 )
 
-task_holdout = tsk("pima")
+task_holdout = tsk("sonar")
 splits = partition(task, 0.7)
 task$filter(splits$train)
 task_holdout$filter(splits$test)
@@ -136,7 +136,7 @@ rr$data_extra
 #> Key: <uhash, iteration>
 #>                                   uhash iteration data_extra
 #>                                  <char>     <int>     <list>
-#> 1: 9de8cb0d-b17e-4724-b65c-7057d23363ef         1  <list[1]>
-#> 2: 9de8cb0d-b17e-4724-b65c-7057d23363ef         2  <list[1]>
-#> 3: 9de8cb0d-b17e-4724-b65c-7057d23363ef         3  <list[1]>
+#> 1: 34b0cbd0-ddc2-42dd-934d-39bf5ffb661e         1  <list[1]>
+#> 2: 34b0cbd0-ddc2-42dd-934d-39bf5ffb661e         2  <list[1]>
+#> 3: 34b0cbd0-ddc2-42dd-934d-39bf5ffb661e         3  <list[1]>
 ```

@@ -69,6 +69,7 @@ Other Measure:
 [`MeasureRegr`](https://mlr3.mlr-org.com/reference/MeasureRegr.md),
 [`MeasureSimilarity`](https://mlr3.mlr-org.com/reference/MeasureSimilarity.md),
 [`mlr_measures`](https://mlr3.mlr-org.com/reference/mlr_measures.md),
+[`mlr_measures_best_valid_score`](https://mlr3.mlr-org.com/reference/mlr_measures_best_valid_score.md),
 [`mlr_measures_bic`](https://mlr3.mlr-org.com/reference/mlr_measures_bic.md),
 [`mlr_measures_classif.costs`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.costs.md),
 [`mlr_measures_debug_classif`](https://mlr3.mlr-org.com/reference/mlr_measures_debug_classif.md),

@@ -55,7 +55,7 @@ Hyperparameters stored in the param_set can be tuned with mlr3tuning."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,8 +130,13 @@ To filter variables using the importance scores, see package <a href="https://CR
 The learner must be tagged with property <code>"selected_features"</code>.</p></li>
 <li><p><code>oob_error(...)</code>: Returns the out-of-bag error of the model as <code>numeric(1)</code>.
 The learner must be tagged with property <code>"oob_error"</code>.</p></li>
-<li><p><code>internal_valid_scores</code>: Returns the internal validation score(s) of the model as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
+<li><p><code>internal_valid_scores</code>: Returns the (final) internal validation score(s) of the <em>final</em> model as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
 Only available for <code>Learner</code>s with the <code>"validation"</code> property.
+If the learner is not trained yet, this returns <code>NULL</code>.</p></li>
+<li><p><code>best_valid_scores</code>: Returns the <em>best</em> internal validation score(s) observed during training as a named
+<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
+Only available for <code>Learner</code>s with both the <code>"validation"</code> and the <code>"internal_tuning"</code> property, because
+tracking a best iteration only makes sense for learners that iterate.
 If the learner is not trained yet, this returns <code>NULL</code>.</p></li>
 <li><p><code>internal_tuned_values</code>: Returns the internally tuned hyperparameters of the model as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
 Only available for <code>Learner</code>s with the <code>"internal_tuning"</code> property.
@@ -187,10 +192,20 @@ utilize validation data during the training to prevent overfitting or to log the
 It is possible to configure learners to be able to receive such an independent validation set during training.
 To do so, one must:</p><ul><li><p>annotate the learner with the <code>"validation"</code> property</p></li>
 <li><p>implement the active binding <code>$internal_valid_scores</code> (see section <em>Optional Extractors</em>), as well as the
-private method <code>$.extract_internal_valid_scores()</code> which returns the (final) internal validation scores from the
+private method <code>$.extract_internal_valid_scores()</code> which returns the internal validation scores from the
 model of the <code>Learner</code> and returns them as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> of <code>numeric(1)</code>.
 If the model is not trained yet, this method should return <code>NULL</code>.</p></li>
-<li><p>Add the <code>validate</code> parameter, which can be either <code>NULL</code>, a ratio in $(0, 1)$, <code>"test"</code>, or <code>"predefined"</code>:</p><ul><li><p><code>NULL</code>: no validation</p></li>
+</ul><p><code>$.extract_internal_valid_scores()</code> returns the scores of the <em>final</em> model, i.e. after the last iteration.
+In addition, a learner can implement the active binding <code>$best_valid_scores</code> and the private method
+<code>$.extract_best_valid_scores()</code>, which takes no arguments and returns the <em>best</em> validation scores that were
+observed during training.</p>
+<p><code>$.extract_best_valid_scores()</code> should only be implemented by learners that also have the <code>"internal_tuning"</code>
+property (see section <em>Implementing Internal Tuning</em>), because tracking a best iteration only makes sense for
+learners that iterate.
+Note that some learners automatically use the best found model when early stopping is enabled, e.g. XGBoost also
+predicts with the best <code>nrounds</code>.
+For those learners both methods should return identical values, but whether this is the case can depend on the
+hyperparameter that controls this behavior, so it has to be decided per learner.</p><ul><li><p>Add the <code>validate</code> parameter, which can be either <code>NULL</code>, a ratio in $(0, 1)$, <code>"test"</code>, or <code>"predefined"</code>:</p><ul><li><p><code>NULL</code>: no validation</p></li>
 <li><p><code>ratio</code>: only proportion <code>1 - ratio</code> of the task is used for training and <code>ratio</code> is used for validation.</p></li>
 <li><p><code>"test"</code> means that the <code>"test"</code> task is used.
 <strong>Warning</strong>: This can lead to biased performance estimation.
@@ -999,7 +1014,7 @@ If set to <code>"error"</code>, an error is thrown, otherwise all features are r
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

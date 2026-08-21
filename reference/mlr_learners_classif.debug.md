@@ -206,6 +206,12 @@ Other Learner:
   [`list()`](https://rdrr.io/r/base/list.html). Returns `NULL` if
   learner is not trained yet.
 
+- `best_valid_scores`:
+
+  Retrieves the best internal validation scores as a named
+  [`list()`](https://rdrr.io/r/base/list.html). Returns `NULL` if
+  learner is not trained yet.
+
 - `internal_tuned_values`:
 
   Retrieves the internally tuned values as a named
@@ -351,14 +357,14 @@ learner$train(task)
 learner$predict(task)
 #> 
 #> ── <PredictionClassif> for 344 observations: ───────────────────────────────────
-#>  row_ids     truth response
-#>        1    Adelie   Adelie
-#>        2    Adelie   Adelie
-#>        3    Adelie   Adelie
-#>      ---       ---      ---
-#>      342 Chinstrap   Adelie
-#>      343 Chinstrap   Adelie
-#>      344 Chinstrap   Adelie
+#>  row_ids     truth  response
+#>        1    Adelie Chinstrap
+#>        2    Adelie Chinstrap
+#>        3    Adelie Chinstrap
+#>      ---       ---       ---
+#>      342 Chinstrap Chinstrap
+#>      343 Chinstrap Chinstrap
+#>      344 Chinstrap Chinstrap
 
 # task_train and task_predict are the input tasks for train() and predict()
 names(learner$model)

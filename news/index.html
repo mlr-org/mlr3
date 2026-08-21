@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,14 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.7.1" id="mlr3-171">mlr3 1.7.1<a class="anchor" aria-label="anchor" href="#mlr3-171"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.8.0" id="mlr3-180">mlr3 1.8.0<a class="anchor" aria-label="anchor" href="#mlr3-180"></a></h2><p class="text-muted">CRAN release: 2026-08-21</p>
+<ul><li>feat: Added <code>msr("best_valid_score")</code> (<code>mlr_measures_best_valid_score</code>), which reports the <em>best</em> internal validation score observed during training/</li>
+<li>feat: Added the <code>diabetes</code> task (<code>mlr_tasks_diabetes</code>) for the synthetic <code><a href="https://rdrr.io/pkg/mlbench/man/SynthDiabetes.html" class="external-link">mlbench::SynthDiabetes2</a></code> data set, which has the same structure as the former <code>pima</code> task including missing values, for use in examples and tests.</li>
+<li>BREAKING CHANGE: Removed the <code>pima</code> task (<code>mlr_tasks_pima</code>) because the <code>PimaIndiansDiabetes2</code> data set was removed from the <code>mlbench</code> package, use <code>tsk("diabetes")</code> instead.</li>
+<li>perf: <code>TaskClassif$print()</code> now caches the class distribution of the target column and only recomputes it when the task hash changes. Querying the target column can be slow for tasks with many rows.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.7.1" id="mlr3-171">mlr3 1.7.1<a class="anchor" aria-label="anchor" href="#mlr3-171"></a></h2><p class="text-muted">CRAN release: 2026-06-11</p>
 <ul><li>fix: <code>Learner$new()</code> and the <code>$deadline</code> setter now pass <code>origin</code> to <code><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct()</a></code>, fixing learner construction and numeric deadline assignment on R versions below 4.3.</li>
 <li>fix: The <code>Learner$deadline</code> setter now merges partial assignments instead of overwriting the whole field and validates the input as a named <code>POSIXct</code>, so setting only <code>train</code> or <code>predict</code> no longer drops the other entry or crashes at predict time.</li>
 <li>fix: <code>Learner$predict_newdata_fast()</code> now restores the fallback learner’s state and predict type from the main learner before delegating, so it works after <code><a href="../reference/resample.html">resample()</a></code> and <code><a href="../reference/benchmark.html">benchmark()</a></code> where the fallback object itself carries no trained state or a mismatched predict type. It also aligns the fallback’s probability columns by class name so imputed predictions are no longer silently misassigned.</li>
@@ -547,7 +554,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

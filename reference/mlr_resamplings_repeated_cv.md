@@ -194,9 +194,9 @@ repeated_cv$repeats(1:6)
 
 # Individual sets:
 repeated_cv$train_set(1)
-#> [1]  5  7  8  4  6 10
+#> [1] 3 4 8 1 2 7
 repeated_cv$test_set(1)
-#> [1] 1 2 3 9
+#> [1]  5  6  9 10
 
 # Disjunct sets:
 intersect(repeated_cv$train_set(1), repeated_cv$test_set(1))
@@ -206,21 +206,21 @@ intersect(repeated_cv$train_set(1), repeated_cv$test_set(1))
 repeated_cv$instance # table
 #>     row_id   rep  fold
 #>      <int> <int> <int>
-#>  1:      1     1     1
-#>  2:      2     1     1
-#>  3:      3     1     1
-#>  4:      4     1     3
-#>  5:      5     1     2
-#>  6:      6     1     3
-#>  7:      7     1     2
+#>  1:      1     1     3
+#>  2:      2     1     3
+#>  3:      3     1     2
+#>  4:      4     1     2
+#>  5:      5     1     1
+#>  6:      6     1     1
+#>  7:      7     1     3
 #>  8:      8     1     2
 #>  9:      9     1     1
-#> 10:     10     1     3
-#> 11:      1     2     3
-#> 12:      2     2     1
-#> 13:      3     2     2
-#> 14:      4     2     2
-#> 15:      5     2     1
+#> 10:     10     1     1
+#> 11:      1     2     2
+#> 12:      2     2     3
+#> 13:      3     2     1
+#> 14:      4     2     1
+#> 15:      5     2     2
 #> 16:      6     2     3
 #> 17:      7     2     1
 #> 18:      8     2     2

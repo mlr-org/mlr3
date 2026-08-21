@@ -60,6 +60,7 @@ Other Measure:
 [`MeasureRegr`](https://mlr3.mlr-org.com/reference/MeasureRegr.md),
 [`MeasureSimilarity`](https://mlr3.mlr-org.com/reference/MeasureSimilarity.md),
 [`mlr_measures_aic`](https://mlr3.mlr-org.com/reference/mlr_measures_aic.md),
+[`mlr_measures_best_valid_score`](https://mlr3.mlr-org.com/reference/mlr_measures_best_valid_score.md),
 [`mlr_measures_bic`](https://mlr3.mlr-org.com/reference/mlr_measures_bic.md),
 [`mlr_measures_classif.costs`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.costs.md),
 [`mlr_measures_debug_classif`](https://mlr3.mlr-org.com/reference/mlr_measures_debug_classif.md),
@@ -79,81 +80,82 @@ as.data.table(mlr_measures)
 #>                      key                                               label
 #>                   <char>                                              <char>
 #>  1:                  aic                        Akaike Information Criterion
-#>  2:                  bic                      Bayesian Information Criterion
-#>  3:          classif.acc                             Classification Accuracy
-#>  4:          classif.auc                            Area Under the ROC Curve
-#>  5:         classif.bacc                                   Balanced Accuracy
-#>  6:       classif.bbrier                                  Binary Brier Score
-#>  7:           classif.ce                                Classification Error
-#>  8:        classif.costs                       Cost-sensitive Classification
-#>  9:          classif.dor                               Diagnostic Odds Ratio
-#> 10:        classif.fbeta                                        F-beta score
-#> 11:          classif.fdr                                False Discovery Rate
-#> 12:           classif.fn                                     False Negatives
-#> 13:          classif.fnr                                 False Negative Rate
-#> 14:         classif.fomr                                 False Omission Rate
-#> 15:           classif.fp                                     False Positives
-#> 16:          classif.fpr                                 False Positive Rate
-#> 17:      classif.logloss                                            Log Loss
-#> 18:    classif.mauc_au1p             Weighted average 1 vs. 1 multiclass AUC
-#> 19:    classif.mauc_au1u                      Average 1 vs. 1 multiclass AUC
-#> 20:    classif.mauc_aunp          Weighted average 1 vs. rest multiclass AUC
-#> 21:    classif.mauc_aunu                   Average 1 vs. rest multiclass AUC
-#> 22:      classif.mauc_mu                                   Multiclass mu AUC
-#> 23:       classif.mbrier                              Multiclass Brier Score
-#> 24:          classif.mcc                    Matthews Correlation Coefficient
-#> 25:          classif.npv                           Negative Predictive Value
-#> 26:          classif.ppv                           Positive Predictive Value
-#> 27:        classif.prauc                              Precision-Recall Curve
-#> 28:    classif.precision                                           Precision
-#> 29:       classif.recall                                              Recall
-#> 30:  classif.sensitivity                                         Sensitivity
-#> 31:  classif.specificity                                         Specificity
-#> 32:           classif.tn                                      True Negatives
-#> 33:          classif.tnr                                  True Negative Rate
-#> 34:           classif.tp                                      True Positives
-#> 35:          classif.tpr                                  True Positive Rate
-#> 36:        debug_classif                        Debug Classification Measure
-#> 37: internal_valid_score                           Internal Validation Score
-#> 38:            oob_error                                    Out-of-bag Error
-#> 39:            regr.bias                                                Bias
-#> 40:            regr.ktau                                       Kendall's tau
-#> 41:             regr.mae                                 Mean Absolute Error
-#> 42:            regr.mape                         Mean Absolute Percent Error
-#> 43:           regr.maxae                                  Max Absolute Error
-#> 44:           regr.medae                               Median Absolute Error
-#> 45:           regr.medse                                Median Squared Error
-#> 46:             regr.mse                                  Mean Squared Error
-#> 47:            regr.msle                              Mean Squared Log Error
-#> 48:           regr.pbias                                        Percent Bias
-#> 49:         regr.pinball                                Average Pinball Loss
-#> 50:            regr.rmse                             Root Mean Squared Error
-#> 51:           regr.rmsle                         Root Mean Squared Log Error
-#> 52:             regr.rqr                   R-Squared for Quantile Regression
-#> 53:             regr.rsq                                                <NA>
-#> 54:             regr.sae                              Sum of Absolute Errors
-#> 55:           regr.smape               Symmetric Mean Absolute Percent Error
-#> 56:            regr.srho                                      Spearman's rho
-#> 57:             regr.sse                               Sum of Squared Errors
-#> 58:    selected_features Absolute or Relative Frequency of Selected Features
-#> 59:          sim.jaccard                            Jaccard Similarity Index
-#> 60:              sim.phi                          Phi Coefficient Similarity
-#> 61:            time_both                                        Elapsed Time
-#> 62:         time_predict                                        Elapsed Time
-#> 63:           time_train                                        Elapsed Time
+#>  2:     best_valid_score                               Best Validation Score
+#>  3:                  bic                      Bayesian Information Criterion
+#>  4:          classif.acc                             Classification Accuracy
+#>  5:          classif.auc                            Area Under the ROC Curve
+#>  6:         classif.bacc                                   Balanced Accuracy
+#>  7:       classif.bbrier                                  Binary Brier Score
+#>  8:           classif.ce                                Classification Error
+#>  9:        classif.costs                       Cost-sensitive Classification
+#> 10:          classif.dor                               Diagnostic Odds Ratio
+#> 11:        classif.fbeta                                        F-beta score
+#> 12:          classif.fdr                                False Discovery Rate
+#> 13:           classif.fn                                     False Negatives
+#> 14:          classif.fnr                                 False Negative Rate
+#> 15:         classif.fomr                                 False Omission Rate
+#> 16:           classif.fp                                     False Positives
+#> 17:          classif.fpr                                 False Positive Rate
+#> 18:      classif.logloss                                            Log Loss
+#> 19:    classif.mauc_au1p             Weighted average 1 vs. 1 multiclass AUC
+#> 20:    classif.mauc_au1u                      Average 1 vs. 1 multiclass AUC
+#> 21:    classif.mauc_aunp          Weighted average 1 vs. rest multiclass AUC
+#> 22:    classif.mauc_aunu                   Average 1 vs. rest multiclass AUC
+#> 23:      classif.mauc_mu                                   Multiclass mu AUC
+#> 24:       classif.mbrier                              Multiclass Brier Score
+#> 25:          classif.mcc                    Matthews Correlation Coefficient
+#> 26:          classif.npv                           Negative Predictive Value
+#> 27:          classif.ppv                           Positive Predictive Value
+#> 28:        classif.prauc                              Precision-Recall Curve
+#> 29:    classif.precision                                           Precision
+#> 30:       classif.recall                                              Recall
+#> 31:  classif.sensitivity                                         Sensitivity
+#> 32:  classif.specificity                                         Specificity
+#> 33:           classif.tn                                      True Negatives
+#> 34:          classif.tnr                                  True Negative Rate
+#> 35:           classif.tp                                      True Positives
+#> 36:          classif.tpr                                  True Positive Rate
+#> 37:        debug_classif                        Debug Classification Measure
+#> 38: internal_valid_score                           Internal Validation Score
+#> 39:            oob_error                                    Out-of-bag Error
+#> 40:            regr.bias                                                Bias
+#> 41:            regr.ktau                                       Kendall's tau
+#> 42:             regr.mae                                 Mean Absolute Error
+#> 43:            regr.mape                         Mean Absolute Percent Error
+#> 44:           regr.maxae                                  Max Absolute Error
+#> 45:           regr.medae                               Median Absolute Error
+#> 46:           regr.medse                                Median Squared Error
+#> 47:             regr.mse                                  Mean Squared Error
+#> 48:            regr.msle                              Mean Squared Log Error
+#> 49:           regr.pbias                                        Percent Bias
+#> 50:         regr.pinball                                Average Pinball Loss
+#> 51:            regr.rmse                             Root Mean Squared Error
+#> 52:           regr.rmsle                         Root Mean Squared Log Error
+#> 53:             regr.rqr                   R-Squared for Quantile Regression
+#> 54:             regr.rsq                                                <NA>
+#> 55:             regr.sae                              Sum of Absolute Errors
+#> 56:           regr.smape               Symmetric Mean Absolute Percent Error
+#> 57:            regr.srho                                      Spearman's rho
+#> 58:             regr.sse                               Sum of Squared Errors
+#> 59:    selected_features Absolute or Relative Frequency of Selected Features
+#> 60:          sim.jaccard                            Jaccard Similarity Index
+#> 61:              sim.phi                          Phi Coefficient Similarity
+#> 62:            time_both                                        Elapsed Time
+#> 63:         time_predict                                        Elapsed Time
+#> 64:           time_train                                        Elapsed Time
 #>                      key                                               label
 #>                   <char>                                              <char>
 #>     task_type          packages predict_type
 #>        <char>            <list>       <char>
 #>  1:      <NA>              mlr3         <NA>
 #>  2:      <NA>              mlr3         <NA>
-#>  3:   classif mlr3,mlr3measures     response
-#>  4:   classif mlr3,mlr3measures         prob
-#>  5:   classif mlr3,mlr3measures     response
-#>  6:   classif mlr3,mlr3measures         prob
-#>  7:   classif mlr3,mlr3measures     response
-#>  8:   classif              mlr3     response
-#>  9:   classif mlr3,mlr3measures     response
+#>  3:      <NA>              mlr3         <NA>
+#>  4:   classif mlr3,mlr3measures     response
+#>  5:   classif mlr3,mlr3measures         prob
+#>  6:   classif mlr3,mlr3measures     response
+#>  7:   classif mlr3,mlr3measures         prob
+#>  8:   classif mlr3,mlr3measures     response
+#>  9:   classif              mlr3     response
 #> 10:   classif mlr3,mlr3measures     response
 #> 11:   classif mlr3,mlr3measures     response
 #> 12:   classif mlr3,mlr3measures     response
@@ -161,18 +163,18 @@ as.data.table(mlr_measures)
 #> 14:   classif mlr3,mlr3measures     response
 #> 15:   classif mlr3,mlr3measures     response
 #> 16:   classif mlr3,mlr3measures     response
-#> 17:   classif mlr3,mlr3measures         prob
+#> 17:   classif mlr3,mlr3measures     response
 #> 18:   classif mlr3,mlr3measures         prob
 #> 19:   classif mlr3,mlr3measures         prob
 #> 20:   classif mlr3,mlr3measures         prob
 #> 21:   classif mlr3,mlr3measures         prob
 #> 22:   classif mlr3,mlr3measures         prob
 #> 23:   classif mlr3,mlr3measures         prob
-#> 24:   classif mlr3,mlr3measures     response
+#> 24:   classif mlr3,mlr3measures         prob
 #> 25:   classif mlr3,mlr3measures     response
 #> 26:   classif mlr3,mlr3measures     response
-#> 27:   classif mlr3,mlr3measures         prob
-#> 28:   classif mlr3,mlr3measures     response
+#> 27:   classif mlr3,mlr3measures     response
+#> 28:   classif mlr3,mlr3measures         prob
 #> 29:   classif mlr3,mlr3measures     response
 #> 30:   classif mlr3,mlr3measures     response
 #> 31:   classif mlr3,mlr3measures     response
@@ -180,10 +182,10 @@ as.data.table(mlr_measures)
 #> 33:   classif mlr3,mlr3measures     response
 #> 34:   classif mlr3,mlr3measures     response
 #> 35:   classif mlr3,mlr3measures     response
-#> 36:      <NA>              mlr3     response
-#> 37:      <NA>              mlr3         <NA>
+#> 36:   classif mlr3,mlr3measures     response
+#> 37:      <NA>              mlr3     response
 #> 38:      <NA>              mlr3         <NA>
-#> 39:      regr mlr3,mlr3measures     response
+#> 39:      <NA>              mlr3         <NA>
 #> 40:      regr mlr3,mlr3measures     response
 #> 41:      regr mlr3,mlr3measures     response
 #> 42:      regr mlr3,mlr3measures     response
@@ -193,33 +195,34 @@ as.data.table(mlr_measures)
 #> 46:      regr mlr3,mlr3measures     response
 #> 47:      regr mlr3,mlr3measures     response
 #> 48:      regr mlr3,mlr3measures     response
-#> 49:      regr              mlr3    quantiles
-#> 50:      regr mlr3,mlr3measures     response
+#> 49:      regr mlr3,mlr3measures     response
+#> 50:      regr              mlr3    quantiles
 #> 51:      regr mlr3,mlr3measures     response
-#> 52:      regr              mlr3    quantiles
-#> 53:      regr              mlr3     response
-#> 54:      regr mlr3,mlr3measures     response
+#> 52:      regr mlr3,mlr3measures     response
+#> 53:      regr              mlr3    quantiles
+#> 54:      regr              mlr3     response
 #> 55:      regr mlr3,mlr3measures     response
 #> 56:      regr mlr3,mlr3measures     response
 #> 57:      regr mlr3,mlr3measures     response
-#> 58:      <NA>              mlr3         <NA>
-#> 59:      <NA> mlr3,mlr3measures         <NA>
+#> 58:      regr mlr3,mlr3measures     response
+#> 59:      <NA>              mlr3         <NA>
 #> 60:      <NA> mlr3,mlr3measures         <NA>
-#> 61:      <NA>              mlr3         <NA>
+#> 61:      <NA> mlr3,mlr3measures         <NA>
 #> 62:      <NA>              mlr3         <NA>
 #> 63:      <NA>              mlr3         <NA>
+#> 64:      <NA>              mlr3         <NA>
 #>     task_type          packages predict_type
 #>        <char>            <list>       <char>
 #>                                                               properties
 #>                                                                   <list>
 #>  1:      na_score,requires_learner,requires_model,requires_no_prediction
-#>  2:      na_score,requires_learner,requires_model,requires_no_prediction
-#>  3:                                                     weights,obs_loss
-#>  4:                                                              weights
+#>  2:                     na_score,requires_learner,requires_no_prediction
+#>  3:      na_score,requires_learner,requires_model,requires_no_prediction
+#>  4:                                                     weights,obs_loss
 #>  5:                                                              weights
-#>  6:                                                     weights,obs_loss
+#>  6:                                                              weights
 #>  7:                                                     weights,obs_loss
-#>  8:                                                              weights
+#>  8:                                                     weights,obs_loss
 #>  9:                                                              weights
 #> 10:                                                              weights
 #> 11:                                                              weights
@@ -228,18 +231,18 @@ as.data.table(mlr_measures)
 #> 14:                                                              weights
 #> 15:                                                              weights
 #> 16:                                                              weights
-#> 17:                                                     weights,obs_loss
-#> 18:                                                                     
+#> 17:                                                              weights
+#> 18:                                                     weights,obs_loss
 #> 19:                                                                     
 #> 20:                                                                     
 #> 21:                                                                     
 #> 22:                                                                     
-#> 23:                                                              weights
+#> 23:                                                                     
 #> 24:                                                              weights
 #> 25:                                                              weights
 #> 26:                                                              weights
-#> 27:                                                                     
-#> 28:                                                              weights
+#> 27:                                                              weights
+#> 28:                                                                     
 #> 29:                                                              weights
 #> 30:                                                              weights
 #> 31:                                                              weights
@@ -247,34 +250,35 @@ as.data.table(mlr_measures)
 #> 33:                                                              weights
 #> 34:                                                              weights
 #> 35:                                                              weights
-#> 36:                                                             na_score
-#> 37:                     na_score,requires_learner,requires_no_prediction
+#> 36:                                                              weights
+#> 37:                                                             na_score
 #> 38:                     na_score,requires_learner,requires_no_prediction
-#> 39:                                                              weights
-#> 40:                                                                     
-#> 41:                                                     weights,obs_loss
+#> 39:                     na_score,requires_learner,requires_no_prediction
+#> 40:                                                              weights
+#> 41:                                                                     
 #> 42:                                                     weights,obs_loss
-#> 43:                                                             obs_loss
+#> 43:                                                     weights,obs_loss
 #> 44:                                                             obs_loss
 #> 45:                                                             obs_loss
-#> 46:                                                     weights,obs_loss
+#> 46:                                                             obs_loss
 #> 47:                                                     weights,obs_loss
-#> 48:                                                              weights
+#> 48:                                                     weights,obs_loss
 #> 49:                                                              weights
-#> 50:                                                     weights,obs_loss
-#> 51:                                                              weights
-#> 52:                                                               [NULL]
-#> 53:                                                              weights
-#> 54:                                                     weights,obs_loss
-#> 55:                                                              weights
-#> 56:                                                                     
-#> 57:                                                     weights,obs_loss
-#> 58: requires_task,requires_learner,requires_model,requires_no_prediction
-#> 59:                                requires_model,requires_no_prediction
+#> 50:                                                              weights
+#> 51:                                                     weights,obs_loss
+#> 52:                                                              weights
+#> 53:                                                               [NULL]
+#> 54:                                                              weights
+#> 55:                                                     weights,obs_loss
+#> 56:                                                              weights
+#> 57:                                                                     
+#> 58:                                                     weights,obs_loss
+#> 59: requires_task,requires_learner,requires_model,requires_no_prediction
 #> 60:                                requires_model,requires_no_prediction
-#> 61:                              requires_learner,requires_no_prediction
+#> 61:                                requires_model,requires_no_prediction
 #> 62:                              requires_learner,requires_no_prediction
 #> 63:                              requires_learner,requires_no_prediction
+#> 64:                              requires_learner,requires_no_prediction
 #>                                                               properties
 #>                                                                   <list>
 #>     task_properties
@@ -282,12 +286,12 @@ as.data.table(mlr_measures)
 #>  1:                
 #>  2:                
 #>  3:                
-#>  4:        twoclass
-#>  5:                
-#>  6:        twoclass
-#>  7:                
+#>  4:                
+#>  5:        twoclass
+#>  6:                
+#>  7:        twoclass
 #>  8:                
-#>  9:        twoclass
+#>  9:                
 #> 10:        twoclass
 #> 11:        twoclass
 #> 12:        twoclass
@@ -295,7 +299,7 @@ as.data.table(mlr_measures)
 #> 14:        twoclass
 #> 15:        twoclass
 #> 16:        twoclass
-#> 17:                
+#> 17:        twoclass
 #> 18:                
 #> 19:                
 #> 20:                
@@ -303,7 +307,7 @@ as.data.table(mlr_measures)
 #> 22:                
 #> 23:                
 #> 24:                
-#> 25:        twoclass
+#> 25:                
 #> 26:        twoclass
 #> 27:        twoclass
 #> 28:        twoclass
@@ -314,7 +318,7 @@ as.data.table(mlr_measures)
 #> 33:        twoclass
 #> 34:        twoclass
 #> 35:        twoclass
-#> 36:                
+#> 36:        twoclass
 #> 37:                
 #> 38:                
 #> 39:                
@@ -342,6 +346,7 @@ as.data.table(mlr_measures)
 #> 61:                
 #> 62:                
 #> 63:                
+#> 64:                
 #>     task_properties
 #>              <list>
 mlr_measures$get("classif.ce")

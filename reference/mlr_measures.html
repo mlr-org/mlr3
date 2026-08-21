@@ -23,7 +23,7 @@ For a more convenient way to retrieve and construct measures, see msr()/msrs()."
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,6 +102,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <code><a href="MeasureRegr.html">MeasureRegr</a></code>,
 <code><a href="MeasureSimilarity.html">MeasureSimilarity</a></code>,
 <code><a href="mlr_measures_aic.html">mlr_measures_aic</a></code>,
+<code><a href="mlr_measures_best_valid_score.html">mlr_measures_best_valid_score</a></code>,
 <code><a href="mlr_measures_bic.html">mlr_measures_bic</a></code>,
 <code><a href="mlr_measures_classif.costs.html">mlr_measures_classif.costs</a></code>,
 <code><a href="mlr_measures_debug_classif.html">mlr_measures_debug_classif</a></code>,
@@ -121,81 +122,82 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      key                                               label</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   &lt;char&gt;                                              &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1:                  aic                        Akaike Information Criterion</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2:                  bic                      Bayesian Information Criterion</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3:          classif.acc                             Classification Accuracy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4:          classif.auc                            Area Under the ROC Curve</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5:         classif.bacc                                   Balanced Accuracy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6:       classif.bbrier                                  Binary Brier Score</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  7:           classif.ce                                Classification Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  8:        classif.costs                       Cost-sensitive Classification</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9:          classif.dor                               Diagnostic Odds Ratio</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10:        classif.fbeta                                        F-beta score</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11:          classif.fdr                                False Discovery Rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12:           classif.fn                                     False Negatives</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13:          classif.fnr                                 False Negative Rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14:         classif.fomr                                 False Omission Rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15:           classif.fp                                     False Positives</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16:          classif.fpr                                 False Positive Rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17:      classif.logloss                                            Log Loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18:    classif.mauc_au1p             Weighted average 1 vs. 1 multiclass AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19:    classif.mauc_au1u                      Average 1 vs. 1 multiclass AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20:    classif.mauc_aunp          Weighted average 1 vs. rest multiclass AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21:    classif.mauc_aunu                   Average 1 vs. rest multiclass AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22:      classif.mauc_mu                                   Multiclass mu AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23:       classif.mbrier                              Multiclass Brier Score</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24:          classif.mcc                    Matthews Correlation Coefficient</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25:          classif.npv                           Negative Predictive Value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26:          classif.ppv                           Positive Predictive Value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27:        classif.prauc                              Precision-Recall Curve</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28:    classif.precision                                           Precision</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29:       classif.recall                                              Recall</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30:  classif.sensitivity                                         Sensitivity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31:  classif.specificity                                         Specificity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32:           classif.tn                                      True Negatives</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33:          classif.tnr                                  True Negative Rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34:           classif.tp                                      True Positives</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35:          classif.tpr                                  True Positive Rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36:        debug_classif                        Debug Classification Measure</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37: internal_valid_score                           Internal Validation Score</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38:            oob_error                                    Out-of-bag Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39:            regr.bias                                                Bias</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40:            regr.ktau                                       Kendall's tau</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41:             regr.mae                                 Mean Absolute Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42:            regr.mape                         Mean Absolute Percent Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43:           regr.maxae                                  Max Absolute Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44:           regr.medae                               Median Absolute Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45:           regr.medse                                Median Squared Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46:             regr.mse                                  Mean Squared Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47:            regr.msle                              Mean Squared Log Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48:           regr.pbias                                        Percent Bias</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49:         regr.pinball                                Average Pinball Loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50:            regr.rmse                             Root Mean Squared Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 51:           regr.rmsle                         Root Mean Squared Log Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52:             regr.rqr                   R-Squared for Quantile Regression</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53:             regr.rsq                                                &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 54:             regr.sae                              Sum of Absolute Errors</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 55:           regr.smape               Symmetric Mean Absolute Percent Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 56:            regr.srho                                      Spearman's rho</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57:             regr.sse                               Sum of Squared Errors</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58:    selected_features Absolute or Relative Frequency of Selected Features</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 59:          sim.jaccard                            Jaccard Similarity Index</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 60:              sim.phi                          Phi Coefficient Similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 61:            time_both                                        Elapsed Time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 62:         time_predict                                        Elapsed Time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 63:           time_train                                        Elapsed Time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2:     best_valid_score                               Best Validation Score</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3:                  bic                      Bayesian Information Criterion</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4:          classif.acc                             Classification Accuracy</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5:          classif.auc                            Area Under the ROC Curve</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6:         classif.bacc                                   Balanced Accuracy</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7:       classif.bbrier                                  Binary Brier Score</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8:           classif.ce                                Classification Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9:        classif.costs                       Cost-sensitive Classification</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10:          classif.dor                               Diagnostic Odds Ratio</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11:        classif.fbeta                                        F-beta score</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12:          classif.fdr                                False Discovery Rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13:           classif.fn                                     False Negatives</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14:          classif.fnr                                 False Negative Rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15:         classif.fomr                                 False Omission Rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16:           classif.fp                                     False Positives</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17:          classif.fpr                                 False Positive Rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18:      classif.logloss                                            Log Loss</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19:    classif.mauc_au1p             Weighted average 1 vs. 1 multiclass AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20:    classif.mauc_au1u                      Average 1 vs. 1 multiclass AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21:    classif.mauc_aunp          Weighted average 1 vs. rest multiclass AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22:    classif.mauc_aunu                   Average 1 vs. rest multiclass AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23:      classif.mauc_mu                                   Multiclass mu AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24:       classif.mbrier                              Multiclass Brier Score</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25:          classif.mcc                    Matthews Correlation Coefficient</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26:          classif.npv                           Negative Predictive Value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27:          classif.ppv                           Positive Predictive Value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28:        classif.prauc                              Precision-Recall Curve</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29:    classif.precision                                           Precision</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30:       classif.recall                                              Recall</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31:  classif.sensitivity                                         Sensitivity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32:  classif.specificity                                         Specificity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33:           classif.tn                                      True Negatives</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34:          classif.tnr                                  True Negative Rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35:           classif.tp                                      True Positives</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36:          classif.tpr                                  True Positive Rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37:        debug_classif                        Debug Classification Measure</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38: internal_valid_score                           Internal Validation Score</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39:            oob_error                                    Out-of-bag Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40:            regr.bias                                                Bias</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41:            regr.ktau                                       Kendall's tau</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42:             regr.mae                                 Mean Absolute Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43:            regr.mape                         Mean Absolute Percent Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44:           regr.maxae                                  Max Absolute Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45:           regr.medae                               Median Absolute Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46:           regr.medse                                Median Squared Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47:             regr.mse                                  Mean Squared Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48:            regr.msle                              Mean Squared Log Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49:           regr.pbias                                        Percent Bias</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50:         regr.pinball                                Average Pinball Loss</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51:            regr.rmse                             Root Mean Squared Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52:           regr.rmsle                         Root Mean Squared Log Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53:             regr.rqr                   R-Squared for Quantile Regression</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54:             regr.rsq                                                &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55:             regr.sae                              Sum of Absolute Errors</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56:           regr.smape               Symmetric Mean Absolute Percent Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57:            regr.srho                                      Spearman's rho</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58:             regr.sse                               Sum of Squared Errors</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59:    selected_features Absolute or Relative Frequency of Selected Features</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60:          sim.jaccard                            Jaccard Similarity Index</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61:              sim.phi                          Phi Coefficient Similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62:            time_both                                        Elapsed Time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63:         time_predict                                        Elapsed Time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64:           time_train                                        Elapsed Time</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      key                                               label</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   &lt;char&gt;                                              &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     task_type          packages predict_type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;            &lt;list&gt;       &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3:   classif mlr3,mlr3measures     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4:   classif mlr3,mlr3measures         prob</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5:   classif mlr3,mlr3measures     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6:   classif mlr3,mlr3measures         prob</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  7:   classif mlr3,mlr3measures     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  8:   classif              mlr3     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9:   classif mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4:   classif mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5:   classif mlr3,mlr3measures         prob</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6:   classif mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7:   classif mlr3,mlr3measures         prob</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8:   classif mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9:   classif              mlr3     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10:   classif mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11:   classif mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12:   classif mlr3,mlr3measures     response</span>
@@ -203,18 +205,18 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14:   classif mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15:   classif mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16:   classif mlr3,mlr3measures     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17:   classif mlr3,mlr3measures         prob</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17:   classif mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18:   classif mlr3,mlr3measures         prob</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19:   classif mlr3,mlr3measures         prob</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20:   classif mlr3,mlr3measures         prob</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 21:   classif mlr3,mlr3measures         prob</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22:   classif mlr3,mlr3measures         prob</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23:   classif mlr3,mlr3measures         prob</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24:   classif mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24:   classif mlr3,mlr3measures         prob</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25:   classif mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26:   classif mlr3,mlr3measures     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27:   classif mlr3,mlr3measures         prob</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28:   classif mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27:   classif mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28:   classif mlr3,mlr3measures         prob</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 29:   classif mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 30:   classif mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 31:   classif mlr3,mlr3measures     response</span>
@@ -222,10 +224,10 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 33:   classif mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 34:   classif mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 35:   classif mlr3,mlr3measures     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36:      &lt;NA&gt;              mlr3     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36:   classif mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37:      &lt;NA&gt;              mlr3     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 38:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39:      regr mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 40:      regr mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 41:      regr mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 42:      regr mlr3,mlr3measures     response</span>
@@ -235,33 +237,34 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 46:      regr mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 47:      regr mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 48:      regr mlr3,mlr3measures     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49:      regr              mlr3    quantiles</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50:      regr mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49:      regr mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50:      regr              mlr3    quantiles</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 51:      regr mlr3,mlr3measures     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52:      regr              mlr3    quantiles</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53:      regr              mlr3     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 54:      regr mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52:      regr mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53:      regr              mlr3    quantiles</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54:      regr              mlr3     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 55:      regr mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 56:      regr mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 57:      regr mlr3,mlr3measures     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 59:      &lt;NA&gt; mlr3,mlr3measures         &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58:      regr mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 60:      &lt;NA&gt; mlr3,mlr3measures         &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 61:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61:      &lt;NA&gt; mlr3,mlr3measures         &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 62:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 63:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     task_type          packages predict_type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;            &lt;list&gt;       &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                               properties</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   &lt;list&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1:      na_score,requires_learner,requires_model,requires_no_prediction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2:      na_score,requires_learner,requires_model,requires_no_prediction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3:                                                     weights,obs_loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2:                     na_score,requires_learner,requires_no_prediction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3:      na_score,requires_learner,requires_model,requires_no_prediction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4:                                                     weights,obs_loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  5:                                                              weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6:                                                     weights,obs_loss</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  7:                                                     weights,obs_loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  8:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8:                                                     weights,obs_loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  9:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11:                                                              weights</span>
@@ -270,18 +273,18 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16:                                                              weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17:                                                     weights,obs_loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18:                                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18:                                                     weights,obs_loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19:                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20:                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 21:                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23:                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26:                                                              weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28:                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 29:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 30:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 31:                                                              weights</span>
@@ -289,34 +292,35 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 33:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 34:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 35:                                                              weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36:                                                             na_score</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37:                     na_score,requires_learner,requires_no_prediction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37:                                                             na_score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 38:                     na_score,requires_learner,requires_no_prediction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39:                                                              weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41:                                                     weights,obs_loss</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39:                     na_score,requires_learner,requires_no_prediction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41:                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 42:                                                     weights,obs_loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43:                                                             obs_loss</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43:                                                     weights,obs_loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 44:                                                             obs_loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 45:                                                             obs_loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46:                                                     weights,obs_loss</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46:                                                             obs_loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 47:                                                     weights,obs_loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48:                                                     weights,obs_loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 49:                                                              weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50:                                                     weights,obs_loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 51:                                                              weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52:                                                               [NULL]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53:                                                              weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 54:                                                     weights,obs_loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 55:                                                              weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 56:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57:                                                     weights,obs_loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58: requires_task,requires_learner,requires_model,requires_no_prediction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 59:                                requires_model,requires_no_prediction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51:                                                     weights,obs_loss</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53:                                                               [NULL]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55:                                                     weights,obs_loss</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56:                                                              weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57:                                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58:                                                     weights,obs_loss</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59: requires_task,requires_learner,requires_model,requires_no_prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 60:                                requires_model,requires_no_prediction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 61:                              requires_learner,requires_no_prediction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61:                                requires_model,requires_no_prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 62:                              requires_learner,requires_no_prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 63:                              requires_learner,requires_no_prediction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64:                              requires_learner,requires_no_prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                               properties</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   &lt;list&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     task_properties</span>
@@ -324,12 +328,12 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  3:                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4:        twoclass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5:                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6:        twoclass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  7:                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4:                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5:        twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6:                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7:        twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  8:                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9:        twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10:        twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11:        twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12:        twoclass</span>
@@ -337,7 +341,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14:        twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15:        twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16:        twoclass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17:                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17:        twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20:                </span>
@@ -345,7 +349,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24:                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25:        twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26:        twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 27:        twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 28:        twoclass</span>
@@ -356,7 +360,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 33:        twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 34:        twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 35:        twoclass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36:                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36:        twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 37:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 38:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 39:                </span>
@@ -384,6 +388,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 61:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 62:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 63:                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     task_properties</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;list&gt;</span>
 <span class="r-in"><span><span class="va">mlr_measures</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"classif.ce"</span><span class="op">)</span></span></span>
@@ -421,7 +426,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

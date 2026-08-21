@@ -23,7 +23,7 @@ via the field $uhash_table."><meta property="og:image" content="https://mlr3.mlr
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -133,19 +133,19 @@ Resampling ID.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   5    iris classif.featureless       holdout     1        0      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   6    iris       classif.rpart       holdout     1        0      0</span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="va">uhashes</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "33bf3a87-f7ad-44e2-9647-d009b4b8f041"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "f274024f-ac45-4d8d-ac97-aa8a370a11cb"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "a4eba6a6-0929-416b-966a-280f7c5b3073"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "cfcd9429-c657-4522-84b2-982f2aa77afe"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "f842d461-4449-480f-bcd8-2ac0a1a3f07a"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "bda7ed38-8fd0-4bf2-8e54-ec5dad1cfc63"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a85349c5-b769-48ba-8814-857e569df898"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "c14a4bc4-03d4-4a86-91d2-f9c105bb4218"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "14311b95-ae33-4746-8823-8253d22c29cc"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "d64c4d9c-a951-4dad-a3f4-364d6d329aa3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "42d7fe41-4e08-46f5-ac68-42ec4ab731f1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "8144df34-12e9-4ec8-8055-b8653544c466"</span>
 <span class="r-in"><span><span class="fu">uhash</span><span class="op">(</span><span class="va">bmr</span>, learner_id <span class="op">=</span> <span class="st">"classif.debug"</span>, task_id <span class="op">=</span> <span class="st">"sonar"</span>, resampling_id <span class="op">=</span> <span class="st">"holdout"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "33bf3a87-f7ad-44e2-9647-d009b4b8f041"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a85349c5-b769-48ba-8814-857e569df898"</span>
 <span class="r-in"><span><span class="fu">uhashes</span><span class="op">(</span><span class="va">bmr</span>, learner_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.debug"</span>, <span class="st">"classif.featureless"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "33bf3a87-f7ad-44e2-9647-d009b4b8f041"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "f274024f-ac45-4d8d-ac97-aa8a370a11cb"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "cfcd9429-c657-4522-84b2-982f2aa77afe"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "f842d461-4449-480f-bcd8-2ac0a1a3f07a"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a85349c5-b769-48ba-8814-857e569df898"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "c14a4bc4-03d4-4a86-91d2-f9c105bb4218"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "d64c4d9c-a951-4dad-a3f4-364d6d329aa3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "42d7fe41-4e08-46f5-ac68-42ec4ab731f1"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -157,7 +157,7 @@ Resampling ID.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

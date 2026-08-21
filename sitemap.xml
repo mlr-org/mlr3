@@ -76,6 +76,7 @@
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_learners_regr.rpart.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_measures.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_aic.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_best_valid_score.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_bic.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.acc.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.auc.html</loc></url>
@@ -161,11 +162,11 @@
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_xor.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks_breast_cancer.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks_diabetes.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks_german_credit.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks_iris.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks_mtcars.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks_penguins.html</loc></url>
-<url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks_pima.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks_sonar.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks_spam.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks_wine.html</loc></url>

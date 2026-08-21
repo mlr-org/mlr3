@@ -132,9 +132,9 @@ holdout$instantiate(task)
 
 # Individual sets:
 holdout$train_set(1)
-#> [1]  4  5  7  9 10
+#> [1] 1 3 4 8 9
 holdout$test_set(1)
-#> [1] 1 2 3 6 8
+#> [1]  2  5  6  7 10
 
 # Disjunct sets:
 intersect(holdout$train_set(1), holdout$test_set(1))
@@ -143,9 +143,9 @@ intersect(holdout$train_set(1), holdout$test_set(1))
 # Internal storage:
 holdout$instance # simple list
 #> $train
-#> [1]  4  5  7  9 10
+#> [1] 1 3 4 8 9
 #> 
 #> $test
-#> [1] 1 2 3 6 8
+#> [1]  2  5  6  7 10
 #> 
 ```
