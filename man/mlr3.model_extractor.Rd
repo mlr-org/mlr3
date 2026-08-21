@@ -3,12 +3,6 @@
 \name{mlr3.model_extractor}
 \alias{mlr3.model_extractor}
 \title{Model Extractor Callback}
-\arguments{
-\item{fun}{(\verb{function(learner)})\cr
-Function to extract information from the learner.
-The function must have the argument \code{learner}.
-The function must return a named list.}
-}
 \description{
 This \link{CallbackResample} extracts information from the model after training with a user-defined function.
 This way information can be extracted from the model without saving the model (\code{store_models = FALSE}).
@@ -16,6 +10,16 @@ The \code{fun} must be a function that takes a learner as input and returns the 
 as named list (see example).
 The callback is very helpful to call \verb{$selected_features()}, \verb{$importance()}, \verb{$oob_error()} on the learner.
 }
+\section{Parameters}{
+
+\describe{
+\item{\code{fun}}{(\verb{function(learner)})\cr
+Function to extract information from the learner.
+The function must have the argument \code{learner}.
+The function must return a named list.}
+}
+}
+
 \examples{
 task = tsk("sonar")
 learner = lrn("classif.rpart")

@@ -3,13 +3,17 @@
 \name{mlr3.holdout_task}
 \alias{mlr3.holdout_task}
 \title{Callback Holdout Task}
-\arguments{
-\item{task}{(\link{Task})\cr
-The holdout task.}
-}
 \description{
 This \link{CallbackResample} predicts on an additional holdout task after training.
 }
+\section{Parameters}{
+
+\describe{
+\item{\code{task}}{(\link{Task})\cr
+The holdout task.}
+}
+}
+
 \examples{
 task = tsk("sonar")
 task_holdout = task$clone()

@@ -10,10 +10,13 @@
 #' as named list (see example).
 #' The callback is very helpful to call `$selected_features()`, `$importance()`, `$oob_error()` on the learner.
 #'
-#' @param fun (`function(learner)`)\cr
-#'   Function to extract information from the learner.
-#'   The function must have the argument `learner`.
-#'   The function must return a named list.
+#' @section Parameters:
+#' \describe{
+#'   \item{`fun`}{(`function(learner)`)\cr
+#'     Function to extract information from the learner.
+#'     The function must have the argument `learner`.
+#'     The function must return a named list.}
+#' }
 #'
 #' @examples
 #' task = tsk("sonar")
@@ -52,8 +55,11 @@ load_callback_model_extractor = function() {
 #' @description
 #' This [CallbackResample] predicts on an additional holdout task after training.
 #'
-#' @param task ([Task])\cr
-#'  The holdout task.
+#' @section Parameters:
+#' \describe{
+#'   \item{`task`}{([Task])\cr
+#'     The holdout task.}
+#' }
 #'
 #' @examples
 #' task = tsk("sonar")
