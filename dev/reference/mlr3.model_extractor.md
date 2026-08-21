@@ -9,9 +9,9 @@ that takes a learner as input and returns the extracted information as
 named list (see example). The callback is very helpful to call
 `$selected_features()`, `$importance()`, `$oob_error()` on the learner.
 
-## Arguments
+## Parameters
 
-- fun:
+- `fun`:
 
   (`function(learner)`)  
   Function to extract information from the learner. The function must
@@ -36,7 +36,7 @@ rr$data_extra
 #> Key: <uhash, iteration>
 #>                                   uhash iteration data_extra
 #>                                  <char>     <int>     <list>
-#> 1: 121dda3c-39f3-4a24-a4e8-b13680e5c4b1         1  <list[1]>
-#> 2: 121dda3c-39f3-4a24-a4e8-b13680e5c4b1         2  <list[1]>
-#> 3: 121dda3c-39f3-4a24-a4e8-b13680e5c4b1         3  <list[1]>
+#> 1: aeb9e46f-fbfc-445a-8a35-3a01401365e4         1  <list[1]>
+#> 2: aeb9e46f-fbfc-445a-8a35-3a01401365e4         2  <list[1]>
+#> 3: aeb9e46f-fbfc-445a-8a35-3a01401365e4         3  <list[1]>
 ```

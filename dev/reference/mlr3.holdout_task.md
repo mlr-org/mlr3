@@ -4,9 +4,9 @@ This
 [CallbackResample](https://mlr3.mlr-org.com/dev/reference/CallbackResample.md)
 predicts on an additional holdout task after training.
 
-## Arguments
+## Parameters
 
-- task:
+- `task`:
 
   ([Task](https://mlr3.mlr-org.com/dev/reference/Task.md))  
   The holdout task.
@@ -31,7 +31,7 @@ rr$data_extra
 #> Key: <uhash, iteration>
 #>                                   uhash iteration data_extra
 #>                                  <char>     <int>     <list>
-#> 1: 99553fa6-bd78-4fe3-a3e0-2da61c5e96f9         1  <list[1]>
-#> 2: 99553fa6-bd78-4fe3-a3e0-2da61c5e96f9         2  <list[1]>
-#> 3: 99553fa6-bd78-4fe3-a3e0-2da61c5e96f9         3  <list[1]>
+#> 1: d5247ab0-0762-432e-8cdd-89018a1061b0         1  <list[1]>
+#> 2: d5247ab0-0762-432e-8cdd-89018a1061b0         2  <list[1]>
+#> 3: d5247ab0-0762-432e-8cdd-89018a1061b0         3  <list[1]>
 ```

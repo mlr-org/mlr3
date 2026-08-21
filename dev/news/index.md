@@ -2,6 +2,10 @@
 
 ## mlr3 (development version)
 
+## mlr3 1.8.0
+
+CRAN release: 2026-08-21
+
 - feat: Added `msr("best_valid_score")`
   (`mlr_measures_best_valid_score`), which reports the *best* internal
   validation score observed during training/
