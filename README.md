@@ -101,14 +101,14 @@ task_penguins
 ```
 
     ## 
-    ## ── <TaskClassif> (344x8) ───────────────────────────────────────────────────────
+    ## ── <TaskClassif> (344x8) ─────────────────────────────────────────────
     ## • Target: species
-    ## • Target classes: Adelie (44%), Gentoo (36%), Chinstrap (20%)
     ## • Properties: multiclass
     ## • Features (7):
     ##   • int (3): body_mass_g, flipper_length_mm, year
     ##   • dbl (2): bill_depth_mm, bill_length_mm
     ##   • fct (2): island, sex
+    ## • Target classes: Adelie (44%), Gentoo (36%), Chinstrap (20%)
 
 ``` r
 # load learner and set hyperparameter
@@ -172,7 +172,7 @@ rr$aggregate(measure)
 
 ## Extension Packages
 
-<a href="https://raw.githubusercontent.com/mlr-org/mlr3/main/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
+<a href="https://raw.githubusercontent.com/mlr-org/mlr3website/main/mlr-org/images/mlr3_ecosystem.svg"><img src="https://raw.githubusercontent.com/mlr-org/mlr3website/main/mlr-org/images/mlr3_ecosystem.svg"/></a>
 
 Consult the
 [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for
