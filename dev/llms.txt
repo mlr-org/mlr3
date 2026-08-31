@@ -95,14 +95,14 @@ task_penguins
 
 ``` R
 ## 
-## ── <TaskClassif> (344x8) ───────────────────────────────────────────────────────
+## ── <TaskClassif> (344x8) ─────────────────────────────────────────────
 ## • Target: species
-## • Target classes: Adelie (44%), Gentoo (36%), Chinstrap (20%)
 ## • Properties: multiclass
 ## • Features (7):
 ##   • int (3): body_mass_g, flipper_length_mm, year
 ##   • dbl (2): bill_depth_mm, bill_length_mm
 ##   • fct (2): island, sex
+## • Target classes: Adelie (44%), Gentoo (36%), Chinstrap (20%)
 ```
 
 ``` r
@@ -180,7 +180,7 @@ rr$aggregate(measure)
 
 ## Extension Packages
 
-[![](reference/figures/mlr3verse.svg)](https://raw.githubusercontent.com/mlr-org/mlr3/main/man/figures/mlr3verse.svg?sanitize=true)
+[![](https://raw.githubusercontent.com/mlr-org/mlr3website/main/mlr-org/images/mlr3_ecosystem.svg)](https://raw.githubusercontent.com/mlr-org/mlr3website/main/mlr-org/images/mlr3_ecosystem.svg)
 
 Consult the
 [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for
