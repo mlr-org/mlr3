@@ -95,10 +95,10 @@ LearnerRegr = R6Class(
     #' @return `list()` with elements `"response"`, `"se"` or `"quantiles"` depending on the predict type.
     predict_newdata_fast = function(newdata, task = NULL) {
       if (is.null(self$state$model) && is.null(self$state$fallback_state$model)) {
-        error_input("Cannot predict, Learner '%s' has not been trained yet", self$id)
+        error_config("Cannot predict, Learner '%s' has not been trained yet", self$id)
       }
       if (is.null(task) && is.null(self$state$train_task)) {
-        error_input("No task stored, and no task provided")
+        error_config("No task stored, and no task provided")
       }
       feature_names = self$state$train_task$feature_names %??% task$feature_names
 

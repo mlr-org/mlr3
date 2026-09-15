@@ -92,7 +92,7 @@ resample = function(
   }
 
   if (!is.null(resampling$task_row_hash) && resampling$task_row_hash != task$row_hash) {
-    error_input("Resampling '%s' is not instantiated on task '%s'", resampling$id, task$id)
+    error_config("Resampling '%s' is not instantiated on task '%s'", resampling$id, task$id)
   }
 
   n = resampling$iters

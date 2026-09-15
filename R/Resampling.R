@@ -335,7 +335,7 @@ Resampling = R6Class(
 
     .get_set = function(getter, i) {
       if (!self$is_instantiated) {
-        error_input("Resampling '%s' has not been instantiated yet", self$id)
+        error_config("Resampling '%s' has not been instantiated yet", self$id)
       }
       i = assert_int(i, lower = 1L, upper = self$iters, coerce = TRUE)
       ids = getter(i)

@@ -1068,6 +1068,18 @@ test_that("error conditions are working for predict", {
   expect_error(l$predict(task), regexp = "all working!", fixed = TRUE)
 })
 
+test_that("when handler overrides the default handling of config errors", {
+  task = tsk("iris")
+  l = lrn("classif.debug", config_error = TRUE)
+  l$encapsulate("evaluate", lrn("classif.featureless"), function(cond, stage) TRUE)
+  expect_error(l$train(task), regexp = NA)
+  expect_null(l$model)
+  expect_prediction(l$predict(task))
+
+  l$encapsulate("evaluate", lrn("classif.featureless"), function(cond, stage) !inherits(cond, "Mlr3ErrorConfig"))
+  expect_error(l$train(task), class = "Mlr3ErrorConfig")
+})
+
 test_that("when: stage parameter is working", {
   task = tsk("iris")
   l = lrn("classif.debug")
