@@ -1167,12 +1167,11 @@ test_that("oob_error is available without storing models via $.extract_oob_error
   expect_equal(rr$aggregate(msr("oob_error")), c(oob_error = 0.123))
 })
 
-test_that("config error does not trigger callback", {
+test_that("config error is not caught by encapsulation by default", {
   l = lrn("classif.debug", config_error = TRUE)
-  l$encapsulate("evaluate", lrn("classif.featureless"), function(...) TRUE)
-  expect_error(l$train(tsk("iris")), regexp = "You misconfigured the learner")
   l$encapsulate("evaluate", lrn("classif.featureless"))
-  expect_error(l$train(tsk("iris")), regexp = "You misconfigured the learner")
+  expect_error(l$train(tsk("iris")), regexp = "You misconfigured the learner", class = "Mlr3ErrorConfig")
+  expect_null(l$model)
 })
 
 test_that("new_levels property is working", {
