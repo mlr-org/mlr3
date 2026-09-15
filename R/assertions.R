@@ -415,7 +415,7 @@ assert_resampling = function(resampling, instantiated = NULL, .var.name = vname(
 
   if (!is.null(instantiated)) {
     if (instantiated && !resampling$is_instantiated) {
-      error_input("Resampling '%s' must be instantiated", resampling$id)
+      error_config("Resampling '%s' must be instantiated", resampling$id)
     }
     if (!instantiated && resampling$is_instantiated) {
       error_input("Resampling '%s' may not be instantiated", resampling$id)

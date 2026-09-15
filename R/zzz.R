@@ -76,9 +76,9 @@
 #'   because retrying with a fallback cannot fix a misconfiguration.
 #'   A `when` handler registered via [Learner]'s `$encapsulate()` method can override this.
 #' * `Mlr3ErrorInput`: This error signals that the arguments or data passed to the current call are invalid,
-#'   e.g. a task with missing values passed to a learner without the `"missings"` property,
-#'   an empty task, or malformed prediction data.
-#'   Unlike `Mlr3ErrorConfig`, this error is caught by encapsulation and triggers the fallback learner,
+#'   e.g. an empty task passed to `$train()`, or malformed prediction data.
+#'   Unlike `Mlr3ErrorConfig`, this error is caught by encapsulation and triggers the fallback learner
+#'   when it is raised inside the encapsulated train or predict step,
 #'   because a fallback can legitimately step in when a learner cannot handle the given data.
 #' * `Mlr3ErrorLearner`: The base error class for errors related to the learner.
 #' * `Mlr3ErrorLearnerTrain`: This error signals that the learner failed to train the model.
