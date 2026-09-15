@@ -746,11 +746,8 @@ learner_will_err = function(cond, learner, stage) {
   if (is.null(cond)) {
     return(FALSE)
   }
-  if (inherits(cond, "Mlr3ErrorConfig")) {
-    return(TRUE)
-  }
   if (is.null(when)) {
-    return(FALSE)
+    return(inherits(cond, "Mlr3ErrorConfig"))
   }
   !when(cond = cond, stage = stage)
 }

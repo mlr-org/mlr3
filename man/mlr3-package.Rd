@@ -81,13 +81,23 @@ Defaults to \code{1000000}.
 
 \itemize{
 \item \code{Mlr3Error}: The base mlr3 error class.
-\item \code{Mlr3ErrorConfig}: This error signals that the user has misconfigured something.
-By default, this error is not caught when the learner is encapsulated.
-\item \code{Mlr3ErrorInput}: This error signals that the input to the function is invalid.
+\item \code{Mlr3ErrorConfig}: This error signals that the user has misconfigured something before the current call,
+e.g. calling \verb{$train()}, \verb{$predict()}, or \code{\link[=resample]{resample()}} with an untrained learner, an uninstantiated resampling,
+an unsupported predict type, or with \code{store_models} or \code{store_backends} disabled although a measure requires them.
+Not setting something up beforehand also counts as a misconfiguration.
+This error is also raised when a configuration step itself fails, e.g. assigning an invalid \verb{$predict_type}.
+By default, this error is not caught by encapsulation and does not trigger the fallback learner,
+because retrying with a fallback cannot fix a misconfiguration.
+A \code{when} handler registered via \link{Learner}'s \verb{$encapsulate()} method can override this.
+\item \code{Mlr3ErrorInput}: This error signals that the arguments or data passed to the current call are invalid,
+e.g. an empty task passed to \verb{$train()}, or malformed prediction data.
+Unlike \code{Mlr3ErrorConfig}, this error is caught by encapsulation and triggers the fallback learner
+when it is raised inside the encapsulated train or predict step,
+because a fallback can legitimately step in when a learner cannot handle the given data.
 \item \code{Mlr3ErrorLearner}: The base error class for errors related to the learner.
 \item \code{Mlr3ErrorLearnerTrain}: This error signals that the learner failed to train the model.
 \item \code{Mlr3ErrorLearnerPredict}: This error signals that something went wrong during prediction.
-\item \code{Mlr3TimeoutError}: This error signals that the encapsulation during train or predict timed out.
+\item \code{Mlr3ErrorTimeout}: This error signals that the encapsulation during train or predict timed out.
 }
 }
 

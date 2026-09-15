@@ -397,7 +397,7 @@ Learner = R6Class(
       row_ids = assert_row_ids(row_ids, task = task, null.ok = TRUE)
 
       if (is.null(self$state$model) && is.null(self$state$fallback_state$model)) {
-        error_input("Cannot predict, Learner '%s' has not been trained yet", self$id)
+        error_config("Cannot predict, Learner '%s' has not been trained yet", self$id)
       }
 
       # we need to marshal for call-r prediction and parallel prediction, but afterwards we reset the model
@@ -477,7 +477,7 @@ Learner = R6Class(
     predict_newdata = function(newdata, task = NULL) {
       if (is.null(task)) {
         if (is.null(self$state$train_task)) {
-          error_input("No task stored, and no task provided")
+          error_config("No task stored, and no task provided")
         }
         task = self$state$train_task$clone()
       } else {
@@ -622,8 +622,8 @@ Learner = R6Class(
     #' If the training step fails, the `$model` field of the original learner is `NULL`.
     #' The results are reproducible across the different encapsulation methods.
     #'
-    #' Note that for errors of class `Mlr3ErrorConfig`, the function always errs and no fallback learner
-    #' is trained.
+    #' Note that for errors of class `Mlr3ErrorConfig`, the function errs by default and no fallback learner
+    #' is trained, but a `when` handler can override this.
     #'
     #' Also see the section on error handling in the mlr3book:
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
@@ -636,6 +636,7 @@ Learner = R6Class(
     #' @param when (`function(cond, stage)`)\cr
     #'  Function that takes in the condition (`cond`) and the stage (`"train"` or `"predict"`) and
     #'  returns `logical(1)` indicating whether to run the fallback learner.
+    #'  If provided, the handler decides for all errors, including errors of class `Mlr3ErrorConfig`.
     #'
     #'  If `NULL` (default), the fallback is always used, except for errors of class `Mlr3ErrorConfig`.
     #'
@@ -687,7 +688,7 @@ Learner = R6Class(
           )
         }
       } else if (method == "none" && !is.null(fallback)) {
-        error_input("Fallback learner must be `NULL` if encapsulation is set to `none`.")
+        error_config("Fallback learner must be `NULL` if encapsulation is set to `none`.")
       }
 
       private$.encapsulation = c(train = method, predict = method)
@@ -902,7 +903,7 @@ Learner = R6Class(
 
       assert_string(rhs, .var.name = "predict_type")
       if (rhs %nin% self$predict_types) {
-        error_input("Learner '%s' does not support predict type '%s'", self$id, rhs) # TODO error_learner?
+        error_config("Learner '%s' does not support predict type '%s'", self$id, rhs)
       }
       private$.predict_type = rhs
     },

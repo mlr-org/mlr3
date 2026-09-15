@@ -148,7 +148,7 @@ benchmark = function(
 
     # check that all row ids of the resampling are present in the task
     if (resampling$task_row_hash != task$row_hash) {
-      error_input("Resampling '%s' is not instantiated on task '%s'", resampling$id, task$id)
+      error_config("Resampling '%s' is not instantiated on task '%s'", resampling$id, task$id)
     }
 
     data.table(

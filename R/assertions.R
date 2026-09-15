@@ -299,7 +299,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
   assert_class(measure, "Measure", .var.name = .var.name)
 
   if (measure$use_weights == "error" && (!is.null(prediction$weights) || "weights_measure" %chin% task$properties)) {
-    error_input(
+    error_config(
       "%s cannot be evaluated with weights%s%s",
       format_angle_brackets(measure),
       if (!is.null(task)) paste0(" in ", format_angle_brackets(task)) else "",
@@ -383,11 +383,11 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
 # nolint next
 assert_scorable = function(measure, task, learner, prediction = NULL, .var.name = vname(measure)) {
   if ("requires_model" %chin% measure$properties && is.null(learner$model)) {
-    error_input("Measure '%s' requires the trained model", measure$id)
+    error_config("Measure '%s' requires the trained model", measure$id)
   }
 
   if ("requires_model" %chin% measure$properties && is_marshaled_model(learner$model)) {
-    error_input("Measure '%s' requires the trained model, but model is in marshaled form", measure$id)
+    error_config("Measure '%s' requires the trained model, but model is in marshaled form", measure$id)
   }
 
   assert_measure(measure, task = task, learner = learner, prediction = prediction, .var.name = .var.name)
@@ -415,7 +415,7 @@ assert_resampling = function(resampling, instantiated = NULL, .var.name = vname(
 
   if (!is.null(instantiated)) {
     if (instantiated && !resampling$is_instantiated) {
-      error_input("Resampling '%s' must be instantiated", resampling$id)
+      error_config("Resampling '%s' must be instantiated", resampling$id)
     }
     if (!instantiated && resampling$is_instantiated) {
       error_input("Resampling '%s' may not be instantiated", resampling$id)
@@ -516,7 +516,7 @@ assert_row_ids = function(row_ids, task = NULL, null.ok = FALSE, .var.name = vna
 #' @rdname mlr_assertions
 assert_has_backend = function(task) {
   if (is.null(task$backend)) {
-    error_input(
+    error_config(
       "The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.",
       task$id
     )

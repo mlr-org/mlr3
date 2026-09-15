@@ -821,8 +821,8 @@ Note that the fallback is always trained, as we do not know in advance whether p
 If the training step fails, the \verb{$model} field of the original learner is \code{NULL}.
 The results are reproducible across the different encapsulation methods.
 
-Note that for errors of class \code{Mlr3ErrorConfig}, the function always errs and no fallback learner
-is trained.
+Note that for errors of class \code{Mlr3ErrorConfig}, the function errs by default and no fallback learner
+is trained, but a \code{when} handler can override this.
 
 Also see the section on error handling in the mlr3book:
 \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
@@ -842,6 +842,7 @@ The fallback learner for failed predictions.}
       \item{\code{when}}{(\verb{function(cond, stage)})\cr
 Function that takes in the condition (\code{cond}) and the stage (\code{"train"} or \code{"predict"}) and
 returns \code{logical(1)} indicating whether to run the fallback learner.
+If provided, the handler decides for all errors, including errors of class \code{Mlr3ErrorConfig}.
 
 If \code{NULL} (default), the fallback is always used, except for errors of class \code{Mlr3ErrorConfig}.}
     }

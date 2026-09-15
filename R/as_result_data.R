@@ -85,7 +85,7 @@ as_result_data = function(
   }
 
   if (resampling$task_hash != task$hash) {
-    error_input("Resampling '%s' has not been trained on task '%s', hashes do not match", resampling$id, task$id)
+    error_config("Resampling '%s' has not been trained on task '%s', hashes do not match", resampling$id, task$id)
   }
 
   if (!is.null(data_extra) && length(data_extra) != N) {
