@@ -840,8 +840,8 @@ these missing predictions are imputed by the fallback.
 Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
 If the training step fails, the <code>$model</code> field of the original learner is <code>NULL</code>.
 The results are reproducible across the different encapsulation methods.</p>
-<p>Note that for errors of class <code>Mlr3ErrorConfig</code>, the function always errs and no fallback learner
-is trained.</p>
+<p>Note that for errors of class <code>Mlr3ErrorConfig</code>, the function errs by default and no fallback learner
+is trained, but a <code>when</code> handler can override this.</p>
 <p>Also see the section on error handling in the mlr3book:
 <a href="https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling" class="external-link">https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling</a></p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
@@ -860,7 +860,8 @@ The fallback learner for failed predictions.</p></dd>
       <dt><code>when</code></dt>
 <dd><p>(<code>function(cond, stage)</code>)<br>
 Function that takes in the condition (<code>cond</code>) and the stage (<code>"train"</code> or <code>"predict"</code>) and
-returns <code>logical(1)</code> indicating whether to run the fallback learner.</p>
+returns <code>logical(1)</code> indicating whether to run the fallback learner.
+If provided, the handler decides for all errors, including errors of class <code>Mlr3ErrorConfig</code>.</p>
 <p>If <code>NULL</code> (default), the fallback is always used, except for errors of class <code>Mlr3ErrorConfig</code>.</p></dd>
 
 

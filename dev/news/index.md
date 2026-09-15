@@ -2,6 +2,17 @@
 
 ## mlr3 (development version)
 
+- fix: Errors caused by prior misconfiguration (e.g., predicting with an
+  untrained learner, uninstantiated resamplings, missing stored models
+  or backends, and unsupported predict types) now signal
+  `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer
+  masked by fallback learners under encapsulation
+  ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- fix: `Learner$encapsulate()`: a `when` handler now also decides for
+  errors of class `Mlr3ErrorConfig`, which previously always errored
+  even when a handler was registered
+  ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+
 ## mlr3 1.8.0
 
 CRAN release: 2026-08-21

@@ -49,7 +49,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3-development-version">mlr3 (development version)<a class="anchor" aria-label="anchor" href="#mlr3-development-version"></a></h2>
-</div>
+<ul><li>fix: Errors caused by prior misconfiguration (e.g., predicting with an untrained learner, uninstantiated resamplings, missing stored models or backends, and unsupported predict types) now signal <code>Mlr3ErrorConfig</code> instead of <code>Mlr3ErrorInput</code>, so they are no longer masked by fallback learners under encapsulation (<a href="https://github.com/mlr-org/mlr3/issues/1500" class="external-link">#1500</a>).</li>
+<li>fix: <code>Learner$encapsulate()</code>: a <code>when</code> handler now also decides for errors of class <code>Mlr3ErrorConfig</code>, which previously always errored even when a handler was registered (<a href="https://github.com/mlr-org/mlr3/issues/1500" class="external-link">#1500</a>).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.8.0" id="mlr3-180">mlr3 1.8.0<a class="anchor" aria-label="anchor" href="#mlr3-180"></a></h2><p class="text-muted">CRAN release: 2026-08-21</p>
 <ul><li>feat: Added <code>msr("best_valid_score")</code> (<code>mlr_measures_best_valid_score</code>), which reports the <em>best</em> internal validation score observed during training/</li>

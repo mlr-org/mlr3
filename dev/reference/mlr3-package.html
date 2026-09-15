@@ -124,13 +124,23 @@ Defaults to <code>1000000</code>.</p></li>
 
 
 <ul><li><p><code>Mlr3Error</code>: The base mlr3 error class.</p></li>
-<li><p><code>Mlr3ErrorConfig</code>: This error signals that the user has misconfigured something.
-By default, this error is not caught when the learner is encapsulated.</p></li>
-<li><p><code>Mlr3ErrorInput</code>: This error signals that the input to the function is invalid.</p></li>
+<li><p><code>Mlr3ErrorConfig</code>: This error signals that the user has misconfigured something before the current call,
+e.g. calling <code>$train()</code>, <code>$predict()</code>, or <code><a href="resample.html">resample()</a></code> with an untrained learner, an uninstantiated resampling,
+an unsupported predict type, or with <code>store_models</code> or <code>store_backends</code> disabled although a measure requires them.
+Not setting something up beforehand also counts as a misconfiguration.
+This error is also raised when a configuration step itself fails, e.g. assigning an invalid <code>$predict_type</code>.
+By default, this error is not caught by encapsulation and does not trigger the fallback learner,
+because retrying with a fallback cannot fix a misconfiguration.
+A <code>when</code> handler registered via <a href="Learner.html">Learner</a>'s <code>$encapsulate()</code> method can override this.</p></li>
+<li><p><code>Mlr3ErrorInput</code>: This error signals that the arguments or data passed to the current call are invalid,
+e.g. an empty task passed to <code>$train()</code>, or malformed prediction data.
+Unlike <code>Mlr3ErrorConfig</code>, this error is caught by encapsulation and triggers the fallback learner
+when it is raised inside the encapsulated train or predict step,
+because a fallback can legitimately step in when a learner cannot handle the given data.</p></li>
 <li><p><code>Mlr3ErrorLearner</code>: The base error class for errors related to the learner.</p></li>
 <li><p><code>Mlr3ErrorLearnerTrain</code>: This error signals that the learner failed to train the model.</p></li>
 <li><p><code>Mlr3ErrorLearnerPredict</code>: This error signals that something went wrong during prediction.</p></li>
-<li><p><code>Mlr3TimeoutError</code>: This error signals that the encapsulation during train or predict timed out.</p></li>
+<li><p><code>Mlr3ErrorTimeout</code>: This error signals that the encapsulation during train or predict timed out.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="warning-classes">Warning Classes<a class="anchor" aria-label="anchor" href="#warning-classes"></a></h2>

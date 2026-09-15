@@ -128,11 +128,28 @@ add-on packages provide additional functionality.
 - `Mlr3Error`: The base mlr3 error class.
 
 - `Mlr3ErrorConfig`: This error signals that the user has misconfigured
-  something. By default, this error is not caught when the learner is
-  encapsulated.
+  something before the current call, e.g. calling `$train()`,
+  `$predict()`, or
+  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md)
+  with an untrained learner, an uninstantiated resampling, an
+  unsupported predict type, or with `store_models` or `store_backends`
+  disabled although a measure requires them. Not setting something up
+  beforehand also counts as a misconfiguration. This error is also
+  raised when a configuration step itself fails, e.g. assigning an
+  invalid `$predict_type`. By default, this error is not caught by
+  encapsulation and does not trigger the fallback learner, because
+  retrying with a fallback cannot fix a misconfiguration. A `when`
+  handler registered via
+  [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md)'s
+  `$encapsulate()` method can override this.
 
-- `Mlr3ErrorInput`: This error signals that the input to the function is
-  invalid.
+- `Mlr3ErrorInput`: This error signals that the arguments or data passed
+  to the current call are invalid, e.g. an empty task passed to
+  `$train()`, or malformed prediction data. Unlike `Mlr3ErrorConfig`,
+  this error is caught by encapsulation and triggers the fallback
+  learner when it is raised inside the encapsulated train or predict
+  step, because a fallback can legitimately step in when a learner
+  cannot handle the given data.
 
 - `Mlr3ErrorLearner`: The base error class for errors related to the
   learner.
@@ -143,7 +160,7 @@ add-on packages provide additional functionality.
 - `Mlr3ErrorLearnerPredict`: This error signals that something went
   wrong during prediction.
 
-- `Mlr3TimeoutError`: This error signals that the encapsulation during
+- `Mlr3ErrorTimeout`: This error signals that the encapsulation during
   train or predict timed out.
 
 ## Warning Classes

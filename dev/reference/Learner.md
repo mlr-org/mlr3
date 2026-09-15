@@ -1004,8 +1004,9 @@ whether prediction will fail. If the training step fails, the `$model`
 field of the original learner is `NULL`. The results are reproducible
 across the different encapsulation methods.
 
-Note that for errors of class `Mlr3ErrorConfig`, the function always
-errs and no fallback learner is trained.
+Note that for errors of class `Mlr3ErrorConfig`, the function errs by
+default and no fallback learner is trained, but a `when` handler can
+override this.
 
 Also see the section on error handling in the mlr3book:
 <https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling>
@@ -1032,7 +1033,8 @@ Also see the section on error handling in the mlr3book:
   (`function(cond, stage)`)  
   Function that takes in the condition (`cond`) and the stage (`"train"`
   or `"predict"`) and returns `logical(1)` indicating whether to run the
-  fallback learner.
+  fallback learner. If provided, the handler decides for all errors,
+  including errors of class `Mlr3ErrorConfig`.
 
   If `NULL` (default), the fallback is always used, except for errors of
   class `Mlr3ErrorConfig`.
