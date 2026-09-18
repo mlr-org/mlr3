@@ -5,12 +5,12 @@ allow_partial_matching = list(
 )
 
 set_encapsulation = function(learners, encapsulate) {
-  assert_choice(encapsulate, c(NA_character_, "none", "evaluate", "callr", "try"))
+  assert_choice(encapsulate, c(NA_character_, "none", "evaluate", "callr", "mirai", "try"))
 
   if (!is.na(encapsulate)) {
     lapply(learners, function(learner) {
       fallback = if (encapsulate != "none") default_fallback(learner)
-      if (is.null(fallback)) {
+      if (encapsulate != "none" && is.null(fallback)) {
         error_config("Could not find default fallback learner for learner '%s'", learner$id)
       }
       learner$encapsulate(encapsulate, fallback)
