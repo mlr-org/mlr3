@@ -15,6 +15,24 @@ test_that("model extractor works", {
   })
 })
 
+test_that("model extractor receives an unmarshaled model", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", count_marshaling = TRUE)
+  callback = clbk("mlr3.model_extractor", fun = function(learner) list(marshaled = is_marshaled_model(learner$model)))
+
+  rr = resample(task, learner, rsmp("holdout"), callbacks = callback, unmarshal = FALSE)
+  expect_false(rr$data_extra$data_extra[[1L]]$marshaled)
+
+  rr = resample(task, learner, rsmp("holdout"), callbacks = callback, unmarshal = FALSE, store_models = TRUE)
+  expect_false(rr$data_extra$data_extra[[1L]]$marshaled)
+  expect_true(is_marshaled_model(rr$learners[[1L]]$model))
+
+  learner$encapsulate("callr", lrn("classif.featureless"))
+  rr = resample(task, learner, rsmp("holdout"), callbacks = callback, store_models = TRUE)
+  expect_false(rr$data_extra$data_extra[[1L]]$marshaled)
+  expect_false(is_marshaled_model(rr$learners[[1L]]$model))
+})
+
 test_that("holdout task works", {
   task = tsk("sonar")
   task_holdout = task$clone()

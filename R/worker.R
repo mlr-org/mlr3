@@ -547,6 +547,13 @@ workhorse = function(
   }
   ctx$pdatas = discard(pdatas, is.null)
 
+  # callbacks must see the model in its usable (unmarshaled) form,
+  # independent of the form required for prediction or for sending it back to the main process
+  if (any(map_lgl(callbacks, function(callback) !is.null(callback$on_resample_end)))) {
+    learner$model = unmarshal_model(learner$model, inplace = TRUE)
+  }
+  call_back("on_resample_end", callbacks, ctx)
+
   # set the model slot after prediction so it can be sent back to the main process
   process_model_after_predict(
     learner = learner,
@@ -555,8 +562,6 @@ workhorse = function(
     model_copy = model_copy_or_null,
     unmarshal = unmarshal
   )
-
-  call_back("on_resample_end", callbacks, ctx)
 
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
