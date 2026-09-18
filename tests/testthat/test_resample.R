@@ -151,6 +151,19 @@ test_that("disable cloning", {
   expect_identical(resampling$hash, rr$resampling$hash)
 })
 
+test_that("input learner is not modified when cloning is disabled", {
+  task = tsk("iris")
+  resampling = rsmp("holdout")$instantiate(task)
+  learner = lrn("classif.debug", iter = 1)$train(task)
+  learner$hotstart_stack = HotstartStack$new(lrn("classif.debug", iter = 1)$train(tsk("sonar")))
+
+  rr = resample(task, learner, resampling, clone = c("task", "resampling"), allow_hotstart = TRUE)
+  expect_resample_result(rr)
+  expect_class(learner$model, "classif.debug_model")
+  expect_class(learner$hotstart_stack, "HotstartStack")
+  expect_null(rr$learners[[1L]]$hotstart_stack)
+})
+
 test_that("as_resample_result works for result data", {
   task = tsk("iris")
   learner = lrn("classif.featureless")

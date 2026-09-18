@@ -76,7 +76,8 @@ resample = function(
 
   assert_subset(clone, c("task", "learner", "resampling"))
   task = assert_task(as_task(task, clone = "task" %chin% clone))
-  learner = assert_learner(as_learner(learner, clone = "learner" %chin% clone, discard_state = TRUE))
+  # the state is only discarded on the clone, the input learner must not be modified
+  learner = assert_learner(as_learner(learner, clone = "learner" %chin% clone, discard_state = "learner" %chin% clone))
   resampling = assert_resampling(as_resampling(resampling, clone = "resampling" %chin% clone))
   assert_flag(store_models)
   assert_flag(store_backends)
@@ -115,6 +116,8 @@ resample = function(
       if (is.null(learner$hotstart_stack) || is.null(start_learner)) {
         # no hotstart learners stored or no adaptable model found
         lg$debug("Resampling with hotstarting not possible. No start learner found.")
+        # clone so that removing the hotstart stack below does not modify the input learner
+        learner = learner$clone()
         mode = "train"
       } else {
         # hotstart learner found

@@ -498,11 +498,18 @@ workhorse = function(
 
   # train model
   # use `learner` reference instead of `ctx$learner` to avoid going through the active binding
-  ctx$learner = learner = ctx$learner$clone()
-  if (length(param_values)) {
+  learner = if (length(param_values)) {
+    # the param set of a shallow clone is shared with the input learner, so the values must be set on a deep clone;
+    # the state (which may hold a model when hotstarting) is not modified and therefore not copied
+    learner = clone_without(ctx$learner, "state")
+    learner$state = ctx$learner$state
     learner$param_set$values = list()
     learner$param_set$set_values(.values = param_values)
+    learner
+  } else {
+    ctx$learner$clone()
   }
+  ctx$learner = learner
   learner_hash = learner$hash
 
   validate = get0("validate", learner)
