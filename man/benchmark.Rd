@@ -24,9 +24,10 @@ instantiate the \link{Resampling}s per \link{Task}.
 Additionally, you can set the additional column 'param_values', see \code{\link[=benchmark_grid]{benchmark_grid()}}.}
 
 \item{store_models}{(\code{logical(1)})\cr
-Store the fitted model in the resulting object=
+Store the fitted model in the resulting object.
 Set to \code{TRUE} if you want to further analyze the models or want to
-extract information like variable importance.}
+extract information like variable importance.
+If \code{FALSE}, the model of the fallback learner is discarded as well.}
 
 \item{store_backends}{(\code{logical(1)})\cr
 Keep the \link{DataBackend} of the \link{Task} in the \link{ResampleResult}?
