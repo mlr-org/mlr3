@@ -561,6 +561,13 @@ workhorse = function(
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
+    # the fallback model is of no use without the model, and its state holds a copy of the training task
+    if (!is.null(learner$state$fallback_state)) {
+      learner$state$fallback_state = set_class(
+        remove_named(learner$state$fallback_state, c("model", "train_task", "data_prototype")),
+        c("learner_state", "list")
+      )
+    }
   }
 
   learner_state = set_class(learner$state, c("learner_state", "list"))

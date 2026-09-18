@@ -2,6 +2,7 @@
 
 * fix: Errors caused by prior misconfiguration (e.g., predicting with an untrained learner, uninstantiated resamplings, missing stored models or backends, and unsupported predict types) now signal `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer masked by fallback learners under encapsulation (#1500).
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
+* fix: `resample()` and `benchmark()` with `store_models = FALSE` now also discard the model, the training task copy, and the data prototype of the fallback learner, which were kept for every iteration (#1510).
 
 # mlr3 1.8.0
 

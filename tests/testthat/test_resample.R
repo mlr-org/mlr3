@@ -61,6 +61,20 @@ test_that("discarding model", {
   expect_equal(map(as.data.table(rr)$learner, "model"), vector("list", 3L))
 })
 
+test_that("discarding model also discards the fallback model", {
+  rr = resample(tsk("iris"), lrn("classif.rpart"), rsmp("holdout"), encapsulate = "evaluate")
+  state = rr$learners[[1L]]$state
+  expect_null(state$model)
+  expect_null(state$fallback_state$model)
+  expect_null(state$fallback_state$train_task)
+  expect_null(state$fallback_state$data_prototype)
+  expect_data_table(state$fallback_state$log)
+  expect_class(state$fallback_state, "learner_state")
+
+  rr = resample(tsk("iris"), lrn("classif.rpart"), rsmp("holdout"), encapsulate = "evaluate", store_models = TRUE)
+  expect_class(rr$learners[[1L]]$state$fallback_state$model, "classif.featureless_model")
+})
+
 test_that("inputs are cloned", {
   expect_different_address(task, get_private(rr)$.data$data$tasks$task[[1]])
   expect_different_address(learner, get_private(rr)$.data$data$learners$learner[[1]])
