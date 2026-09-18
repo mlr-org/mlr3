@@ -410,6 +410,15 @@ test_that("disable cloning", {
   expect_identical(resampling$hash, bmr$resamplings$resampling[[1]]$hash)
 })
 
+test_that("param_values do not modify the input learner when cloning is disabled", {
+  learner = lrn("classif.rpart", cp = 0.01)
+  design = benchmark_grid(tsk("iris"), learner, rsmp("holdout"), param_values = list(list(list(cp = 0.1), list(cp = 0.3))))
+  bmr = benchmark(design, clone = c("task", "resampling"))
+
+  expect_equal(learner$param_set$values$cp, 0.01)
+  expect_set_equal(map_dbl(bmr$learners$learner, function(l) l$param_set$values$cp), c(0.1, 0.3))
+})
+
 test_that("task and learner assertions", {
   grid = benchmark_grid(
     tasks = tsks(c("iris", "california_housing")),
