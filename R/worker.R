@@ -115,6 +115,21 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
   if (mode == "train") {
     learner$state = list()
+  } else {
+    # only the model of the start learner is continued, everything derived from its own training and prediction
+    # (timings, validation scores, fallback state, task copies) must not leak into the new state
+    learner$state = remove_named(
+      learner$state,
+      c(
+        "predict_time",
+        "internal_valid_scores",
+        "best_valid_scores",
+        "internal_valid_task_hash",
+        "fallback_state",
+        "train_task",
+        "data_prototype"
+      )
+    )
   }
 
   lg$debug(
