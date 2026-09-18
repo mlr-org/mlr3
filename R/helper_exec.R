@@ -36,15 +36,15 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
     ))
   } else {
     is_sequential = inherits(plan(), "sequential")
-    scheduling = if (!is_sequential && isTRUE(getOption("mlr3.exec_random", TRUE))) {
-      structure(TRUE, ordering = "random")
-    } else {
-      TRUE
-    }
     chunk_size = getOption("mlr3.exec_chunk_size", 1)
     chunk_bins = getOption("mlr3.exec_chunk_bins")
     if (!is.null(chunk_bins)) {
       chunk_size = ceiling(n / chunk_bins)
+    }
+    # future.apply ignores `future.scheduling` when `future.chunk.size` is set,
+    # so the random ordering must be attached to the chunk size
+    if (!is_sequential && isTRUE(getOption("mlr3.exec_random", TRUE))) {
+      chunk_size = structure(chunk_size, ordering = "random")
     }
     stdout = if (is_sequential) NA else TRUE
 
@@ -67,7 +67,6 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
       future.globals = FALSE,
       future.packages = mlr_reflections$loaded_packages,
       future.seed = TRUE,
-      future.scheduling = scheduling,
       future.chunk.size = chunk_size,
       future.stdout = stdout
     )

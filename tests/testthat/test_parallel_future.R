@@ -98,6 +98,36 @@ test_that("parallel seed", {
   expect_equal(rr1$prediction()$prob, rr2$prediction()$prob)
 })
 
+test_that("mlr3.exec_random attaches the random ordering to the chunk size", {
+  skip_if_not_installed("future.apply")
+
+  chunk_size = NULL
+  local_mocked_bindings(
+    future_mapply = function(...) {
+      chunk_size <<- list(...)$future.chunk.size
+      list()
+    },
+    .package = "future.apply"
+  )
+  old_opts = options(mlr3.exec_random = TRUE)
+  on.exit(options(old_opts), add = TRUE)
+
+  with_future(future::multisession, {
+    future_map(3L, identity, x = 1:3)
+    expect_equal(attr(chunk_size, "ordering"), "random")
+
+    options(mlr3.exec_random = FALSE)
+    future_map(3L, identity, x = 1:3)
+    expect_null(attr(chunk_size, "ordering"))
+  }, workers = 2L)
+
+  with_future(future::sequential, {
+    options(mlr3.exec_random = TRUE)
+    future_map(3L, identity, x = 1:3)
+    expect_null(attr(chunk_size, "ordering"))
+  })
+})
+
 test_that("data table threads are not changed in main session", {
   skip_on_os("mac") # number of threads cannot be changed on mac
   skip_on_cran()
