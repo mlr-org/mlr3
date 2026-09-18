@@ -15,6 +15,15 @@ test_that("predict method works", {
   expect_true(uniqueN(predict(lrn, newdata, method = "mode")) == 1L)
 })
 
+test_that("predict method does not modify the learner", {
+  task = tsk("iris")
+  learner = lrn("classif.debug")$train(task)
+  values = learner$param_set$values
+
+  predict(learner, task$data(1:3), predict_missing = 0.5)
+  expect_equal(learner$param_set$values, values)
+})
+
 test_that("missing predictions are handled gracefully / classif", {
   task = tsk("sonar")
   learner = lrn("classif.debug", predict_missing = 1, predict_missing_type = "na", predict_type = "prob")
