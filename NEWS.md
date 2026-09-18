@@ -2,6 +2,7 @@
 
 * fix: Errors caused by prior misconfiguration (e.g., predicting with an untrained learner, uninstantiated resamplings, missing stored models or backends, and unsupported predict types) now signal `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer masked by fallback learners under encapsulation (#1500).
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
+* fix: `learner_predict()` now invalidates the cached task hash when subsetting to the predict rows, so `task$hash` is correct inside `.predict()` and `resample()` no longer stores a wrong task hash when a learner reads the hash during prediction (#1503).
 
 # mlr3 1.8.0
 
