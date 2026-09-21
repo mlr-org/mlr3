@@ -13,6 +13,12 @@
   even when a handler was registered
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
 - fix:
+  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
+  [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
+  now re-raise errors from the workers when parallelizing with `mirai`
+  instead of failing with “subscript out of bounds”
+  ([\#1502](https://github.com/mlr-org/mlr3/issues/1502)).
+- fix:
   [`predict.Learner()`](https://mlr3.mlr-org.com/dev/reference/predict.Learner.md)
   no longer modifies the hyperparameters of the passed learner when
   additional parameters are supplied via `...`
