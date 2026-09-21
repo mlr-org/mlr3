@@ -792,12 +792,12 @@ rr$set_threshold(0.6)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 58d45d23-c339-4d53-8268-db63b74be248         1 <learner_state[8]>  <list[1]>
-#> 2: 58d45d23-c339-4d53-8268-db63b74be248         2 <learner_state[8]>  <list[1]>
-#> 3: 58d45d23-c339-4d53-8268-db63b74be248         3 <learner_state[8]>  <list[1]>
+#> 1: d0f161d1-5dd6-42ee-b031-c4922fe8c670         1 <learner_state[8]>  <list[1]>
+#> 2: d0f161d1-5dd6-42ee-b031-c4922fe8c670         2 <learner_state[8]>  <list[1]>
+#> 3: d0f161d1-5dd6-42ee-b031-c4922fe8c670         3 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 2099aa995d4e20f7 f9791e97f9813150 5b2c800eb8611508 1b22df191e2103ce
-#> 2: 2099aa995d4e20f7 f9791e97f9813150 5b2c800eb8611508 1b22df191e2103ce
-#> 3: 2099aa995d4e20f7 f9791e97f9813150 5b2c800eb8611508 1b22df191e2103ce
+#> 1: 1d403a80cb6a9897 f9791e97f9813150 a119c21c5c190127 1b22df191e2103ce
+#> 2: 1d403a80cb6a9897 f9791e97f9813150 a119c21c5c190127 1b22df191e2103ce
+#> 3: 1d403a80cb6a9897 f9791e97f9813150 a119c21c5c190127 1b22df191e2103ce
 ```

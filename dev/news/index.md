@@ -12,6 +12,13 @@
   errors of class `Mlr3ErrorConfig`, which previously always errored
   even when a handler was registered
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- fix: `Learner$hash` and `Learner$phash` now include the timeout, the
+  deadline, the encapsulation method, and the `when` handler, so all
+  learner hashes change. Previously,
+  [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
+  merged learners that differed only in these settings and ran them with
+  the settings of the first one
+  ([\#1511](https://github.com/mlr-org/mlr3/issues/1511)).
 
 ## mlr3 1.8.0
 

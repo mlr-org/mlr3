@@ -404,7 +404,9 @@ Other Learner:
   Hash (unique identifier) for this object. The hash is calculated based
   on the learner id, the parameter settings, the predict type, the
   fallback hash, the parallel predict setting, the validate setting, the
-  predict sets, and the predict raw setting.
+  predict sets, the use weights setting, the predict raw setting, the
+  timeout, the deadline, the encapsulation method, and the `when`
+  handler of the encapsulation.
 
 - `phash`:
 
