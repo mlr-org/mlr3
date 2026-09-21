@@ -410,6 +410,25 @@ test_that("disable cloning", {
   expect_identical(resampling$hash, bmr$resamplings$resampling[[1]]$hash)
 })
 
+test_that("learners differing only in timeout are not merged", {
+  task = tsk("iris")
+  resampling = rsmp("holdout")$instantiate(task)
+  learner_1 = lrn("classif.rpart")
+  learner_2 = lrn("classif.rpart")
+  learner_2$timeout = c(train = 5)
+  expect_false(learner_1$hash == learner_2$hash)
+  design = data.table(task = list(task, task), learner = list(learner_1, learner_2), resampling = list(resampling, resampling))
+
+  callback = callback_resample("test.timeout",
+    on_resample_end = function(callback, context) {
+      context$data_extra = list(timeout = context$learner$timeout[["train"]])
+    }
+  )
+  bmr = benchmark(design, callbacks = callback)
+  expect_set_equal(map_dbl(as.data.table(bmr)$data_extra, "timeout"), c(Inf, 5))
+  expect_set_equal(map_dbl(bmr$learners$learner, function(l) l$timeout[["train"]]), c(Inf, 5))
+})
+
 test_that("task and learner assertions", {
   grid = benchmark_grid(
     tasks = tsks(c("iris", "california_housing")),

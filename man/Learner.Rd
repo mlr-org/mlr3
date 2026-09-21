@@ -355,7 +355,8 @@ Logged error condition objects.}
 Hash (unique identifier) for this object.
 The hash is calculated based on the learner id, the parameter settings,
 the predict type, the fallback hash, the parallel predict setting,
-the validate setting, the predict sets, and the predict raw setting.}
+the validate setting, the predict sets, the use weights setting, the predict raw setting,
+the timeout, the deadline, the encapsulation method, and the \code{when} handler of the encapsulation.}
 
     \item{\code{phash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this partial object, excluding some components
