@@ -856,7 +856,8 @@ Learner = R6Class(
     #' Hash (unique identifier) for this object.
     #' The hash is calculated based on the learner id, the parameter settings,
     #' the predict type, the fallback hash, the parallel predict setting,
-    #' the validate setting, the predict sets, and the predict raw setting.
+    #' the validate setting, the predict sets, the use weights setting, the predict raw setting,
+    #' the timeout, the deadline, the encapsulation method, and the `when` handler of the encapsulation.
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(
@@ -869,7 +870,11 @@ Learner = R6Class(
         get0("validate", self),
         self$predict_sets,
         private$.use_weights,
-        private$.predict_raw
+        private$.predict_raw,
+        private$.timeout,
+        private$.deadline,
+        private$.encapsulation,
+        private$.when
       )
     },
 
@@ -886,7 +891,11 @@ Learner = R6Class(
         self$parallel_predict,
         get0("validate", self),
         private$.use_weights,
-        private$.predict_raw
+        private$.predict_raw,
+        private$.timeout,
+        private$.deadline,
+        private$.encapsulation,
+        private$.when
       )
     },
 
