@@ -12,6 +12,11 @@
   errors of class `Mlr3ErrorConfig`, which previously always errored
   even when a handler was registered
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- fix:
+  [`predict.Learner()`](https://mlr3.mlr-org.com/dev/reference/predict.Learner.md)
+  no longer modifies the hyperparameters of the passed learner when
+  additional parameters are supplied via `...`
+  ([\#1501](https://github.com/mlr-org/mlr3/issues/1501)).
 - fix: `Learner$hash` and `Learner$phash` now include the timeout, the
   deadline, the encapsulation method, and the `when` handler, so all
   learner hashes change. Previously,
