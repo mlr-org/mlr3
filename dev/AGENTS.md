@@ -138,8 +138,3 @@
   capitalized, “random forest” is not.
 - Use cspell to check against typos, and add needed words to
   .cspell/project-words.txt if reasonable
-
-## Further agents files
-
-@extra-rules/commit-messages.md @extra-rules/mlr3.md
-@extra-rules/rush.md @extra-rules/yolobox.md
