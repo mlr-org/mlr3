@@ -3,6 +3,10 @@
 #' @description
 #' Convert object to a [Prediction] or a list of [Prediction].
 #'
+#' @details
+#' Methods for [PredictionData] objects should default to `check = FALSE`.
+#' The data is usually validated already by [as_prediction_data()] before the conversion.
+#'
 #' @inheritParams as_prediction_data
 #'
 #' @return [Prediction].

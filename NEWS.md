@@ -2,6 +2,7 @@
 
 * fix: Errors caused by prior misconfiguration (e.g., predicting with an untrained learner, uninstantiated resamplings, missing stored models or backends, and unsupported predict types) now signal `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer masked by fallback learners under encapsulation (#1500).
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
+* perf: `Learner$predict()` now calls `as_prediction()` with `check = FALSE`, so prediction data is no longer checked twice for task types whose `as_prediction()` method defaults to `check = TRUE`.
 * fix: `resample()` and `benchmark()` now re-raise errors from the workers when parallelizing with `mirai` instead of failing with "subscript out of bounds" (#1502).
 * fix: `predict.Learner()` no longer modifies the hyperparameters of the passed learner when additional parameters are supplied via `...` (#1501).
 * fix: `Learner$hash` and `Learner$phash` now include the timeout, the deadline, the encapsulation method, and the `when` handler, so all learner hashes change. Previously, `benchmark()` merged learners that differed only in these settings and ran them with the settings of the first one (#1511).
