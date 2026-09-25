@@ -82,17 +82,17 @@ bmr
 #>   5    iris classif.featureless       holdout     1        0      0
 #>   6    iris       classif.rpart       holdout     1        0      0
 bmr$uhashes
-#> [1] "7a7f2029-c84a-4fac-9b8a-ba1bee7e9e99"
-#> [2] "8896f6c3-f942-407d-ac00-ae0bc93822e4"
-#> [3] "cf555930-be76-4f00-97d4-b8121a6afdeb"
-#> [4] "1464743b-793a-462d-8484-0d34b6cdf923"
-#> [5] "8bbd88db-ecc1-4c54-b12f-82ef6b0257bb"
-#> [6] "d3639e89-d1ab-44e6-8c2f-e68c1a895ebf"
+#> [1] "6e0149c5-5ce0-4366-8bc4-3bb22b5137ab"
+#> [2] "27f141a2-0e57-4588-a2d2-b74b8957ce93"
+#> [3] "40b130dc-5754-4d24-b46c-9ed22dbda69c"
+#> [4] "4ed0dff2-7069-4f57-8e78-77fc72274a74"
+#> [5] "53b9a6d5-2f1c-446f-bbdb-bde41f7e655b"
+#> [6] "a7bf60f4-3f8c-432e-8ac0-c4c2331ae873"
 uhash(bmr, learner_id = "classif.debug", task_id = "sonar", resampling_id = "holdout")
-#> [1] "7a7f2029-c84a-4fac-9b8a-ba1bee7e9e99"
+#> [1] "6e0149c5-5ce0-4366-8bc4-3bb22b5137ab"
 uhashes(bmr, learner_ids = c("classif.debug", "classif.featureless"))
-#> [1] "7a7f2029-c84a-4fac-9b8a-ba1bee7e9e99"
-#> [2] "8896f6c3-f942-407d-ac00-ae0bc93822e4"
-#> [3] "1464743b-793a-462d-8484-0d34b6cdf923"
-#> [4] "8bbd88db-ecc1-4c54-b12f-82ef6b0257bb"
+#> [1] "6e0149c5-5ce0-4366-8bc4-3bb22b5137ab"
+#> [2] "27f141a2-0e57-4588-a2d2-b74b8957ce93"
+#> [3] "4ed0dff2-7069-4f57-8e78-77fc72274a74"
+#> [4] "53b9a6d5-2f1c-446f-bbdb-bde41f7e655b"
 ```
