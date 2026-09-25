@@ -89,7 +89,7 @@ TaskGenerator = R6Class(
     #'   Number of rows to generate.
     #' @return [Task].
     generate = function(n) {
-      n = assert_count(n, coerce = TRUE)
+      n = assert_count(n, positive = TRUE, coerce = TRUE)
       require_namespaces(self$packages)
       private$.generate(n)
     }
