@@ -615,7 +615,7 @@ assert_empty_ellipsis = function(...) {
   if (nx == 0L) {
     return(NULL)
   }
-  names = ...names()
+  names = names(...)
   if (is.null(names)) {
     error_input("Received %i unnamed argument that was not used.", nx)
   }
