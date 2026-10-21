@@ -86,6 +86,21 @@ test_that("c.PredictionDataRegr preserves probs attribute on quantiles", {
   expect_equal(attr(combined$quantiles, "response"), "q0.5")
 })
 
+test_that("c.PredictionDataRegr errors on different quantiles", {
+  task = tsk("mtcars")
+  learner = lrn("regr.featureless", predict_type = "quantiles", quantiles = c(0.1, 0.5, 0.9), quantile_response = 0.5)
+  pdata1 = learner$train(task)$predict(task)$data
+
+  learner$quantiles = c(0.2, 0.5, 0.8)
+  pdata2 = learner$train(task)$predict(task)$data
+  expect_error(c(pdata1, pdata2), "Different quantiles")
+
+  learner$quantiles = c(0.1, 0.5, 0.9)
+  learner$quantile_response = 0.9
+  pdata3 = learner$train(task)$predict(task)$data
+  expect_error(c(pdata1, pdata3), "Different quantiles")
+})
+
 test_that("filter_prediction_data.PredictionDataRegr preserves probs attribute on quantiles", {
   n = 10
   probs = c(0.1, 0.5, 0.9)

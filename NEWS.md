@@ -5,6 +5,7 @@
 * fix: `resample()` and `benchmark()` now re-raise errors from the workers when parallelizing with `mirai` instead of failing with "subscript out of bounds" (#1502).
 * fix: `predict.Learner()` no longer modifies the hyperparameters of the passed learner when additional parameters are supplied via `...` (#1501).
 * fix: `PredictionRegr$filter()` and `c()` with `keep_duplicates = FALSE` now keep the `probs` and `response` attributes of the quantile matrix, so quantile measures such as `msr("regr.pinball")` no longer fail on filtered predictions.
+* fix: `c()` on regression predictions now errors if the predictions have different quantiles or a different quantile response, instead of silently labeling the quantiles of later predictions with the probabilities of the first one.
 * fix: `Learner$hash` and `Learner$phash` now include the timeout, the deadline, the encapsulation method, and the `when` handler, so all learner hashes change. Previously, `benchmark()` merged learners that differed only in these settings and ran them with the settings of the first one (#1511).
 
 # mlr3 1.8.0

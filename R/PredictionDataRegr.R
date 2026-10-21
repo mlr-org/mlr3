@@ -117,6 +117,14 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) {
     error_input("Cannot rbind predictions: Some predictions have extra data, others do not")
   }
 
+  if ("quantiles" %chin% predict_types[[1L]]) {
+    probs = map(dots, function(x) attr(x$quantiles, "probs"))
+    response = map(dots, function(x) attr(x$quantiles, "response"))
+    if (!every(probs[-1L], identical, y = probs[[1L]]) || !every(response[-1L], identical, y = response[[1L]])) {
+      error_input("Cannot combine predictions: Different quantiles")
+    }
+  }
+
   nn = names(dots[[1L]])
   elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")), if ("weights" %chin% nn) "weights")
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
