@@ -35,7 +35,10 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) {
     }
 
     colnames(pdata$quantiles) = sprintf("q%g", attr(quantiles, "probs"))
-    setattr(pdata$quantiles, "response", sprintf("q%g", attr(quantiles, "response")))
+    response = attr(quantiles, "response")
+    if (is.numeric(response)) {
+      setattr(pdata$quantiles, "response", sprintf("q%g", response))
+    }
   }
 
   if (!is.null(pdata$distr)) {

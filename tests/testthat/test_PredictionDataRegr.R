@@ -63,6 +63,17 @@ test_that("PredictionDataRegr with quantiles", {
   expect_prediction_regr(pred)
 })
 
+test_that("check_prediction_data.PredictionDataRegr works on checked quantiles", {
+  task = tsk("mtcars")
+  learner = lrn("regr.featureless", predict_type = "quantiles", quantiles = c(0.1, 0.5, 0.9), quantile_response = 0.5)
+  pdata = learner$train(task)$predict(task)$data
+
+  pred = as_prediction(pdata, check = TRUE)
+  expect_prediction_regr(pred)
+  expect_equal(attr(pred$data$quantiles, "response"), "q0.5")
+  expect_number(pred$score(msr("regr.pinball", alpha = 0.1)))
+})
+
 test_that("c.PredictionDataRegr preserves probs attribute on quantiles", {
   n = 10
   probs = c(0.1, 0.5, 0.9)
