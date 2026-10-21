@@ -7,7 +7,6 @@
 * fix: `PredictionRegr$filter()` and `c()` with `keep_duplicates = FALSE` now keep the `probs` and `response` attributes of the quantile matrix, so quantile measures such as `msr("regr.pinball")` no longer fail on filtered predictions.
 * fix: `PredictionRegr$new()` now takes the quantile response from the checked prediction data, so a numeric `response` attribute on `quantiles` no longer results in an empty `$response` and failing scores.
 * fix: `PredictionRegr$new()` and `as_prediction()` with `check = TRUE` no longer fail with "invalid format '%g'" on quantile prediction data that has already been checked, e.g., the `$data` of an existing prediction.
-* fix: `c()` on regression predictions now errors if the predictions have different quantiles or a different quantile response, instead of silently labeling the quantiles of later predictions with the probabilities of the first one.
 * fix: `Learner$hash` and `Learner$phash` now include the timeout, the deadline, the encapsulation method, and the `when` handler, so all learner hashes change. Previously, `benchmark()` merged learners that differed only in these settings and ran them with the settings of the first one (#1511).
 
 # mlr3 1.8.0
