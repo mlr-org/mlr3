@@ -4,6 +4,9 @@
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
 * fix: `resample()` and `benchmark()` now re-raise errors from the workers when parallelizing with `mirai` instead of failing with "subscript out of bounds" (#1502).
 * fix: `predict.Learner()` no longer modifies the hyperparameters of the passed learner when additional parameters are supplied via `...` (#1501).
+* fix: `PredictionRegr$filter()` and `c()` with `keep_duplicates = FALSE` now keep the `probs` and `response` attributes of the quantile matrix, so quantile measures such as `msr("regr.pinball")` no longer fail on filtered predictions.
+* fix: `PredictionRegr$new()` now takes the quantile response from the checked prediction data, so a numeric `response` attribute on `quantiles` no longer results in an empty `$response` and failing scores.
+* fix: `PredictionRegr$new()` and `as_prediction()` with `check = TRUE` no longer fail with "invalid format '%g'" on quantile prediction data that has already been checked, e.g., the `$data` of an existing prediction.
 * fix: `Learner$hash` and `Learner$phash` now include the timeout, the deadline, the encapsulation method, and the `when` handler, so all learner hashes change. Previously, `benchmark()` merged learners that differed only in these settings and ran them with the settings of the first one (#1511).
 
 # mlr3 1.8.0
