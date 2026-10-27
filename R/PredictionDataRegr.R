@@ -58,6 +58,11 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) {
 
   if (!is.null(pdata$extra)) {
     assert_list(pdata$extra, names = "unique")
+    nn = names(pdata$extra)
+    reserved = nn[nn %chin% c("row_ids", "truth", "response", "se", "distr", "weights") | is_quantile_col(nn)]
+    if (length(reserved)) {
+      error_input("Extra data may not use reserved prediction column names: %s", str_collapse(reserved))
+    }
     len = lengths(pdata$extra)
     if (any(len != n)) {
       error_learner_predict("Extra data must have the same length as the number of predictions")
@@ -213,4 +218,9 @@ create_empty_prediction_data.TaskRegr = function(task, learner) {
   }
 
   new_prediction_data(pdata, "regr")
+}
+
+# quantile columns are named "q" followed by the probability, formatted with "%g"
+is_quantile_col = function(x) {
+  grepl("^q[0-9.]+(e[-+]?[0-9]+)?$", x)
 }
