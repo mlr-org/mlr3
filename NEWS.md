@@ -5,6 +5,7 @@
   `as_prediction_regr()` now also reconstructs quantile predictions from columns named `q<prob>` and raises an error for tables with a `distr` column.
   `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
+* fix: The option `mlr3.exec_random` now actually randomizes the execution order of `resample()` and `benchmark()` iterations when parallelizing with `future`. The random ordering was silently ignored because it was attached to `future.scheduling` while `future.chunk.size` was always set (#1508).
 * perf: `Learner$predict()` now calls `as_prediction()` with `check = FALSE`, so prediction data is no longer checked twice for task types whose `as_prediction()` method defaults to `check = TRUE`.
 * fix: `resample()` and `benchmark()` with `encapsulate` now keep a fallback learner that is already configured instead of replacing it with the default fallback.
   `encapsulate = "none"` no longer fails with "Could not find default fallback learner" (#1521).
