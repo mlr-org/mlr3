@@ -1,0 +1,6 @@
+# Codex project config. Enables lifecycle hooks so the SessionStart hook in
+# .codex/hooks.json fires (it loads AGENTS.d/*.md into context). The hook is
+# defined in hooks.json rather than inline here to avoid a bug where repo-local
+# config.toml hooks do not fire in interactive sessions (openai/codex#17532).
+[features]
+hooks = true

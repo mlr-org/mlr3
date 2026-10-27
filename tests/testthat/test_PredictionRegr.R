@@ -86,6 +86,43 @@ test_that("as_prediction_regr", {
   expect_equal(tab, as.data.table(p2))
 })
 
+test_that("as_prediction_regr round-trips extra data (#1517)", {
+  task = tsk("mtcars")
+  p = PredictionRegr$new(task = task, response = task$truth(), extra = list(foo = seq_len(task$nrow)))
+
+  tab = as.data.table(p)
+  p2 = as_prediction_regr(tab)
+  expect_equal(p2$extra, p$extra)
+  expect_equal(as.data.table(p2), tab)
+
+  expect_error(
+    PredictionRegr$new(task = task, response = task$truth(), extra = list(se = seq_len(task$nrow))),
+    "reserved prediction column names"
+  )
+  expect_error(
+    PredictionRegr$new(task = task, response = task$truth(), extra = list(q0.5 = seq_len(task$nrow))),
+    "reserved prediction column names"
+  )
+})
+
+test_that("as_prediction_regr round-trips quantiles (#1517)", {
+  task = tsk("mtcars")
+  learner = lrn("regr.debug", predict_type = "quantiles", quantiles = c(0.1, 0.5, 0.9), quantile_response = 0.5)
+  p = learner$train(task)$predict(task)
+
+  tab = as.data.table(p)
+  p2 = as_prediction_regr(tab)
+  expect_equal(p2$quantiles, p$quantiles)
+  expect_equal(p2$response, p$response)
+  expect_null(p2$extra)
+  expect_equal(as.data.table(p2), tab)
+})
+
+test_that("as_prediction_regr rejects distr column (#1517)", {
+  tab = data.table(row_ids = 1:2, truth = c(1, 2), response = c(1, 2), distr = list(NULL, NULL))
+  expect_error(as_prediction_regr(tab), "distr")
+})
+
 test_that("filtering", {
   task = tsk("mtcars")
   p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
@@ -94,6 +131,18 @@ test_that("filtering", {
   expect_set_equal(p$row_ids, 1:32)
   expect_set_equal(p2$row_ids, 1:3)
   expect_prediction(as_prediction_regr(as.data.table(p2)))
+})
+
+test_that("response from quantiles with numeric response attribute", {
+  task = tsk("mtcars")
+  quantiles = matrix(rep(c(1, 2, 3), task$nrow), ncol = 3L, byrow = TRUE)
+  setattr(quantiles, "probs", c(0.1, 0.5, 0.9))
+  setattr(quantiles, "response", 0.5)
+
+  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), quantiles = quantiles)
+  expect_equal(p$response, rep(2, task$nrow))
+  expect_number(p$score(msr("regr.mse")))
+  expect_equal(p$clone()$filter(1:3)$response, rep(2, 3L))
 })
 
 test_that("predictions with weights", {

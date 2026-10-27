@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh tools/load-agents-d.sh",
+            "statusMessage": "Loading AGENTS.d rules"
+          }
+        ]
+      }
+    ]
+  }
+}

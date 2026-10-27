@@ -24,6 +24,8 @@ Additional arguments.}
 }
 \description{
 Convert object to a \link{PredictionClassif}.
+When converting a \code{\link[=data.frame]{data.frame()}}, all columns except \code{row_ids}, \code{truth}, \code{response}, \code{weights},
+and columns prefixed with \code{prob.} are stored as extra data.
 }
 \examples{
 # create a prediction object
