@@ -5,6 +5,8 @@
   `as_prediction_regr()` now also reconstructs quantile predictions from columns named `q<prob>` and raises an error for tables with a `distr` column.
   `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
+* fix: `resample()` and `benchmark()` with `encapsulate` now keep a fallback learner that is already configured instead of replacing it with the default fallback.
+  `encapsulate = "none"` no longer fails with "Could not find default fallback learner" (#1521).
 * fix: `resample()` and `benchmark()` now re-raise errors from the workers when parallelizing with `mirai` instead of failing with "subscript out of bounds" (#1502).
 * fix: `PredictionRegr$new()` now returns the correct response for quantile predictions when the `response` attribute of `quantiles` is given as a probability (#1517).
 * fix: `LearnerClassif$predict_newdata_fast()` now passes the positive and negative class to the learner, so binary learners such as `classif.log_reg` no longer return unnamed and possibly swapped probability columns (#1520).

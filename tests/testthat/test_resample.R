@@ -134,6 +134,20 @@ test_that("encapsulation", {
   expect_equal(rr$learner$encapsulation[["predict"]], "evaluate")
 })
 
+test_that("encapsulation keeps configured fallback", {
+  learner = lrn("classif.debug", error_train = 1)
+  learner$encapsulate("evaluate", fallback = lrn("classif.rpart", id = "my_fallback"))
+
+  rr = resample(tsk("iris"), learner, rsmp("holdout"), encapsulate = "evaluate", store_models = TRUE)
+  expect_equal(rr$learners[[1L]]$fallback$id, "my_fallback")
+})
+
+test_that("encapsulate = 'none' works", {
+  rr = resample(tsk("iris"), lrn("classif.featureless"), rsmp("holdout"), encapsulate = "none")
+  expect_equal(rr$learner$encapsulation[["train"]], "none")
+  expect_null(rr$learner$fallback)
+})
+
 test_that("disable cloning", {
   task = tsk("iris")
   learner = lrn("classif.featureless")
