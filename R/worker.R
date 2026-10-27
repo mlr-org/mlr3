@@ -86,6 +86,8 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     on.exit(
       {
         task_private$.row_roles$use = prev_use
+        task_private$.row_hash = NULL
+        task_private$.hash = NULL
       },
       add = TRUE
     )
@@ -277,10 +279,14 @@ learner_predict = function(learner, task, row_ids = NULL) {
     on.exit(
       {
         task_private$.row_roles$use = prev_use
+        task_private$.row_hash = NULL
+        task_private$.hash = NULL
       },
       add = TRUE
     )
     task_private$.row_roles$use = row_ids
+    task_private$.row_hash = NULL
+    task_private$.hash = NULL
   } else {
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
