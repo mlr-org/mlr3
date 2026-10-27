@@ -41,6 +41,20 @@
   no longer modifies the hyperparameters of the passed learner when
   additional parameters are supplied via `...`
   ([\#1501](https://github.com/mlr-org/mlr3/issues/1501)).
+- fix: `PredictionRegr$filter()` and
+  [`c()`](https://rdrr.io/r/base/c.html) with `keep_duplicates = FALSE`
+  now keep the `probs` and `response` attributes of the quantile matrix,
+  so quantile measures such as `msr("regr.pinball")` no longer fail on
+  filtered predictions.
+- fix: `PredictionRegr$new()` now takes the quantile response from the
+  checked prediction data, so a numeric `response` attribute on
+  `quantiles` no longer results in an empty `$response` and failing
+  scores.
+- fix: `PredictionRegr$new()` and
+  [`as_prediction()`](https://mlr3.mlr-org.com/dev/reference/as_prediction.md)
+  with `check = TRUE` no longer fail with “invalid format ‘%g’” on
+  quantile prediction data that has already been checked, e.g., the
+  `$data` of an existing prediction.
 - fix: `Learner$hash` and `Learner$phash` now include the timeout, the
   deadline, the encapsulation method, and the `when` handler, so all
   learner hashes change. Previously,
