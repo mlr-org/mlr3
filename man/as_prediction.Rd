@@ -44,3 +44,7 @@ Default is \code{"test"}.}
 \description{
 Convert object to a \link{Prediction} or a list of \link{Prediction}.
 }
+\details{
+Methods for \link{PredictionData} objects should default to \code{check = FALSE}.
+The data is usually validated already by \code{\link[=as_prediction_data]{as_prediction_data()}} before the conversion.
+}

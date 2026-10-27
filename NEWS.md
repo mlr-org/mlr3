@@ -1,8 +1,26 @@
 # mlr3 (development version)
 
 * fix: Errors caused by prior misconfiguration (e.g., predicting with an untrained learner, uninstantiated resamplings, missing stored models or backends, and unsupported predict types) now signal `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer masked by fallback learners under encapsulation (#1500).
+* fix: `as_prediction_classif()` and `as_prediction_regr()` now store all columns that are not reserved prediction columns as extra data, so predictions with extra data survive the round trip through `as.data.table()`.
+  `as_prediction_regr()` now also reconstructs quantile predictions from columns named `q<prob>` and raises an error for tables with a `distr` column.
+  `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
 * fix: `learner_predict()` now invalidates the cached task hash when subsetting to the predict rows, so `task$hash` is correct inside `.predict()` and `resample()` no longer stores a wrong task hash when a learner reads the hash during prediction (#1503).
+* fix: `benchmark()` now accepts a plain `data.frame` as `design`, as documented, instead of failing with "replacement has 0 rows" (#1505).
+* fix: The option `mlr3.exec_random` now actually randomizes the execution order of `resample()` and `benchmark()` iterations when parallelizing with `future`. The random ordering was silently ignored because it was attached to `future.scheduling` while `future.chunk.size` was always set (#1508).
+* perf: `Learner$predict()` now calls `as_prediction()` with `check = FALSE`, so prediction data is no longer checked twice for task types whose `as_prediction()` method defaults to `check = TRUE`.
+* fix: `resample()` and `benchmark()` with `encapsulate` now keep a fallback learner that is already configured instead of replacing it with the default fallback.
+  `encapsulate = "none"` no longer fails with "Could not find default fallback learner" (#1521).
+* fix: `resample()` and `benchmark()` now accept `encapsulate = "mirai"` (#1506).
+* fix: `resample()` and `benchmark()` now re-raise errors from the workers when parallelizing with `mirai` instead of failing with "subscript out of bounds" (#1502).
+* fix: `PredictionRegr$new()` now returns the correct response for quantile predictions when the `response` attribute of `quantiles` is given as a probability (#1517).
+* fix: `LearnerClassif$predict_newdata_fast()` now passes the positive and negative class to the learner, so binary learners such as `classif.log_reg` no longer return unnamed and possibly swapped probability columns (#1520).
+  It also passes the task type properties, so `classif.gbm` and `classif.fnn` no longer fail and `classif.lightgbm` no longer returns a wrongly shaped probability matrix for multiclass tasks.
+* fix: `predict.Learner()` no longer modifies the hyperparameters of the passed learner when additional parameters are supplied via `...` (#1501).
+* fix: `PredictionRegr$filter()` and `c()` with `keep_duplicates = FALSE` now keep the `probs` and `response` attributes of the quantile matrix, so quantile measures such as `msr("regr.pinball")` no longer fail on filtered predictions.
+* fix: `PredictionRegr$new()` now takes the quantile response from the checked prediction data, so a numeric `response` attribute on `quantiles` no longer results in an empty `$response` and failing scores.
+* fix: `PredictionRegr$new()` and `as_prediction()` with `check = TRUE` no longer fail with "invalid format '%g'" on quantile prediction data that has already been checked, e.g., the `$data` of an existing prediction.
+* fix: `Learner$hash` and `Learner$phash` now include the timeout, the deadline, the encapsulation method, and the `when` handler, so all learner hashes change. Previously, `benchmark()` merged learners that differed only in these settings and ran them with the settings of the first one (#1511).
 
 # mlr3 1.8.0
 

@@ -35,7 +35,10 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) {
     }
 
     colnames(pdata$quantiles) = sprintf("q%g", attr(quantiles, "probs"))
-    setattr(pdata$quantiles, "response", sprintf("q%g", attr(quantiles, "response")))
+    response = attr(quantiles, "response")
+    if (is.numeric(response)) {
+      setattr(pdata$quantiles, "response", sprintf("q%g", response))
+    }
   }
 
   if (!is.null(pdata$distr)) {
@@ -58,6 +61,11 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) {
 
   if (!is.null(pdata$extra)) {
     assert_list(pdata$extra, names = "unique")
+    nn = names(pdata$extra)
+    reserved = nn[nn %chin% c("row_ids", "truth", "response", "se", "distr", "weights") | is_quantile_col(nn)]
+    if (length(reserved)) {
+      error_input("Extra data may not use reserved prediction column names: %s", str_collapse(reserved))
+    }
     len = lengths(pdata$extra)
     if (any(len != n)) {
       error_learner_predict("Extra data must have the same length as the number of predictions")
@@ -122,11 +130,7 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) {
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
 
   quantiles = if ("quantiles" %chin% nn) {
-    quantiles = map(dots, "quantiles")
-    attrs = attributes(quantiles[[1L]])
-    quantiles = do.call(rbind, quantiles)
-    setattr(quantiles, "probs", attrs$probs)
-    setattr(quantiles, "response", attrs$response)
+    do.call(rbind, map(dots, "quantiles"))
   }
   extra = if ("extra" %chin% nn) {
     rbindlist(map(dots, "extra"), fill = TRUE, use.names = TRUE)
@@ -140,6 +144,10 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) {
   }
 
   result = as.list(tab)
+  if (!is.null(quantiles)) {
+    setattr(quantiles, "probs", attr(dots[[1L]]$quantiles, "probs"))
+    setattr(quantiles, "response", attr(dots[[1L]]$quantiles, "response"))
+  }
   result$quantiles = quantiles
   if (!is.null(extra)) {
     result$extra = as.list(extra)
@@ -173,7 +181,10 @@ filter_prediction_data.PredictionDataRegr = function(pdata, row_ids, ...) {
   }
 
   if (!is.null(pdata$quantiles)) {
-    pdata$quantiles = pdata$quantiles[keep, , drop = FALSE]
+    quantiles = pdata$quantiles[keep, , drop = FALSE]
+    setattr(quantiles, "probs", attr(pdata$quantiles, "probs"))
+    setattr(quantiles, "response", attr(pdata$quantiles, "response"))
+    pdata$quantiles = quantiles
   }
 
   if (!is.null(pdata$weights)) {
@@ -213,4 +224,9 @@ create_empty_prediction_data.TaskRegr = function(task, learner) {
   }
 
   new_prediction_data(pdata, "regr")
+}
+
+# quantile columns are named "q" followed by the probability, formatted with "%g"
+is_quantile_col = function(x) {
+  grepl("^q[0-9.]+(e[-+]?[0-9]+)?$", x)
 }

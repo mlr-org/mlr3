@@ -101,6 +101,8 @@ benchmark = function(
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), must.include = c("task", "learner", "resampling"))
   assert_flag(unmarshal)
+  # column assignments below rely on data.table semantics for list columns
+  design = as.data.table(design)
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$learner = list(assert_learners(as_learners(design$learner)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
@@ -123,7 +125,6 @@ benchmark = function(
     error_input("Multiple learner types detected, but mixing types is not supported: %s", str_collapse(learner_types))
   }
 
-  setDT(design)
   task = learner = resampling = NULL
   if ("task" %chin% clone) {
     design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
