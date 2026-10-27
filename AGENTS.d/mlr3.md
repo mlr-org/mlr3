@@ -130,7 +130,8 @@ Use structured error/warning functions from mlr3misc: `error_config()`, `error_i
 
 - Every user-facing change should be given a bullet in `NEWS.md`. Do not add bullets for small documentation changes or internal refactorings.
 - Each bullet should briefly describe the change to the end user and mention the related issue in parentheses.
-- A bullet can consist of multiple sentences but should not contain any new lines (i.e. DO NOT line wrap).
+- Write one sentence per line.
+  Indent every sentence after the first by two spaces, so it aligns with the text of the bullet it belongs to.
 - If the change is related to a function, put the name of the function early in the bullet.
 - Order bullets alphabetically by function name. Put all bullets that don't mention function names at the beginning.
 

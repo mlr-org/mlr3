@@ -1,4 +1,5 @@
 ^.*\.Rproj$
+^AGENTS\.d$
 ^AGENTS\.md$
 ^CITATION\.cff$
 ^CLAUDE\.md$
@@ -10,10 +11,11 @@
 ^\.?air\.toml$
 ^\.Renviron$
 ^\.Rproj\.user$
-^\.agents$
 ^\.ccache$
+^\.clang-format$
 ^\.clangd$
 ^\.claude$
+^\.codex$
 ^\.cspell$
 ^\.cursor$
 ^\.editorconfig$
@@ -31,11 +33,12 @@
 ^cran-comments\.md$
 ^cspell\.json$
 ^docs$
-^extra-rules$
 ^inst/extdata/.+\.R$
 ^local_attic$
 ^man-roxygen$
 ^paper$
 ^pkgdown$
+^references\.bib$
 ^revdep$
 ^tests/testthat/_object_snapshots$
+^tools$

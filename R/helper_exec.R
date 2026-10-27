@@ -9,9 +9,12 @@ set_encapsulation = function(learners, encapsulate) {
 
   if (!is.na(encapsulate)) {
     lapply(learners, function(learner) {
-      fallback = if (encapsulate != "none") default_fallback(learner)
-      if (encapsulate != "none" && is.null(fallback)) {
-        error_config("Could not find default fallback learner for learner '%s'", learner$id)
+      fallback = NULL
+      if (encapsulate != "none") {
+        fallback = learner$fallback %??% default_fallback(learner)
+        if (is.null(fallback)) {
+          error_config("Could not find default fallback learner for learner '%s'", learner$id)
+        }
       }
       learner$encapsulate(encapsulate, fallback)
     })
@@ -28,23 +31,27 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
       mirai::daemons_set(.compute = getOption("mlr3.mirai_parallelization", "mlr3_parallelization"))
   ) {
     lg$debug("Running resample() via mirai with %i iterations", n)
-    mirai::collect_mirai(mirai::mirai_map(
-      data.table(...),
-      FUN,
-      .args = c(MoreArgs, list(is_sequential = FALSE)),
-      .compute = getOption("mlr3.mirai_parallelization", "mlr3_parallelization")
-    ))
+    # .stop re-raises errors from the workers instead of returning them as `miraiError` values
+    mirai::collect_mirai(
+      mirai::mirai_map(
+        data.table(...),
+        FUN,
+        .args = c(MoreArgs, list(is_sequential = FALSE)),
+        .compute = getOption("mlr3.mirai_parallelization", "mlr3_parallelization")
+      ),
+      ".stop"
+    )
   } else {
     is_sequential = inherits(plan(), "sequential")
-    scheduling = if (!is_sequential && isTRUE(getOption("mlr3.exec_random", TRUE))) {
-      structure(TRUE, ordering = "random")
-    } else {
-      TRUE
-    }
     chunk_size = getOption("mlr3.exec_chunk_size", 1)
     chunk_bins = getOption("mlr3.exec_chunk_bins")
     if (!is.null(chunk_bins)) {
       chunk_size = ceiling(n / chunk_bins)
+    }
+    # future.apply ignores `future.scheduling` when `future.chunk.size` is set,
+    # so the random ordering must be attached to the chunk size
+    if (!is_sequential && isTRUE(getOption("mlr3.exec_random", TRUE))) {
+      chunk_size = structure(chunk_size, ordering = "random")
     }
     stdout = if (is_sequential) NA else TRUE
 
@@ -67,7 +74,6 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
       future.globals = FALSE,
       future.packages = mlr_reflections$loaded_packages,
       future.seed = TRUE,
-      future.scheduling = scheduling,
       future.chunk.size = chunk_size,
       future.stdout = stdout
     )

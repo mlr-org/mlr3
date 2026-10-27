@@ -136,3 +136,48 @@ test_that("LearnerClassif predict_newdata_fast aligns fallback prob columns by n
 
   expect_equal(pred$prob[1, names(prior)], prior)
 })
+
+test_that("LearnerClassif predict_newdata_fast passes positive and negative class (#1520)", {
+  LearnerBinary = R6Class(
+    "LearnerBinary",
+    inherit = LearnerClassifDebug,
+    private = list(
+      .predict = function(task, ...) {
+        prob = matrix(c(0.1, 0.9), nrow = task$nrow, ncol = 2L, byrow = TRUE)
+        colnames(prob) = c(task$negative, task$positive)
+        list(prob = prob)
+      }
+    )
+  )
+
+  task = tsk("sonar")
+  task$positive = "R"
+  learner = LearnerBinary$new()
+  learner$predict_type = "prob"
+  learner$train(task)
+  newdata = task$data(1:3, cols = task$feature_names)
+
+  pred = learner$predict_newdata_fast(newdata)
+  expect_equal(pred$prob[, task$class_names], learner$predict_newdata(newdata)$prob)
+  expect_equal(unname(pred$prob[, "R"]), rep(0.9, 3L))
+})
+
+test_that("LearnerClassif predict_newdata_fast passes task type properties", {
+  LearnerProps = R6Class(
+    "LearnerProps",
+    inherit = LearnerClassifDebug,
+    private = list(
+      .predict = function(task, ...) {
+        stopifnot(identical(task$properties, "multiclass"))
+        super$.predict(task, ...)
+      }
+    )
+  )
+
+  task = tsk("iris")
+  task$set_col_roles("Sepal.Length", add_to = "weights_learner")
+  learner = LearnerProps$new()
+  learner$train(task)
+
+  expect_list(learner$predict_newdata_fast(task$data(1:3, cols = task$feature_names)))
+})
