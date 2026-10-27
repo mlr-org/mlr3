@@ -2,6 +2,11 @@
 
 Convert object to a
 [PredictionRegr](https://mlr3.mlr-org.com/dev/reference/PredictionRegr.md).
+When converting a
+[`data.frame()`](https://rdrr.io/r/base/data.frame.html), columns named
+`q<prob>` (e.g., `q0.5`) are converted to the quantile matrix. All other
+columns except `row_ids`, `truth`, `response`, `se`, and `weights` are
+stored as extra data. Tables with a `distr` column cannot be converted.
 
 ## Usage
 

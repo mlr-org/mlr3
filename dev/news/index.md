@@ -8,6 +8,20 @@
   `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer
   masked by fallback learners under encapsulation
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- fix:
+  [`as_prediction_classif()`](https://mlr3.mlr-org.com/dev/reference/as_prediction_classif.md)
+  and
+  [`as_prediction_regr()`](https://mlr3.mlr-org.com/dev/reference/as_prediction_regr.md)
+  now store all columns that are not reserved prediction columns as
+  extra data, so predictions with extra data survive the round trip
+  through
+  [`as.data.table()`](https://rdrr.io/pkg/data.table/man/as.data.table.html).
+  [`as_prediction_regr()`](https://mlr3.mlr-org.com/dev/reference/as_prediction_regr.md)
+  now also reconstructs quantile predictions from columns named
+  `q<prob>` and raises an error for tables with a `distr` column.
+  `PredictionClassif` and `PredictionRegr` now reject extra data whose
+  names collide with reserved prediction columns
+  ([\#1517](https://github.com/mlr-org/mlr3/issues/1517)).
 - fix: `Learner$encapsulate()`: a `when` handler now also decides for
   errors of class `Mlr3ErrorConfig`, which previously always errored
   even when a handler was registered
@@ -18,6 +32,10 @@
   now re-raise errors from the workers when parallelizing with `mirai`
   instead of failing with “subscript out of bounds”
   ([\#1502](https://github.com/mlr-org/mlr3/issues/1502)).
+- fix: `PredictionRegr$new()` now returns the correct response for
+  quantile predictions when the `response` attribute of `quantiles` is
+  given as a probability
+  ([\#1517](https://github.com/mlr-org/mlr3/issues/1517)).
 - fix:
   [`predict.Learner()`](https://mlr3.mlr-org.com/dev/reference/predict.Learner.md)
   no longer modifies the hyperparameters of the passed learner when

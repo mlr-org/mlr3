@@ -2,6 +2,10 @@
 
 Convert object to a
 [PredictionClassif](https://mlr3.mlr-org.com/dev/reference/PredictionClassif.md).
+When converting a
+[`data.frame()`](https://rdrr.io/r/base/data.frame.html), all columns
+except `row_ids`, `truth`, `response`, `weights`, and columns prefixed
+with `prob.` are stored as extra data.
 
 ## Usage
 
