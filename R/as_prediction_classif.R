@@ -2,6 +2,8 @@
 #'
 #' @description
 #' Convert object to a [PredictionClassif].
+#' When converting a [data.frame()], all columns except `row_ids`, `truth`, `response`, `weights`,
+#' and columns prefixed with `prob.` are stored as extra data.
 #'
 #' @inheritParams as_prediction
 #'
@@ -46,21 +48,17 @@ as_prediction_classif.PredictionClassif = function(x, ...) {
 # nolint next
 as_prediction_classif.data.frame = function(x, ...) {
   assert_names(names(x), must.include = c("row_ids", "truth", "response"))
-  prob_cols = setdiff(names(x), c("row_ids", "truth", "response", "weights"))
-  if (!all(startsWith(prob_cols, "prob."))) {
-    error_input(
-      # nolint next
-      "Table may only contain columns 'row_ids', 'truth', 'response', 'weights' as well as columns prefixed with 'prob.' for class probabilities"
-    )
-  }
-
   x = as.data.table(x)
-  if (length(prob_cols)) {
+  prob_cols = names(x)[startsWith(names(x), "prob.")]
+  extra_cols = setdiff(names(x), c("row_ids", "truth", "response", "weights", prob_cols))
+
+  prob = if (length(prob_cols)) {
     prob = as.matrix(x[, prob_cols, with = FALSE])
     colnames(prob) = substr(colnames(prob), 6L, nchar(colnames(prob)))
-  } else {
-    prob = NULL
+    prob
   }
+  extra = if (length(extra_cols)) as.list(x[, extra_cols, with = FALSE])
 
-  invoke(PredictionClassif$new, prob = prob, .args = x[, -prob_cols, with = FALSE])
+  args = x[, setdiff(names(x), c(prob_cols, extra_cols)), with = FALSE]
+  invoke(PredictionClassif$new, prob = prob, extra = extra, .args = args)
 }

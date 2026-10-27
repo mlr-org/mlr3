@@ -158,6 +158,30 @@ test_that("as_prediction_classif", {
   expect_class(as_prediction_classif(tab), "PredictionClassif")
 })
 
+test_that("as_prediction_classif round-trips extra data (#1517)", {
+  task = tsk("iris")
+  p = lrn("classif.rpart", predict_type = "prob")$train(task)$predict(task)
+  p = PredictionClassif$new(
+    row_ids = p$row_ids, truth = p$truth, response = p$response, prob = p$prob,
+    extra = list(foo = seq_along(p$row_ids), bar = letters[(seq_along(p$row_ids) %% 26L) + 1L])
+  )
+
+  tab = as.data.table(p)
+  p2 = as_prediction_classif(tab)
+  expect_equal(p2$extra, p$extra)
+  expect_equal(p2$prob, p$prob)
+  expect_equal(as.data.table(p2), tab)
+
+  expect_error(
+    PredictionClassif$new(task = task, response = task$truth(), extra = list(truth = task$truth())),
+    "reserved prediction column names"
+  )
+  expect_error(
+    PredictionClassif$new(task = task, response = task$truth(), extra = list(prob.foo = 1:150)),
+    "reserved prediction column names"
+  )
+})
+
 test_that("#615", {
   task = tsk("iris")
   training = task$clone()$filter(1:100)
