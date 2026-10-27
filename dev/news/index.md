@@ -36,6 +36,14 @@
   quantile predictions when the `response` attribute of `quantiles` is
   given as a probability
   ([\#1517](https://github.com/mlr-org/mlr3/issues/1517)).
+- fix: `LearnerClassif$predict_newdata_fast()` now passes the positive
+  and negative class to the learner, so binary learners such as
+  `classif.log_reg` no longer return unnamed and possibly swapped
+  probability columns
+  ([\#1520](https://github.com/mlr-org/mlr3/issues/1520)). It also
+  passes the task type properties, so `classif.gbm` and `classif.fnn` no
+  longer fail and `classif.lightgbm` no longer returns a wrongly shaped
+  probability matrix for multiclass tasks.
 - fix:
   [`predict.Learner()`](https://mlr3.mlr-org.com/dev/reference/predict.Learner.md)
   no longer modifies the hyperparameters of the passed learner when
