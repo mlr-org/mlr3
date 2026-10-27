@@ -9,6 +9,7 @@
 * perf: `Learner$predict()` now calls `as_prediction()` with `check = FALSE`, so prediction data is no longer checked twice for task types whose `as_prediction()` method defaults to `check = TRUE`.
 * fix: `resample()` and `benchmark()` with `encapsulate` now keep a fallback learner that is already configured instead of replacing it with the default fallback.
   `encapsulate = "none"` no longer fails with "Could not find default fallback learner" (#1521).
+* fix: `resample()` and `benchmark()` now accept `encapsulate = "mirai"` (#1506).
 * fix: `resample()` and `benchmark()` now re-raise errors from the workers when parallelizing with `mirai` instead of failing with "subscript out of bounds" (#1502).
 * fix: `PredictionRegr$new()` now returns the correct response for quantile predictions when the `response` attribute of `quantiles` is given as a probability (#1517).
 * fix: `LearnerClassif$predict_newdata_fast()` now passes the positive and negative class to the learner, so binary learners such as `classif.log_reg` no longer return unnamed and possibly swapped probability columns (#1520).
