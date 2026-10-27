@@ -2,6 +2,13 @@
 
 ## mlr3 (development version)
 
+- BREAKING CHANGE:
+  [`as_task_classif()`](https://mlr3.mlr-org.com/dev/reference/as_task_classif.md)
+  and
+  [`as_task_regr()`](https://mlr3.mlr-org.com/dev/reference/as_task_regr.md)
+  now raise an error if the target column contains missing values
+  instead of showing a message
+  ([\#1442](https://github.com/mlr-org/mlr3/issues/1442)).
 - fix: Errors caused by prior misconfiguration (e.g., predicting with an
   untrained learner, uninstantiated resamplings, missing stored models
   or backends, and unsupported predict types) now signal
@@ -26,6 +33,18 @@
   errors of class `Mlr3ErrorConfig`, which previously always errored
   even when a handler was registered
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- fix: Callbacks now receive the model in unmarshaled form in the
+  `on_resample_end` stage of
+  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
+  [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md),
+  regardless of `unmarshal`, `store_models`, and the execution mode
+  ([\#1509](https://github.com/mlr-org/mlr3/issues/1509)).
+- fix: `learner_predict()` now invalidates the cached task hash when
+  subsetting to the predict rows, so `task$hash` is correct inside
+  `.predict()` and
+  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) no
+  longer stores a wrong task hash when a learner reads the hash during
+  prediction ([\#1503](https://github.com/mlr-org/mlr3/issues/1503)).
 - fix:
   [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
   now accepts a plain `data.frame` as `design`, as documented, instead
