@@ -76,14 +76,16 @@ benchmark(
   `Learner$encapsulate` to one of the supported values: `"none"`
   (disable encapsulation), `"try"` (captures errors but output is
   printed to the console and not logged), `"evaluate"` (execute via
-  [evaluate](https://CRAN.R-project.org/package=evaluate)) and `"callr"`
+  [evaluate](https://CRAN.R-project.org/package=evaluate)), `"callr"`
   (start in external session via
-  [callr](https://CRAN.R-project.org/package=callr)). If `NA`,
-  encapsulation is not changed, i.e. the settings of the individual
-  learner are active. Additionally, if encapsulation is set to
-  `"evaluate"` or `"callr"`, the fallback learner is set to the
-  featureless learner if the learner does not already have a fallback
-  configured.
+  [callr](https://CRAN.R-project.org/package=callr)) and `"mirai"`
+  (start in a [mirai](https://CRAN.R-project.org/package=mirai) daemon,
+  see [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md)). If
+  `NA`, encapsulation is not changed, i.e. the settings of the
+  individual learner are active. Additionally, if encapsulation is set
+  to `"try"`, `"evaluate"`, `"callr"`, or `"mirai"`, the fallback
+  learner is set to the featureless learner if the learner does not
+  already have a fallback configured.
 
 - allow_hotstart:
 
@@ -251,12 +253,12 @@ bmr = benchmark(design)
 head(as.data.table(bmr))
 #>                                   uhash                   task
 #>                                  <char>                 <list>
-#> 1: 71a909e7-2dc1-4912-a21d-5a74ff3f62d0 <TaskClassif:penguins>
-#> 2: 71a909e7-2dc1-4912-a21d-5a74ff3f62d0 <TaskClassif:penguins>
-#> 3: 71a909e7-2dc1-4912-a21d-5a74ff3f62d0 <TaskClassif:penguins>
-#> 4: b5280300-cfbb-4bcb-b2ea-10ccb5c14f16 <TaskClassif:penguins>
-#> 5: b5280300-cfbb-4bcb-b2ea-10ccb5c14f16 <TaskClassif:penguins>
-#> 6: b5280300-cfbb-4bcb-b2ea-10ccb5c14f16 <TaskClassif:penguins>
+#> 1: 3eca41cb-02ac-47e5-bdde-d40ed67fe0b5 <TaskClassif:penguins>
+#> 2: 3eca41cb-02ac-47e5-bdde-d40ed67fe0b5 <TaskClassif:penguins>
+#> 3: 3eca41cb-02ac-47e5-bdde-d40ed67fe0b5 <TaskClassif:penguins>
+#> 4: 423b98a7-7c10-4603-ad04-88e7dcadf3bb <TaskClassif:penguins>
+#> 5: 423b98a7-7c10-4603-ad04-88e7dcadf3bb <TaskClassif:penguins>
+#> 6: 423b98a7-7c10-4603-ad04-88e7dcadf3bb <TaskClassif:penguins>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1

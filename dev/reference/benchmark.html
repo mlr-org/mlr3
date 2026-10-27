@@ -112,11 +112,12 @@ If not <code>NA</code>, enables encapsulation by setting the field
 <code>Learner$encapsulate</code> to one of the supported values:
 <code>"none"</code> (disable encapsulation),
 <code>"try"</code> (captures errors but output is printed to the console and not logged),
-<code>"evaluate"</code> (execute via <a href="https://CRAN.R-project.org/package=evaluate" class="external-link"><span class="pkg">evaluate</span></a>) and
-<code>"callr"</code> (start in external session via <a href="https://CRAN.R-project.org/package=callr" class="external-link"><span class="pkg">callr</span></a>).
+<code>"evaluate"</code> (execute via <a href="https://CRAN.R-project.org/package=evaluate" class="external-link"><span class="pkg">evaluate</span></a>),
+<code>"callr"</code> (start in external session via <a href="https://CRAN.R-project.org/package=callr" class="external-link"><span class="pkg">callr</span></a>) and
+<code>"mirai"</code> (start in a <a href="https://CRAN.R-project.org/package=mirai" class="external-link"><span class="pkg">mirai</span></a> daemon, see <a href="Learner.html">Learner</a>).
 If <code>NA</code>, encapsulation is not changed, i.e. the settings of the
 individual learner are active.
-Additionally, if encapsulation is set to <code>"evaluate"</code> or <code>"callr"</code>,
+Additionally, if encapsulation is set to <code>"try"</code>, <code>"evaluate"</code>, <code>"callr"</code>, or <code>"mirai"</code>,
 the fallback learner is set to the featureless learner if the learner
 does not already have a fallback configured.</p></dd>
 
@@ -258,12 +259,12 @@ Note that results computed in debug mode use a different seeding mechanism and a
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                   task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 71a909e7-2dc1-4912-a21d-5a74ff3f62d0 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 71a909e7-2dc1-4912-a21d-5a74ff3f62d0 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 71a909e7-2dc1-4912-a21d-5a74ff3f62d0 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: b5280300-cfbb-4bcb-b2ea-10ccb5c14f16 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: b5280300-cfbb-4bcb-b2ea-10ccb5c14f16 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: b5280300-cfbb-4bcb-b2ea-10ccb5c14f16 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 3eca41cb-02ac-47e5-bdde-d40ed67fe0b5 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 3eca41cb-02ac-47e5-bdde-d40ed67fe0b5 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 3eca41cb-02ac-47e5-bdde-d40ed67fe0b5 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 423b98a7-7c10-4603-ad04-88e7dcadf3bb &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 423b98a7-7c10-4603-ad04-88e7dcadf3bb &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 423b98a7-7c10-4603-ad04-88e7dcadf3bb &lt;TaskClassif:penguins&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>

@@ -51,6 +51,11 @@
 - fix:
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
   [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
+  now accept `encapsulate = "mirai"`
+  ([\#1506](https://github.com/mlr-org/mlr3/issues/1506)).
+- fix:
+  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
+  [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
   now re-raise errors from the workers when parallelizing with `mirai`
   instead of failing with “subscript out of bounds”
   ([\#1502](https://github.com/mlr-org/mlr3/issues/1502)).

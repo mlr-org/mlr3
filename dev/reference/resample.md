@@ -67,14 +67,16 @@ resample(
   `Learner$encapsulate` to one of the supported values: `"none"`
   (disable encapsulation), `"try"` (captures errors but output is
   printed to the console and not logged), `"evaluate"` (execute via
-  [evaluate](https://CRAN.R-project.org/package=evaluate)) and `"callr"`
+  [evaluate](https://CRAN.R-project.org/package=evaluate)), `"callr"`
   (start in external session via
-  [callr](https://CRAN.R-project.org/package=callr)). If `NA`,
-  encapsulation is not changed, i.e. the settings of the individual
-  learner are active. Additionally, if encapsulation is set to
-  `"evaluate"` or `"callr"`, the fallback learner is set to the
-  featureless learner if the learner does not already have a fallback
-  configured.
+  [callr](https://CRAN.R-project.org/package=callr)) and `"mirai"`
+  (start in a [mirai](https://CRAN.R-project.org/package=mirai) daemon,
+  see [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md)). If
+  `NA`, encapsulation is not changed, i.e. the settings of the
+  individual learner are active. Additionally, if encapsulation is set
+  to `"try"`, `"evaluate"`, `"callr"`, or `"mirai"`, the fallback
+  learner is set to the featureless learner if the learner does not
+  already have a fallback configured.
 
 - allow_hotstart:
 
