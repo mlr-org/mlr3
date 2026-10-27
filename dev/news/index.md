@@ -26,6 +26,11 @@
   errors of class `Mlr3ErrorConfig`, which previously always errored
   even when a handler was registered
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- fix:
+  [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
+  now accepts a plain `data.frame` as `design`, as documented, instead
+  of failing with “replacement has 0 rows”
+  ([\#1505](https://github.com/mlr-org/mlr3/issues/1505)).
 - fix: The option `mlr3.exec_random` now actually randomizes the
   execution order of
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
