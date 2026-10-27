@@ -59,3 +59,12 @@ as_predictions(x, predict_sets = "test", ...)
 ## Value
 
 [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md).
+
+## Details
+
+Methods for
+[PredictionData](https://mlr3.mlr-org.com/dev/reference/PredictionData.md)
+objects should default to `check = FALSE`. The data is usually validated
+already by
+[`as_prediction_data()`](https://mlr3.mlr-org.com/dev/reference/as_prediction_data.md)
+before the conversion.

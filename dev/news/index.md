@@ -26,6 +26,12 @@
   errors of class `Mlr3ErrorConfig`, which previously always errored
   even when a handler was registered
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- perf: `Learner$predict()` now calls
+  [`as_prediction()`](https://mlr3.mlr-org.com/dev/reference/as_prediction.md)
+  with `check = FALSE`, so prediction data is no longer checked twice
+  for task types whose
+  [`as_prediction()`](https://mlr3.mlr-org.com/dev/reference/as_prediction.md)
+  method defaults to `check = TRUE`.
 - fix:
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
   [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
