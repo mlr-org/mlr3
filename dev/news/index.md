@@ -29,6 +29,14 @@
 - fix:
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
   [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
+  with `encapsulate` now keep a fallback learner that is already
+  configured instead of replacing it with the default fallback.
+  `encapsulate = "none"` no longer fails with “Could not find default
+  fallback learner”
+  ([\#1521](https://github.com/mlr-org/mlr3/issues/1521)).
+- fix:
+  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
+  [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
   now re-raise errors from the workers when parallelizing with `mirai`
   instead of failing with “subscript out of bounds”
   ([\#1502](https://github.com/mlr-org/mlr3/issues/1502)).
