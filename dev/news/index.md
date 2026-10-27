@@ -26,6 +26,14 @@
   errors of class `Mlr3ErrorConfig`, which previously always errored
   even when a handler was registered
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- fix: The option `mlr3.exec_random` now actually randomizes the
+  execution order of
+  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
+  [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
+  iterations when parallelizing with `future`. The random ordering was
+  silently ignored because it was attached to `future.scheduling` while
+  `future.chunk.size` was always set
+  ([\#1508](https://github.com/mlr-org/mlr3/issues/1508)).
 - perf: `Learner$predict()` now calls
   [`as_prediction()`](https://mlr3.mlr-org.com/dev/reference/as_prediction.md)
   with `check = FALSE`, so prediction data is no longer checked twice
