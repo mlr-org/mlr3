@@ -440,7 +440,7 @@ Learner = R6Class(
       if (is.null(pdata)) {
         return(NULL)
       } else {
-        as_prediction(pdata)
+        as_prediction(pdata, check = FALSE)
       }
     },
 
