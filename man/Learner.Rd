@@ -356,11 +356,13 @@ Hash (unique identifier) for this object.
 The hash is calculated based on the learner id, the parameter settings,
 the predict type, the fallback hash, the parallel predict setting,
 the validate setting, the predict sets, the use weights setting, the predict raw setting,
-the timeout, the deadline, the encapsulation method, and the \code{when} handler of the encapsulation.}
+the timeout, the deadline, the encapsulation method, and the \code{when} handler of the encapsulation.
+Learners can define additional fields to be included in the hash by setting the private field \verb{$.extra_hash}.}
 
     \item{\code{phash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this partial object, excluding some components
-which are varied systematically during tuning (parameter values).}
+which are varied systematically during tuning (parameter values).
+Fields listed in the private field \verb{$.extra_hash} are included.}
 
     \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type, e.g. \code{"response"}.

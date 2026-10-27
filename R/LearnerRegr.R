@@ -213,6 +213,7 @@ LearnerRegr = R6Class(
 
   private = list(
     .quantiles = NULL,
-    .quantile_response = NULL
+    .quantile_response = NULL,
+    .extra_hash = c("quantiles", "quantile_response")
   )
 )
