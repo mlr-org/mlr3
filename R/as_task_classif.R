@@ -57,8 +57,7 @@ as_task_classif.data.frame = function(
   }
 
   if (anyMissing(x[[target]])) {
-    messagef("Target column '%s' contains missing values. This will be an error in the future.", target)
-    # error_input("Target column '%s' must not contain missing values", target)
+    error_input("Target column '%s' must not contain missing values", target)
   }
 
   y = x[[target]]
