@@ -52,6 +52,20 @@ test_that("Basic benchmarking", {
   expect_numeric(tab[[m$id]], any.missing = FALSE, lower = m$range[1], upper = m$range[2])
 })
 
+test_that("benchmark works with a data.frame design", {
+  design = as.data.frame(benchmark_grid(tsks(c("iris", "sonar")), lrn("classif.rpart"), rsmp("holdout")))
+  expect_data_frame(design, nrows = 2L)
+  expect_false(is.data.table(design))
+
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+  expect_equal(bmr$n_resample_results, 2L)
+  expect_set_equal(bmr$tasks$task_id, c("iris", "sonar"))
+
+  bmr = benchmark(design[1L, ])
+  expect_equal(bmr$n_resample_results, 1L)
+})
+
 test_that("ResampleResult / hash", {
   m = msr("classif.ce")
   aggr = bmr$aggregate(m, uhashes = TRUE)
