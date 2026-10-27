@@ -35,7 +35,10 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) {
     }
 
     colnames(pdata$quantiles) = sprintf("q%g", attr(quantiles, "probs"))
-    setattr(pdata$quantiles, "response", sprintf("q%g", attr(quantiles, "response")))
+    response = attr(quantiles, "response")
+    if (is.numeric(response)) {
+      setattr(pdata$quantiles, "response", sprintf("q%g", response))
+    }
   }
 
   if (!is.null(pdata$distr)) {
@@ -127,11 +130,7 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) {
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
 
   quantiles = if ("quantiles" %chin% nn) {
-    quantiles = map(dots, "quantiles")
-    attrs = attributes(quantiles[[1L]])
-    quantiles = do.call(rbind, quantiles)
-    setattr(quantiles, "probs", attrs$probs)
-    setattr(quantiles, "response", attrs$response)
+    do.call(rbind, map(dots, "quantiles"))
   }
   extra = if ("extra" %chin% nn) {
     rbindlist(map(dots, "extra"), fill = TRUE, use.names = TRUE)
@@ -145,6 +144,10 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) {
   }
 
   result = as.list(tab)
+  if (!is.null(quantiles)) {
+    setattr(quantiles, "probs", attr(dots[[1L]]$quantiles, "probs"))
+    setattr(quantiles, "response", attr(dots[[1L]]$quantiles, "response"))
+  }
   result$quantiles = quantiles
   if (!is.null(extra)) {
     result$extra = as.list(extra)
@@ -178,7 +181,10 @@ filter_prediction_data.PredictionDataRegr = function(pdata, row_ids, ...) {
   }
 
   if (!is.null(pdata$quantiles)) {
-    pdata$quantiles = pdata$quantiles[keep, , drop = FALSE]
+    quantiles = pdata$quantiles[keep, , drop = FALSE]
+    setattr(quantiles, "probs", attr(pdata$quantiles, "probs"))
+    setattr(quantiles, "response", attr(pdata$quantiles, "response"))
+    pdata$quantiles = quantiles
   }
 
   if (!is.null(pdata$weights)) {

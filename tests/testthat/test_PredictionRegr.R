@@ -133,6 +133,18 @@ test_that("filtering", {
   expect_prediction(as_prediction_regr(as.data.table(p2)))
 })
 
+test_that("response from quantiles with numeric response attribute", {
+  task = tsk("mtcars")
+  quantiles = matrix(rep(c(1, 2, 3), task$nrow), ncol = 3L, byrow = TRUE)
+  setattr(quantiles, "probs", c(0.1, 0.5, 0.9))
+  setattr(quantiles, "response", 0.5)
+
+  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), quantiles = quantiles)
+  expect_equal(p$response, rep(2, task$nrow))
+  expect_number(p$score(msr("regr.mse")))
+  expect_equal(p$clone()$filter(1:3)$response, rep(2, 3L))
+})
+
 test_that("predictions with weights", {
   ll = lrn("regr.debug")$train(as_task_regr(cars, target = "dist"), row_ids = 1)
 
