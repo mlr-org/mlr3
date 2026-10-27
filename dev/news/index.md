@@ -15,6 +15,12 @@
   `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer
   masked by fallback learners under encapsulation
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- fix: `LearnerRegr`’s `$hash` and `$phash` now include `$quantiles` and
+  `$quantile_response`, so learners predicting different quantiles are
+  no longer treated as identical, e.g., when combining resample results
+  ([\#1518](https://github.com/mlr-org/mlr3/issues/1518)). Subclasses of
+  `Learner` can now add fields to the hash via the private field
+  `$.extra_hash`.
 - fix:
   [`as_prediction_classif()`](https://mlr3.mlr-org.com/dev/reference/as_prediction_classif.md)
   and

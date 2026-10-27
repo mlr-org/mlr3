@@ -406,14 +406,16 @@ Other Learner:
   fallback hash, the parallel predict setting, the validate setting, the
   predict sets, the use weights setting, the predict raw setting, the
   timeout, the deadline, the encapsulation method, and the `when`
-  handler of the encapsulation.
+  handler of the encapsulation. Learners can define additional fields to
+  be included in the hash by setting the private field `$.extra_hash`.
 
 - `phash`:
 
   (`character(1)`)  
   Hash (unique identifier) for this partial object, excluding some
   components which are varied systematically during tuning (parameter
-  values).
+  values). Fields listed in the private field `$.extra_hash` are
+  included.
 
 - `predict_type`:
 
