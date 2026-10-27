@@ -9,9 +9,12 @@ set_encapsulation = function(learners, encapsulate) {
 
   if (!is.na(encapsulate)) {
     lapply(learners, function(learner) {
-      fallback = if (encapsulate != "none") default_fallback(learner)
-      if (is.null(fallback)) {
-        error_config("Could not find default fallback learner for learner '%s'", learner$id)
+      fallback = NULL
+      if (encapsulate != "none") {
+        fallback = learner$fallback %??% default_fallback(learner)
+        if (is.null(fallback)) {
+          error_config("Could not find default fallback learner for learner '%s'", learner$id)
+        }
       }
       learner$encapsulate(encapsulate, fallback)
     })
@@ -28,12 +31,16 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
       mirai::daemons_set(.compute = getOption("mlr3.mirai_parallelization", "mlr3_parallelization"))
   ) {
     lg$debug("Running resample() via mirai with %i iterations", n)
-    mirai::collect_mirai(mirai::mirai_map(
-      data.table(...),
-      FUN,
-      .args = c(MoreArgs, list(is_sequential = FALSE)),
-      .compute = getOption("mlr3.mirai_parallelization", "mlr3_parallelization")
-    ))
+    # .stop re-raises errors from the workers instead of returning them as `miraiError` values
+    mirai::collect_mirai(
+      mirai::mirai_map(
+        data.table(...),
+        FUN,
+        .args = c(MoreArgs, list(is_sequential = FALSE)),
+        .compute = getOption("mlr3.mirai_parallelization", "mlr3_parallelization")
+      ),
+      ".stop"
+    )
   } else {
     is_sequential = inherits(plan(), "sequential")
     chunk_size = getOption("mlr3.exec_chunk_size", 1)
