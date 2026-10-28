@@ -107,14 +107,20 @@ LearnerClassif = R6Class(
       if (is.null(task) && is.null(self$state$train_task)) {
         error_config("No task stored, and no task provided")
       }
-      feature_names = self$state$train_task$feature_names %??% task$feature_names
-      class_names = self$state$train_task$class_names %??% task$class_names
+      meta_task = self$state$train_task %??% task
+      feature_names = meta_task$feature_names
+      class_names = meta_task$class_names
 
       # add data and most common used meta data
       fake_task = list(
         # some learners require that newdata contains the features names in the same order as the training data
         data = function(...) newdata[, feature_names, with = FALSE],
         class_names = class_names,
+        # binary learners use positive and negative to name and order the probability columns
+        positive = meta_task$positive,
+        negative = meta_task$negative,
+        # learners branch on the task type, other properties (e.g. offset) are not supported here
+        properties = intersect(meta_task$properties, c("twoclass", "multiclass")),
         feature_names = feature_names,
         nrow = nrow(newdata)
       )

@@ -409,6 +409,35 @@ test_that("validate changes phash and hash", {
   expect_false(l1$hash == l2$hash)
 })
 
+test_that("timeout, deadline, and encapsulation change phash and hash", {
+  base = lrn("classif.debug")
+
+  l = lrn("classif.debug")
+  l$timeout = c(train = 5)
+  expect_false(l$hash == base$hash)
+  expect_false(l$phash == base$phash)
+
+  l = lrn("classif.debug")
+  l$deadline = c(train = as.POSIXct("2030-01-01", tz = "UTC"))
+  expect_false(l$hash == base$hash)
+  expect_false(l$phash == base$phash)
+
+  l = lrn("classif.debug")
+  l$encapsulate("evaluate", lrn("classif.featureless"))
+  l_when = lrn("classif.debug")
+  l_when$encapsulate("evaluate", lrn("classif.featureless"), when = function(cond, ...) TRUE)
+  expect_false(l$hash == base$hash)
+  expect_false(l$hash == l_when$hash)
+  expect_false(l$phash == l_when$phash)
+
+  # identical configuration hashes equal
+  l1 = lrn("classif.debug")
+  l2 = lrn("classif.debug")
+  l1$encapsulate("evaluate", lrn("classif.featureless"), when = function(cond, ...) TRUE)
+  l2$encapsulate("evaluate", lrn("classif.featureless"), when = function(cond, ...) TRUE)
+  expect_equal(l1$hash, l2$hash)
+})
+
 test_that("marshaling and encapsulation", {
   task = tsk("iris")
   learner = lrn("classif.debug", count_marshaling = TRUE)

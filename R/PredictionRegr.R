@@ -54,8 +54,10 @@ PredictionRegr = R6Class(
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
     #'
-    #' @param extra (`list()`)\cr
-    #'   List of extra data to be stored in the prediction object.
+    #' @param extra (named `list()`)\cr
+    #'   Additional per-observation data to be stored in the prediction object.
+    #'   Each element must be a vector with the same length as `row_ids`.
+    #'   See the `$extra` field for details.
     #'
     #' @param raw (any)\cr
     #'   Raw prediction object from the upstream model. Stored as-is without validation.
@@ -99,7 +101,7 @@ PredictionRegr = R6Class(
         predict_types = union(predict_types, "response")
       }
       self$predict_types = predict_types
-      if (is.null(pdata$response)) private$.quantile_response = attr(quantiles, "response")
+      if (is.null(pdata$response)) private$.quantile_response = attr(pdata$quantiles, "response")
     }
   ),
 

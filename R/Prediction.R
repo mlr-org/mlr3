@@ -157,8 +157,15 @@ Prediction = R6Class(
       self$data$weights
     },
 
-    #' @field extra (`list()`)\cr
-    #'   List of extra data stored in the prediction object.
+    #' @field extra (named `list()`)\cr
+    #'   Additional per-observation data stored in the prediction object, e.g., quantities returned by the learner
+    #'   that are not covered by a predict type.
+    #'   Each element is a vector with one entry per observation, i.e., of the same length as `row_ids`.
+    #'   Names must be unique and may not clash with the names of the standard prediction columns
+    #'   (e.g., `"row_ids"`, `"truth"`, `"response"`, or `"weights"`).
+    #'   The extra data is subset by `$filter()`, combined row-wise by [c()],
+    #'   and appended as additional columns by [data.table::as.data.table()].
+    #'   This is `NULL` if no extra data is present.
     extra = function(rhs) {
       assert_ro_binding(rhs)
       self$data$extra
