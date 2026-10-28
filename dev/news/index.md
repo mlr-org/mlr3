@@ -39,6 +39,14 @@
   errors of class `Mlr3ErrorConfig`, which previously always errored
   even when a handler was registered
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- fix:
+  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
+  [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
+  with `allow_hotstart = TRUE` no longer carry over the prediction time,
+  validation scores, fallback state, and task copies of the start
+  learner into the hotstarted learner, which inflated
+  `msr("time_predict")`
+  ([\#1504](https://github.com/mlr-org/mlr3/issues/1504)).
 - fix: Callbacks now receive the model in unmarshaled form in the
   `on_resample_end` stage of
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and

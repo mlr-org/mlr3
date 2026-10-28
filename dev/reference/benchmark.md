@@ -253,12 +253,12 @@ bmr = benchmark(design)
 head(as.data.table(bmr))
 #>                                   uhash                   task
 #>                                  <char>                 <list>
-#> 1: 9c0d1c83-0045-4369-8f5e-5df6fb231924 <TaskClassif:penguins>
-#> 2: 9c0d1c83-0045-4369-8f5e-5df6fb231924 <TaskClassif:penguins>
-#> 3: 9c0d1c83-0045-4369-8f5e-5df6fb231924 <TaskClassif:penguins>
-#> 4: fb44f050-b2cd-49db-b9bf-feddc978ab93 <TaskClassif:penguins>
-#> 5: fb44f050-b2cd-49db-b9bf-feddc978ab93 <TaskClassif:penguins>
-#> 6: fb44f050-b2cd-49db-b9bf-feddc978ab93 <TaskClassif:penguins>
+#> 1: c10f5ece-c922-4976-98c1-c6be8d8e2012 <TaskClassif:penguins>
+#> 2: c10f5ece-c922-4976-98c1-c6be8d8e2012 <TaskClassif:penguins>
+#> 3: c10f5ece-c922-4976-98c1-c6be8d8e2012 <TaskClassif:penguins>
+#> 4: b313f117-9e28-45a2-92ae-8ce04e5967f8 <TaskClassif:penguins>
+#> 5: b313f117-9e28-45a2-92ae-8ce04e5967f8 <TaskClassif:penguins>
+#> 6: b313f117-9e28-45a2-92ae-8ce04e5967f8 <TaskClassif:penguins>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1
