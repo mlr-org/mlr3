@@ -147,6 +147,25 @@ test_that("learners are hotstarted when resample is used", {
   })
 })
 
+test_that("hotstarting does not carry over derived state of the start learner", {
+  task = tsk("iris")
+  resampling = rsmp("holdout")$instantiate(task)
+  rr = resample(task, lrn("classif.debug", iter = 1), resampling, store_models = TRUE)
+  start_learner = rr$learners[[1L]]
+  start_learner$state$predict_time = 100
+  start_learner$state$internal_valid_scores = list(acc = 1)
+
+  learner = lrn("classif.debug", iter = 2)
+  learner$hotstart_stack = HotstartStack$new(start_learner)
+  rr_2 = resample(task, learner, resampling, store_models = TRUE, allow_hotstart = TRUE)
+  state = rr_2$learners[[1L]]$state
+
+  expect_equal(state$model$iter, 2)
+  expect_lt(state$predict_time, 100)
+  expect_null(state$internal_valid_scores)
+  expect_null(state$train_task)
+})
+
 test_that("learners are hotstarted when benchmark is called", {
   task = tsk("sonar")
   learner_1 = lrn("classif.debug", iter = 1)
