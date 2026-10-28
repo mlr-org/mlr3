@@ -59,7 +59,9 @@ Determines if learner(s) are hot started with trained models in
 Select the input objects to be cloned before proceeding by
 providing a set with possible values \code{"task"}, \code{"learner"} and
 \code{"resampling"} for \link{Task}, \link{Learner} and \link{Resampling}, respectively.
-Per default, all input objects are cloned.}
+Per default, all input objects are cloned.
+Objects that are not cloned are used by reference.
+For example, \code{param_values} of a \code{\link[=benchmark]{benchmark()}} design are written into the parameter set of the learner.}
 
 \item{unmarshal}{\code{\link{Learner}}\cr
 Whether to unmarshal learners that were marshaled during the execution.

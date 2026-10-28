@@ -110,14 +110,14 @@ resample = function(
     hotstart_grid = map_dtr(seq_len(n), function(iteration) {
       if (!is.null(learner$hotstart_stack)) {
         # search for hotstart learner
+        # clone so that removing the hotstart stack below does not modify the input learner
+        learner = learner$clone()
         task_hashes = resampling_task_hashes(task, resampling, learner)
-        start_learner = get_private(learner$hotstart_stack)$.start_learner(learner$clone(), task_hashes[iteration])
+        start_learner = get_private(learner$hotstart_stack)$.start_learner(learner, task_hashes[iteration])
       }
       if (is.null(learner$hotstart_stack) || is.null(start_learner)) {
         # no hotstart learners stored or no adaptable model found
         lg$debug("Resampling with hotstarting not possible. No start learner found.")
-        # clone so that removing the hotstart stack below does not modify the input learner
-        learner = learner$clone()
         mode = "train"
       } else {
         # hotstart learner found
