@@ -157,8 +157,15 @@ This is <code>NULL</code> if no weights are present.</p></dd>
 
 
     <dt><code>extra</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
-List of extra data stored in the prediction object.</p></dd>
+<dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
+Additional per-observation data stored in the prediction object, e.g., quantities returned by the learner
+that are not covered by a predict type.
+Each element is a vector with one entry per observation, i.e., of the same length as <code>row_ids</code>.
+Names must be unique and may not clash with the names of the standard prediction columns
+(e.g., <code>"row_ids"</code>, <code>"truth"</code>, <code>"response"</code>, or <code>"weights"</code>).
+The extra data is subset by <code>$filter()</code>, combined row-wise by <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>,
+and appended as additional columns by <code><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">data.table::as.data.table()</a></code>.
+This is <code>NULL</code> if no extra data is present.</p></dd>
 
 
     <dt><code>raw</code></dt>

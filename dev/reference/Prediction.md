@@ -113,8 +113,18 @@ Other Prediction:
 
 - `extra`:
 
-  ([`list()`](https://rdrr.io/r/base/list.html))  
-  List of extra data stored in the prediction object.
+  (named [`list()`](https://rdrr.io/r/base/list.html))  
+  Additional per-observation data stored in the prediction object, e.g.,
+  quantities returned by the learner that are not covered by a predict
+  type. Each element is a vector with one entry per observation, i.e.,
+  of the same length as `row_ids`. Names must be unique and may not
+  clash with the names of the standard prediction columns (e.g.,
+  `"row_ids"`, `"truth"`, `"response"`, or `"weights"`). The extra data
+  is subset by `$filter()`, combined row-wise by
+  [`c()`](https://rdrr.io/r/base/c.html), and appended as additional
+  columns by
+  [`data.table::as.data.table()`](https://rdrr.io/pkg/data.table/man/as.data.table.html).
+  This is `NULL` if no extra data is present.
 
 - `raw`:
 

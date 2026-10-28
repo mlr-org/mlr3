@@ -183,8 +183,10 @@ Creates a new instance of this
 
 - `extra`:
 
-  ([`list()`](https://rdrr.io/r/base/list.html))  
-  List of extra data to be stored in the prediction object.
+  (named [`list()`](https://rdrr.io/r/base/list.html))  
+  Additional per-observation data to be stored in the prediction object.
+  Each element must be a vector with the same length as `row_ids`. See
+  the `$extra` field for details.
 
 - `raw`:
 

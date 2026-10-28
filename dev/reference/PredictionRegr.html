@@ -174,8 +174,10 @@ the <code>Task</code>'s <code>weights_measure</code> column.</p></dd>
 If <code>TRUE</code>, performs some argument checks and predict type conversions.</p></dd>
 
       <dt><code>extra</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
-List of extra data to be stored in the prediction object.</p></dd>
+<dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
+Additional per-observation data to be stored in the prediction object.
+Each element must be a vector with the same length as <code>row_ids</code>.
+See the <code>$extra</code> field for details.</p></dd>
 
       <dt><code>raw</code></dt>
 <dd><p>(any)<br>
