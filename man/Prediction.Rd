@@ -85,8 +85,15 @@ Returns \code{row_ids} for which the predictions are missing or incomplete.}
 Vector of measure weights, obtained from the \code{weights_measure} column of the \link{Task} if present.
 This is \code{NULL} if no weights are present.}
 
-    \item{\code{extra}}{(\code{list()})\cr
-List of extra data stored in the prediction object.}
+    \item{\code{extra}}{(named \code{list()})\cr
+Additional per-observation data stored in the prediction object, e.g., quantities returned by the learner
+that are not covered by a predict type.
+Each element is a vector with one entry per observation, i.e., of the same length as \code{row_ids}.
+Names must be unique and may not clash with the names of the standard prediction columns
+(e.g., \code{"row_ids"}, \code{"truth"}, \code{"response"}, or \code{"weights"}).
+The extra data is subset by \verb{$filter()}, combined row-wise by \code{\link[=c]{c()}},
+and appended as additional columns by \code{\link[data.table:as.data.table]{data.table::as.data.table()}}.
+This is \code{NULL} if no extra data is present.}
 
     \item{\code{raw}}{(any)\cr
 Raw prediction object from the upstream model.

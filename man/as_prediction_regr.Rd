@@ -24,6 +24,9 @@ Additional arguments.}
 }
 \description{
 Convert object to a \link{PredictionRegr}.
+When converting a \code{\link[=data.frame]{data.frame()}}, columns named \verb{q<prob>} (e.g., \code{q0.5}) are converted to the quantile matrix.
+All other columns except \code{row_ids}, \code{truth}, \code{response}, \code{se}, and \code{weights} are stored as extra data.
+Tables with a \code{distr} column cannot be converted.
 }
 \examples{
 # create a prediction object

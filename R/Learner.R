@@ -440,7 +440,7 @@ Learner = R6Class(
       if (is.null(pdata)) {
         return(NULL)
       } else {
-        as_prediction(pdata)
+        as_prediction(pdata, check = FALSE)
       }
     },
 
@@ -856,7 +856,9 @@ Learner = R6Class(
     #' Hash (unique identifier) for this object.
     #' The hash is calculated based on the learner id, the parameter settings,
     #' the predict type, the fallback hash, the parallel predict setting,
-    #' the validate setting, the predict sets, and the predict raw setting.
+    #' the validate setting, the predict sets, the use weights setting, the predict raw setting,
+    #' the timeout, the deadline, the encapsulation method, and the `when` handler of the encapsulation.
+    #' Learners can define additional fields to be included in the hash by setting the private field `$.extra_hash`.
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(
@@ -869,13 +871,19 @@ Learner = R6Class(
         get0("validate", self),
         self$predict_sets,
         private$.use_weights,
-        private$.predict_raw
+        private$.predict_raw,
+        private$.timeout,
+        private$.deadline,
+        private$.encapsulation,
+        private$.when,
+        mget(private$.extra_hash, envir = self)
       )
     },
 
     #' @field phash (`character(1)`)\cr
     #' Hash (unique identifier) for this partial object, excluding some components
     #' which are varied systematically during tuning (parameter values).
+    #' Fields listed in the private field `$.extra_hash` are included.
     phash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(
@@ -886,7 +894,12 @@ Learner = R6Class(
         self$parallel_predict,
         get0("validate", self),
         private$.use_weights,
-        private$.predict_raw
+        private$.predict_raw,
+        private$.timeout,
+        private$.deadline,
+        private$.encapsulation,
+        private$.when,
+        mget(private$.extra_hash, envir = self)
       )
     },
 
@@ -1124,6 +1137,7 @@ Learner = R6Class(
     .timeout = NULL,
     .deadline = NULL,
     .man = NULL,
+    .extra_hash = character(),
     .when = NULL,
     .use_weights = NULL,
     .encapsulation = c(train = "none", predict = "none"),
