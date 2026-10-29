@@ -634,7 +634,7 @@ Task = R6Class(
       private$.hash = NULL
       private$.col_hashes = NULL
       private$.backend = DataBackendRename$new(private$.backend, old, new)
-      setkeyv(private$.col_info[old, ("id") := new, on = "id"], "id")
+      private$.col_info = setkeyv(copy(private$.col_info)[old, ("id") := new, on = "id"], "id")
       private$.col_roles = map(private$.col_roles, map_values, old = old, new = new)
       invisible(self)
     },
@@ -1289,7 +1289,7 @@ Task = R6Class(
 
       assert_names(names(rhs), type = "unique")
       assert_subset(names(rhs), active)
-      private$.col_info[list(names(rhs)), "label" := rhs, on = "id"]
+      private$.col_info = copy(private$.col_info)[list(names(rhs)), "label" := rhs, on = "id"][]
 
       invisible(self)
     },
