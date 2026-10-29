@@ -1706,7 +1706,8 @@ tail.Task = function(x, n = 6L, ...) {
 
 # fields of a task that are modified by $cbind() and $rbind()
 task_state = function(task) {
-  mget(c(".backend", ".col_info", ".col_roles", ".row_roles", ".hash", ".row_hash", ".col_hashes"), envir = get_private(task))
+  fields = c(".backend", ".col_info", ".col_roles", ".row_roles", ".hash", ".row_hash", ".col_hashes")
+  mget(fields, envir = get_private(task))
 }
 
 # checks the column roles if any of the columns `cols` has a role other than "feature",
