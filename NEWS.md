@@ -19,6 +19,8 @@
 * fix: `resample()` and `benchmark()` now accept `encapsulate = "mirai"` (#1506).
 * fix: `resample()` and `benchmark()` now re-raise errors from the workers when parallelizing with `mirai` instead of failing with "subscript out of bounds" (#1502).
 * fix: `PredictionRegr$new()` now returns the correct response for quantile predictions when the `response` attribute of `quantiles` is given as a probability (#1517).
+* fix: Assigning row ids to `Task$internal_valid_task` now raises an error for row ids that are not in `$row_ids` and no longer removes duplicated training rows.
+  Assigning an object that is not a task now raises an informative error, and `$internal_valid_task` is returned visibly.
 * fix: `LearnerClassif$predict_newdata_fast()` now passes the positive and negative class to the learner, so binary learners such as `classif.log_reg` no longer return unnamed and possibly swapped probability columns (#1520).
   It also passes the task type properties, so `classif.gbm` and `classif.fnn` no longer fail and `classif.lightgbm` no longer returns a wrongly shaped probability matrix for multiclass tasks.
 * fix: `predict.Learner()` no longer modifies the hyperparameters of the passed learner when additional parameters are supplied via `...` (#1501).

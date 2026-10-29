@@ -732,6 +732,37 @@ test_that("integer vector can be passed to internal_valid_task", {
   expect_equal(task$internal_valid_task$row_ids, 5)
 })
 
+test_that("internal_valid_task with row ids keeps duplicated training rows", {
+  task = tsk("iris")
+  task$row_roles$use = c(1:10, 1:10, 11:15)
+  task$internal_valid_task = 11:15
+  expect_equal(task$row_ids, c(1:10, 1:10))
+  expect_equal(task$internal_valid_task$row_ids, 11:15)
+})
+
+test_that("internal_valid_task checks its input", {
+  task = tsk("iris")$filter(1:100)
+  expect_error(
+    {
+      task$internal_valid_task = 101:110
+    },
+    "do not exist"
+  )
+  expect_equal(task$nrow, 100L)
+  expect_error(
+    {
+      task$internal_valid_task = "foo"
+    },
+    "Task"
+  )
+})
+
+test_that("internal_valid_task is returned visibly", {
+  task = tsk("iris")
+  task$internal_valid_task = 1:10
+  expect_visible(task$internal_valid_task)
+})
+
 test_that("cbind supports non-standard primary key (#961)", {
   tbl = data.table(x = runif(10), y = runif(10), myid = 1:10)
   b = as_data_backend(tbl, primary_key = "myid")
