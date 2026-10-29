@@ -868,7 +868,7 @@ Task = R6Class(
     #' When assigning a new task, it is always cloned.
     internal_valid_task = function(rhs) {
       if (missing(rhs)) {
-        return(invisible(private$.internal_valid_task))
+        return(private$.internal_valid_task)
       }
       private$.hash = NULL
       if (is.null(rhs)) {
@@ -877,16 +877,18 @@ Task = R6Class(
       }
 
       if (test_integerish(rhs)) {
-        train_ids = setdiff(self$row_ids, rhs)
+        rhs = assert_row_ids(rhs, task = self)
+        row_ids = self$row_ids
+        train_ids = row_ids[row_ids %nin% rhs]
         rhs = self$clone(deep = TRUE)$filter(rhs)
         rhs$internal_valid_task = NULL
         self$row_roles$use = train_ids
       } else {
+        assert_task(rhs, task_type = self$task_type)
         if (!is.null(rhs$internal_valid_task)) {
           # avoid recursive structures
           error_input("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
         }
-        assert_task(rhs, task_type = self$task_type)
         rhs = rhs$clone(deep = TRUE)
       }
 
@@ -894,17 +896,19 @@ Task = R6Class(
       ci2 = rhs$col_info
       # don't do this too strictly, some column roles might just be important during training (weights)
       cols = unlist(self$col_roles[c("target", "feature")], use.names = FALSE)
-      walk(cols, function(.col) {
-        if (.col %nin% ci2$id) {
-          error_input("Primary task has column '%s' which is not present in the validation task.", .col)
-        }
-        if (ci1[get("id") == .col, "type"]$type != ci2[get("id") == .col, "type"]$type) {
-          error_input(
-            "The type of column '%s' from the validation task differs from the type in the primary task.",
-            .col
-          )
-        }
-      })
+      ii = wf(cols %nin% ci2$id)
+      if (length(ii)) {
+        error_input("Primary task has column '%s' which is not present in the validation task.", cols[ii])
+      }
+      types1 = fget_keys(ci1, i = cols, j = "type", key = "id")
+      types2 = fget_keys(ci2, i = cols, j = "type", key = "id")
+      ii = wf(types1 != types2)
+      if (length(ii)) {
+        error_input(
+          "The type of column '%s' from the validation task differs from the type in the primary task.",
+          cols[ii]
+        )
+      }
 
       private$.internal_valid_task = rhs
       if (private$.internal_valid_task$nrow == 0) {
