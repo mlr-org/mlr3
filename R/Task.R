@@ -668,6 +668,7 @@ Task = R6Class(
     #' task$set_row_roles(1:5, remove_from = "use")
     set_row_roles = function(rows, roles = NULL, add_to = NULL, remove_from = NULL) {
       assert_has_backend(self)
+      rows = assert_row_ids(rows)
       assert_subset(rows, private$.backend$rownames)
 
       private$.row_hash = NULL
@@ -1036,6 +1037,7 @@ Task = R6Class(
         .var.name = "names of row_roles"
       )
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")
+      assert_subset(unlist(rhs, use.names = FALSE), private$.backend$rownames, .var.name = "elements of row_roles")
       private$.row_hash = NULL
       private$.hash = NULL
       private$.row_roles = rhs
