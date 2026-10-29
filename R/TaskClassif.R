@@ -148,9 +148,11 @@ TaskClassif = R6Class(
       negative = setdiff(lvls, rhs)
       self$extra_args$positive = positive
       lvls = c(positive, negative)
-      ii = self$col_info[list(self$target_names), on = "id", which = TRUE]
-      set(self$col_info, i = ii, j = "levels", value = list(lvls))
-      set(self$col_info, i = ii, j = "fix_factor_levels", value = TRUE)
+      ci = copy(private$.col_info)
+      ii = ci[list(self$target_names), on = "id", which = TRUE]
+      set(ci, i = ii, j = "levels", value = list(lvls))
+      set(ci, i = ii, j = "fix_factor_levels", value = TRUE)
+      private$.col_info = ci
 
       lvls
     },
