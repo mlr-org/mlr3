@@ -194,6 +194,46 @@ test_that("cbind/rbind works", {
   expect_set_equal(task$row_ids, 1:102)
 })
 
+test_that("cbind checks the rows of data", {
+  task = tsk("iris")
+  expect_error(task$cbind(data.table(..row_id = 1:10, foo = 1:10)), "missing the following row ids")
+  expect_error(task$cbind(data.table(foo = integer())), "data has 0 rows")
+  expect_error(task$cbind(data.table(foo = 1:10)), "data has 10 rows")
+  expect_set_equal(task$feature_names, setdiff(names(iris), "Species"))
+
+  task$filter(1:10)
+  task$cbind(data.table(..row_id = 1:150, foo = 1:150))
+  expect_equal(task$data()$foo, 1:10)
+})
+
+test_that("cbind keeps existing column roles", {
+  task = tsk("iris")
+  task$col_roles$stratum = "Petal.Width"
+  task$col_roles$feature = setdiff(task$feature_names, "Petal.Width")
+  task$cbind(data.table(Petal.Width = rev(iris$Petal.Width)))
+  expect_false("Petal.Width" %in% task$feature_names)
+  expect_equal(task$col_roles$stratum, "Petal.Width")
+  expect_equal(task$data(cols = "Petal.Width")[[1L]], rev(iris$Petal.Width))
+})
+
+test_that("cbind and rbind check column roles", {
+  task = tsk("mtcars")
+  task$cbind(data.table(w = runif(32)))
+  task$set_col_roles("w", roles = "weights_learner")
+  hash = task$hash
+  backend = task$backend
+  expect_error(task$cbind(data.table(w = -runif(32))), "Element 1 is not >= 0")
+  expect_identical(task$backend, backend)
+  expect_identical(task$hash, hash)
+  expect_true(all(task$weights_learner$weight >= 0))
+
+  newdata = task$data(rows = 1:2, cols = c(task$feature_names, task$target_names, "w"))
+  newdata$w = -1
+  expect_error(task$rbind(newdata), "Element 33 is not >= 0")
+  expect_equal(task$nrow, 32L)
+  expect_identical(task$backend, backend)
+})
+
 test_that("filter works", {
   task = tsk("iris")
   task$filter(1:100)

@@ -535,10 +535,12 @@ Task = R6Class(
       tab[, c("type_y", "levels_y") := list(NULL, NULL)]
 
       # everything looks good, modify task
+      state = task_state(self)
       private$.hash = NULL
       private$.backend = DataBackendRbind$new(private$.backend, data)
       private$.col_info = tab[]
       private$.row_roles$use = c(private$.row_roles$use, data$rownames)
+      task_check_col_roles_or_restore(self, data$colnames, state)
 
       invisible(self)
     },
@@ -550,6 +552,9 @@ Task = R6Class(
     #' The row ids must be provided as column in `data`
     #' (with column name matching the primary key name of the [DataBackend]).
     #' If this column is missing, it is assumed that the rows are exactly in the order of `$row_ids`.
+    #' Otherwise, `data` must contain all rows of `$row_ids`.
+    #' Columns of `data` without a role in the task are added as features,
+    #' columns with an existing role keep their roles.
     #' In case of name clashes of column names in `data` and [DataBackend], columns in `data` have higher precedence
     #' and virtually overwrite the columns in the [DataBackend].
     #'
@@ -565,16 +570,32 @@ Task = R6Class(
       pk = private$.backend$primary_key
 
       if (is.data.frame(data)) {
-        # binding data with 0 rows is explicitly allowed
+        # binding data with 0 columns is explicitly allowed
         if (ncol(data) == 0L) {
           return(invisible(self))
         }
 
         if (pk %nin% names(data)) {
+          if (nrow(data) != self$nrow) {
+            error_input(
+              "Cannot cbind data to task '%s': data has %i rows, but the task has %i rows",
+              self$id,
+              nrow(data),
+              self$nrow
+            )
+          }
           data[[pk]] = self$row_ids
         }
 
         data = as_data_backend(data, primary_key = pk)
+        missing_rows = setdiff(self$row_ids, data$rownames)
+        if (length(missing_rows)) {
+          error_input(
+            "Cannot cbind data to task '%s', missing the following row ids: %s",
+            self$id,
+            str_collapse(missing_rows, n = 10L)
+          )
+        }
       } else {
         assert_backend(data)
         if (data$ncol <= 1L) {
@@ -584,6 +605,7 @@ Task = R6Class(
       }
 
       # update col_info for existing columns
+      state = task_state(self)
       ci = col_info(data)
       private$.col_info = ujoin(private$.col_info, ci, key = "id")
 
@@ -597,14 +619,16 @@ Task = R6Class(
       )
       setkeyv(private$.col_info, "id")
 
-      # add new features
+      # add columns without a role as new features
       private$.hash = NULL
       private$.col_hashes = NULL
       col_roles = private$.col_roles
-      private$.col_roles$feature = union(col_roles$feature, setdiff(data$colnames, c(pk, col_roles$target)))
+      new_features = setdiff(data$colnames, c(pk, unlist(col_roles, use.names = FALSE)))
+      private$.col_roles$feature = union(col_roles$feature, new_features)
 
       # update backend
       private$.backend = DataBackendCbind$new(private$.backend, data)
+      task_check_col_roles_or_restore(self, data$colnames, state)
 
       invisible(self)
     },
@@ -1678,6 +1702,26 @@ head.Task = function(x, n = 6L, ...) {
 tail.Task = function(x, n = 6L, ...) {
   assert_number(n, na.ok = FALSE)
   x$data(rows = tail(x$row_ids, n))
+}
+
+# fields of a task that are modified by $cbind() and $rbind()
+task_state = function(task) {
+  fields = c(".backend", ".col_info", ".col_roles", ".row_roles", ".hash", ".row_hash", ".col_hashes")
+  mget(fields, envir = get_private(task))
+}
+
+# checks the column roles if any of the columns `cols` has a role other than "feature",
+# and restores the previous `state` of the task if the check fails
+task_check_col_roles_or_restore = function(task, cols, state) {
+  col_roles = task$col_roles
+  role_cols = unlist(col_roles[names(col_roles) != "feature"], use.names = FALSE)
+  if (any(cols %chin% role_cols)) {
+    tryCatch(task_check_col_roles(task, col_roles), error = function(e) {
+      list2env(state, envir = get_private(task))
+      stop(e)
+    })
+  }
+  invisible(task)
 }
 
 task_rm_backend = function(task) {
