@@ -13,6 +13,10 @@
 * fix: `learner_predict()` now invalidates the cached task hash when subsetting to the predict rows, so `task$hash` is correct inside `.predict()` and `resample()` no longer stores a wrong task hash when a learner reads the hash during prediction (#1503).
 * fix: `benchmark()` now accepts a plain `data.frame` as `design`, as documented, instead of failing with "replacement has 0 rows" (#1505).
 * fix: The option `mlr3.exec_random` now actually randomizes the execution order of `resample()` and `benchmark()` iterations when parallelizing with `future`. The random ordering was silently ignored because it was attached to `future.scheduling` while `future.chunk.size` was always set (#1508).
+* fix: `Task$set_levels()` now raises an error for columns that are not factors and for duplicated or missing levels, instead of silently converting the column to a factor in `$data()`.
+  `Task$set_col_roles()` now rejects the primary key, like `$col_roles`.
+  `Task$task_type` can only be set to a task type whose task class the task inherits from.
+  Invalid offset column names of multiclass tasks now raise an `Mlr3ErrorInput` instead of a testthat expectation failure.
 * perf: `Learner$predict()` now calls `as_prediction()` with `check = FALSE`, so prediction data is no longer checked twice for task types whose `as_prediction()` method defaults to `check = TRUE`.
 * fix: `resample()` and `benchmark()` with `encapsulate` now keep a fallback learner that is already configured instead of replacing it with the default fallback.
   `encapsulate = "none"` no longer fails with "Could not find default fallback learner" (#1521).

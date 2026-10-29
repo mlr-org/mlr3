@@ -629,6 +629,35 @@ test_that("set_levels", {
   expect_equal(levels(head(task, 1)$sex), new_lvls)
 })
 
+test_that("set_levels only works for factor columns", {
+  task = tsk("mtcars")
+  expect_error(task$set_levels(list(cyl = c("4", "6", "8"))), "factor columns")
+  expect_false(any(task$col_info$fix_factor_levels))
+
+  task = tsk("penguins")
+  expect_error(task$set_levels(list(sex = c("male", "male"))), "duplicated")
+  expect_error(task$set_levels(list(sex = c("male", NA))), "missing")
+})
+
+test_that("set_col_roles rejects the primary key", {
+  task = tsk("iris")
+  expect_error(task$set_col_roles("..row_id", add_to = "feature"), "subset")
+  expect_false("..row_id" %in% task$feature_names)
+})
+
+test_that("task_type must match the class of the task", {
+  task = tsk("iris")
+  expect_error(
+    {
+      task$task_type = "regr"
+    },
+    "must inherit from"
+  )
+  expect_equal(task$task_type, "classif")
+  task$task_type = "classif"
+  expect_equal(task$task_type, "classif")
+})
+
 test_that("special chars in feature names (#697)", {
   expect_error(
     TaskRegr$new("test", data.table(`%asd` = 1:3, t = 3:1), target = "t"),
