@@ -1009,6 +1009,31 @@ test_that("row_hash works correctly", {
   )
 })
 
+test_that("set_row_roles stores integer row ids", {
+  task = tsk("iris")
+  task$set_row_roles(c(1, 2), roles = "use")
+  expect_integer(task$row_ids)
+
+  a = tsk("iris")$filter(1:100)
+  b = tsk("iris")
+  b$set_row_roles(101:150, remove_from = "use")
+  b$set_row_roles(1:100, remove_from = "use")
+  b$set_row_roles(as.numeric(1:100), add_to = "use")
+  expect_identical(a$row_hash, b$row_hash)
+  expect_identical(a$hash, b$hash)
+})
+
+test_that("row_roles must refer to existing rows", {
+  task = tsk("iris")
+  expect_error(
+    {
+      task$row_roles$use = 1:1000
+    },
+    "elements of row_roles"
+  )
+  expect_equal(task$nrow, 150L)
+})
+
 test_that("row_ids_backend works correctly", {
   task = tsk("sonar")
 
