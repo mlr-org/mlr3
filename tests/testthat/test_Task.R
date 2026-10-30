@@ -1009,6 +1009,74 @@ test_that("row_hash works correctly", {
   )
 })
 
+test_that("rbind invalidates row_hash and col_hashes", {
+  task = tsk("iris")
+  row_hash = task$row_hash
+  col_hashes = task$col_hashes
+  task$rbind(iris[1:3, ])
+  expect_equal(task$row_hash, calculate_hash(task$row_ids))
+  expect_false(identical(task$row_hash, row_hash))
+  expect_false(identical(task$col_hashes, col_hashes))
+})
+
+test_that("cached hash equals recomputed hash after mutations", {
+  expect_fresh_hash = function(task) {
+    cached = task$hash
+    ee = get_private(task)
+    ee$.hash = NULL
+    expect_identical(cached, task$hash)
+  }
+
+  task = tsk("iris")
+  task$hash
+  task$labels = c(Species = "x")
+  expect_fresh_hash(task)
+
+  task = tsk("iris")$filter(1:100)
+  task$hash
+  task$col_hashes
+  task$materialize_view()
+  expect_fresh_hash(task)
+  col_hashes = task$col_hashes
+  ee = get_private(task)
+  ee$.col_hashes = NULL
+  expect_identical(col_hashes, task$col_hashes)
+
+  task = tsk("iris")
+  task$hash
+  task$col_info = copy(task$col_info)[id == "Species", label := "x"]
+  expect_fresh_hash(task)
+
+  task = tsk("iris")
+  task$hash
+  task$backend = as_data_backend(iris[1:100, ])
+  expect_fresh_hash(task)
+
+  task = tsk("sonar")
+  task$hash
+  task$positive = "R"
+  expect_fresh_hash(task)
+
+  task = tsk("sonar")
+  h = task$hash
+  task$extra_args = list(positive = "R")
+  expect_false(identical(h, task$hash))
+})
+
+test_that("task_rm_backend keeps the hashes", {
+  task = tsk("iris")
+  task$internal_valid_task = 1:10
+  hash = task$hash
+  col_hashes = task$col_hashes
+  valid_hash = task$internal_valid_task$hash
+  task = task_rm_backend(task)
+  expect_null(task$backend)
+  expect_null(task$internal_valid_task$backend)
+  expect_identical(task$hash, hash)
+  expect_identical(task$col_hashes, col_hashes)
+  expect_identical(task$internal_valid_task$hash, valid_hash)
+})
+
 test_that("row_ids_backend works correctly", {
   task = tsk("sonar")
 
