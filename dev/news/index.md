@@ -39,6 +39,13 @@
   errors of class `Mlr3ErrorConfig`, which previously always errored
   even when a handler was registered
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- fix: `Task$rbind()` now invalidates `$row_hash` and `$col_hashes`, so
+  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
+  [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
+  detect resamplings instantiated before the rows were added.
+  `$materialize_view()`, `$labels`, `$col_info`, `$backend`,
+  `$extra_args`, and `TaskClassif$positive` now invalidate the cached
+  task hash, and `$extra_args` is now part of the task hash.
 - fix:
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
   [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)

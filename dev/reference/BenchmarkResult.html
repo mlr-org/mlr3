@@ -714,8 +714,8 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;task_hash&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           task_hash  task_id                   task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;   &lt;char&gt;                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 40bc78f17c7a5f3d penguins &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: f9791e97f9813150    sonar    &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 34f9ef52fe94e6be penguins &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: f855443664c6cb00    sonar    &lt;TaskClassif:sonar&gt;</span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="va">learners</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;learner_hash&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash          learner_id</span>
@@ -731,11 +731,11 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;              &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: b951bf3d-770f-4926-b8de-c8ded94d7ad0 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: b951bf3d-770f-4926-b8de-c8ded94d7ad0 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: b951bf3d-770f-4926-b8de-c8ded94d7ad0 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: d151e975-7cb9-414e-bdd1-e8f15c54b023 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: d151e975-7cb9-414e-bdd1-e8f15c54b023 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: cd39c5c7-8e9e-4246-9b7a-89454ec472a8 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: cd39c5c7-8e9e-4246-9b7a-89454ec472a8 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: cd39c5c7-8e9e-4246-9b7a-89454ec472a8 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 8ab6ec80-501f-40c9-9951-c4069754692b &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 8ab6ec80-501f-40c9-9951-c4069754692b &lt;TaskClassif:sonar&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>
@@ -964,32 +964,32 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration      learner_state prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;             &lt;list&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 4be53327-353a-4c92-af03-1ab06eba6781         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 5958cf82-666b-46c0-a671-4c716068d9af         1 &lt;learner_state[9]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: accbdd7b-67be-4b83-9358-2515a5e51d51         1 &lt;learner_state[9]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: b51444e9-2e4c-473b-a1db-832fdc08d1b0         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash        task_hash    learner_phash  resampling_hash</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;           &lt;char&gt;           &lt;char&gt;           &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 23c8e0f69cbf95de f9791e97f9813150 3f9d6366d890d000 35db3d2bb507d357</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 1e0d02cc0b375420 f9791e97f9813150 6aecfaa91eda4557 35db3d2bb507d357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 1e0d02cc0b375420 f855443664c6cb00 6aecfaa91eda4557 35db3d2bb507d357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357</span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="fu">set_threshold</span><span class="op">(</span><span class="fl">0.3</span>, i <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration      learner_state prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;             &lt;list&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 4be53327-353a-4c92-af03-1ab06eba6781         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 5958cf82-666b-46c0-a671-4c716068d9af         1 &lt;learner_state[9]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: accbdd7b-67be-4b83-9358-2515a5e51d51         1 &lt;learner_state[9]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: b51444e9-2e4c-473b-a1db-832fdc08d1b0         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash        task_hash    learner_phash  resampling_hash</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;           &lt;char&gt;           &lt;char&gt;           &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 23c8e0f69cbf95de f9791e97f9813150 3f9d6366d890d000 35db3d2bb507d357</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 1e0d02cc0b375420 f9791e97f9813150 6aecfaa91eda4557 35db3d2bb507d357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 1e0d02cc0b375420 f855443664c6cb00 6aecfaa91eda4557 35db3d2bb507d357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357</span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="fu">set_threshold</span><span class="op">(</span><span class="fl">0.7</span>, uhashes <span class="op">=</span> <span class="fu"><a href="uhash.html">uhashes</a></span><span class="op">(</span><span class="va">bmr</span>, learner_ids <span class="op">=</span> <span class="st">"classif.featureless"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration      learner_state prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;             &lt;list&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 4be53327-353a-4c92-af03-1ab06eba6781         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 5958cf82-666b-46c0-a671-4c716068d9af         1 &lt;learner_state[9]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: accbdd7b-67be-4b83-9358-2515a5e51d51         1 &lt;learner_state[9]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: b51444e9-2e4c-473b-a1db-832fdc08d1b0         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash        task_hash    learner_phash  resampling_hash</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;           &lt;char&gt;           &lt;char&gt;           &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 23c8e0f69cbf95de f9791e97f9813150 3f9d6366d890d000 35db3d2bb507d357</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 1e0d02cc0b375420 f9791e97f9813150 6aecfaa91eda4557 35db3d2bb507d357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 1e0d02cc0b375420 f855443664c6cb00 6aecfaa91eda4557 35db3d2bb507d357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

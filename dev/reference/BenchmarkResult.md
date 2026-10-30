@@ -794,8 +794,8 @@ bmr$tasks
 #> Key: <task_hash>
 #>           task_hash  task_id                   task
 #>              <char>   <char>                 <list>
-#> 1: 40bc78f17c7a5f3d penguins <TaskClassif:penguins>
-#> 2: f9791e97f9813150    sonar    <TaskClassif:sonar>
+#> 1: 34f9ef52fe94e6be penguins <TaskClassif:penguins>
+#> 2: f855443664c6cb00    sonar    <TaskClassif:sonar>
 bmr$learners
 #> Key: <learner_hash>
 #>        learner_hash          learner_id
@@ -811,11 +811,11 @@ bmr$learners
 head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 #>                                   uhash                task
 #>                                  <char>              <list>
-#> 1: b951bf3d-770f-4926-b8de-c8ded94d7ad0 <TaskClassif:sonar>
-#> 2: b951bf3d-770f-4926-b8de-c8ded94d7ad0 <TaskClassif:sonar>
-#> 3: b951bf3d-770f-4926-b8de-c8ded94d7ad0 <TaskClassif:sonar>
-#> 4: d151e975-7cb9-414e-bdd1-e8f15c54b023 <TaskClassif:sonar>
-#> 5: d151e975-7cb9-414e-bdd1-e8f15c54b023 <TaskClassif:sonar>
+#> 1: cd39c5c7-8e9e-4246-9b7a-89454ec472a8 <TaskClassif:sonar>
+#> 2: cd39c5c7-8e9e-4246-9b7a-89454ec472a8 <TaskClassif:sonar>
+#> 3: cd39c5c7-8e9e-4246-9b7a-89454ec472a8 <TaskClassif:sonar>
+#> 4: 8ab6ec80-501f-40c9-9951-c4069754692b <TaskClassif:sonar>
+#> 5: 8ab6ec80-501f-40c9-9951-c4069754692b <TaskClassif:sonar>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1
@@ -1044,30 +1044,30 @@ bmr$set_threshold(0.8, learner_ids = "classif.featureless")
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 4be53327-353a-4c92-af03-1ab06eba6781         1 <learner_state[8]>  <list[1]>
-#> 2: 5958cf82-666b-46c0-a671-4c716068d9af         1 <learner_state[9]>  <list[1]>
+#> 1: accbdd7b-67be-4b83-9358-2515a5e51d51         1 <learner_state[9]>  <list[1]>
+#> 2: b51444e9-2e4c-473b-a1db-832fdc08d1b0         1 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 23c8e0f69cbf95de f9791e97f9813150 3f9d6366d890d000 35db3d2bb507d357
-#> 2: 1e0d02cc0b375420 f9791e97f9813150 6aecfaa91eda4557 35db3d2bb507d357
+#> 1: 1e0d02cc0b375420 f855443664c6cb00 6aecfaa91eda4557 35db3d2bb507d357
+#> 2: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357
 bmr$set_threshold(0.3, i = 2)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 4be53327-353a-4c92-af03-1ab06eba6781         1 <learner_state[8]>  <list[1]>
-#> 2: 5958cf82-666b-46c0-a671-4c716068d9af         1 <learner_state[9]>  <list[1]>
+#> 1: accbdd7b-67be-4b83-9358-2515a5e51d51         1 <learner_state[9]>  <list[1]>
+#> 2: b51444e9-2e4c-473b-a1db-832fdc08d1b0         1 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 23c8e0f69cbf95de f9791e97f9813150 3f9d6366d890d000 35db3d2bb507d357
-#> 2: 1e0d02cc0b375420 f9791e97f9813150 6aecfaa91eda4557 35db3d2bb507d357
+#> 1: 1e0d02cc0b375420 f855443664c6cb00 6aecfaa91eda4557 35db3d2bb507d357
+#> 2: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357
 bmr$set_threshold(0.7, uhashes = uhashes(bmr, learner_ids = "classif.featureless"))
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 4be53327-353a-4c92-af03-1ab06eba6781         1 <learner_state[8]>  <list[1]>
-#> 2: 5958cf82-666b-46c0-a671-4c716068d9af         1 <learner_state[9]>  <list[1]>
+#> 1: accbdd7b-67be-4b83-9358-2515a5e51d51         1 <learner_state[9]>  <list[1]>
+#> 2: b51444e9-2e4c-473b-a1db-832fdc08d1b0         1 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 23c8e0f69cbf95de f9791e97f9813150 3f9d6366d890d000 35db3d2bb507d357
-#> 2: 1e0d02cc0b375420 f9791e97f9813150 6aecfaa91eda4557 35db3d2bb507d357
+#> 1: 1e0d02cc0b375420 f855443664c6cb00 6aecfaa91eda4557 35db3d2bb507d357
+#> 2: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357
 ```
