@@ -536,6 +536,8 @@ Task = R6Class(
 
       # everything looks good, modify task
       private$.hash = NULL
+      private$.row_hash = NULL
+      private$.col_hashes = NULL
       private$.backend = DataBackendRbind$new(private$.backend, data)
       private$.col_info = tab[]
       private$.row_roles$use = c(private$.row_roles$use, data$rownames)
@@ -634,7 +636,7 @@ Task = R6Class(
       private$.hash = NULL
       private$.col_hashes = NULL
       private$.backend = DataBackendRename$new(private$.backend, old, new)
-      setkeyv(private$.col_info[old, ("id") := new, on = "id"], "id")
+      private$.col_info = setkeyv(copy(private$.col_info)[old, ("id") := new, on = "id"], "id")
       private$.col_roles = map(private$.col_roles, map_values, old = old, new = new)
       invisible(self)
     },
@@ -840,6 +842,8 @@ Task = R6Class(
       # nolint next
       ..cns = union(b$primary_key, unlist(private$.col_roles, use.names = FALSE))
       dt = b$data(rows = unique(self$row_ids), cols = ..cns)
+      private$.hash = NULL
+      private$.col_hashes = NULL
       private$.backend = as_data_backend(dt, primary_key = b$primary_key)
       private$.col_info = setkeyv(private$.col_info[list(..cns), on = "id"], "id")
 
@@ -1291,7 +1295,8 @@ Task = R6Class(
 
       assert_names(names(rhs), type = "unique")
       assert_subset(names(rhs), active)
-      private$.col_info[list(names(rhs)), "label" := rhs, on = "id"]
+      private$.hash = NULL
+      private$.col_info = copy(private$.col_info)[list(names(rhs)), "label" := rhs, on = "id"][]
 
       invisible(self)
     },
@@ -1357,6 +1362,7 @@ Task = R6Class(
       if (missing(rhs)) {
         return(private$.extra_args)
       }
+      private$.hash = NULL
       private$.extra_args = assert_list(rhs, names = "unique")
     },
 
@@ -1370,6 +1376,8 @@ Task = R6Class(
       if (!is.null(rhs)) {
         assert_backend(rhs)
       }
+      private$.hash = NULL
+      private$.col_hashes = NULL
       private$.backend = rhs
     },
 
@@ -1390,6 +1398,7 @@ Task = R6Class(
         return(private$.col_info)
       }
       assert_data_table(rhs)
+      private$.hash = NULL
       private$.col_info = rhs
     },
 
@@ -1687,10 +1696,13 @@ task_rm_backend = function(task) {
   ee = get_private(task)
   ee$.hash = force(task$hash)
   ee$.col_hashes = force(task$col_hashes)
-  ee$.internal_valid_task$backend = NULL
+  if (!is.null(ee$.internal_valid_task)) {
+    ee_valid = get_private(ee$.internal_valid_task)
+    ee_valid$.backend = NULL
+  }
 
-  # NULL backend
-  task$backend = NULL
+  # NULL backend, bypassing the active binding to keep the hashes
+  ee$.backend = NULL
 
   task
 }

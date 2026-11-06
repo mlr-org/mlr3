@@ -1,6 +1,7 @@
 # mlr3 (development version)
 
 * BREAKING CHANGE: `as_task_classif()` and `as_task_regr()` now raise an error if the target column contains missing values instead of showing a message (#1442).
+* fix: Mutating a shallow clone of a task via `$rename()`, `$set_levels()`, `$droplevels()`, `$cbind()`, `$labels`, or `$positive` no longer modifies the column information of the original task.
 * fix: Errors caused by prior misconfiguration (e.g., predicting with an untrained learner, uninstantiated resamplings, missing stored models or backends, and unsupported predict types) now signal `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer masked by fallback learners under encapsulation (#1500).
 * fix: `LearnerRegr`'s `$hash` and `$phash` now include `$quantiles` and `$quantile_response`, so learners predicting different quantiles are no longer treated as identical, e.g., when combining resample results (#1518).
   Subclasses of `Learner` can now add fields to the hash via the private field `$.extra_hash`.
@@ -8,6 +9,8 @@
   `as_prediction_regr()` now also reconstructs quantile predictions from columns named `q<prob>` and raises an error for tables with a `distr` column.
   `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
+* fix: `Task$rbind()` now invalidates `$row_hash` and `$col_hashes`, so `resample()` and `benchmark()` detect resamplings instantiated before the rows were added.
+  `$materialize_view()`, `$labels`, `$col_info`, `$backend`, `$extra_args`, and `TaskClassif$positive` now invalidate the cached task hash, and `$extra_args` is now part of the task hash.
 * fix: `resample()` and `benchmark()` with `allow_hotstart = TRUE` no longer carry over the prediction time, validation scores, fallback state, and task copies of the start learner into the hotstarted learner, which inflated `msr("time_predict")` (#1504).
 * fix: `Task$set_row_roles()` now stores row ids as integers, so the same set of rows no longer results in different task hashes depending on the type of the passed row ids.
   Assigning to `$row_roles` now raises an error for row ids that do not exist in the backend.
