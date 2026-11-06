@@ -779,6 +779,9 @@ the object in its previous state.</p>
 <p>The row ids must be provided as column in <code>data</code>
 (with column name matching the primary key name of the <a href="DataBackend.html">DataBackend</a>).
 If this column is missing, it is assumed that the rows are exactly in the order of <code>$row_ids</code>.
+Otherwise, <code>data</code> must contain all rows of <code>$row_ids</code>.
+Columns of <code>data</code> without a role in the task are added as features,
+columns with an existing role keep their roles.
 In case of name clashes of column names in <code>data</code> and <a href="DataBackend.html">DataBackend</a>, columns in <code>data</code> have higher precedence
 and virtually overwrite the columns in the <a href="DataBackend.html">DataBackend</a>.</p>
 <p>This operation mutates the task in-place.

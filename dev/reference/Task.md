@@ -986,8 +986,10 @@ The row ids must be provided as column in `data` (with column name
 matching the primary key name of the
 [DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md)).
 If this column is missing, it is assumed that the rows are exactly in
-the order of `$row_ids`. In case of name clashes of column names in
-`data` and
+the order of `$row_ids`. Otherwise, `data` must contain all rows of
+`$row_ids`. Columns of `data` without a role in the task are added as
+features, columns with an existing role keep their roles. In case of
+name clashes of column names in `data` and
 [DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md),
 columns in `data` have higher precedence and virtually overwrite the
 columns in the

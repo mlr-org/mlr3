@@ -79,6 +79,13 @@
   now accepts a plain `data.frame` as `design`, as documented, instead
   of failing with “replacement has 0 rows”
   ([\#1505](https://github.com/mlr-org/mlr3/issues/1505)).
+- fix: `Task$cbind()` now raises an error if `data` does not contain all
+  rows of the task, instead of silently filling the new columns with
+  missing values. Columns that already have a role other than
+  `"feature"` keep their roles instead of additionally becoming
+  features. `$cbind()` and `$rbind()` now check the column roles when
+  they modify columns with a role, e.g., rejecting negative weights, and
+  leave the task unchanged if the check fails.
 - fix: The option `mlr3.exec_random` now actually randomizes the
   execution order of
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
@@ -87,6 +94,13 @@
   silently ignored because it was attached to `future.scheduling` while
   `future.chunk.size` was always set
   ([\#1508](https://github.com/mlr-org/mlr3/issues/1508)).
+- fix: `Task$set_levels()` now raises an error for columns that are not
+  factors and for duplicated or missing levels, instead of silently
+  converting the column to a factor in `$data()`. `Task$set_col_roles()`
+  now rejects the primary key, like `$col_roles`. `Task$task_type` can
+  only be set to a task type whose task class the task inherits from.
+  Invalid offset column names of multiclass tasks now raise an
+  `Mlr3ErrorInput` instead of a testthat expectation failure.
 - perf: `Learner$predict()` now calls
   [`as_prediction()`](https://mlr3.mlr-org.com/dev/reference/as_prediction.md)
   with `check = FALSE`, so prediction data is no longer checked twice
@@ -116,6 +130,11 @@
   quantile predictions when the `response` attribute of `quantiles` is
   given as a probability
   ([\#1517](https://github.com/mlr-org/mlr3/issues/1517)).
+- fix: Assigning row ids to `Task$internal_valid_task` now raises an
+  error for row ids that are not in `$row_ids` and no longer removes
+  duplicated training rows. Assigning an object that is not a task now
+  raises an informative error, and `$internal_valid_task` is returned
+  visibly.
 - fix: `LearnerClassif$predict_newdata_fast()` now passes the positive
   and negative class to the learner, so binary learners such as
   `classif.log_reg` no longer return unnamed and possibly swapped
