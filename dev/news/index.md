@@ -9,6 +9,10 @@
   now raise an error if the target column contains missing values
   instead of showing a message
   ([\#1442](https://github.com/mlr-org/mlr3/issues/1442)).
+- fix: Mutating a shallow clone of a task via `$rename()`,
+  `$set_levels()`, `$droplevels()`, `$cbind()`, `$labels`, or
+  `$positive` no longer modifies the column information of the original
+  task.
 - fix: Errors caused by prior misconfiguration (e.g., predicting with an
   untrained learner, uninstantiated resamplings, missing stored models
   or backends, and unsupported predict types) now signal
