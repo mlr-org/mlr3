@@ -736,7 +736,7 @@ Task = R6Class(
     #' task$col_roles$stratum
     set_col_roles = function(cols, roles = NULL, add_to = NULL, remove_from = NULL) {
       assert_has_backend(self)
-      assert_subset(cols, private$.col_info$id)
+      assert_subset(cols, setdiff(private$.col_info$id, private$.backend$primary_key))
 
       private$.hash = NULL
       private$.col_hashes = NULL
@@ -765,7 +765,19 @@ Task = R6Class(
     #' task$levels("sex")
     set_levels = function(levels) {
       assert_list(levels, types = "character", names = "unique", any.missing = FALSE)
+      walk(names(levels), function(id) {
+        assert_character(levels[[id]], any.missing = FALSE, unique = TRUE, .var.name = sprintf("levels of '%s'", id))
+      })
       assert_subset(names(levels), private$.col_info$id)
+      types = fget_keys(private$.col_info, i = names(levels), j = "type", key = "id")
+      ii = wf(types %nin% c("factor", "ordered"))
+      if (length(ii)) {
+        error_input(
+          "Levels can only be set for factor columns, but column '%s' is of type '%s'",
+          names(levels)[ii],
+          types[ii]
+        )
+      }
 
       tab = enframe(lapply(levels, unname), name = "id", value = "levels")
       tab$fix_factor_levels = TRUE
@@ -1368,7 +1380,17 @@ Task = R6Class(
       if (missing(rhs)) {
         return(private$.task_type)
       }
-      private$.task_type = assert_choice(rhs, mlr_reflections$task_types$type)
+      assert_choice(rhs, mlr_reflections$task_types$type)
+      task_class = mlr_reflections$task_types[list(rhs), "task", on = "type", with = FALSE][[1L]][1L]
+      if (!inherits(self, task_class)) {
+        error_input(
+          "Cannot set the task type of task '%s' to '%s', the task must inherit from '%s'",
+          self$id,
+          rhs,
+          task_class
+        )
+      }
+      private$.task_type = rhs
     },
 
     #' @template field_man
@@ -1606,7 +1628,10 @@ task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
 
   if (length(new_roles[["offset"]]) > 1L) {
     expected_names = paste0("offset_", task$class_names)
-    expect_subset(new_roles[["offset"]], expected_names, label = "col_roles")
+    msg = check_subset(new_roles[["offset"]], expected_names)
+    if (!isTRUE(msg)) {
+      error_input("Assertion on offset columns failed: %s", msg)
+    }
   }
 
   NextMethod()

@@ -178,4 +178,7 @@ test_that("offset column role works with multiclass tasks", {
   expect_subset("offset", task$properties)
   expect_data_table(task$offset, nrows = task$nrow, ncols = 3)
   expect_subset(c("row_id", "offset_1", "offset_2"), names(task$offset))
+
+  task$cbind(data.table(o3 = runif(task$nrow)))
+  expect_error(task$set_col_roles(c("offset_1", "o3"), "offset"), class = "Mlr3ErrorInput")
 })
