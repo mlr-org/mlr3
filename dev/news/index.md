@@ -58,6 +58,10 @@
   learner into the hotstarted learner, which inflated
   `msr("time_predict")`
   ([\#1504](https://github.com/mlr-org/mlr3/issues/1504)).
+- fix: `Task$set_row_roles()` now stores row ids as integers, so the
+  same set of rows no longer results in different task hashes depending
+  on the type of the passed row ids. Assigning to `$row_roles` now
+  raises an error for row ids that do not exist in the backend.
 - fix: Callbacks now receive the model in unmarshaled form in the
   `on_resample_end` stage of
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
