@@ -12,6 +12,8 @@
 * fix: `Task$rbind()` now invalidates `$row_hash` and `$col_hashes`, so `resample()` and `benchmark()` detect resamplings instantiated before the rows were added.
   `$materialize_view()`, `$labels`, `$col_info`, `$backend`, `$extra_args`, and `TaskClassif$positive` now invalidate the cached task hash, and `$extra_args` is now part of the task hash.
 * fix: `resample()` and `benchmark()` with `allow_hotstart = TRUE` no longer carry over the prediction time, validation scores, fallback state, and task copies of the start learner into the hotstarted learner, which inflated `msr("time_predict")` (#1504).
+* fix: `Task$set_row_roles()` now stores row ids as integers, so the same set of rows no longer results in different task hashes depending on the type of the passed row ids.
+  Assigning to `$row_roles` now raises an error for row ids that do not exist in the backend.
 * fix: Callbacks now receive the model in unmarshaled form in the `on_resample_end` stage of `resample()` and `benchmark()`, regardless of `unmarshal`, `store_models`, and the execution mode (#1509).
 * fix: `learner_predict()` now invalidates the cached task hash when subsetting to the predict rows, so `task$hash` is correct inside `.predict()` and `resample()` no longer stores a wrong task hash when a learner reads the hash during prediction (#1503).
 * fix: `benchmark()` now accepts a plain `data.frame` as `design`, as documented, instead of failing with "replacement has 0 rows" (#1505).
