@@ -236,6 +236,26 @@ test_that("rename works", {
   expect_task_classif(task)
 })
 
+test_that("mutating a shallow clone does not modify col_info of the original task", {
+  task = tsk("iris")
+  ci = copy(task$col_info)
+
+  task$clone()$rename("Sepal.Length", "foo")
+  task$clone()$set_levels(list(Species = c("setosa", "versicolor")))
+  task$clone()$filter(1:100)$droplevels()
+  task$clone()$cbind(data.table(Species = factor(rep(c("a", "b", "c"), 50))))
+  task2 = task$clone()
+  task2$labels = c(Species = "foo")
+  expect_equal(task$col_info, ci)
+  expect_task_classif(task)
+
+  task = tsk("sonar")
+  ci = copy(task$col_info)
+  task2 = task$clone()
+  task2$positive = "R"
+  expect_equal(task$col_info, ci)
+})
+
 test_that("stratify works", {
   task = tsk("iris")
   expect_false("strata" %chin% task$properties)
