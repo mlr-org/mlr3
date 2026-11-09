@@ -163,9 +163,10 @@ LearnerRegr = R6Class(
   active = list(
     #' @field quantiles (`numeric()`)\cr
     #' Numeric vector of probabilities to be used while predicting quantiles.
-    #' Elements must be between 0 and 1, not missing and provided in ascending order.
+    #' Elements must be between 0 and 1, unique, not missing, and provided in ascending order.
     #' If only one quantile is provided, it is used as response.
     #' Otherwise, set `$quantile_response` to specify the response quantile.
+    #' A previously set `$quantile_response` is kept if it is contained in the new quantiles and reset to `NULL` otherwise.
     #' Set to `NULL` to reset both `$quantiles` and `$quantile_response`.
     quantiles = function(rhs) {
       if (missing(rhs)) {
@@ -186,12 +187,15 @@ LearnerRegr = R6Class(
         upper = 1,
         any.missing = FALSE,
         min.len = 1L,
+        unique = TRUE,
         sorted = TRUE,
         .var.name = "quantiles"
       )
 
       if (length(private$.quantiles) == 1L) {
         private$.quantile_response = private$.quantiles
+      } else if (!is.null(private$.quantile_response) && private$.quantile_response %nin% private$.quantiles) {
+        private$.quantile_response = NULL
       }
     },
 
