@@ -54,7 +54,7 @@
 #'   debugging and provide more concise tracebacks.
 #'   Note that results computed in debug mode use a different seeding mechanism and are **not reproducible**.
 #' * `"mlr3.warn_version_mismatch"`: Set to `FALSE` to silence warnings raised during predict if a learner has been
-#'   trained with a different version version of mlr3.
+#'   trained with a different version of mlr3.
 #' * `"mlr3.prob_as_default"`: Set to `TRUE` to set the predict type of classification learners to
 #'   `"prob"` by default (if they support it).
 #' * `"mlr3.mirai_parallelization"`: Compute profile to use for parallelization with \CRANpkg{mirai}.
