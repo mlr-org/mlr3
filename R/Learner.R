@@ -547,6 +547,19 @@ Learner = R6Class(
           task_col_roles[[role]] = character(0)
         }
       }
+
+      # the offset is only used by learners with the "offset" property, all other learners ignore it during training
+      missing_offset = setdiff(task_col_roles[["offset"]], newdata$colnames)
+      if (length(missing_offset)) {
+        if ("offset" %in% self$properties) {
+          error_input(
+            "Learner '%s' uses the offset column(s) %s of the training task, which are missing in newdata",
+            self$id,
+            str_collapse(missing_offset, quote = "'")
+          )
+        }
+        task_col_roles[["offset"]] = character(0)
+      }
       task$col_roles = task_col_roles
 
       self$predict(task)
