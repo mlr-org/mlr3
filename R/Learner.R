@@ -995,7 +995,17 @@ Learner = R6Class(
       if (missing(rhs)) {
         return(private$.task_type)
       }
-      private$.task_type = assert_choice(rhs, mlr_reflections$task_types$type)
+      assert_choice(rhs, mlr_reflections$task_types$type)
+      learner_class = mlr_reflections$task_types[list(rhs), "learner", on = "type", with = FALSE][[1L]][1L]
+      if (!inherits(self, learner_class)) {
+        error_input(
+          "Cannot set the task type of learner '%s' to '%s', the learner must inherit from '%s'",
+          self$id,
+          rhs,
+          learner_class
+        )
+      }
+      private$.task_type = rhs
     },
 
     #' @field feature_types (`character()`)\cr

@@ -1456,3 +1456,16 @@ test_that("deadline works as intended: mirai", {
   expect_no_error(l$predict(tsk("iris")))
   expect_true((l$timings["predict"] < allowed))
 })
+
+test_that("task_type must match the class of the learner", {
+  learner = lrn("classif.rpart")
+  expect_error(
+    {
+      learner$task_type = "regr"
+    },
+    "must inherit from"
+  )
+  expect_equal(learner$task_type, "classif")
+  learner$task_type = "classif"
+  expect_equal(learner$task_type, "classif")
+})
