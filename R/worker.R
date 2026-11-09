@@ -385,7 +385,9 @@ learner_predict = function(learner, task, row_ids = NULL) {
   fb = learner$fallback
   if (!is.null(fb)) {
     predict_fb = function(row_ids) {
-      fb = assert_learner(as_learner(fb))
+      # predict on a clone so that syncing the predict type and state does not alter the stored fallback,
+      # whose hash is part of the learner hash
+      fb = fb$clone()
       fb$predict_type = learner$predict_type
       fb$state = learner$state$fallback_state
       as_prediction_data(fb$predict(task, row_ids), task, row_ids, check = TRUE, train_task = learner$state$train_task)

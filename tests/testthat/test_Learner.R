@@ -1456,3 +1456,28 @@ test_that("deadline works as intended: mirai", {
   expect_no_error(l$predict(tsk("iris")))
   expect_true((l$timings["predict"] < allowed))
 })
+
+test_that("predicting with a fallback does not change the learner hash", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", predict_type = "prob", predict_missing = 0.5)
+  suppressWarnings(learner$encapsulate("evaluate", lrn("classif.featureless")))
+  learner$train(task)
+  hash = learner$hash
+
+  learner$predict(task)
+  expect_identical(learner$hash, hash)
+  expect_identical(learner$fallback$predict_type, "response")
+
+  learner$predict_newdata_fast(task$data())
+  expect_identical(learner$hash, hash)
+  expect_identical(learner$fallback$predict_type, "response")
+
+  learner = lrn("classif.debug", predict_type = "prob", error_train = 1)
+  suppressWarnings(learner$encapsulate("evaluate", lrn("classif.featureless")))
+  learner$train(task)
+  hash = learner$hash
+  learner$predict(task)
+  learner$predict_newdata_fast(task$data())
+  expect_identical(learner$hash, hash)
+  expect_identical(learner$fallback$predict_type, "response")
+})

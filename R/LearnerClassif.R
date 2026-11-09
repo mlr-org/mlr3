@@ -129,8 +129,8 @@ LearnerClassif = R6Class(
       if (is.null(self$model) && !is.null(self$state$fallback_state$model)) {
         # the trained fallback model lives in the main learner's state, not on the fallback object itself
         # (e.g. after resample() / benchmark()), and its predict type is only synced in the predict path,
-        # so restore both before predicting (see learner_predict() in worker.R)
-        fb = self$fallback
+        # so restore both on a clone before predicting (see learner_predict() in worker.R)
+        fb = self$fallback$clone()
         fb$predict_type = self$predict_type
         fb$state = self$state$fallback_state
         return(fb$predict_newdata_fast(newdata, task))
@@ -149,7 +149,7 @@ LearnerClassif = R6Class(
 
       miss_ids = which(miss)
       if (length(miss_ids) && !is.null(self$state$fallback_state$model)) {
-        fb = self$fallback
+        fb = self$fallback$clone()
         fb$predict_type = self$predict_type
         fb$state = self$state$fallback_state
         pred_miss = fb$predict_newdata_fast(newdata[miss_ids, ], task)
