@@ -1,6 +1,10 @@
 test_that("construction", {
   l = Learner$new("test-learner", task_type = "classif", predict_types = "prob")
   expect_class(l, "Learner")
+  expect_error(
+    Learner$new("test-learner", task_type = "classif", predict_types = "prob", param_set = list(a = 1)),
+    "Assertion on .param_set. failed"
+  )
 })
 
 test_that("clone", {
