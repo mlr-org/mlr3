@@ -571,6 +571,27 @@ test_that("model is marshaled during parallel predict", {
   expect_class(pred, "Prediction")
 })
 
+test_that("parallel predict keeps the log and the predict time", {
+  skip_if_not_installed("future")
+  task = tsk("iris")
+  learner = lrn("classif.debug", warning_predict = 1)
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+  learner$train(task)
+  learner$parallel_predict = TRUE
+
+  with_future(future::multisession, {
+    pred = learner$predict(task)
+    expect_prediction(pred)
+    expect_equal(pred$row_ids, task$row_ids)
+    expect_length(learner$warnings, 2L)
+    expect_gt(learner$timings["predict"], 0)
+
+    pred = learner$predict(task, integer(0))
+    expect_prediction(pred)
+    expect_length(pred$row_ids, 0L)
+  }, workers = 2L)
+})
+
 test_that("model is marshaled during callr prediction", {
   # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
   # id. LearnerClassifDebug then checks during `.predict()`,

@@ -441,8 +441,8 @@ This currently only works for methods \code{Learner$predict()} and \code{Learner
 and has no effect during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}} where you have other means
 to parallelize.
 
-Note that the recorded time required for prediction is not properly defined and
-depends on the parallelization backend.}
+Note that the recorded time required for prediction is the sum of the prediction times of all chunks,
+which depends on the parallelization backend.}
 
     \item{\code{predict_raw}}{(\code{logical(1)})\cr
 If set to \code{TRUE}, the raw prediction object from the upstream model is stored in the

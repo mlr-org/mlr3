@@ -420,19 +420,22 @@ Learner = R6Class(
 
       # we only have to marshal here for the parallel prediction case, because learner_predict() handles the
       # marshaling for call-r encapsulation itself
-      if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L) {
+      if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L && length(row_ids %??% task$row_ids) > 0L) {
         row_ids = row_ids %??% task$row_ids
         chunked = chunk_vector(row_ids, n_chunks = nbrOfWorkers(), shuffle = FALSE)
         self$model = marshal_model(self$model, inplace = TRUE)
-        pdata = future.apply::future_lapply(
+        results = future.apply::future_lapply(
           chunked,
-          learner_predict,
+          learner_predict_chunk,
           learner = self,
           task = task,
           future.globals = FALSE,
           future.seed = TRUE
         )
-        pdata = do.call(c, pdata)
+        pdata = do.call(c, map(results, "pdata"))
+        # the workers operate on copies of the learner, so merge their log entries and predict times
+        self$state$log = rbindlist(c(list(self$state$log), map(results, "log")), use.names = TRUE)
+        self$state$predict_time = sum(map_dbl(results, "predict_time"))
       } else {
         pdata = learner_predict(self, task, row_ids)
       }
@@ -1054,8 +1057,8 @@ Learner = R6Class(
     #' and has no effect during [resample()] or [benchmark()] where you have other means
     #' to parallelize.
     #'
-    #' Note that the recorded time required for prediction is not properly defined and
-    #' depends on the parallelization backend.
+    #' Note that the recorded time required for prediction is the sum of the prediction times of all chunks,
+    #' which depends on the parallelization backend.
     parallel_predict = function(rhs) {
       if (missing(rhs)) {
         return(private$.parallel_predict)
