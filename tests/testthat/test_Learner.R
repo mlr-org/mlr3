@@ -793,6 +793,26 @@ test_that("selected_features works", {
   expect_equal(learner$selected_features(), task$feature_names)
 })
 
+test_that("predict_newdata with offset column in the training task", {
+  dt = as.data.table(iris)
+  dt$off = seq_len(nrow(dt)) / nrow(dt)
+  task = as_task_classif(dt, target = "Species")
+  task$set_col_roles("off", "offset")
+
+  # learners without the offset property ignore the offset during training and prediction
+  learner = lrn("classif.featureless")
+  expect_warning(learner$train(task), "has offset")
+  expect_prediction(learner$predict_newdata(iris[1:3, ]))
+  expect_prediction(suppressWarnings(learner$predict_newdata(dt[1:3])))
+
+  # learners with the offset property need the offset column
+  learner = lrn("classif.debug")
+  learner$properties = c(learner$properties, "offset")
+  learner$train(task)
+  expect_error(learner$predict_newdata(iris[1:3, ]), "offset column\\(s\\) 'off'")
+  expect_prediction(learner$predict_newdata(dt[1:3]))
+})
+
 test_that("predict_newdata auto conversion (#685)", {
   l = lrn("classif.debug", save_tasks = TRUE)$train(tsk("iris")$select(c("Sepal.Length", "Sepal.Width")))
   expect_error(
