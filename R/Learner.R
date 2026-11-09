@@ -1169,13 +1169,7 @@ Learner = R6Class(
         name,
         .param_set = value$clone(deep = TRUE),
         .fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
-        state = {
-          if (!is.null(value$train_task)) {
-            value$train_task = value$train_task$clone(deep = TRUE)
-          }
-          value$log = copy(value$log)
-          value
-        },
+        state = clone_learner_state(value),
         value
       )
     }
@@ -1192,6 +1186,20 @@ rd_info.Learner = function(obj, ...) {
     sprintf("* Required Packages: %s", rd_format_packages(obj$packages))
   )
   paste(x, collapse = "\n")
+}
+
+# deep copies the mutable parts of a learner state, including the state of a fallback learner
+clone_learner_state = function(state) {
+  if (!is.null(state$train_task)) {
+    state$train_task = state$train_task$clone(deep = TRUE)
+  }
+  if (!is.null(state$log)) {
+    state$log = copy(state$log)
+  }
+  if (!is.null(state$fallback_state)) {
+    state$fallback_state = clone_learner_state(state$fallback_state)
+  }
+  state
 }
 
 get_log_condition = function(state, condition) {
