@@ -751,6 +751,29 @@ test_that("quantiles in LearnerRegr", {
   expect_subset("q0.5", names(tab))
 })
 
+test_that("quantiles setter resets a quantile_response that is no longer contained", {
+  learner = lrn("regr.debug", predict_type = "quantiles")
+  learner$quantiles = c(0.1, 0.5, 0.9)
+  learner$quantile_response = 0.5
+
+  learner$quantiles = c(0.25, 0.5, 0.75)
+  expect_equal(learner$quantile_response, 0.5)
+
+  learner$quantiles = c(0.2, 0.8)
+  expect_null(learner$quantile_response)
+  expect_error(learner$train(tsk("mtcars")), "Quantile response must be set")
+
+  learner$quantiles = 0.3
+  expect_equal(learner$quantile_response, 0.3)
+
+  expect_error(
+    {
+      learner$quantiles = c(0.5, 0.5)
+    },
+    "duplicated"
+  )
+})
+
 test_that("predict time is cumulative", {
   # no runtime test on CRAN
   skip_on_cran()
