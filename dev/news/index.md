@@ -169,6 +169,26 @@
   merged learners that differed only in these settings and ran them with
   the settings of the first one
   ([\#1511](https://github.com/mlr-org/mlr3/issues/1511)).
+- fix: `LearnerClassif$predict_newdata_fast()` now imputes missing
+  responses by class label, so a fallback learner returning a factor no
+  longer inserts integer codes into a character response.
+- fix: `Learner$new()` now checks that `param_set` is a `ParamSet`
+  instead of failing later with “attempt to apply non-function”.
+- fix: `Learner$task_type` can only be set to a task type whose learner
+  class the learner inherits from, so a `LearnerClassif` can no longer
+  be turned into a `"regr"` learner that trains on a numeric target and
+  fails at predict time.
+- fix: `Learner$print()` now shows the messages of logged warnings and
+  errors instead of the deparsed condition objects.
+- fix: `LearnerRegr$quantiles` now resets `$quantile_response` when the
+  new quantiles do not contain it, so predicting no longer fails with
+  “subscript out of bounds” when accessing `$response`, and rejects
+  duplicated quantiles.
+- fix: `Learner$predict()` with `parallel_predict = TRUE` now keeps the
+  log entries and the predict time recorded by the workers, so
+  `$warnings`, `$errors`, and `$timings` are no longer empty after a
+  parallel prediction, and returns an empty prediction instead of `NULL`
+  for zero row ids.
 - fix: `Learner$encapsulate()` now validates all arguments before
   changing the learner, so a failed call no longer changes `$hash`,
   raises an error if the fallback learner does not support the

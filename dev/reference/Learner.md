@@ -539,8 +539,9 @@ Other Learner:
   [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
   where you have other means to parallelize.
 
-  Note that the recorded time required for prediction is not properly
-  defined and depends on the parallelization backend.
+  Note that the recorded time required for prediction is the sum of the
+  prediction times of all chunks, which depends on the parallelization
+  backend.
 
 - `predict_raw`:
 

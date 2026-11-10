@@ -101,11 +101,12 @@ Other Learner:
 
   ([`numeric()`](https://rdrr.io/r/base/numeric.html))  
   Numeric vector of probabilities to be used while predicting quantiles.
-  Elements must be between 0 and 1, not missing and provided in
+  Elements must be between 0 and 1, unique, not missing, and provided in
   ascending order. If only one quantile is provided, it is used as
   response. Otherwise, set `$quantile_response` to specify the response
-  quantile. Set to `NULL` to reset both `$quantiles` and
-  `$quantile_response`.
+  quantile. A previously set `$quantile_response` is kept if it is
+  contained in the new quantiles and reset to `NULL` otherwise. Set to
+  `NULL` to reset both `$quantiles` and `$quantile_response`.
 
 - `quantile_response`:
 

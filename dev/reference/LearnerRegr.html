@@ -140,9 +140,10 @@ for established default tuning spaces.</p></li>
     <p></p><div class="r6-active-bindings"><dl><dt><code>quantiles</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br>
 Numeric vector of probabilities to be used while predicting quantiles.
-Elements must be between 0 and 1, not missing and provided in ascending order.
+Elements must be between 0 and 1, unique, not missing, and provided in ascending order.
 If only one quantile is provided, it is used as response.
 Otherwise, set <code>$quantile_response</code> to specify the response quantile.
+A previously set <code>$quantile_response</code> is kept if it is contained in the new quantiles and reset to <code>NULL</code> otherwise.
 Set to <code>NULL</code> to reset both <code>$quantiles</code> and <code>$quantile_response</code>.</p></dd>
 
 
