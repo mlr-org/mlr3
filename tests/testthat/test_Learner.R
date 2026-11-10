@@ -244,6 +244,40 @@ test_that("fallback learner is deep cloned (#511)", {
   expect_different_address(l$fallback, l$clone(deep = TRUE)$fallback)
 })
 
+test_that("encapsulate() validates before changing the learner", {
+  learner = lrn("classif.rpart")
+  hash = learner$hash
+
+  expect_error(learner$encapsulate("evaluate", lrn("regr.featureless"), when = function(cond, stage) TRUE))
+  expect_identical(learner$hash, hash)
+  expect_null(learner$fallback)
+  expect_equal(learner$encapsulation, c(train = "none", predict = "none"))
+
+  expect_error(learner$encapsulate("none", when = function(cond, stage) TRUE), "must be `NULL`")
+  expect_error(learner$encapsulate("none", fallback = lrn("classif.featureless")), "must be `NULL`")
+  expect_identical(learner$hash, hash)
+})
+
+test_that("encapsulate() rejects a fallback that does not support the predict type", {
+  LearnerResponseOnly = R6Class(
+    "LearnerResponseOnly",
+    inherit = LearnerClassifFeatureless,
+    public = list(
+      initialize = function() {
+        super$initialize()
+        private$.predict_types = "response"
+      }
+    )
+  )
+
+  learner = lrn("classif.debug", predict_type = "prob")
+  expect_error(learner$encapsulate("evaluate", LearnerResponseOnly$new()), "does not support the predict type")
+  expect_null(learner$fallback)
+
+  learner$predict_type = "response"
+  expect_no_error(learner$encapsulate("evaluate", LearnerResponseOnly$new()))
+})
+
 test_that("learner cannot be trained with TuneToken present", {
   task = tsk("california_housing")
   learner = lrn("regr.rpart", cp = paradox::to_tune(0.1, 0.3))
@@ -569,6 +603,27 @@ test_that("model is marshaled during parallel predict", {
     learner$predict(task)
   })
   expect_class(pred, "Prediction")
+})
+
+test_that("parallel predict keeps the log and the predict time", {
+  skip_if_not_installed("future")
+  task = tsk("iris")
+  learner = lrn("classif.debug", warning_predict = 1)
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+  learner$train(task)
+  learner$parallel_predict = TRUE
+
+  with_future(future::multisession, {
+    pred = learner$predict(task)
+    expect_prediction(pred)
+    expect_equal(pred$row_ids, task$row_ids)
+    expect_length(learner$warnings, 2L)
+    expect_gt(learner$timings["predict"], 0)
+
+    pred = learner$predict(task, integer(0))
+    expect_prediction(pred)
+    expect_length(pred$row_ids, 0L)
+  }, workers = 2L)
 })
 
 test_that("model is marshaled during callr prediction", {
