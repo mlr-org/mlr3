@@ -636,6 +636,7 @@ Learner = R6Class(
     #'  See the description for details.
     #' @param fallback [Learner]\cr
     #'  The fallback learner for failed predictions.
+    #'  Must support the `$predict_type` of the learner.
     #' @param when (`function(cond, stage)`)\cr
     #'  Function that takes in the condition (`cond`) and the stage (`"train"` or `"predict"`) and
     #'  returns `logical(1)` indicating whether to run the fallback learner.
@@ -650,8 +651,7 @@ Learner = R6Class(
     #' learner$encapsulate("try", fallback = fallback)
     encapsulate = function(method, fallback = NULL, when = NULL) {
       assert_choice(method, c("none", "try", "evaluate", "callr", "mirai"))
-
-      private$.when = assert_function(when, null.ok = TRUE)
+      assert_function(when, null.ok = TRUE)
 
       if (!is.null(when)) {
         fargs = formalArgs(when)
@@ -660,8 +660,24 @@ Learner = R6Class(
         }
       }
 
-      if (method != "none") {
+      if (method == "none") {
+        if (!is.null(fallback)) {
+          error_config("Fallback learner must be `NULL` if encapsulation is set to `none`.")
+        }
+        if (!is.null(when)) {
+          error_config("Handler `when` must be `NULL` if encapsulation is set to `none`.")
+        }
+      } else {
         assert_learner(fallback, task_type = self$task_type)
+
+        if (self$predict_type %nin% fallback$predict_types) {
+          error_config(
+            "The fallback learner '%s' does not support the predict type '%s' of the base learner '%s'.",
+            fallback$id,
+            self$predict_type,
+            self$id
+          )
+        }
 
         if (!identical(self$predict_type, fallback$predict_type)) {
           warning_config(
@@ -690,14 +706,13 @@ Learner = R6Class(
             class = "Mlr3WarningConfigFallbackProperties"
           )
         }
-      } else if (method == "none" && !is.null(fallback)) {
-        error_config("Fallback learner must be `NULL` if encapsulation is set to `none`.")
       }
 
       private$.encapsulation = c(train = method, predict = method)
       private$.fallback = fallback
+      private$.when = when
 
-      return(invisible(self))
+      invisible(self)
     },
 
     #' @description

@@ -841,7 +841,8 @@ Also see the section on error handling in the mlr3book:
 One of \code{"none"}, \code{"try"}, \code{"evaluate"}, \code{"callr"} or \code{"mirai"}.
 See the description for details.}
       \item{\code{fallback}}{\link{Learner}\cr
-The fallback learner for failed predictions.}
+The fallback learner for failed predictions.
+Must support the \verb{$predict_type} of the learner.}
       \item{\code{when}}{(\verb{function(cond, stage)})\cr
 Function that takes in the condition (\code{cond}) and the stage (\code{"train"} or \code{"predict"}) and
 returns \code{logical(1)} indicating whether to run the fallback learner.
