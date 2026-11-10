@@ -143,7 +143,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     learner = learner$clone()
   )
 
-  deadline_time_left = max(as.numeric(difftime(learner$deadline[["train"]], Sys.time(), units = "secs")), 0)
+  deadline_time_left = get_deadline_time_left(learner, "train")
 
   # call train_wrapper with encapsulation
   result = encapsulate(
@@ -270,11 +270,19 @@ learner_predict = function(learner, task, row_ids = NULL) {
   # ensure that required packages are installed
   require_namespaces(learner$packages)
 
-  if (getOption("mlr3.warn_version_mismatch", TRUE)) {
+  if (getOption("mlr3.warn_version_mismatch", TRUE) && !is.null(learner$state$model)) {
     v_train = learner$state$mlr3_version
     v_predict = mlr_reflections$package_version
 
-    if (!is.null(v_train) && v_train != v_predict) {
+    if (is.null(v_train)) {
+      # states created with mlr3 < 0.13.1 do not store the version (#1516)
+      warning_mlr3(
+        # nolint next
+        "Detected version mismatch: Learner '%s' has been trained with an unknown mlr3 version older than 0.13.1, not matching currently installed version '%s'",
+        learner$id,
+        v_predict
+      )
+    } else if (v_train != v_predict) {
       warning_mlr3(
         # nolint next
         "Detected version mismatch: Learner '%s' has been trained with mlr3 version '%s', not matching currently installed version '%s'",
@@ -341,7 +349,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
       learner$model = marshal_model(learner$model, inplace = TRUE)
     }
 
-    deadline_time_left = max(as.numeric(difftime(learner$deadline[["predict"]], Sys.time(), units = "secs")), 0)
+    deadline_time_left = get_deadline_time_left(learner, "predict")
 
     result = encapsulate(
       learner$encapsulation["predict"],
@@ -798,4 +806,10 @@ cond_from_log = function(log) {
   } else {
     NULL
   }
+}
+
+get_deadline_time_left = function(learner, stage) {
+  # learners serialized with mlr3 < 1.7.0 have no deadline field (#1516)
+  deadline = get_private(learner)$.deadline[[stage]]
+  if (is.null(deadline)) Inf else max(as.numeric(difftime(deadline, Sys.time(), units = "secs")), 0)
 }
