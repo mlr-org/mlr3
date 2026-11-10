@@ -75,9 +75,10 @@ Other Learner:
   \describe{
     \item{\code{quantiles}}{(\code{numeric()})\cr
 Numeric vector of probabilities to be used while predicting quantiles.
-Elements must be between 0 and 1, not missing and provided in ascending order.
+Elements must be between 0 and 1, unique, not missing, and provided in ascending order.
 If only one quantile is provided, it is used as response.
 Otherwise, set \verb{$quantile_response} to specify the response quantile.
+A previously set \verb{$quantile_response} is kept if it is contained in the new quantiles and reset to \code{NULL} otherwise.
 Set to \code{NULL} to reset both \verb{$quantiles} and \verb{$quantile_response}.}
 
     \item{\code{quantile_response}}{(\code{numeric(1)})\cr
