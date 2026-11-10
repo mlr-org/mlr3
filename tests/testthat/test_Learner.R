@@ -1041,6 +1041,17 @@ test_that("Learner printer for encapsulation", {
   expect_output(print(lrn("classif.rpart")$encapsulate("none")), "Encapsulation: none \\(fallback: -\\)")
 })
 
+test_that("Learner printer for warnings and errors", {
+  learner = lrn("classif.debug", warning_train = 1, error_predict = 1)
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+  learner$train(tsk("iris"))$predict(tsk("iris"))
+
+  out = paste(capture.output(print(learner)), collapse = "\n")
+  expect_match(out, "Warnings: .*Warning from classif.debug->train\\(\\)")
+  expect_match(out, "Errors: .*Error from classif.debug->predict\\(\\)")
+  expect_no_match(out, "list(", fixed = TRUE)
+})
+
 test_that("error conditions are working: callr", {
   # no runtime test on CRAN
   skip_on_cran()

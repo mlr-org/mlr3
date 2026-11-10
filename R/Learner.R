@@ -300,8 +300,8 @@ Learner = R6Class(
         cli_li("Other settings: use_weights = '{self$use_weights}', predict_raw = '{self$predict_raw}'")
       })
 
-      w = self$warnings
-      e = self$errors
+      w = map_chr(self$warnings, function(cond) trimws(conditionMessage(cond)))
+      e = map_chr(self$errors, function(cond) trimws(conditionMessage(cond)))
       if (length(w)) {
         cat_cli(cli_alert_warning("Warnings: {w}"))
       }
