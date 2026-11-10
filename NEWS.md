@@ -41,6 +41,9 @@
 * fix: `PredictionRegr$new()` and `as_prediction()` with `check = TRUE` no longer fail with "invalid format '%g'" on quantile prediction data that has already been checked, e.g., the `$data` of an existing prediction.
 * fix: `Learner$hash` and `Learner$phash` now include the timeout, the deadline, the encapsulation method, and the `when` handler, so all learner hashes change. Previously, `benchmark()` merged learners that differed only in these settings and ran them with the settings of the first one (#1511).
 * fix: `Learner$print()` now shows the messages of logged warnings and errors instead of the deparsed condition objects.
+* fix: `LearnerRegr$quantiles` now resets `$quantile_response` when the new quantiles do not contain it, so predicting no longer fails with "subscript out of bounds" when accessing `$response`, and rejects duplicated quantiles.
+* fix: `Learner$predict()` with `parallel_predict = TRUE` now keeps the log entries and the predict time recorded by the workers, so `$warnings`, `$errors`, and `$timings` are no longer empty after a parallel prediction, and returns an empty prediction instead of `NULL` for zero row ids.
+* fix: `Learner$encapsulate()` now validates all arguments before changing the learner, so a failed call no longer changes `$hash`, raises an error if the fallback learner does not support the `$predict_type` of the learner instead of failing later during prediction, and rejects a `when` handler together with `method = "none"`.
 
 # mlr3 1.8.0
 
