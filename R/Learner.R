@@ -247,7 +247,7 @@ Learner = R6Class(
       } else {
         private$.use_weights = "error"
       }
-      private$.param_set = param_set
+      private$.param_set = assert_param_set(param_set)
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Learner '%s'", id))
     },
