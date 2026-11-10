@@ -1030,7 +1030,8 @@ Also see the section on error handling in the mlr3book:
 - `fallback`:
 
   Learner  
-  The fallback learner for failed predictions.
+  The fallback learner for failed predictions. Must support the
+  `$predict_type` of the learner.
 
 - `when`:
 

@@ -169,6 +169,12 @@
   merged learners that differed only in these settings and ran them with
   the settings of the first one
   ([\#1511](https://github.com/mlr-org/mlr3/issues/1511)).
+- fix: `Learner$encapsulate()` now validates all arguments before
+  changing the learner, so a failed call no longer changes `$hash`,
+  raises an error if the fallback learner does not support the
+  `$predict_type` of the learner instead of failing later during
+  prediction, and rejects a `when` handler together with
+  `method = "none"`.
 
 ## mlr3 1.8.0
 
