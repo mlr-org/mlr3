@@ -445,6 +445,19 @@ learner_predict = function(learner, task, row_ids = NULL) {
 }
 
 
+# predicts one chunk of row ids in a parallel prediction and returns the prediction data together with
+# the log entries and the predict time recorded on the worker's copy of the learner
+learner_predict_chunk = function(row_ids, learner, task) {
+  n_log = nrow(learner$state$log) %??% 0L
+  pdata = learner_predict(learner, task, row_ids)
+  log = learner$state$log
+  list(
+    pdata = pdata,
+    log = log[seq_len(nrow(log) - n_log) + n_log],
+    predict_time = learner$state$predict_time
+  )
+}
+
 workhorse = function(
   iteration,
   task,

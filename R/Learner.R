@@ -247,7 +247,7 @@ Learner = R6Class(
       } else {
         private$.use_weights = "error"
       }
-      private$.param_set = param_set
+      private$.param_set = assert_param_set(param_set)
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Learner '%s'", id))
     },
@@ -300,8 +300,8 @@ Learner = R6Class(
         cli_li("Other settings: use_weights = '{self$use_weights}', predict_raw = '{self$predict_raw}'")
       })
 
-      w = self$warnings
-      e = self$errors
+      w = map_chr(self$warnings, function(cond) trimws(conditionMessage(cond)))
+      e = map_chr(self$errors, function(cond) trimws(conditionMessage(cond)))
       if (length(w)) {
         cat_cli(cli_alert_warning("Warnings: {w}"))
       }
@@ -420,19 +420,22 @@ Learner = R6Class(
 
       # we only have to marshal here for the parallel prediction case, because learner_predict() handles the
       # marshaling for call-r encapsulation itself
-      if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L) {
+      if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L && length(row_ids %??% task$row_ids) > 0L) {
         row_ids = row_ids %??% task$row_ids
         chunked = chunk_vector(row_ids, n_chunks = nbrOfWorkers(), shuffle = FALSE)
         self$model = marshal_model(self$model, inplace = TRUE)
-        pdata = future.apply::future_lapply(
+        results = future.apply::future_lapply(
           chunked,
-          learner_predict,
+          learner_predict_chunk,
           learner = self,
           task = task,
           future.globals = FALSE,
           future.seed = TRUE
         )
-        pdata = do.call(c, pdata)
+        pdata = do.call(c, map(results, "pdata"))
+        # the workers operate on copies of the learner, so merge their log entries and predict times
+        self$state$log = rbindlist(c(list(self$state$log), map(results, "log")), use.names = TRUE)
+        self$state$predict_time = sum(map_dbl(results, "predict_time"))
       } else {
         pdata = learner_predict(self, task, row_ids)
       }
@@ -633,6 +636,7 @@ Learner = R6Class(
     #'  See the description for details.
     #' @param fallback [Learner]\cr
     #'  The fallback learner for failed predictions.
+    #'  Must support the `$predict_type` of the learner.
     #' @param when (`function(cond, stage)`)\cr
     #'  Function that takes in the condition (`cond`) and the stage (`"train"` or `"predict"`) and
     #'  returns `logical(1)` indicating whether to run the fallback learner.
@@ -647,8 +651,7 @@ Learner = R6Class(
     #' learner$encapsulate("try", fallback = fallback)
     encapsulate = function(method, fallback = NULL, when = NULL) {
       assert_choice(method, c("none", "try", "evaluate", "callr", "mirai"))
-
-      private$.when = assert_function(when, null.ok = TRUE)
+      assert_function(when, null.ok = TRUE)
 
       if (!is.null(when)) {
         fargs = formalArgs(when)
@@ -657,8 +660,24 @@ Learner = R6Class(
         }
       }
 
-      if (method != "none") {
+      if (method == "none") {
+        if (!is.null(fallback)) {
+          error_config("Fallback learner must be `NULL` if encapsulation is set to `none`.")
+        }
+        if (!is.null(when)) {
+          error_config("Handler `when` must be `NULL` if encapsulation is set to `none`.")
+        }
+      } else {
         assert_learner(fallback, task_type = self$task_type)
+
+        if (self$predict_type %nin% fallback$predict_types) {
+          error_config(
+            "The fallback learner '%s' does not support the predict type '%s' of the base learner '%s'.",
+            fallback$id,
+            self$predict_type,
+            self$id
+          )
+        }
 
         if (!identical(self$predict_type, fallback$predict_type)) {
           warning_config(
@@ -687,14 +706,13 @@ Learner = R6Class(
             class = "Mlr3WarningConfigFallbackProperties"
           )
         }
-      } else if (method == "none" && !is.null(fallback)) {
-        error_config("Fallback learner must be `NULL` if encapsulation is set to `none`.")
       }
 
       private$.encapsulation = c(train = method, predict = method)
       private$.fallback = fallback
+      private$.when = when
 
-      return(invisible(self))
+      invisible(self)
     },
 
     #' @description
@@ -995,7 +1013,17 @@ Learner = R6Class(
       if (missing(rhs)) {
         return(private$.task_type)
       }
-      private$.task_type = assert_choice(rhs, mlr_reflections$task_types$type)
+      assert_choice(rhs, mlr_reflections$task_types$type)
+      learner_class = mlr_reflections$task_types[list(rhs), "learner", on = "type", with = FALSE][[1L]][1L]
+      if (!inherits(self, learner_class)) {
+        error_input(
+          "Cannot set the task type of learner '%s' to '%s', the learner must inherit from '%s'",
+          self$id,
+          rhs,
+          learner_class
+        )
+      }
+      private$.task_type = rhs
     },
 
     #' @field feature_types (`character()`)\cr
@@ -1054,8 +1082,8 @@ Learner = R6Class(
     #' and has no effect during [resample()] or [benchmark()] where you have other means
     #' to parallelize.
     #'
-    #' Note that the recorded time required for prediction is not properly defined and
-    #' depends on the parallelization backend.
+    #' Note that the recorded time required for prediction is the sum of the prediction times of all chunks,
+    #' which depends on the parallelization backend.
     parallel_predict = function(rhs) {
       if (missing(rhs)) {
         return(private$.parallel_predict)

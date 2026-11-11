@@ -146,7 +146,9 @@ LearnerClassif = R6Class(
         pred_miss = with_fallback(self, function(fb) fb$predict_newdata_fast(newdata[miss_ids, ], task))
 
         if (!is.null(pred$response)) {
-          pred$response[miss_ids] = pred_miss$response
+          # learners return either character or factor responses; assigning a factor into a character vector
+          # would insert the integer codes, so impute by label
+          pred$response[miss_ids] = as.character(pred_miss$response)
         }
 
         if (!is.null(pred$prob)) {
