@@ -112,13 +112,7 @@ LearnerRegr = R6Class(
 
       # train failed, use fallback
       if (is.null(self$model) && !is.null(self$state$fallback_state$model)) {
-        # the trained fallback model lives in the main learner's state, not on the fallback object itself
-        # (e.g. after resample() / benchmark()), and its predict type is only synced in the predict path,
-        # so restore both before predicting (see learner_predict() in worker.R)
-        fb = self$fallback
-        fb$predict_type = self$predict_type
-        fb$state = self$state$fallback_state
-        return(fb$predict_newdata_fast(newdata, task))
+        return(with_fallback(self, function(fb) fb$predict_newdata_fast(newdata, task)))
       }
       pred = get_private(self)$.predict(fake_task)
 
@@ -138,10 +132,7 @@ LearnerRegr = R6Class(
 
       miss_ids = which(miss)
       if (length(miss_ids) && !is.null(self$state$fallback_state$model)) {
-        fb = self$fallback
-        fb$predict_type = self$predict_type
-        fb$state = self$state$fallback_state
-        pred_miss = fb$predict_newdata_fast(newdata[miss_ids, ], task)
+        pred_miss = with_fallback(self, function(fb) fb$predict_newdata_fast(newdata[miss_ids, ], task))
 
         if (!is.null(pred$response)) {
           pred$response[miss_ids] = pred_miss$response

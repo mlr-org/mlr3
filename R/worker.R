@@ -248,6 +248,23 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   )
 }
 
+# The trained fallback model lives in the state of the main learner, not on the fallback object itself
+# (e.g. after resample() / benchmark()), so the state is restored before calling `fun` with the fallback.
+# The predict type is synced only for the duration of the call, because the fallback hash is part of the learner hash.
+# The fallback is not cloned, as cloning is too expensive for `$predict_newdata_fast()`.
+with_fallback = function(learner, fun) {
+  fb = learner$fallback
+  predict_type = fb$predict_type
+  if (!identical(predict_type, learner$predict_type)) {
+    on.exit({
+      fb$predict_type = predict_type
+    })
+    fb$predict_type = learner$predict_type
+  }
+  fb$state = learner$state$fallback_state
+  fun(fb)
+}
+
 learner_predict = function(learner, task, row_ids = NULL) {
   # This wrapper calls learner$predict, and additionally performs some basic
   # checks that the prediction was successful.
@@ -385,10 +402,9 @@ learner_predict = function(learner, task, row_ids = NULL) {
   fb = learner$fallback
   if (!is.null(fb)) {
     predict_fb = function(row_ids) {
-      fb = assert_learner(as_learner(fb))
-      fb$predict_type = learner$predict_type
-      fb$state = learner$state$fallback_state
-      as_prediction_data(fb$predict(task, row_ids), task, row_ids, check = TRUE, train_task = learner$state$train_task)
+      with_fallback(learner, function(fb) {
+        as_prediction_data(fb$predict(task, row_ids), task, row_ids, check = TRUE, train_task = learner$state$train_task)
+      })
     }
 
     if (is.null(pdata)) {
