@@ -26,6 +26,9 @@ check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
     assert_row_sums(prob)
 
     if (!identical(colnames(prob), lvls)) {
+      if (is.null(colnames(prob)) || anyDuplicated(colnames(prob))) {
+        error_input("Probability matrix must have unique column names corresponding to the class labels")
+      }
       assert_subset(colnames(prob), lvls)
 
       # add missing columns with prob == 0

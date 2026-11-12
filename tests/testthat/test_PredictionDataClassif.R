@@ -29,6 +29,20 @@ test_that("row sums of prob sums up to 1 ", {
   expect_error(check_prediction_data(pdata), "sum up")
 })
 
+test_that("prob requires unique column names", {
+  prob = matrix(c(0.9, 0.2, 0.1, 0.8), 2)
+  pdata = new_prediction_data(list(row_ids = 1:2, truth = factor(c("a", "b")), prob = prob), "classif")
+  expect_error(check_prediction_data(pdata), "unique column names")
+
+  colnames(prob) = c("a", "a")
+  pdata = new_prediction_data(list(row_ids = 1:2, truth = factor(c("a", "b")), prob = prob), "classif")
+  expect_error(check_prediction_data(pdata), "unique column names")
+
+  colnames(prob) = c("b", "a")
+  pdata = new_prediction_data(list(row_ids = 1:2, truth = factor(c("a", "b")), prob = prob), "classif")
+  expect_equal(check_prediction_data(pdata)$prob, prob[, c("a", "b")])
+})
+
 test_that("construction of empty PredictionDataClassif", {
   task = tsk("iris")
 
