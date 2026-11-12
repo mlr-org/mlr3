@@ -93,8 +93,9 @@ is_missing_prediction_data.PredictionDataClassif = function(pdata, ...) {
 
 #' @rdname PredictionData
 #'
-#' @param keep_duplicates (`logical(1)`)
-#'   If `TRUE`, the combined [PredictionData] object is filtered for duplicated row ids (starting from last).
+#' @param keep_duplicates (`logical(1)`)\cr
+#'   If `FALSE`, duplicated row ids are removed from the combined [PredictionData] object,
+#'   keeping the data of the object passed last.
 #' @param ... (one or more [PredictionData] objects).
 #' @export
 c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
