@@ -20,6 +20,17 @@ test_that("PredictionDataRegr", {
   expect_numeric(pdata$response, len = 3)
 })
 
+test_that("truth is checked", {
+  pdata = new_prediction_data(list(row_ids = 1:4, truth = c(1, 2), response = c(1, 1, 1, 1)), "regr")
+  expect_error(check_prediction_data(pdata), "truth")
+
+  pdata = new_prediction_data(list(row_ids = 1:2, truth = c("a", "b"), response = c(1, 1)), "regr")
+  expect_error(check_prediction_data(pdata), "truth")
+
+  pdata = new_prediction_data(list(row_ids = 1:3, response = c(1, 1, 1)), "regr")
+  expect_equal(check_prediction_data(pdata)$truth, rep(NA_real_, 3))
+})
+
 test_that("construction of empty PredictionDataRegr", {
   task = tsk("mtcars")
 

@@ -5,11 +5,12 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) {
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
   if (is.null(pdata$truth)) {
-    pdata$truth = NA_real_
+    pdata$truth = rep(NA_real_, n)
   }
   if (!length(pdata$row_ids)) {
     pdata$truth = numeric()
   }
+  assert_numeric(pdata$truth, len = n, .var.name = "truth")
 
   if (!is.null(pdata$response)) {
     pdata$response = assert_numeric(unname(pdata$response))
