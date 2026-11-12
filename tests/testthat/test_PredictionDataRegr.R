@@ -97,6 +97,19 @@ test_that("c.PredictionDataRegr preserves probs attribute on quantiles", {
   expect_equal(attr(combined$quantiles, "response"), "q0.5")
 })
 
+test_that("c.PredictionDataRegr rejects different quantiles", {
+  task = as_task_regr(data.table(y = runif(2)), target = "y")
+  make_pdata = function(probs, response) {
+    quantiles = matrix(seq_len(2 * length(probs)), nrow = 2)
+    setattr(quantiles, "probs", probs)
+    setattr(quantiles, "response", response)
+    as_prediction_data(list(quantiles = quantiles), task)
+  }
+  pdata = make_pdata(c(0.1, 0.5, 0.9), 0.5)
+  expect_error(c(pdata, make_pdata(c(0.2, 0.5, 0.8), 0.5)), "Different quantiles")
+  expect_error(c(pdata, make_pdata(c(0.1, 0.5, 0.9), 0.9)), "Different quantiles")
+})
+
 test_that("filter_prediction_data.PredictionDataRegr preserves probs attribute on quantiles", {
   n = 10
   probs = c(0.1, 0.5, 0.9)

@@ -126,7 +126,18 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
     if ("weights" %chin% names(dots[[1L]])) "weights"
   )
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
-  prob = do.call(rbind, map(dots, "prob"))
+  # align the columns of the probability matrices by class label, the order of the levels may differ
+  cn = colnames(dots[[1L]]$prob)
+  prob = do.call(rbind, map(dots, function(x) {
+    prob = x$prob
+    if (is.null(prob) || identical(colnames(prob), cn)) {
+      return(prob)
+    }
+    if (!setequal(colnames(prob), cn)) {
+      error_input("Cannot rbind predictions: Different class labels in the probability matrices")
+    }
+    prob[, cn, drop = FALSE]
+  }))
 
   extra = if ("extra" %chin% names(dots[[1L]])) {
     rbindlist(map(dots, "extra"), fill = TRUE, use.names = TRUE)
