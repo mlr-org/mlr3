@@ -75,6 +75,26 @@ test_that("distr", {
   expect_integer(p$missing, len = 0)
 })
 
+test_that("filter and c subset distr", {
+  skip_if_not_installed("distr6")
+
+  row_ids = 1:5
+  distr = distr6::VectorDistribution$new(
+    distribution = "Normal",
+    params = data.frame(mean = as.numeric(row_ids), var = 1)
+  )
+  p = PredictionRegr$new(row_ids = row_ids, truth = as.numeric(row_ids), distr = distr)
+
+  pc = c(p, p, keep_duplicates = FALSE)
+  expect_equal(pc$row_ids, row_ids)
+  expect_equal(unname(pc$distr$mean()), as.numeric(row_ids))
+
+  p$filter(c(3, 5))
+  expect_equal(p$row_ids, c(3L, 5L))
+  expect_equal(unname(p$distr$mean()), c(3, 5))
+  expect_equal(p$response, c(3, 5))
+})
+
 test_that("as_prediction_regr", {
   task = tsk("mtcars")
   learner = lrn("regr.featureless")

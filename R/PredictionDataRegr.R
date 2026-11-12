@@ -156,6 +156,9 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) {
   if ("distr" %chin% predict_types[[1L]]) {
     require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
     result$distr = do.call(c, map(dots, "distr"))
+    if (!keep_duplicates) {
+      result$distr = result$distr[which(keep)]
+    }
   }
 
   raw = discard(map(dots, "raw"), is.null)
@@ -185,6 +188,10 @@ filter_prediction_data.PredictionDataRegr = function(pdata, row_ids, ...) {
     setattr(quantiles, "probs", attr(pdata$quantiles, "probs"))
     setattr(quantiles, "response", attr(pdata$quantiles, "response"))
     pdata$quantiles = quantiles
+  }
+
+  if (!is.null(pdata$distr)) {
+    pdata$distr = pdata$distr[which(keep)]
   }
 
   if (!is.null(pdata$weights)) {
