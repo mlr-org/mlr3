@@ -225,6 +225,8 @@ set_threshold_pdata = function(pdata, threshold, ties_method) {
   }
 
   ind = max.col(prob, ties.method = ties_method)
+  # missing predictions stay missing
+  ind[row_any_na(pdata$prob)] = NA_integer_
   pdata$response = factor(lvls[ind], levels = lvls)
   pdata
 }
