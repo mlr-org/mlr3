@@ -15,6 +15,13 @@ check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
   lvls = levels(pdata$truth)
 
   if (!is.null(pdata$response)) {
+    unknown = setdiff(as.character(unique(pdata$response)), c(lvls, NA_character_))
+    if (length(unknown)) {
+      error_learner_predict(
+        "Predicted response contains labels which are not class labels: %s",
+        str_collapse(unknown, n = 5L, quote = "'")
+      )
+    }
     pdata$response = assert_factor(as_factor(unname(pdata$response), levels = lvls))
     assert_prediction_count(length(pdata$response), n, "response")
   }

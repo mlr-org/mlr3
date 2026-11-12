@@ -29,6 +29,17 @@ test_that("row sums of prob sums up to 1 ", {
   expect_error(check_prediction_data(pdata), "sum up")
 })
 
+test_that("response with unknown class labels is rejected", {
+  pdata = new_prediction_data(list(row_ids = 1:2, truth = factor(c("a", "b")), response = c("a", "z")), "classif")
+  expect_error(check_prediction_data(pdata), "not class labels", class = "Mlr3ErrorLearnerPredict")
+
+  pdata = new_prediction_data(
+    list(row_ids = 1:2, truth = factor(c("a", "b")), response = factor(c("a", NA), levels = c("a", "z"))),
+    "classif"
+  )
+  expect_equal(check_prediction_data(pdata)$response, factor(c("a", NA), levels = c("a", "b")))
+})
+
 test_that("construction of empty PredictionDataClassif", {
   task = tsk("iris")
 
