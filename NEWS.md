@@ -10,6 +10,11 @@
   `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
 * fix: `PredictionClassif` now raises an error if the predicted response contains labels that are not class labels of the task, instead of silently converting them to missing values.
 * fix: `Learner$predict()` on a `TaskUnsupervised` now returns the predicted classes of a classification learner instead of only missing values, and no longer errors with predict type `"prob"`.
+* fix: Predicting zero rows with a `LearnerRegr` with predict type `"quantiles"` now returns a prediction with an empty quantiles matrix, so it can be combined with other quantile predictions, e.g., in `resample()` with an empty test set.
+* fix: `PredictionClassif$set_threshold()` with a vector of thresholds now keeps the response of observations with missing probabilities missing, instead of assigning a random class label.
+* fix: `PredictionRegr` now checks that `truth` is numeric and has one element per observation.
+  A missing `truth` is now replaced by one missing value per observation instead of a single missing value.
+* fix: `PredictionRegr` now checks that the quantiles matrix is numeric, that its `probs` attribute matches the number of columns and is unique, and that the quantile response is one of the predicted quantiles.
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
 * fix: `Task$rbind()` now invalidates `$row_hash` and `$col_hashes`, so `resample()` and `benchmark()` detect resamplings instantiated before the rows were added.
   `$materialize_view()`, `$labels`, `$col_info`, `$backend`, `$extra_args`, and `TaskClassif$positive` now invalidate the cached task hash, and `$extra_args` is now part of the task hash.
@@ -45,7 +50,7 @@
 * fix: `Learner$predict()` and `Learner$predict_newdata_fast()` no longer change the predict type of the stored fallback learner when the fallback is used, so `$hash` stays constant after predicting and `HotstartStack` and `BenchmarkResult` keep finding the learner by its hash.
 * fix: `LearnerClassif$predict_newdata_fast()` now imputes missing responses by class label, so a fallback learner returning a factor no longer inserts integer codes into a character response.
 * fix: `Learner$new()` now checks that `param_set` is a `ParamSet` instead of failing later with "attempt to apply non-function".
-* fix: `Learner$task_type` can only be set to a task type whose learner class the learner inherits from, so a `LearnerClassif` can no longer be turned into a `"regr"` learner that trains on a numeric target and fails at predict time.
+* fix: `Learner$task_type` of a learner that inherits from a task type specific class like `LearnerClassif` can only be set to a task type whose learner class the learner inherits from, so a `LearnerClassif` can no longer be turned into a `"regr"` learner that trains on a numeric target and fails at predict time.
 * fix: `Learner$print()` now shows the messages of logged warnings and errors instead of the deparsed condition objects.
 * fix: `LearnerRegr$quantiles` now resets `$quantile_response` when the new quantiles do not contain it, so predicting no longer fails with "subscript out of bounds" when accessing `$response`, and rejects duplicated quantiles.
 * fix: `Learner$predict()` with `parallel_predict = TRUE` now keeps the log entries and the predict time recorded by the workers, so `$warnings`, `$errors`, and `$timings` are no longer empty after a parallel prediction, and returns an empty prediction instead of `NULL` for zero row ids.
