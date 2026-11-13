@@ -39,6 +39,11 @@
   `PredictionClassif` and `PredictionRegr` now reject extra data whose
   names collide with reserved prediction columns
   ([\#1517](https://github.com/mlr-org/mlr3/issues/1517)).
+- fix: Predicting zero rows with a `LearnerRegr` with predict type
+  `"quantiles"` now returns a prediction with an empty quantiles matrix,
+  so it can be combined with other quantile predictions, e.g., in
+  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md)
+  with an empty test set.
 - fix: `PredictionClassif$set_threshold()` with a vector of thresholds
   now keeps the response of observations with missing probabilities
   missing, instead of assigning a random class label.
