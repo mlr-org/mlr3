@@ -97,12 +97,13 @@ ResampleResult = R6Class(
     #' If you calculate the performance on this prediction object directly, this is called micro averaging.
     #'
     #' @param predict_sets (`character()`)\cr
-    #'   Subset of `{"train", "test"}`.
+    #'   Subset of `{"train", "test", "internal_valid"}`.
     #' @return [Prediction] or empty `list()` if no predictions are available.
     #' @examples
     #' rr$prediction()
     prediction = function(predict_sets = "test") {
-      private$.data$prediction(private$.view, predict_sets)
+      assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
+      private$.data$prediction(private$.view, predict_sets) %??% list()
     },
 
     #' @description
@@ -115,7 +116,7 @@ ResampleResult = R6Class(
     #'
     #' @param predict_sets (`character()`)\cr
     #'   Subset of `{"train", "test", "internal_valid"}`.
-    #' @return List of [Prediction] objects, one per element in `predict_sets`.
+    #' @return List of [Prediction] objects, one per resampling iteration.
     #' Or list of empty `list()`s if no predictions are available.
     #' @examples
     #' rr$predictions()
@@ -334,7 +335,7 @@ ResampleResult = R6Class(
   active = list(
     #' @field task_type (`character(1)`)\cr
     #' Task type of objects in the `ResampleResult`, e.g. `"classif"` or `"regr"`.
-    #' This is `NA` for empty [ResampleResult]s.
+    #' This is `NULL` for empty [ResampleResult]s.
     task_type = function(rhs) {
       assert_ro_binding(rhs)
       private$.data$task_type
@@ -351,6 +352,7 @@ ResampleResult = R6Class(
     #' @field iters (`integer(1)`)\cr
     #' Number of resampling iterations stored in the `ResampleResult`.
     iters = function(rhs) {
+      assert_ro_binding(rhs)
       private$.data$iterations(private$.view)
     },
 
@@ -395,8 +397,9 @@ ResampleResult = R6Class(
       private$.data$learners(private$.view)$learner
     },
 
-    #' @field data_extra (list())\cr
+    #' @field data_extra ([data.table::data.table()])\cr
     #' Additional data stored in the [ResampleResult].
+    #' A table with the columns `"uhash"`, `"iteration"`, and `"data_extra"`.
     data_extra = function(rhs) {
       assert_ro_binding(rhs)
       private$.data$data_extra(private$.view)

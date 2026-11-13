@@ -20,6 +20,8 @@
   A missing `truth` is now replaced by one missing value per observation instead of a single missing value.
 * fix: `PredictionRegr` now checks that the quantiles matrix is numeric, that its `probs` attribute matches the number of columns and is unique, and that the quantile response is one of the predicted quantiles.
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
+* fix: `ResampleResult$prediction()` now checks the argument `predict_sets` and returns an empty list for an empty `ResampleResult`, as documented.
+  `ResampleResult$iters` is now read-only.
 * fix: `Task$rbind()` now invalidates `$row_hash` and `$col_hashes`, so `resample()` and `benchmark()` detect resamplings instantiated before the rows were added.
   `$materialize_view()`, `$labels`, `$col_info`, `$backend`, `$extra_args`, and `TaskClassif$positive` now invalidate the cached task hash, and `$extra_args` is now part of the task hash.
 * fix: `resample()` and `benchmark()` with `allow_hotstart = TRUE` no longer carry over the prediction time, validation scores, fallback state, and task copies of the start learner into the hotstarted learner, which inflated `msr("time_predict")` (#1504).
