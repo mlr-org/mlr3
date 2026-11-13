@@ -143,6 +143,18 @@ test_that("bmr$resample_result()", {
   expect_error(bmr$resample_result(i = 1, uhash = uhashes[1]))
 })
 
+test_that("ResampleResult requires a single resample result", {
+  design = benchmark_grid(tsk("iris"), lrns(c("classif.featureless", "classif.rpart")), rsmp("cv", folds = 3))
+  bmr = benchmark(design)
+  rdata = get_private(bmr)$.data
+
+  expect_error(ResampleResult$new(rdata), "contains 2 resample results")
+  expect_error(as_resample_result(rdata), "contains 2 resample results")
+  expect_error(ResampleResult$new(rdata, view = "abc"), "does not contain")
+  expect_resample_result(ResampleResult$new(rdata, view = bmr$uhashes[2L]))
+  expect_resample_result(as_resample_result(rdata, view = bmr$uhashes[2L]))
+})
+
 test_that("inputs are cloned", {
   task = tsk("iris")
   learner = lrn("classif.featureless")
