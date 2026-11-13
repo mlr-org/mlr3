@@ -442,9 +442,14 @@ ResultData = R6Class(
     logs = function(view = NULL, condition) {
       # nolint next
       .__ii__ = private$get_view_index(view)
-      learner_state = NULL
-      logs = map(self$data$fact[.__ii__, learner_state], function(s) list(condition = get_log_condition(s, condition)))
-      rbindlist(logs, idcol = "iteration", use.names = TRUE)
+      tab = self$data$fact[.__ii__, c("iteration", "learner_state"), with = FALSE]
+      logs = map(tab$learner_state, function(s) list(condition = get_log_condition(s, condition)))
+      logs = rbindlist(logs, idcol = "iteration", use.names = TRUE)
+      if (!nrow(logs)) {
+        return(data.table(iteration = integer(), condition = list()))
+      }
+      # replace the position in the table with the resampling iteration
+      set(logs, j = "iteration", value = tab$iteration[logs$iteration])[]
     },
 
     #' @description

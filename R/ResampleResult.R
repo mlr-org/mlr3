@@ -216,17 +216,32 @@ ResampleResult = R6Class(
     #'
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
+    #' @return [data.table::data.table()].
     #' @examples
     #' rr$obs_loss(msr("classif.acc"))
     obs_loss = function(measures = NULL, predict_sets = "test") {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
-      map_dtr(
-        self$predictions(predict_sets),
+      predictions = self$predictions(predict_sets)
+      if (some(predictions, function(pred) !inherits(pred, "Prediction"))) {
+        error_input("No predictions available for predict sets %s", str_collapse(predict_sets, quote = "'"))
+      }
+      iterations = private$.data$as_data_table(
+        view = private$.view,
+        reassemble_learners = FALSE,
+        convert_predictions = FALSE
+      )$iteration
+      tab = map_dtr(
+        predictions,
         function(pred) {
           pred$obs_loss(measures)
         },
         .idcol = "iteration"
       )
+      if (nrow(tab)) {
+        # replace the position in the list with the resampling iteration
+        set(tab, j = "iteration", value = iterations[tab$iteration])
+      }
+      tab[]
     },
 
     #' @description

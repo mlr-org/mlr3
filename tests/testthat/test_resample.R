@@ -104,6 +104,21 @@ test_that("conditions are returned", {
   expect_true(all(c("warnings", "errors") %chin% names(rr$score(conditions = TRUE))))
 })
 
+test_that("conditions and obs_loss report the resampling iteration", {
+  learner = lrn("classif.debug", warning_train = 1, error_predict = 1)
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+  rr = suppressWarnings(resample(tsk("iris"), learner, rsmp("cv", folds = 3)))
+  rr$filter(2:3)
+
+  expect_equal(rr$warnings$iteration, 2:3)
+  expect_equal(rr$errors$iteration, 2:3)
+  expect_set_equal(rr$obs_loss(msr("classif.ce"))$iteration, 2:3)
+
+  expect_data_table(ResampleResult$new()$warnings, nrows = 0, ncols = 2)
+  expect_names(names(ResampleResult$new()$errors), identical.to = c("iteration", "condition"))
+  expect_error(rr$obs_loss(msr("classif.ce"), predict_sets = "train"), "No predictions available")
+})
+
 test_that("save/load roundtrip", {
   path = tempfile()
   saveRDS(rr, file = path)

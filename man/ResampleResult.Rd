@@ -393,6 +393,9 @@ The predict sets.}
     }
     \if{html}{\out{</div>}}
   }
+  \subsection{Returns}{
+    \code{\link[data.table:data.table]{data.table::data.table()}}.
+  }
   \subsection{Examples}{
     \if{html}{\out{<div class="r example copy">}}
     \preformatted{rr$obs_loss(msr("classif.acc"))
