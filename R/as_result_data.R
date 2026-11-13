@@ -12,7 +12,9 @@
 #' @param learners (list of trained [Learner]s).
 #' @param resampling ([Resampling]).
 #' @param iterations (`integer()`).
-#' @param predictions (list of list of [Prediction]s).
+#' @param predictions (list of list of [Prediction]s)\cr
+#'   One list for each iteration, containing the predictions named with the predict set,
+#'   e.g. `list(test = prediction)`.
 #' @param learner_states (`list()`)\cr
 #'   Learner states. If not provided, the states of `learners` are automatically extracted.
 #' @param data_extra (`list()`)\cr
@@ -54,8 +56,25 @@ as_result_data = function(
   assert_task(task)
   assert_learners(learners, task = task)
   assert_resampling(resampling, instantiated = TRUE)
-  assert_integer(iterations, any.missing = FALSE, lower = 1L, upper = resampling$iters, unique = TRUE)
+  iterations = assert_integerish(
+    iterations,
+    any.missing = FALSE,
+    lower = 1L,
+    upper = resampling$iters,
+    unique = TRUE,
+    coerce = TRUE
+  )
   assert_list(predictions, types = "list")
+  walk(predictions, function(x) {
+    if (length(x)) {
+      assert_names(
+        names(x),
+        type = "unique",
+        subset.of = mlr_reflections$predict_sets,
+        .var.name = "names of predictions"
+      )
+    }
+  })
   assert_list(learner_states, null.ok = TRUE)
   assert_list(data_extra, null.ok = TRUE)
   predictions = map(predictions, function(x) map(x, as_prediction_data))

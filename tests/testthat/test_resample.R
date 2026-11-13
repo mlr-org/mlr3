@@ -165,6 +165,28 @@ test_that("disable cloning", {
   expect_identical(resampling$hash, rr$resampling$hash)
 })
 
+test_that("as_result_data validates iterations and predictions", {
+  task = tsk("iris")
+  resampling = rsmp("cv", folds = 3)$instantiate(task)
+  learners = map(1:3, function(i) lrn("classif.rpart")$train(task, resampling$train_set(i)))
+  predictions = map(1:3, function(i) list(test = learners[[i]]$predict(task, resampling$test_set(i))))
+
+  rr = ResampleResult$new(as_result_data(task, learners, resampling, c(1, 2, 3), predictions))
+  expect_resample_result(rr)
+  expect_number(rr$aggregate(msr("classif.ce")), na.ok = FALSE)
+
+  expect_error(as_result_data(task, learners, resampling, 1:3, map(predictions, unname)), "names of predictions")
+  expect_error(
+    as_result_data(task, learners, resampling, 1:3, map(predictions, set_names, "tst")),
+    "names of predictions"
+  )
+  rr = ResampleResult$new(as_result_data(task, learners, resampling, 1:3, list(list(), list(), list())))
+  expect_equal(rr$predictions(), list(list(), list(), list()))
+
+  expect_error(as_resample_result(predictions, task, learners), "resampling")
+  expect_error(as_resample_result(predictions, task, learners, rsmp("cv", folds = 3)), "instantiated")
+})
+
 test_that("as_resample_result works for result data", {
   task = tsk("iris")
   learner = lrn("classif.featureless")
