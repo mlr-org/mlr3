@@ -454,17 +454,21 @@ ResultData = R6Class(
     #' @param threshold (`numeric(1)`)\cr
     #'   Threshold value.
     #' @template param_ties_method
+    #'
+    #' @return Modified `self` (invisibly).
     set_threshold = function(view = NULL, threshold, ties_method = "random") {
       assert_numeric(threshold, len = 1L, lower = 0, upper = 1)
       assert_choice(ties_method, c("random", "first", "last"))
       # nolint next
       .__ii__ = private$get_view_index(view)
+      # the outer list() is the column wrapper of data.table, so that this also works for a single row
       self$data$fact[
         .__ii__,
-        "prediction" := lapply(get("prediction"), function(ps) {
-          list(lapply(ps, set_threshold_pdata, threshold, ties_method))
-        })
+        "prediction" := list(lapply(get("prediction"), function(ps) {
+          lapply(ps, set_threshold_pdata, threshold, ties_method)
+        }))
       ]
+      invisible(self)
     }
   ),
 

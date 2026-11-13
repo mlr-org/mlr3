@@ -810,6 +810,22 @@ test_that("can change the threshold", {
   expect_false(all(bmr$resample_result(2)$prediction()$response == "versicolor"))
 })
 
+test_that("can change the threshold with multiple iterations", {
+  design = benchmark_grid(
+    tsk("sonar"),
+    lrns(c("classif.featureless", "classif.rpart"), predict_type = "prob"),
+    rsmp("cv", folds = 3)
+  )
+  bmr = benchmark(design)
+  expected = map(bmr$resample_result(2)$predictions(), function(p) p$clone()$set_threshold(0.9)$response)
+  unchanged = map(bmr$resample_result(1)$predictions(), "response")
+
+  expect_invisible(bmr$set_threshold(0.9, i = 2))
+  expect_equal(map(bmr$resample_result(2)$predictions(), "response"), expected)
+  expect_equal(map(bmr$resample_result(1)$predictions(), "response"), unchanged)
+  expect_numeric(bmr$aggregate(msr("classif.ce"))$classif.ce, any.missing = FALSE, len = 2)
+})
+
 test_that("uhashe(s) work", {
   design = benchmark_grid(
     tsks(c("iris", "sonar")),

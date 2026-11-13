@@ -319,15 +319,23 @@ ResampleResult = R6Class(
     #' @param threshold (`numeric(1)`)\cr
     #'   Threshold value.
     #' @template param_ties_method
+    #'
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
     #' @examples
     #' learner = lrn("classif.rpart", predict_type = "prob")
     #' rr = resample(tsk("sonar"), learner, rsmp("cv", folds = 3))
     #' rr$set_threshold(0.6)
     set_threshold = function(threshold, ties_method = "random") {
-      if (!self$task_type == "classif") {
-        error_input("Can only change the threshold for classification problems, but task type is '%s'.", self$task_type)
+      task_type = self$task_type
+      if (!identical(task_type, "classif")) {
+        error_input(
+          "Can only change the threshold for classification problems, but task type is '%s'.",
+          task_type %??% NA_character_
+        )
       }
       private$.data$set_threshold(self$uhash, threshold, ties_method)
+      invisible(self)
     }
   ),
 

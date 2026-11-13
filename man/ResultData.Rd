@@ -593,6 +593,9 @@ Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding t
     }
     \if{html}{\out{</div>}}
   }
+  \subsection{Returns}{
+    Modified \code{self} (invisibly).
+  }
 }
 
 \if{html}{\out{<hr>}}
