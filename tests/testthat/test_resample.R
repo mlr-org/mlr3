@@ -27,6 +27,19 @@ test_that("empty RR", {
   expect_resample_result(rr)
 })
 
+test_that("prediction checks predict sets and iters is read-only", {
+  expect_error(rr$prediction("foo"), "predict_sets")
+  expect_prediction(rr$prediction("test"))
+  expect_equal(rr$prediction("train"), list())
+  expect_equal(ResampleResult$new()$prediction(), list())
+  expect_error(
+    {
+      rr$iters = 1L
+    },
+    "read-only"
+  )
+})
+
 test_that("resample with no or multiple measures", {
   for (measures in list(mlr_measures$mget(c("classif.ce", "classif.acc")), list())) {
     tab = rr$score(measures, ids = FALSE, predictions = TRUE)

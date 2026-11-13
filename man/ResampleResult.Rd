@@ -117,7 +117,7 @@ Other resample:
   \describe{
     \item{\code{task_type}}{(\code{character(1)})\cr
 Task type of objects in the \code{ResampleResult}, e.g. \code{"classif"} or \code{"regr"}.
-This is \code{NA} for empty \link{ResampleResult}s.}
+This is \code{NULL} for empty \link{ResampleResult}s.}
 
     \item{\code{uhash}}{(\code{character(1)})\cr
 Unique hash for this object.}
@@ -138,8 +138,9 @@ Instantiated \link{Resampling} object which stores the splits into training and 
     \item{\code{learners}}{(list of \link{Learner})\cr
 List of trained learners, sorted by resampling iteration.}
 
-    \item{\code{data_extra}}{(list())\cr
-Additional data stored in the \link{ResampleResult}.}
+    \item{\code{data_extra}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Additional data stored in the \link{ResampleResult}.
+A table with the columns \code{"uhash"}, \code{"iteration"}, and \code{"data_extra"}.}
 
     \item{\code{warnings}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 A table with all warning messages.
@@ -267,7 +268,7 @@ If you calculate the performance on this prediction object directly, this is cal
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{predict_sets}}{(\code{character()})\cr
-Subset of \verb{\{"train", "test"\}}.}
+Subset of \verb{\{"train", "test", "internal_valid"\}}.}
     }
     \if{html}{\out{</div>}}
   }
@@ -306,7 +307,7 @@ Subset of \verb{\{"train", "test", "internal_valid"\}}.}
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
-    List of \link{Prediction} objects, one per element in \code{predict_sets}.
+    List of \link{Prediction} objects, one per resampling iteration.
 Or list of empty \code{list()}s if no predictions are available.
   }
   \subsection{Examples}{
