@@ -217,6 +217,7 @@ returning the learners.}
   }
   \subsection{Returns}{
     \code{data.table()} with columns \code{"learner_hash"} (\code{character()}) and \code{"learner"} (\link{Learner}).
+If \code{states} is \code{TRUE}, the rows are ordered by \code{uhash} and iteration.
   }
 }
 
@@ -225,8 +226,7 @@ returning the learners.}
 \if{latex}{\out{\hypertarget{method-ResultData-learner_states}{}}}
 \subsection{\code{ResultData$learner_states()}}{
   Returns a list of states of included \link{Learner}s without reassembling the learners.
-
-@return list of \code{list()}
+The states are ordered by \code{uhash} and iteration.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{ResultData$learner_states(view = NULL)}
@@ -241,6 +241,9 @@ Single \code{uhash} to restrict the results to.}
 Single \code{uhash} to restrict the results to.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    list of \code{list()}
   }
 }
 
