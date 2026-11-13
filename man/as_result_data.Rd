@@ -24,7 +24,9 @@ as_result_data(
 
 \item{iterations}{(\code{integer()}).}
 
-\item{predictions}{(list of list of \link{Prediction}s).}
+\item{predictions}{(list of list of \link{Prediction}s)\cr
+One list for each iteration, containing the predictions named with the predict set,
+e.g. \code{list(test = prediction)}.}
 
 \item{learner_states}{(\code{list()})\cr
 Learner states. If not provided, the states of \code{learners} are automatically extracted.}

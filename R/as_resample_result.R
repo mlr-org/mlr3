@@ -41,6 +41,7 @@ as_resample_result.ResultData = function(x, view = NULL, ...) {
 #' @export
 # nolint next
 as_resample_result.list = function(x, task, learners, resampling, store_backends = TRUE, ...) {
+  assert_resampling(resampling, instantiated = TRUE)
   rdata = as_result_data(
     task = task,
     learners = learners,
