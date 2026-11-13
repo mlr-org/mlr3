@@ -186,6 +186,9 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) {
   if ("distr" %chin% predict_types[[1L]]) {
     require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
     result$distr = do.call(c, map(dots, "distr"))
+    if (!keep_duplicates) {
+      result$distr = subset_distr(result$distr, which(keep))
+    }
   }
 
   raw = discard(map(dots, "raw"), is.null)
@@ -217,6 +220,10 @@ filter_prediction_data.PredictionDataRegr = function(pdata, row_ids, ...) {
     pdata$quantiles = quantiles
   }
 
+  if (!is.null(pdata$distr)) {
+    pdata$distr = subset_distr(pdata$distr, which(keep))
+  }
+
   if (!is.null(pdata$weights)) {
     pdata$weights = pdata$weights[keep]
   }
@@ -226,6 +233,33 @@ filter_prediction_data.PredictionDataRegr = function(pdata, row_ids, ...) {
   }
 
   pdata
+}
+
+# `[.VectorDistribution` errors on an empty index and drops the wrapper for a single index
+subset_distr = function(distr, i) {
+  if (!length(i)) {
+    return(list())
+  }
+
+  if (length(i) > 1L) {
+    return(distr[i])
+  }
+
+  d = distr[i]
+  if (inherits(d, "VectorDistribution")) {
+    return(d)
+  }
+
+  vector_distribution = getExportedValue("distr6", "VectorDistribution")
+  if (inherits(d, "SDistribution")) {
+    vector_distribution$new(
+      distribution = class(d)[1L],
+      params = list(d$parameters()$values),
+      decorators = distr$decorators
+    )
+  } else {
+    vector_distribution$new(distlist = list(d), decorators = distr$decorators)
+  }
 }
 
 #' @export
