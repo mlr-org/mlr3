@@ -1590,4 +1590,9 @@ test_that("task_type must match the class of the learner", {
   expect_equal(learner$task_type, "classif")
   learner$task_type = "classif"
   expect_equal(learner$task_type, "classif")
+
+  LearnerGeneric = R6Class("LearnerGeneric", inherit = Learner)
+  learner = LearnerGeneric$new("generic", task_type = "classif", feature_types = "numeric", predict_types = "response")
+  learner$task_type = "regr"
+  expect_equal(learner$task_type, "regr")
 })

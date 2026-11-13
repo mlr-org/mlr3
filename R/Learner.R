@@ -1014,13 +1014,15 @@ Learner = R6Class(
         return(private$.task_type)
       }
       assert_choice(rhs, mlr_reflections$task_types$type)
-      learner_class = mlr_reflections$task_types[list(rhs), "learner", on = "type", with = FALSE][[1L]][1L]
-      if (!inherits(self, learner_class)) {
+      # learners that inherit directly from Learner, e.g. graph or torch learners, are not bound to a task type
+      learner_classes = mlr_reflections$task_types[list(rhs), "learner", on = "type", with = FALSE][[1L]]
+      typed_classes = setdiff(mlr_reflections$task_types$learner, "Learner")
+      if (inherits(self, typed_classes) && !inherits(self, learner_classes)) {
         error_input(
           "Cannot set the task type of learner '%s' to '%s', the learner must inherit from '%s'",
           self$id,
           rhs,
-          learner_class
+          learner_classes[1L]
         )
       }
       private$.task_type = rhs
