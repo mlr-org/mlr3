@@ -179,10 +179,11 @@
   longer inserts integer codes into a character response.
 - fix: `Learner$new()` now checks that `param_set` is a `ParamSet`
   instead of failing later with “attempt to apply non-function”.
-- fix: `Learner$task_type` can only be set to a task type whose learner
-  class the learner inherits from, so a `LearnerClassif` can no longer
-  be turned into a `"regr"` learner that trains on a numeric target and
-  fails at predict time.
+- fix: `Learner$task_type` of a learner that inherits from a task type
+  specific class like `LearnerClassif` can only be set to a task type
+  whose learner class the learner inherits from, so a `LearnerClassif`
+  can no longer be turned into a `"regr"` learner that trains on a
+  numeric target and fails at predict time.
 - fix: `Learner$print()` now shows the messages of logged warnings and
   errors instead of the deparsed condition objects.
 - fix: `LearnerRegr$quantiles` now resets `$quantile_response` when the
