@@ -58,6 +58,18 @@ ResampleResult = R6Class(
     initialize = function(data = ResultData$new(), view = NULL) {
       private$.data = assert_class(data, "ResultData")
       private$.view = assert_string(view, null.ok = TRUE)
+
+      uhashes = data$uhashes()
+      if (is.null(view)) {
+        if (length(uhashes) > 1L) {
+          error_input(
+            "ResultData contains %i resample results, select one of them with argument 'view'",
+            length(uhashes)
+          )
+        }
+      } else if (view %nin% uhashes) {
+        error_input("ResultData does not contain a resample result with uhash '%s'", view)
+      }
     },
 
     #' @description
