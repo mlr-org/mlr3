@@ -509,7 +509,7 @@ Single \code{uhash} to restrict the results to.}
       \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
       \item{\code{reassemble_learners}}{(\code{logical(1)})\cr
-Reassemble the tasks?}
+Reassemble the learners?}
       \item{\code{convert_predictions}}{(\code{logical(1)})\cr
 Convert \link{PredictionData} to \link{Prediction}?}
       \item{\code{predict_sets}}{(\code{character()})\cr
