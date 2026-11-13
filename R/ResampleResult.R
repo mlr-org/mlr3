@@ -280,6 +280,10 @@ ResampleResult = R6Class(
     #' Note that certain operations might stop work, e.g. extracting
     #' importance values from learners or calculating measures requiring the task's data.
     #'
+    #' If the [ResampleResult] was extracted from a [BenchmarkResult], the data is shared with the [BenchmarkResult].
+    #' Models are only removed from the learners of this [ResampleResult],
+    #' but the task is also used by the other resample results of the [BenchmarkResult].
+    #'
     #' @param backends (`logical(1)`)\cr
     #'   If `TRUE`, the [DataBackend] is removed from all stored [Task]s.
     #' @param models (`logical(1)`)\cr
@@ -290,26 +294,33 @@ ResampleResult = R6Class(
     #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     discard = function(backends = FALSE, models = FALSE) {
-      private$.data$discard(backends = backends, models = models)
+      private$.data$discard(backends = backends, models = models, view = private$.view)
+      invisible(self)
     },
 
     #' @description
     #' Marshals all stored models.
     #' @param ... (any)\cr
     #'   Additional arguments passed to [`marshal_model()`].
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
     #' @examples
     #' rr$marshal()
     marshal = function(...) {
-      private$.data$marshal(...)
+      private$.data$marshal(..., view = private$.view)
+      invisible(self)
     },
     #' @description
     #' Unmarshals all stored models.
     #' @param ... (any)\cr
     #'   Additional arguments passed to [`unmarshal_model()`].
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
     #' @examples
     #' rr$unmarshal()
     unmarshal = function(...) {
-      private$.data$unmarshal(...)
+      private$.data$unmarshal(..., view = private$.view)
+      invisible(self)
     },
 
     #' @description

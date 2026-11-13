@@ -14,6 +14,8 @@
 * fix: `c()` now aligns the probability columns of `PredictionClassif` objects by class label, so combining predictions with a different order of the class levels, e.g., from tasks with a different positive class, no longer swaps the probabilities.
   Combining classification predictions with different class labels or regression predictions with different quantiles now raises an error.
 * fix: `PredictionClassif` now raises an error for probability matrices without column names or with duplicated column names, instead of silently replacing all probabilities with zero and drawing a random response.
+* fix: `ResampleResult$discard()`, `$marshal()`, and `$unmarshal()` on a resample result extracted with `BenchmarkResult$resample_result()` now only change the models of this resample result instead of the models of the complete benchmark result.
+  These methods and their `BenchmarkResult` counterparts now return the object itself invisibly, as documented, instead of the internal `ResultData`.
 * fix: Predicting zero rows with a `LearnerRegr` with predict type `"quantiles"` now returns a prediction with an empty quantiles matrix, so it can be combined with other quantile predictions, e.g., in `resample()` with an empty test set.
 * fix: `PredictionClassif$set_threshold()` with a vector of thresholds now keeps the response of observations with missing probabilities missing, instead of assigning a random class label.
 * fix: `PredictionRegr` now checks that `truth` is numeric and has one element per observation.
