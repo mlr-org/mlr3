@@ -10,7 +10,7 @@ check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
   # unsupervised task
   if (is.null(pdata$truth)) {
     lvls = fget_key(train_task$col_info, train_task$target_names, "levels", "id")
-    pdata$truth = if (length(pdata$row_ids)) factor(NA, lvls) else factor(levels = lvls)
+    pdata$truth = factor(rep(NA_character_, n), levels = lvls)
   }
   lvls = levels(pdata$truth)
 
