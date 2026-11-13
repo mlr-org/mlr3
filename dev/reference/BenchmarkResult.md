@@ -811,11 +811,11 @@ bmr$learners
 head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 #>                                   uhash                task
 #>                                  <char>              <list>
-#> 1: 2aef9901-6e2b-4e27-a231-cce318bd8a8a <TaskClassif:sonar>
-#> 2: 2aef9901-6e2b-4e27-a231-cce318bd8a8a <TaskClassif:sonar>
-#> 3: 2aef9901-6e2b-4e27-a231-cce318bd8a8a <TaskClassif:sonar>
-#> 4: 9e6ac921-254e-46e7-8130-65257b8a0f74 <TaskClassif:sonar>
-#> 5: 9e6ac921-254e-46e7-8130-65257b8a0f74 <TaskClassif:sonar>
+#> 1: 5ed7e61c-7680-4ddd-8f55-3e8b96c86980 <TaskClassif:sonar>
+#> 2: 5ed7e61c-7680-4ddd-8f55-3e8b96c86980 <TaskClassif:sonar>
+#> 3: 5ed7e61c-7680-4ddd-8f55-3e8b96c86980 <TaskClassif:sonar>
+#> 4: 482249bb-f69b-42ed-b5f1-5a0c03f04bd7 <TaskClassif:sonar>
+#> 5: 482249bb-f69b-42ed-b5f1-5a0c03f04bd7 <TaskClassif:sonar>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1
@@ -1044,8 +1044,8 @@ bmr$set_threshold(0.8, learner_ids = "classif.featureless")
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 0ad8214d-e7e3-40da-abf6-1ab23d4b6e35         1 <learner_state[8]>  <list[1]>
-#> 2: 5d060ab1-589d-48c0-841e-3e0a727f224c         1 <learner_state[9]>  <list[1]>
+#> 1: 53851ff8-0b8e-4c71-b455-2d6447aad667         1 <learner_state[8]>  <list[1]>
+#> 2: 8280a3f4-5b63-4bed-b870-abec79a8c7fe         1 <learner_state[9]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
 #> 1: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357
@@ -1054,8 +1054,8 @@ bmr$set_threshold(0.3, i = 2)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 0ad8214d-e7e3-40da-abf6-1ab23d4b6e35         1 <learner_state[8]>  <list[1]>
-#> 2: 5d060ab1-589d-48c0-841e-3e0a727f224c         1 <learner_state[9]>  <list[1]>
+#> 1: 53851ff8-0b8e-4c71-b455-2d6447aad667         1 <learner_state[8]>  <list[1]>
+#> 2: 8280a3f4-5b63-4bed-b870-abec79a8c7fe         1 <learner_state[9]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
 #> 1: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357
@@ -1064,8 +1064,8 @@ bmr$set_threshold(0.7, uhashes = uhashes(bmr, learner_ids = "classif.featureless
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 0ad8214d-e7e3-40da-abf6-1ab23d4b6e35         1 <learner_state[8]>  <list[1]>
-#> 2: 5d060ab1-589d-48c0-841e-3e0a727f224c         1 <learner_state[9]>  <list[1]>
+#> 1: 53851ff8-0b8e-4c71-b455-2d6447aad667         1 <learner_state[8]>  <list[1]>
+#> 2: 8280a3f4-5b63-4bed-b870-abec79a8c7fe         1 <learner_state[9]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
 #> 1: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357
