@@ -171,6 +171,41 @@ test_that("data_extra works", {
   expect_names(names(tab), must.include = "data_extra")
 })
 
+test_that("data_extra is stored with the correct experiment in benchmark", {
+  callback = callback_resample("test", on_resample_end = function(callback, context) {
+    context$data_extra = list(
+      task_id = context$task$id,
+      learner_id = context$learner$id,
+      iteration = context$iteration
+    )
+  })
+  design = benchmark_grid(
+    tsks(c("iris", "sonar", "penguins")),
+    lrns(c("classif.featureless", "classif.rpart")),
+    rsmp("cv", folds = 3)
+  )
+  bmr = benchmark(design, callbacks = callback)
+  tab = as.data.table(bmr)
+
+  expect_equal(map_chr(tab$data_extra, "task_id"), ids(tab$task))
+  expect_equal(map_chr(tab$data_extra, "learner_id"), ids(tab$learner))
+  expect_equal(map_int(tab$data_extra, "iteration"), tab$iteration)
+})
+
+test_that("data_extra is stored with the correct iteration in as_result_data", {
+  task = tsk("iris")
+  resampling = rsmp("cv", folds = 3)$instantiate(task)
+  iterations = c(3L, 1L, 2L)
+  learners = map(iterations, function(i) lrn("classif.featureless")$train(task, resampling$train_set(i)))
+  predictions = map(seq_along(iterations), function(k) {
+    list(test = learners[[k]]$predict(task, resampling$test_set(iterations[k])))
+  })
+  rdata = as_result_data(task, learners, resampling, iterations, predictions, data_extra = list(3L, 1L, 2L))
+  tab = ResampleResult$new(rdata)$data_extra
+
+  expect_equal(unlist(tab$data_extra), tab$iteration)
+})
+
 test_that("combine with data_extra works", {
   # empty result data + result_data with data_extra
   rdata_1 = ResultData$new()
