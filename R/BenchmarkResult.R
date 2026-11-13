@@ -560,6 +560,7 @@ BenchmarkResult = R6Class(
     ) {
       uhashes = private$.get_uhashes(i, uhashes, learner_ids, task_ids, resampling_ids)
       private$.data$set_threshold(uhashes, threshold, ties_method)
+      invisible(self)
     }
   ),
 

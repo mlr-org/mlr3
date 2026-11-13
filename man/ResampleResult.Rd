@@ -572,6 +572,9 @@ Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding t
     }
     \if{html}{\out{</div>}}
   }
+  \subsection{Returns}{
+    Returns the object itself, but modified \strong{by reference}.
+  }
   \subsection{Examples}{
     \if{html}{\out{<div class="r example copy">}}
     \preformatted{learner = lrn("classif.rpart", predict_type = "prob")
