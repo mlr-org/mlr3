@@ -156,6 +156,19 @@ test_that("c", {
   expect_matrix(p3$prob, nrows = nrow(p1$prob), ncols = ncol(p1$prob))
 })
 
+test_that("c aligns prob columns by class label", {
+  prob = matrix(c(0.9, 0.2, 0.1, 0.8), 2, dimnames = list(NULL, c("a", "b")))
+  p1 = PredictionClassif$new(row_ids = 1:2, truth = factor(c("a", "b"), levels = c("a", "b")), prob = prob)
+  p2 = PredictionClassif$new(row_ids = 3:4, truth = factor(c("a", "b"), levels = c("b", "a")), prob = prob)
+  pred = c(p1, p2)
+  expect_equal(pred$prob, rbind(prob, prob))
+  expect_equal(as.character(pred$response), c("a", "b", "a", "b"))
+
+  p3 = PredictionClassif$new(row_ids = 5:6, truth = factor(c("a", "b"), levels = c("a", "b", "c")),
+    prob = cbind(prob, c = 0))
+  expect_error(c(p1, p3), "Different class labels")
+})
+
 test_that("as_prediction_classif", {
   task = tsk("penguins")
   learner = lrn("classif.featureless", method = "weighted.sample")

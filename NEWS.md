@@ -10,6 +10,9 @@
   `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
 * fix: `PredictionClassif` now raises an error if the predicted response contains labels that are not class labels of the task, instead of silently converting them to missing values.
 * fix: `Learner$predict()` on a `TaskUnsupervised` now returns the predicted classes of a classification learner instead of only missing values, and no longer errors with predict type `"prob"`.
+* fix: `c()` now aligns the probability columns of `PredictionClassif` objects by class label, so combining predictions with a different order of the class levels, e.g., from tasks with a different positive class, no longer swaps the probabilities.
+  Combining classification predictions with different class labels or regression predictions with different quantiles now raises an error.
+* fix: `PredictionClassif` now raises an error for probability matrices without column names or with duplicated column names, instead of silently replacing all probabilities with zero and drawing a random response.
 * fix: Predicting zero rows with a `LearnerRegr` with predict type `"quantiles"` now returns a prediction with an empty quantiles matrix, so it can be combined with other quantile predictions, e.g., in `resample()` with an empty test set.
 * fix: `PredictionClassif$set_threshold()` with a vector of thresholds now keeps the response of observations with missing probabilities missing, instead of assigning a random class label.
 * fix: `PredictionRegr` now checks that `truth` is numeric and has one element per observation.
