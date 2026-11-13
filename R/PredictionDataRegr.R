@@ -5,11 +5,12 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) {
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
   if (is.null(pdata$truth)) {
-    pdata$truth = NA_real_
+    pdata$truth = rep(NA_real_, n)
   }
   if (!length(pdata$row_ids)) {
     pdata$truth = numeric()
   }
+  assert_numeric(pdata$truth, len = n, .var.name = "truth")
 
   if (!is.null(pdata$response)) {
     pdata$response = assert_numeric(unname(pdata$response))
@@ -23,21 +24,42 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) {
 
   if (!is.null(pdata$quantiles)) {
     quantiles = pdata$quantiles
-    assert_matrix(quantiles)
+    assert_matrix(quantiles, mode = "numeric")
     assert_prediction_count(nrow(quantiles), n, "quantiles")
 
-    if (is.null(attr(quantiles, "probs"))) {
+    probs = attr(quantiles, "probs")
+    if (is.null(probs)) {
       error_learner_predict("No probs attribute stored in 'quantile'")
     }
 
-    if (is.null(attr(quantiles, "response")) && is.null(pdata$response)) {
+    if (length(probs) != ncol(quantiles)) {
+      error_learner_predict(
+        "Predicted quantiles have %i columns, but the probs attribute has %i elements",
+        ncol(quantiles),
+        length(probs)
+      )
+    }
+
+    response = attr(quantiles, "response")
+    if (is.null(response) && is.null(pdata$response)) {
       error_learner_predict("No response attribute stored in 'quantile' or response stored in 'pdata'")
     }
 
-    colnames(pdata$quantiles) = sprintf("q%g", attr(quantiles, "probs"))
-    response = attr(quantiles, "response")
+    quantile_names = sprintf("q%g", probs)
+    if (anyDuplicated(quantile_names)) {
+      error_learner_predict("Quantiles must be unique, but got: %s", str_collapse(quantile_names))
+    }
+
     if (is.numeric(response)) {
-      setattr(pdata$quantiles, "response", sprintf("q%g", response))
+      response = sprintf("q%g", response)
+    }
+    if (!is.null(response) && response %nin% quantile_names) {
+      error_learner_predict("Quantile response '%s' is not one of the predicted quantiles", response)
+    }
+
+    colnames(pdata$quantiles) = quantile_names
+    if (!is.null(response)) {
+      setattr(pdata$quantiles, "response", response)
     }
   }
 
@@ -207,12 +229,25 @@ create_empty_prediction_data.TaskRegr = function(task, learner) {
     truth = numeric()
   )
 
-  if ("response" %chin% predict_types) {
+  quantile_response = if ("quantiles" %chin% predict_types) learner$quantile_response
+
+  # the response of a quantile prediction is stored in the quantiles matrix
+  if ("response" %chin% predict_types && is.null(quantile_response)) {
     pdata$response = pdata$truth
   }
 
   if ("se" %chin% predict_types) {
     pdata$se = pdata$truth
+  }
+
+  if ("quantiles" %chin% predict_types) {
+    probs = learner$quantiles
+    quantiles = matrix(numeric(), nrow = 0L, ncol = length(probs), dimnames = list(NULL, sprintf("q%g", probs)))
+    setattr(quantiles, "probs", probs)
+    if (!is.null(quantile_response)) {
+      setattr(quantiles, "response", sprintf("q%g", quantile_response))
+    }
+    pdata$quantiles = quantiles
   }
 
   if ("distr" %chin% predict_types) {

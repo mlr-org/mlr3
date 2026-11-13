@@ -10,7 +10,7 @@ check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
   # unsupervised task
   if (is.null(pdata$truth)) {
     lvls = fget_key(train_task$col_info, train_task$target_names, "levels", "id")
-    pdata$truth = if (length(pdata$row_ids)) factor(NA, lvls) else factor(levels = lvls)
+    pdata$truth = factor(rep(NA_character_, n), levels = lvls)
   }
   lvls = levels(pdata$truth)
 
@@ -96,8 +96,9 @@ is_missing_prediction_data.PredictionDataClassif = function(pdata, ...) {
 
 #' @rdname PredictionData
 #'
-#' @param keep_duplicates (`logical(1)`)
-#'   If `TRUE`, the combined [PredictionData] object is filtered for duplicated row ids (starting from last).
+#' @param keep_duplicates (`logical(1)`)\cr
+#'   If `FALSE`, duplicated row ids are removed from the combined [PredictionData] object,
+#'   keeping the data of the object passed last.
 #' @param ... (one or more [PredictionData] objects).
 #' @export
 c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
