@@ -39,6 +39,10 @@
   `PredictionClassif` and `PredictionRegr` now reject extra data whose
   names collide with reserved prediction columns
   ([\#1517](https://github.com/mlr-org/mlr3/issues/1517)).
+- fix: `PredictionClassif` now raises an error for probability matrices
+  without column names or with duplicated column names, instead of
+  silently replacing all probabilities with zero and drawing a random
+  response.
 - fix: Predicting zero rows with a `LearnerRegr` with predict type
   `"quantiles"` now returns a prediction with an empty quantiles matrix,
   so it can be combined with other quantile predictions, e.g., in
