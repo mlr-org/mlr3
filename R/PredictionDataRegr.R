@@ -24,21 +24,42 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) {
 
   if (!is.null(pdata$quantiles)) {
     quantiles = pdata$quantiles
-    assert_matrix(quantiles)
+    assert_matrix(quantiles, mode = "numeric")
     assert_prediction_count(nrow(quantiles), n, "quantiles")
 
-    if (is.null(attr(quantiles, "probs"))) {
+    probs = attr(quantiles, "probs")
+    if (is.null(probs)) {
       error_learner_predict("No probs attribute stored in 'quantile'")
     }
 
-    if (is.null(attr(quantiles, "response")) && is.null(pdata$response)) {
+    if (length(probs) != ncol(quantiles)) {
+      error_learner_predict(
+        "Predicted quantiles have %i columns, but the probs attribute has %i elements",
+        ncol(quantiles),
+        length(probs)
+      )
+    }
+
+    response = attr(quantiles, "response")
+    if (is.null(response) && is.null(pdata$response)) {
       error_learner_predict("No response attribute stored in 'quantile' or response stored in 'pdata'")
     }
 
-    colnames(pdata$quantiles) = sprintf("q%g", attr(quantiles, "probs"))
-    response = attr(quantiles, "response")
+    quantile_names = sprintf("q%g", probs)
+    if (anyDuplicated(quantile_names)) {
+      error_learner_predict("Quantiles must be unique, but got: %s", str_collapse(quantile_names))
+    }
+
     if (is.numeric(response)) {
-      setattr(pdata$quantiles, "response", sprintf("q%g", response))
+      response = sprintf("q%g", response)
+    }
+    if (!is.null(response) && response %nin% quantile_names) {
+      error_learner_predict("Quantile response '%s' is not one of the predicted quantiles", response)
+    }
+
+    colnames(pdata$quantiles) = quantile_names
+    if (!is.null(response)) {
+      setattr(pdata$quantiles, "response", response)
     }
   }
 

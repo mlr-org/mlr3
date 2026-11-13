@@ -89,7 +89,7 @@ Prediction = R6Class(
     #'
     #' @param train_set (`integer()`).
     #'
-    #' @return [Prediction].
+    #' @return Named `numeric()`.
     score = function(measures = NULL, task = NULL, learner = NULL, train_set = NULL) {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       scores = map_dbl(measures, function(m) {
@@ -106,6 +106,8 @@ Prediction = R6Class(
     #' Note that some measures such as RMSE, do have an `$obs_loss`,
     #' but they require an additional transformation after aggregation,
     #' in this example taking the square-root.
+    #'
+    #' @return [data.table::data.table()].
     obs_loss = function(measures = NULL) {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       tab = as.data.table(self)
