@@ -258,7 +258,7 @@ ResampleResult = R6Class(
       iters = assert_integerish(
         iters,
         lower = 1L,
-        upper = self$resampling$iters,
+        upper = self$resampling$iters %??% Inf,
         any.missing = FALSE,
         unique = TRUE,
         coerce = TRUE
@@ -270,7 +270,10 @@ ResampleResult = R6Class(
         fact = fact[list(private$.view), on = "uhash", nomatch = NULL]
       }
 
-      private$.data$data$fact = fact[list(iters), on = "iteration", nomatch = NULL]
+      # keep the fact table sorted and keyed, and remove objects which are not referenced anymore
+      fact = fact[list(sort(iters)), on = "iteration", nomatch = NULL]
+      private$.data$data$fact = setkeyv(fact, c("uhash", "iteration"))
+      private$.data$sweep()
 
       invisible(self)
     },

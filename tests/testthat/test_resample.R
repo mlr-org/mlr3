@@ -22,6 +22,32 @@ test_that("resample", {
   expect_resample_result(rr, allow_incomplete = TRUE)
 })
 
+test_that("filter keeps the result sorted and removes unused objects", {
+  rr = resample(task, learner, resampling)
+  rr2 = resample(task, lrn("classif.rpart"), resampling)
+
+  rr$filter(c(3, 1))
+  expect_resample_result(rr, allow_incomplete = TRUE)
+  expect_equal(as.data.table(rr)$iteration, c(1L, 3L))
+  expect_equal(map(rr$predictions(), "row_ids"), list(rr$resampling$test_set(1), rr$resampling$test_set(3)))
+  expect_equal(key(get_private(rr)$.data$data$fact), c("uhash", "iteration"))
+
+  bmr = c(rr, rr2)
+  expect_benchmark_result(bmr)
+  expect_equal(bmr$aggregate(msr("classif.ce"))$iters, c(2L, 3L))
+
+  bmr = benchmark(benchmark_grid(tsks(c("iris", "sonar")), lrns(c("classif.featureless", "classif.rpart")), resampling))
+  rr = bmr$resample_result(1)$filter(1)
+  data = get_private(rr)$.data$data
+  expect_equal(unname(map_int(data, nrow)), c(1L, 1L, 1L, 1L, 1L, 1L, 0L))
+  expect_equal(nrow(as.data.table(bmr)), 12L)
+
+  rr$filter(2)
+  expect_equal(rr$iters, 0L)
+  expect_resample_result(rr$filter(1))
+  expect_resample_result(ResampleResult$new()$filter(1))
+})
+
 test_that("empty RR", {
   rr = ResampleResult$new()
   expect_resample_result(rr)
