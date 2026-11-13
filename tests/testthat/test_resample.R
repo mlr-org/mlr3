@@ -178,6 +178,22 @@ test_that("as_resample_result works for result data", {
   expect_class(rr2, "ResampleResult")
 })
 
+test_that("as_result_data does not reset the learners", {
+  task = tsk("iris")
+  resampling = rsmp("cv", folds = 3)$instantiate(task)
+  learners = map(1:3, function(i) lrn("classif.rpart")$train(task, resampling$train_set(i)))
+  predictions = map(1:3, function(i) list(test = learners[[i]]$predict(task, resampling$test_set(i))))
+  models = map(learners, "model")
+
+  rr = ResampleResult$new(as_result_data(task, learners, resampling, 1:3, predictions))
+  expect_equal(map(learners, "model"), models)
+  expect_equal(map(rr$learners, "model"), models)
+  expect_null(rr$learner$state)
+
+  rr = as_resample_result(predictions, task, learners, resampling)
+  expect_equal(map(learners, "model"), models)
+})
+
 test_that("encapsulation triggers marshaling correctly", {
   learner1 = lrn("classif.debug", count_marshaling = TRUE)
   learner1$encapsulate("callr", fallback = lrn("classif.featureless"))
