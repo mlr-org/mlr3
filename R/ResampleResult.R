@@ -16,6 +16,9 @@
 #' * `as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")`\cr
 #'   [ResampleResult] -> [data.table::data.table()]\cr
 #'   Returns a tabular view of the internal data.
+#'   If `reassemble_learners` is `FALSE`, the learners are returned without their state and hyperparameter values.
+#'   If `convert_predictions` is `FALSE`, the predictions are returned as lists of [PredictionData] objects,
+#'   one for each stored predict set.
 #' * `c(...)`\cr
 #'   ([ResampleResult], ...) -> [BenchmarkResult]\cr
 #'   Combines multiple objects convertible to [BenchmarkResult] into a new [BenchmarkResult].
@@ -438,9 +441,22 @@ ResampleResult = R6Class(
 
 #' @export
 # nolint next
-as.data.table.ResampleResult = function(x, ..., predict_sets = "test") {
+as.data.table.ResampleResult = function(
+  x,
+  ...,
+  reassemble_learners = TRUE,
+  convert_predictions = TRUE,
+  predict_sets = "test"
+) {
+  assert_flag(reassemble_learners)
+  assert_flag(convert_predictions)
   private = get_private(x)
-  tab = private$.data$as_data_table(view = private$.view, predict_sets = predict_sets)
+  tab = private$.data$as_data_table(
+    view = private$.view,
+    reassemble_learners = reassemble_learners,
+    convert_predictions = convert_predictions,
+    predict_sets = predict_sets
+  )
   cns = c("task", "learner", "resampling", "iteration", "prediction", if ("data_extra" %in% names(tab)) "data_extra")
   tab[, cns, with = FALSE]
 }

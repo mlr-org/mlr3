@@ -380,7 +380,7 @@ ResultData = R6Class(
     #' Combines internal tables into a single flat [data.table()].
     #'
     #' @param reassemble_learners (`logical(1)`)\cr
-    #'   Reassemble the tasks?
+    #'   Reassemble the learners?
     #' @param convert_predictions (`logical(1)`)\cr
     #'   Convert [PredictionData] to [Prediction]?
     #' @template param_predict_sets

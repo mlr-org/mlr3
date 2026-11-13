@@ -57,6 +57,18 @@ test_that("as_benchmark_result.ResampleResult", {
 })
 
 
+test_that("as.data.table.ResampleResult respects its arguments", {
+  rr = resample(task, lrn("classif.rpart"), resampling, store_models = TRUE)
+
+  tab = as.data.table(rr)
+  expect_list(tab$prediction, "Prediction")
+  expect_false(some(map(tab$learner, "model"), is.null))
+
+  tab = as.data.table(rr, reassemble_learners = FALSE, convert_predictions = FALSE)
+  expect_true(every(tab$learner, function(l) is.null(l$state)))
+  walk(tab$prediction, function(p) expect_list(p, "PredictionData", names = "unique"))
+})
+
 test_that("discarding model", {
   expect_equal(map(as.data.table(rr)$learner, "model"), vector("list", 3L))
 })
