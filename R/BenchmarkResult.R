@@ -148,6 +148,7 @@ BenchmarkResult = R6Class(
     #' bmr$marshal()
     marshal = function(...) {
       private$.data$marshal(...)
+      invisible(self)
     },
     #' @description
     #' Unmarshals all stored models.
@@ -157,6 +158,7 @@ BenchmarkResult = R6Class(
     #' bmr$unmarshal()
     unmarshal = function(...) {
       private$.data$unmarshal(...)
+      invisible(self)
     },
 
     #' @description
@@ -514,6 +516,7 @@ BenchmarkResult = R6Class(
     #' bmr$discard(models = TRUE)
     discard = function(backends = FALSE, models = FALSE) {
       private$.data$discard(backends = backends, models = models)
+      invisible(self)
     },
 
     #' @description
