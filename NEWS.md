@@ -13,6 +13,8 @@
 * fix: `PredictionRegr$filter()` and `c()` with `keep_duplicates = FALSE` now also subset the distributions of predictions with predict type `"distr"`, which previously kept the distributions of all rows (#1400).
 * fix: `c()` now aligns the probability columns of `PredictionClassif` objects by class label, so combining predictions with a different order of the class levels, e.g., from tasks with a different positive class, no longer swaps the probabilities.
   Combining classification predictions with different class labels or regression predictions with different quantiles now raises an error.
+* fix: `ResampleResult$warnings`, `$errors`, and `$obs_loss()` now report the resampling iteration instead of the position of the iteration in the result, which differed after `$filter()`.
+  `$obs_loss()` now raises an informative error if no predictions are stored for the requested predict sets.
 * fix: `PredictionClassif` now raises an error for probability matrices without column names or with duplicated column names, instead of silently replacing all probabilities with zero and drawing a random response.
 * fix: Predicting zero rows with a `LearnerRegr` with predict type `"quantiles"` now returns a prediction with an empty quantiles matrix, so it can be combined with other quantile predictions, e.g., in `resample()` with an empty test set.
 * fix: `PredictionClassif$set_threshold()` with a vector of thresholds now keeps the response of observations with missing probabilities missing, instead of assigning a random class label.
