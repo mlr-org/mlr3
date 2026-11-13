@@ -192,14 +192,16 @@ ResultData = R6Class(
     #'   returning the learners.
     #'
     #' @return `data.table()` with columns `"learner_hash"` (`character()`) and `"learner"` ([Learner]).
+    #'   If `states` is `TRUE`, the rows are ordered by `uhash` and iteration.
     learners = function(view = NULL, states = TRUE, reassemble = TRUE) {
       # nolint next
       .__ii__ = private$get_view_index(view)
 
       if (states) {
         tab = self$data$fact[.__ii__, c("learner_hash", "learner_phash", "learner_state"), with = FALSE]
+        # keep the order of the fact table, i.e. uhash and iteration
         tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
-        tab = merge(tab, self$data$learner_components, by = "learner_hash", sort = TRUE)
+        tab = merge(tab, self$data$learner_components, by = "learner_hash", sort = FALSE)
         set(
           tab,
           j = "learner",
@@ -222,13 +224,13 @@ ResultData = R6Class(
 
     #' @description
     #' Returns a list of states of included [Learner]s without reassembling the learners.
+    #' The states are ordered by `uhash` and iteration.
     #'
-    #'  @return list of `list()`
+    #' @return list of `list()`
     learner_states = function(view = NULL) {
       # nolint next
       .__ii__ = private$get_view_index(view)
-      learner_hash = learner_state = NULL
-      self$data$fact[.__ii__][order(learner_hash), learner_state]
+      self$data$fact[.__ii__, "learner_state", with = FALSE][[1L]]
     },
 
     #' @description
