@@ -171,6 +171,17 @@ test_that("data_extra works", {
   expect_names(names(tab), must.include = "data_extra")
 })
 
+test_that("filter removes data_extra of removed iterations", {
+  callback = callback_resample("test", on_resample_end = function(callback, context) {
+    context$data_extra = list(iteration = context$iteration)
+  })
+  rr = resample(tsk("iris"), lrn("classif.featureless"), rsmp("cv", folds = 3), callbacks = callback)
+  rr$filter(c(3, 2))
+
+  expect_equal(get_private(rr)$.data$data$data_extras$iteration, 2:3)
+  expect_equal(map_int(rr$data_extra$data_extra, "iteration"), 2:3)
+})
+
 test_that("combine with data_extra works", {
   # empty result data + result_data with data_extra
   rdata_1 = ResultData$new()
