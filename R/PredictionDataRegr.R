@@ -152,6 +152,14 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) {
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
 
   quantiles = if ("quantiles" %chin% nn) {
+    probs = attr(dots[[1L]]$quantiles, "probs")
+    response = attr(dots[[1L]]$quantiles, "response")
+    same = every(dots[-1L], function(x) {
+      identical(attr(x$quantiles, "probs"), probs) && identical(attr(x$quantiles, "response"), response)
+    })
+    if (!same) {
+      error_input("Cannot combine predictions: Different quantiles")
+    }
     do.call(rbind, map(dots, "quantiles"))
   }
   extra = if ("extra" %chin% nn) {
