@@ -51,8 +51,9 @@ Row indices.}
 \item{train_task}{(\link{Task})\cr
 Task used for training the learner.}
 
-\item{keep_duplicates}{(\code{logical(1)})
-If \code{TRUE}, the combined \link{PredictionData} object is filtered for duplicated row ids (starting from last).}
+\item{keep_duplicates}{(\code{logical(1)})\cr
+If \code{FALSE}, duplicated row ids are removed from the combined \link{PredictionData} object,
+keeping the data of the object passed last.}
 }
 \description{
 Objects of type \code{PredictionData} serve as a intermediate representation for objects of type \link{Prediction}.
