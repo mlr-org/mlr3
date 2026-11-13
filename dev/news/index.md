@@ -39,6 +39,24 @@
   `PredictionClassif` and `PredictionRegr` now reject extra data whose
   names collide with reserved prediction columns
   ([\#1517](https://github.com/mlr-org/mlr3/issues/1517)).
+- fix: `PredictionClassif` now raises an error if the predicted response
+  contains labels that are not class labels of the task, instead of
+  silently converting them to missing values.
+- fix: `Learner$predict()` on a `TaskUnsupervised` now returns the
+  predicted classes of a classification learner instead of only missing
+  values, and no longer errors with predict type `"prob"`.
+- fix: `PredictionRegr$filter()` and
+  [`c()`](https://rdrr.io/r/base/c.html) with `keep_duplicates = FALSE`
+  now also subset the distributions of predictions with predict type
+  `"distr"`, which previously kept the distributions of all rows
+  ([\#1400](https://github.com/mlr-org/mlr3/issues/1400)).
+- fix: [`c()`](https://rdrr.io/r/base/c.html) now aligns the probability
+  columns of `PredictionClassif` objects by class label, so combining
+  predictions with a different order of the class levels, e.g., from
+  tasks with a different positive class, no longer swaps the
+  probabilities. Combining classification predictions with different
+  class labels or regression predictions with different quantiles now
+  raises an error.
 - fix: `PredictionClassif` now raises an error for probability matrices
   without column names or with duplicated column names, instead of
   silently replacing all probabilities with zero and drawing a random
