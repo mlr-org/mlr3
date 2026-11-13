@@ -811,11 +811,11 @@ bmr$learners
 head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 #>                                   uhash                task
 #>                                  <char>              <list>
-#> 1: 168ca718-6e8c-491b-b630-6402b0440f20 <TaskClassif:sonar>
-#> 2: 168ca718-6e8c-491b-b630-6402b0440f20 <TaskClassif:sonar>
-#> 3: 168ca718-6e8c-491b-b630-6402b0440f20 <TaskClassif:sonar>
-#> 4: ba26ba9f-37ac-4ddb-92f5-2f4cba5afb52 <TaskClassif:sonar>
-#> 5: ba26ba9f-37ac-4ddb-92f5-2f4cba5afb52 <TaskClassif:sonar>
+#> 1: e487e959-8fb9-4596-b422-15a672837011 <TaskClassif:sonar>
+#> 2: e487e959-8fb9-4596-b422-15a672837011 <TaskClassif:sonar>
+#> 3: e487e959-8fb9-4596-b422-15a672837011 <TaskClassif:sonar>
+#> 4: df2c5402-2998-4088-b43e-c24f9d5b3004 <TaskClassif:sonar>
+#> 5: df2c5402-2998-4088-b43e-c24f9d5b3004 <TaskClassif:sonar>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1
@@ -1044,30 +1044,30 @@ bmr$set_threshold(0.8, learner_ids = "classif.featureless")
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 01020cde-d944-4f70-a62c-5cc86ba51b48         1 <learner_state[9]>  <list[1]>
-#> 2: 843362dd-9516-45ea-a646-824f9c6821eb         1 <learner_state[8]>  <list[1]>
+#> 1: c03634b8-6bd5-4f52-bc6e-b7634fdf9fea         1 <learner_state[8]>  <list[1]>
+#> 2: f5d3aea1-9945-4abc-9d96-99a634374924         1 <learner_state[9]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 1e0d02cc0b375420 f855443664c6cb00 6aecfaa91eda4557 35db3d2bb507d357
-#> 2: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357
+#> 1: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357
+#> 2: 1e0d02cc0b375420 f855443664c6cb00 6aecfaa91eda4557 35db3d2bb507d357
 bmr$set_threshold(0.3, i = 2)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 01020cde-d944-4f70-a62c-5cc86ba51b48         1 <learner_state[9]>  <list[1]>
-#> 2: 843362dd-9516-45ea-a646-824f9c6821eb         1 <learner_state[8]>  <list[1]>
+#> 1: c03634b8-6bd5-4f52-bc6e-b7634fdf9fea         1 <learner_state[8]>  <list[1]>
+#> 2: f5d3aea1-9945-4abc-9d96-99a634374924         1 <learner_state[9]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 1e0d02cc0b375420 f855443664c6cb00 6aecfaa91eda4557 35db3d2bb507d357
-#> 2: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357
+#> 1: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357
+#> 2: 1e0d02cc0b375420 f855443664c6cb00 6aecfaa91eda4557 35db3d2bb507d357
 bmr$set_threshold(0.7, uhashes = uhashes(bmr, learner_ids = "classif.featureless"))
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 01020cde-d944-4f70-a62c-5cc86ba51b48         1 <learner_state[9]>  <list[1]>
-#> 2: 843362dd-9516-45ea-a646-824f9c6821eb         1 <learner_state[8]>  <list[1]>
+#> 1: c03634b8-6bd5-4f52-bc6e-b7634fdf9fea         1 <learner_state[8]>  <list[1]>
+#> 2: f5d3aea1-9945-4abc-9d96-99a634374924         1 <learner_state[9]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 1e0d02cc0b375420 f855443664c6cb00 6aecfaa91eda4557 35db3d2bb507d357
-#> 2: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357
+#> 1: 23c8e0f69cbf95de f855443664c6cb00 3f9d6366d890d000 35db3d2bb507d357
+#> 2: 1e0d02cc0b375420 f855443664c6cb00 6aecfaa91eda4557 35db3d2bb507d357
 ```

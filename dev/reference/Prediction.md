@@ -240,7 +240,7 @@ ignored by this method, instead all predictions are used.
 
 #### Returns
 
-Prediction.
+Named [`numeric()`](https://rdrr.io/r/base/numeric.html).
 
 ------------------------------------------------------------------------
 
@@ -270,6 +270,10 @@ square-root.
   of [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md) \|
   `NULL`)  
   Measure(s) to calculate.
+
+#### Returns
+
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 ------------------------------------------------------------------------
 

@@ -93,5 +93,6 @@ c(..., keep_duplicates = TRUE)
 
 - keep_duplicates:
 
-  (`logical(1)`) If `TRUE`, the combined PredictionData object is
-  filtered for duplicated row ids (starting from last).
+  (`logical(1)`)  
+  If `FALSE`, duplicated row ids are removed from the combined
+  PredictionData object, keeping the data of the object passed last.
