@@ -229,12 +229,25 @@ create_empty_prediction_data.TaskRegr = function(task, learner) {
     truth = numeric()
   )
 
-  if ("response" %chin% predict_types) {
+  quantile_response = if ("quantiles" %chin% predict_types) learner$quantile_response
+
+  # the response of a quantile prediction is stored in the quantiles matrix
+  if ("response" %chin% predict_types && is.null(quantile_response)) {
     pdata$response = pdata$truth
   }
 
   if ("se" %chin% predict_types) {
     pdata$se = pdata$truth
+  }
+
+  if ("quantiles" %chin% predict_types) {
+    probs = learner$quantiles
+    quantiles = matrix(numeric(), nrow = 0L, ncol = length(probs), dimnames = list(NULL, sprintf("q%g", probs)))
+    setattr(quantiles, "probs", probs)
+    if (!is.null(quantile_response)) {
+      setattr(quantiles, "response", sprintf("q%g", quantile_response))
+    }
+    pdata$quantiles = quantiles
   }
 
   if ("distr" %chin% predict_types) {

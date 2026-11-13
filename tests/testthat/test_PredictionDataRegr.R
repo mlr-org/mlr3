@@ -56,6 +56,32 @@ test_that("construction of empty PredictionDataRegr", {
   expect_data_table(as.data.table(pred), nrows = 0L, ncols = 4L)
 })
 
+test_that("construction of empty PredictionDataRegr with quantiles", {
+  task = tsk("mtcars")
+
+  learner = lrn("regr.featureless", predict_type = "quantiles")
+  learner$quantiles = c(0.1, 0.5, 0.9)
+  learner$quantile_response = 0.5
+  learner$train(task)
+  pred = learner$predict(task, row_ids = integer())
+  expect_prediction(pred)
+  expect_set_equal(pred$predict_types, c("response", "quantiles"))
+  expect_matrix(pred$quantiles, nrows = 0L, ncols = 3L)
+  expect_equal(attr(pred$quantiles, "probs"), c(0.1, 0.5, 0.9))
+  expect_numeric(pred$response, len = 0L)
+  expect_data_table(as.data.table(pred), nrows = 0L, ncols = 6L)
+
+  combined = c(pred, learner$predict(task, row_ids = 1:3))
+  expect_prediction(combined)
+  expect_equal(combined$row_ids, 1:3)
+  expect_matrix(combined$quantiles, nrows = 3L, ncols = 3L)
+
+  resampling = rsmp("custom")
+  resampling$instantiate(task, train_sets = list(1:20, 1:20), test_sets = list(21:32, integer()))
+  rr = resample(task, learner, resampling)
+  expect_equal(rr$prediction()$row_ids, 21:32)
+})
+
 test_that("PredictionDataRegr with quantiles", {
   n = 100
   probs = c(0.1, 0.5, 0.9)
