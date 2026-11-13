@@ -20,7 +20,17 @@ test_that("classification task", {
   iris$Species = NULL
   task_predict = as_task_unsupervised(iris, id = "Test")
   expect_task_unsupervised(task_predict)
-  expect_prediction(learner$predict(task_predict))
+  prediction = learner$predict(task_predict)
+  expect_prediction(prediction)
+  expect_equal(levels(prediction$response), task_train$class_names)
+  expect_equal(levels(prediction$truth), task_train$class_names)
+  expect_false(anyNA(prediction$response))
+  expect_true(allMissing(prediction$truth))
+
+  learner$predict_type = "prob"
+  prediction = learner$predict(task_predict)
+  expect_prediction(prediction)
+  expect_equal(colnames(prediction$prob), levels(prediction$truth))
 })
 
 test_that("empty classif task", {
@@ -57,7 +67,9 @@ test_that("fallback", {
   iris$Species = NULL
   task_predict = as_task_unsupervised(iris, id = "Test")
   expect_task_unsupervised(task_predict)
-  expect_prediction(learner$predict(task_predict))
+  prediction = learner$predict(task_predict)
+  expect_prediction(prediction)
+  expect_false(anyNA(prediction$response))
 })
 
 test_that("assertions work", {

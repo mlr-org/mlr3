@@ -29,6 +29,17 @@ test_that("row sums of prob sums up to 1 ", {
   expect_error(check_prediction_data(pdata), "sum up")
 })
 
+test_that("response with unknown class labels is rejected", {
+  pdata = new_prediction_data(list(row_ids = 1:2, truth = factor(c("a", "b")), response = c("a", "z")), "classif")
+  expect_error(check_prediction_data(pdata), "not class labels", class = "Mlr3ErrorLearnerPredict")
+
+  pdata = new_prediction_data(
+    list(row_ids = 1:2, truth = factor(c("a", "b")), response = factor(c("a", NA), levels = c("a", "z"))),
+    "classif"
+  )
+  expect_equal(check_prediction_data(pdata)$response, factor(c("a", NA), levels = c("a", "b")))
+})
+
 test_that("prob requires unique column names", {
   prob = matrix(c(0.9, 0.2, 0.1, 0.8), 2)
   pdata = new_prediction_data(list(row_ids = 1:2, truth = factor(c("a", "b")), prob = prob), "classif")
