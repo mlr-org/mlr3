@@ -102,6 +102,19 @@ test_that("setting threshold edge cases (#452)", {
   expect_equal(as.character(prd$response), c("setosa", "versicolor", "versicolor"))
 })
 
+test_that("setting threshold keeps missing predictions", {
+  prob = matrix(c(0.5, NA, 0.1, 0.3, NA, 0.1, 0.2, NA, 0.8), 3, dimnames = list(NULL, c("a", "b", "c")))
+  p = PredictionClassif$new(row_ids = 1:3, truth = factor(c("a", "b", "c")), prob = prob)
+  p$set_threshold(c(a = 0.3, b = 0.3, c = 0.4))
+  expect_equal(as.character(p$response), c("a", NA, "c"))
+  expect_equal(p$missing, 2L)
+
+  prob = matrix(c(0.6, NA, 0.1, 0.4, NA, 0.9), 3, dimnames = list(NULL, c("a", "b")))
+  p = PredictionClassif$new(row_ids = 1:3, truth = factor(c("a", "b", "a")), prob = prob)
+  p$set_threshold(0.5)
+  expect_equal(as.character(p$response), c("a", NA, "b"))
+})
+
 test_that("confusion", {
   task = tsk("iris")
   lrn = lrn("classif.featureless")
