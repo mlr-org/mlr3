@@ -39,6 +39,10 @@
   `PredictionClassif` and `PredictionRegr` now reject extra data whose
   names collide with reserved prediction columns
   ([\#1517](https://github.com/mlr-org/mlr3/issues/1517)).
+- fix: `PredictionRegr` now checks that the quantiles matrix is numeric,
+  that its `probs` attribute matches the number of columns and is
+  unique, and that the quantile response is one of the predicted
+  quantiles.
 - fix: `Learner$encapsulate()`: a `when` handler now also decides for
   errors of class `Mlr3ErrorConfig`, which previously always errored
   even when a handler was registered
