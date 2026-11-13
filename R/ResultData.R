@@ -102,7 +102,7 @@ ResultData = R6Class(
           setkeyv(data_extras, c("uhash", "iteration"))
 
           if (!store_backends) {
-            set(tasks, j = "task", value = lapply(tasks$task, task_rm_backend))
+            set(tasks, j = "task", value = lapply(tasks$task, task_clone_rm_backend))
           }
 
           self$data = list(
@@ -365,7 +365,7 @@ ResultData = R6Class(
     discard = function(backends = FALSE, models = FALSE) {
       if (assert_flag(backends)) {
         tab = self$data$tasks
-        set(tab, j = "task", value = lapply(tab$task, task_rm_backend))
+        set(tab, j = "task", value = lapply(tab$task, task_clone_rm_backend))
       }
 
       if (assert_flag(models)) {
@@ -562,6 +562,23 @@ star_init = function() {
     learner_components = learner_components,
     data_extras = data_extras
   )
+}
+
+
+# Removes the backend from a clone of the task.
+# The task is shared with the user and with clones of the ResultData, so it must not be modified in place.
+task_clone_rm_backend = function(task) {
+  private = get_private(task)
+  if (is.null(private$.backend) && is.null(get_private(private$.internal_valid_task)$.backend)) {
+    return(task)
+  }
+
+  task = task$clone()
+  private = get_private(task)
+  if (!is.null(private$.internal_valid_task)) {
+    private$.internal_valid_task = private$.internal_valid_task$clone()
+  }
+  task_rm_backend(task)
 }
 
 

@@ -67,6 +67,32 @@ test_that("inputs are cloned", {
   expect_different_address(resampling, get_private(rr)$.data$data$resamplings$resampling[[1]])
 })
 
+test_that("discarding backends does not modify shared tasks", {
+  task = tsk("iris")
+  resampling = rsmp("cv", folds = 3)$instantiate(task)
+  learners = map(1:3, function(i) lrn("classif.rpart")$train(task, resampling$train_set(i)))
+  predictions = map(1:3, function(i) list(test = learners[[i]]$predict(task, resampling$test_set(i))))
+
+  rr = ResampleResult$new(as_result_data(task, learners, resampling, 1:3, predictions, store_backends = FALSE))
+  expect_null(get_private(rr$task)$.backend)
+  expect_backend(task$backend)
+  expect_equal(rr$task$hash, task$hash)
+
+  rr = resample(task, lrn("classif.rpart"), resampling, clone = c("learner", "resampling"))
+  rr2 = rr$clone(deep = TRUE)
+  rr2$discard(backends = TRUE)
+  expect_null(get_private(rr2$task)$.backend)
+  expect_backend(rr$task$backend)
+  expect_backend(task$backend)
+
+  task = tsk("iris")
+  task$internal_valid_task = 1:10
+  rr = resample(task, lrn("classif.rpart"), rsmp("holdout"), clone = c("learner", "resampling"))
+  rr$discard(backends = TRUE)
+  expect_null(get_private(rr$task$internal_valid_task)$.backend)
+  expect_backend(task$internal_valid_task$backend)
+})
+
 test_that("memory footprint", {
   expect_shape(get_private(rr)$.data$data$learners, nrow = 1L)
   expect_shape(get_private(rr)$.data$data$tasks, nrow = 1L)
