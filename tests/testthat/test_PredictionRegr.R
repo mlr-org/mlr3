@@ -93,6 +93,18 @@ test_that("filter and c subset distr", {
   expect_equal(p$row_ids, c(3L, 5L))
   expect_equal(unname(p$distr$mean()), c(3, 5))
   expect_equal(p$response, c(3, 5))
+
+  p$filter(5)
+  expect_class(p$distr, "VectorDistribution")
+  expect_equal(unname(p$distr$mean()), 5)
+  pc = c(p, p, keep_duplicates = FALSE)
+  expect_class(pc$distr, "VectorDistribution")
+  expect_equal(unname(pc$distr$mean()), 5)
+
+  p$filter(integer())
+  expect_equal(p$row_ids, integer())
+  expect_equal(p$distr, list())
+  expect_data_table(as.data.table(p), nrows = 0L)
 })
 
 test_that("as_prediction_regr", {
