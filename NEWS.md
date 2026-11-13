@@ -8,6 +8,7 @@
 * fix: `as_prediction_classif()` and `as_prediction_regr()` now store all columns that are not reserved prediction columns as extra data, so predictions with extra data survive the round trip through `as.data.table()`.
   `as_prediction_regr()` now also reconstructs quantile predictions from columns named `q<prob>` and raises an error for tables with a `distr` column.
   `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
+* fix: `PredictionClassif$set_threshold()` with a vector of thresholds now keeps the response of observations with missing probabilities missing, instead of assigning a random class label.
 * fix: `PredictionRegr` now checks that `truth` is numeric and has one element per observation.
   A missing `truth` is now replaced by one missing value per observation instead of a single missing value.
 * fix: `PredictionRegr` now checks that the quantiles matrix is numeric, that its `probs` attribute matches the number of columns and is unique, and that the quantile response is one of the predicted quantiles.
