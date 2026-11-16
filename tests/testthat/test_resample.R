@@ -22,9 +22,48 @@ test_that("resample", {
   expect_resample_result(rr, allow_incomplete = TRUE)
 })
 
+test_that("filter keeps the result sorted and removes unused objects", {
+  rr = resample(task, learner, resampling)
+  rr2 = resample(task, lrn("classif.rpart"), resampling)
+
+  rr$filter(c(3, 1))
+  expect_resample_result(rr, allow_incomplete = TRUE)
+  expect_equal(as.data.table(rr)$iteration, c(1L, 3L))
+  expect_equal(map(rr$predictions(), "row_ids"), list(rr$resampling$test_set(1), rr$resampling$test_set(3)))
+  expect_equal(key(get_private(rr)$.data$data$fact), c("uhash", "iteration"))
+
+  bmr = c(rr, rr2)
+  expect_benchmark_result(bmr)
+  expect_equal(bmr$aggregate(msr("classif.ce"))$iters, c(2L, 3L))
+
+  bmr = benchmark(benchmark_grid(tsks(c("iris", "sonar")), lrns(c("classif.featureless", "classif.rpart")), resampling))
+  rr = bmr$resample_result(1)$filter(1)
+  data = get_private(rr)$.data$data
+  expect_equal(unname(map_int(data, nrow)), c(1L, 1L, 1L, 1L, 1L, 1L, 0L))
+  expect_equal(nrow(as.data.table(bmr)), 12L)
+
+  rr$filter(2)
+  expect_equal(rr$iters, 0L)
+  expect_resample_result(rr$filter(1))
+  expect_resample_result(ResampleResult$new()$filter(1))
+})
+
 test_that("empty RR", {
   rr = ResampleResult$new()
   expect_resample_result(rr)
+})
+
+test_that("prediction checks predict sets and iters is read-only", {
+  expect_error(rr$prediction("foo"), "predict_sets")
+  expect_prediction(rr$prediction("test"))
+  expect_equal(rr$prediction("train"), list())
+  expect_equal(ResampleResult$new()$prediction(), list())
+  expect_error(
+    {
+      rr$iters = 1L
+    },
+    "read-only"
+  )
 })
 
 test_that("resample with no or multiple measures", {
@@ -56,6 +95,18 @@ test_that("as_benchmark_result.ResampleResult", {
   expect_set_equal(bmr$uhashes, rr$uhash)
 })
 
+
+test_that("as.data.table.ResampleResult respects its arguments", {
+  rr = resample(task, lrn("classif.rpart"), resampling, store_models = TRUE)
+
+  tab = as.data.table(rr)
+  expect_list(tab$prediction, "Prediction")
+  expect_false(some(map(tab$learner, "model"), is.null))
+
+  tab = as.data.table(rr, reassemble_learners = FALSE, convert_predictions = FALSE)
+  expect_true(every(tab$learner, function(l) is.null(l$state)))
+  walk(tab$prediction, function(p) expect_list(p, "PredictionData", names = "unique"))
+})
 
 test_that("discarding model", {
   expect_equal(map(as.data.table(rr)$learner, "model"), vector("list", 3L))
@@ -102,6 +153,21 @@ test_that("empty train/predict sets", {
 
 test_that("conditions are returned", {
   expect_true(all(c("warnings", "errors") %chin% names(rr$score(conditions = TRUE))))
+})
+
+test_that("conditions and obs_loss report the resampling iteration", {
+  learner = lrn("classif.debug", warning_train = 1, error_predict = 1)
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+  rr = suppressWarnings(resample(tsk("iris"), learner, rsmp("cv", folds = 3)))
+  rr$filter(2:3)
+
+  expect_equal(rr$warnings$iteration, 2:3)
+  expect_equal(rr$errors$iteration, 2:3)
+  expect_set_equal(rr$obs_loss(msr("classif.ce"))$iteration, 2:3)
+
+  expect_data_table(ResampleResult$new()$warnings, nrows = 0, ncols = 2)
+  expect_names(names(ResampleResult$new()$errors), identical.to = c("iteration", "condition"))
+  expect_error(rr$obs_loss(msr("classif.ce"), predict_sets = "train"), "No predictions available")
 })
 
 test_that("save/load roundtrip", {
@@ -163,6 +229,28 @@ test_that("disable cloning", {
   expect_identical(learner$hash, rr$learner$hash)
   expect_true(resampling$is_instantiated)
   expect_identical(resampling$hash, rr$resampling$hash)
+})
+
+test_that("as_result_data validates iterations and predictions", {
+  task = tsk("iris")
+  resampling = rsmp("cv", folds = 3)$instantiate(task)
+  learners = map(1:3, function(i) lrn("classif.rpart")$train(task, resampling$train_set(i)))
+  predictions = map(1:3, function(i) list(test = learners[[i]]$predict(task, resampling$test_set(i))))
+
+  rr = ResampleResult$new(as_result_data(task, learners, resampling, c(1, 2, 3), predictions))
+  expect_resample_result(rr)
+  expect_number(rr$aggregate(msr("classif.ce")), na.ok = FALSE)
+
+  expect_error(as_result_data(task, learners, resampling, 1:3, map(predictions, unname)), "names of predictions")
+  expect_error(
+    as_result_data(task, learners, resampling, 1:3, map(predictions, set_names, "tst")),
+    "names of predictions"
+  )
+  rr = ResampleResult$new(as_result_data(task, learners, resampling, 1:3, list(list(), list(), list())))
+  expect_equal(rr$predictions(), list(list(), list(), list()))
+
+  expect_error(as_resample_result(predictions, task, learners), "resampling")
+  expect_error(as_resample_result(predictions, task, learners, rsmp("cv", folds = 3)), "instantiated")
 })
 
 test_that("as_resample_result works for result data", {
@@ -581,6 +669,21 @@ test_that("can change the threshold", {
     rr$set_threshold(0.625, ties_method = "random")
     expect_true("setosa" %in% rr$prediction()$response && "versicolor" %in% rr$prediction()$response)
   })
+})
+
+test_that("can change the threshold with multiple iterations", {
+  task = tsk("sonar")
+  rr = resample(task, lrn("classif.rpart", predict_type = "prob"), rsmp("cv", folds = 3))
+  expected = map(rr$predictions(), function(p) p$clone()$set_threshold(0.9, ties_method = "first")$response)
+
+  expect_invisible(rr$set_threshold(0.9, ties_method = "first"))
+  expect_r6(rr$set_threshold(0.9, ties_method = "first"), "ResampleResult")
+  expect_equal(map(rr$predictions(), "response"), expected)
+  expect_prediction(rr$prediction())
+  expect_number(rr$aggregate(msr("classif.ce")), na.ok = FALSE)
+  expect_numeric(rr$score(msr("classif.ce"))$classif.ce, any.missing = FALSE, len = 3)
+
+  expect_error(ResampleResult$new()$set_threshold(0.5), "classification problems")
 })
 
 test_that("hashes work", {

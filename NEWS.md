@@ -9,18 +9,33 @@
 * fix: `as_prediction_classif()` and `as_prediction_regr()` now store all columns that are not reserved prediction columns as extra data, so predictions with extra data survive the round trip through `as.data.table()`.
   `as_prediction_regr()` now also reconstructs quantile predictions from columns named `q<prob>` and raises an error for tables with a `distr` column.
   `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
+* fix: `ResampleResult$filter()` now keeps the iterations sorted, so that combining a filtered result with `c()` no longer errors and `$predictions()` and `$learners` stay ordered by iteration.
+  Tasks, learners, resamplings, and extra data that are no longer referenced are now removed from the filtered result.
 * fix: `PredictionClassif` now raises an error if the predicted response contains labels that are not class labels of the task, instead of silently converting them to missing values.
 * fix: `Learner$predict()` on a `TaskUnsupervised` now returns the predicted classes of a classification learner instead of only missing values, and no longer errors with predict type `"prob"`.
+* fix: `as.data.table()` for a `ResampleResult` now respects the documented arguments `reassemble_learners` and `convert_predictions`, which were silently ignored.
 * fix: `PredictionRegr$filter()` and `c()` with `keep_duplicates = FALSE` now also subset the distributions of predictions with predict type `"distr"`, which previously kept the distributions of all rows (#1400).
+* fix: `as_result_data()` now raises an error if the predictions of an iteration are not named with the predict sets, e.g. `list(test = prediction)`, instead of creating a result whose scores are all `NaN`.
+  The argument `iterations` now also accepts integer-valued doubles.
 * fix: `c()` now aligns the probability columns of `PredictionClassif` objects by class label, so combining predictions with a different order of the class levels, e.g., from tasks with a different positive class, no longer swaps the probabilities.
   Combining classification predictions with different class labels or regression predictions with different quantiles now raises an error.
+* fix: `ResampleResult$warnings`, `$errors`, and `$obs_loss()` now report the resampling iteration instead of the position of the iteration in the result, which differed after `$filter()`.
+  `$obs_loss()` now raises an informative error if no predictions are stored for the requested predict sets.
 * fix: `PredictionClassif` now raises an error for probability matrices without column names or with duplicated column names, instead of silently replacing all probabilities with zero and drawing a random response.
+* fix: `ResampleResult$discard()`, `$marshal()`, and `$unmarshal()` on a resample result extracted with `BenchmarkResult$resample_result()` now only change the models of this resample result instead of the models of the complete benchmark result.
+  These methods and their `BenchmarkResult` counterparts now return the object itself invisibly, as documented, instead of the internal `ResultData`.
 * fix: Predicting zero rows with a `LearnerRegr` with predict type `"quantiles"` now returns a prediction with an empty quantiles matrix, so it can be combined with other quantile predictions, e.g., in `resample()` with an empty test set.
+* fix: `ResampleResult$new()` and `as_resample_result()` now raise an error if the `ResultData` contains more than one resample result and no `view` is given, or if `view` is not a `uhash` of the `ResultData`.
+  Previously, the results of all resample results were silently pooled.
 * fix: `PredictionClassif$set_threshold()` with a vector of thresholds now keeps the response of observations with missing probabilities missing, instead of assigning a random class label.
+* fix: `ResampleResult$set_threshold()` and `BenchmarkResult$set_threshold()` no longer corrupt the stored predictions of resample results with more than one iteration, which made all scores `NaN`.
+  Both methods now return the object itself invisibly.
 * fix: `PredictionRegr` now checks that `truth` is numeric and has one element per observation.
   A missing `truth` is now replaced by one missing value per observation instead of a single missing value.
 * fix: `PredictionRegr` now checks that the quantiles matrix is numeric, that its `probs` attribute matches the number of columns and is unique, and that the quantile response is one of the predicted quantiles.
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
+* fix: `ResampleResult$prediction()` now checks the argument `predict_sets` and returns an empty list for an empty `ResampleResult`, as documented.
+  `ResampleResult$iters` is now read-only.
 * fix: `Task$rbind()` now invalidates `$row_hash` and `$col_hashes`, so `resample()` and `benchmark()` detect resamplings instantiated before the rows were added.
   `$materialize_view()`, `$labels`, `$col_info`, `$backend`, `$extra_args`, and `TaskClassif$positive` now invalidate the cached task hash, and `$extra_args` is now part of the task hash.
 * fix: `resample()` and `benchmark()` with `allow_hotstart = TRUE` no longer carry over the prediction time, validation scores, fallback state, and task copies of the start learner into the hotstarted learner, which inflated `msr("time_predict")` (#1504).
@@ -55,7 +70,6 @@
 * fix: `Learner$predict()` and `Learner$predict_newdata_fast()` no longer change the predict type of the stored fallback learner when the fallback is used, so `$hash` stays constant after predicting and `HotstartStack` and `BenchmarkResult` keep finding the learner by its hash.
 * fix: `LearnerClassif$predict_newdata_fast()` now imputes missing responses by class label, so a fallback learner returning a factor no longer inserts integer codes into a character response.
 * fix: `Learner$new()` now checks that `param_set` is a `ParamSet` instead of failing later with "attempt to apply non-function".
-* fix: `Learner$task_type` of a learner that inherits from a task type specific class like `LearnerClassif` can only be set to a task type whose learner class the learner inherits from, so a `LearnerClassif` can no longer be turned into a `"regr"` learner that trains on a numeric target and fails at predict time.
 * fix: `Learner$print()` now shows the messages of logged warnings and errors instead of the deparsed condition objects.
 * fix: `LearnerRegr$quantiles` now resets `$quantile_response` when the new quantiles do not contain it, so predicting no longer fails with "subscript out of bounds" when accessing `$response`, and rejects duplicated quantiles.
 * fix: `Learner$predict()` with `parallel_predict = TRUE` now keeps the log entries and the predict time recorded by the workers, so `$warnings`, `$errors`, and `$timings` are no longer empty after a parallel prediction, and returns an empty prediction instead of `NULL` for zero row ids.
