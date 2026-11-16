@@ -84,7 +84,10 @@ ResamplingSubsampling = R6Class(
     },
 
     .get_test = function(i) {
-      self$instance$row_ids[-self$instance$train[[i]]]
+      row_ids = self$instance$row_ids
+      train = self$instance$train[[i]]
+      # negative indexing with an empty training set would select nothing
+      if (length(train)) row_ids[-train] else row_ids
     },
 
     .combine = function(instances) {
