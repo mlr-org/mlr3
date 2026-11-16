@@ -50,6 +50,12 @@
   now also subset the distributions of predictions with predict type
   `"distr"`, which previously kept the distributions of all rows
   ([\#1400](https://github.com/mlr-org/mlr3/issues/1400)).
+- fix:
+  [`as_result_data()`](https://mlr3.mlr-org.com/dev/reference/as_result_data.md)
+  now raises an error if the predictions of an iteration are not named
+  with the predict sets, e.g. `list(test = prediction)`, instead of
+  creating a result whose scores are all `NaN`. The argument
+  `iterations` now also accepts integer-valued doubles.
 - fix: [`c()`](https://rdrr.io/r/base/c.html) now aligns the probability
   columns of `PredictionClassif` objects by class label, so combining
   predictions with a different order of the class levels, e.g., from

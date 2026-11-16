@@ -60,7 +60,9 @@ as_result_data(
 - predictions:
 
   (list of list of
-  [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)s).
+  [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)s)  
+  One list for each iteration, containing the predictions named with the
+  predict set, e.g. `list(test = prediction)`.
 
 - learner_states:
 
