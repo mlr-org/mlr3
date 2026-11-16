@@ -323,6 +323,10 @@ Task used for instantiation.}
     Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
+
+The instance belongs to the parameter values that were set when \verb{$instantiate()} was called.
+If the parameter values are changed afterwards, \verb{$train_set()}, \verb{$test_set()}, and \verb{$hash} raise an error
+until the resampling is instantiated again.
   }
   \subsection{Examples}{
     \if{html}{\out{<div class="r example copy">}}

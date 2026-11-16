@@ -161,6 +161,10 @@ Resampling = R6Class(
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
+    #'
+    #' The instance belongs to the parameter values that were set when `$instantiate()` was called.
+    #' If the parameter values are changed afterwards, `$train_set()`, `$test_set()`, and `$hash` raise an error
+    #' until the resampling is instantiated again.
     #' @examples
     #' task = tsk("penguins")
     #' resampling = rsmp("holdout")
@@ -169,6 +173,7 @@ Resampling = R6Class(
       task = assert_task(as_task(task))
       private$.hash = NULL
       self$instance = private$.get_instance(task)
+      private$.instance_param_values = self$param_set$values
       private$.task_hash = task$hash
       private$.task_row_hash = task$row_hash
       private$.task_nrow = task$nrow
@@ -231,6 +236,7 @@ Resampling = R6Class(
       if (!self$is_instantiated) {
         return(NA_character_)
       }
+      private$.assert_instance_param_values()
 
       if (is.null(private$.hash)) {
         private$.hash = calculate_hash(list(class(self), self$id, self$param_set$values, self$instance))
@@ -314,6 +320,7 @@ Resampling = R6Class(
     .man = NULL,
     .hash = NULL,
     .groups = NULL,
+    .instance_param_values = NULL,
 
     .get_instance = function(task) {
       strata = task$strata
@@ -333,10 +340,26 @@ Resampling = R6Class(
       }
     },
 
+    # the instance is only valid for the parameter values it was created with
+    .assert_instance_param_values = function() {
+      old = private$.instance_param_values
+      if (is.null(old)) {
+        return(invisible(NULL))
+      }
+      new = self$param_set$values
+      if (!setequal(names(old), names(new)) || !isTRUE(all.equal(old[names(new)], new))) {
+        error_config(
+          "The parameter values of resampling '%s' were changed after it was instantiated. Call `$instantiate()` again.",
+          self$id
+        )
+      }
+    },
+
     .get_set = function(getter, i) {
       if (!self$is_instantiated) {
         error_config("Resampling '%s' has not been instantiated yet", self$id)
       }
+      private$.assert_instance_param_values()
       i = assert_int(i, lower = 1L, upper = self$iters, coerce = TRUE)
       ids = getter(i)
 

@@ -43,6 +43,33 @@ test_that("param_vals", {
   )
 })
 
+test_that("changing parameter values after instantiation raises an error", {
+  task = tsk("iris")
+
+  r = rsmp("cv", folds = 10L)$instantiate(task)
+  hash = r$hash
+  r$param_set$set_values(folds = 3L)
+  expect_error(r$train_set(1L), "parameter values", class = "Mlr3ErrorConfig")
+  expect_error(r$test_set(1L), "parameter values", class = "Mlr3ErrorConfig")
+  expect_error(r$hash, "parameter values", class = "Mlr3ErrorConfig")
+  expect_error(resample(task, lrn("classif.featureless"), r), "parameter values")
+
+  r$instantiate(task)
+  expect_resampling(r, task = task)
+  expect_identical(r$iters, 3L)
+  expect_false(identical(r$hash, hash))
+
+  r = rsmp("cv", folds = 10L)$instantiate(task)
+  hash = r$hash
+  r$param_set$set_values(folds = 3L)
+  r$param_set$set_values(folds = 10)
+  expect_identical(r$hash, hash)
+  expect_resampling(r, task = task)
+
+  r = rsmp("custom")$instantiate(task, train_sets = list(1:10), test_sets = list(11:20))
+  expect_resampling(r, task = task)
+})
+
 test_that("hashing", {
   task = tsk("iris")
   keys = setdiff(mlr_resamplings$keys(), c("custom", "custom_cv", "ordered_holdout"))
