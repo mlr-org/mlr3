@@ -88,7 +88,7 @@ Combines multiple objects convertible to <a href="BenchmarkResult.html">Benchmar
     <p></p><div class="r6-active-bindings"><dl><dt><code>task_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Task type of objects in the <code>ResampleResult</code>, e.g. <code>"classif"</code> or <code>"regr"</code>.
-This is <code>NA</code> for empty ResampleResults.</p></dd>
+This is <code>NULL</code> for empty ResampleResults.</p></dd>
 
 
     <dt><code>uhash</code></dt>
@@ -123,8 +123,9 @@ List of trained learners, sorted by resampling iteration.</p></dd>
 
 
     <dt><code>data_extra</code></dt>
-<dd><p>(list())<br>
-Additional data stored in the ResampleResult.</p></dd>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+Additional data stored in the ResampleResult.
+A table with the columns <code>"uhash"</code>, <code>"iteration"</code>, and <code>"data_extra"</code>.</p></dd>
 
 
     <dt><code>warnings</code></dt>
@@ -241,7 +242,7 @@ the performance scores with the aggregate function of the respective <a href="Me
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>predict_sets</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Subset of <code>{"train", "test"}</code>.</p></dd>
+Subset of <code>{"train", "test", "internal_valid"}</code>.</p></dd>
 
 
 </dl><p></p></div>
@@ -274,7 +275,7 @@ Subset of <code>{"train", "test", "internal_valid"}</code>.</p></dd>
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
-<p>List of <a href="Prediction.html">Prediction</a> objects, one per element in <code>predict_sets</code>.
+<p>List of <a href="Prediction.html">Prediction</a> objects, one per resampling iteration.
 Or list of empty <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>s if no predictions are available.</p>
 </div><p></p><div class="section">
 <h4 id="examples-1">Examples<a class="anchor" aria-label="anchor" href="#examples-1"></a></h4>
@@ -741,9 +742,9 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration      learner_state prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;             &lt;list&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 81885ba1-5ec3-4a37-9dad-cc83525dfbe7         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 81885ba1-5ec3-4a37-9dad-cc83525dfbe7         2 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 81885ba1-5ec3-4a37-9dad-cc83525dfbe7         3 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: dbe91712-4ce5-434c-ab85-96540abe75d1         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: dbe91712-4ce5-434c-ab85-96540abe75d1         2 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: dbe91712-4ce5-434c-ab85-96540abe75d1         3 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash        task_hash    learner_phash  resampling_hash</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;           &lt;char&gt;           &lt;char&gt;           &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: e1292f17850073a2 f855443664c6cb00 6d8cb558afa47d24 1b22df191e2103ce</span>

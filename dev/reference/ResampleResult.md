@@ -46,7 +46,7 @@ Other resample:
 
   (`character(1)`)  
   Task type of objects in the `ResampleResult`, e.g. `"classif"` or
-  `"regr"`. This is `NA` for empty ResampleResults.
+  `"regr"`. This is `NULL` for empty ResampleResults.
 
 - `uhash`:
 
@@ -88,8 +88,9 @@ Other resample:
 
 - `data_extra`:
 
-  (list())  
-  Additional data stored in the ResampleResult.
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
+  Additional data stored in the ResampleResult. A table with the columns
+  `"uhash"`, `"iteration"`, and `"data_extra"`.
 
 - `warnings`:
 
@@ -240,7 +241,7 @@ this is called micro averaging.
 - `predict_sets`:
 
   ([`character()`](https://rdrr.io/r/base/character.html))  
-  Subset of `{"train", "test"}`.
+  Subset of `{"train", "test", "internal_valid"}`.
 
 #### Returns
 
@@ -279,7 +280,7 @@ averaging, operate on the combined prediction object as returned by
 
 List of
 [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)
-objects, one per element in `predict_sets`. Or list of empty
+objects, one per resampling iteration. Or list of empty
 [`list()`](https://rdrr.io/r/base/list.html)s if no predictions are
 available.
 
@@ -792,9 +793,9 @@ rr$set_threshold(0.6)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 81885ba1-5ec3-4a37-9dad-cc83525dfbe7         1 <learner_state[8]>  <list[1]>
-#> 2: 81885ba1-5ec3-4a37-9dad-cc83525dfbe7         2 <learner_state[8]>  <list[1]>
-#> 3: 81885ba1-5ec3-4a37-9dad-cc83525dfbe7         3 <learner_state[8]>  <list[1]>
+#> 1: dbe91712-4ce5-434c-ab85-96540abe75d1         1 <learner_state[8]>  <list[1]>
+#> 2: dbe91712-4ce5-434c-ab85-96540abe75d1         2 <learner_state[8]>  <list[1]>
+#> 3: dbe91712-4ce5-434c-ab85-96540abe75d1         3 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
 #> 1: e1292f17850073a2 f855443664c6cb00 6d8cb558afa47d24 1b22df191e2103ce
