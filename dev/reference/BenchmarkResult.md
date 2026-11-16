@@ -64,7 +64,7 @@ Other benchmark:
   [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md),
   [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)) in
   a single `BenchmarkResult` are required to have the same task type,
-  e.g., `"classif"` or `"regr"`. This is `NA` for empty
+  e.g., `"classif"` or `"regr"`. This is `NULL` for empty
   BenchmarkResults.
 
 - `tasks`:
@@ -811,11 +811,11 @@ bmr$learners
 head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 #>                                   uhash                task
 #>                                  <char>              <list>
-#> 1: 556cf168-48c4-4457-a658-4ef3a3c7169b <TaskClassif:sonar>
-#> 2: 556cf168-48c4-4457-a658-4ef3a3c7169b <TaskClassif:sonar>
-#> 3: 556cf168-48c4-4457-a658-4ef3a3c7169b <TaskClassif:sonar>
-#> 4: f2eb89d2-2c6f-4128-868b-cc65f64cb8c3 <TaskClassif:sonar>
-#> 5: f2eb89d2-2c6f-4128-868b-cc65f64cb8c3 <TaskClassif:sonar>
+#> 1: 15777c45-5429-49d6-9576-f9c317a4a2ff <TaskClassif:sonar>
+#> 2: 15777c45-5429-49d6-9576-f9c317a4a2ff <TaskClassif:sonar>
+#> 3: 15777c45-5429-49d6-9576-f9c317a4a2ff <TaskClassif:sonar>
+#> 4: 105dd58d-0979-40cf-a74a-fc86efef9180 <TaskClassif:sonar>
+#> 5: 105dd58d-0979-40cf-a74a-fc86efef9180 <TaskClassif:sonar>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1

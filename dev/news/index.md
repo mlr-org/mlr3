@@ -19,6 +19,9 @@
   `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer
   masked by fallback learners under encapsulation
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- fix: `BenchmarkResult$combine()` and
+  [`c()`](https://rdrr.io/r/base/c.html) no longer fail if the benchmark
+  result to add is empty.
 - fix:
   [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
   with callbacks that write to `$data_extra` now stores the extra data
