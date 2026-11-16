@@ -171,7 +171,7 @@ Other benchmark:
 Task type of objects in the \code{BenchmarkResult}.
 All stored objects (\link{Task}, \link{Learner}, \link{Prediction}) in a single \code{BenchmarkResult} are
 required to have the same task type, e.g., \code{"classif"} or \code{"regr"}.
-This is \code{NA} for empty \link{BenchmarkResult}s.}
+This is \code{NULL} for empty \link{BenchmarkResult}s.}
 
     \item{\code{tasks}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Table of included \link{Task}s with three columns:
