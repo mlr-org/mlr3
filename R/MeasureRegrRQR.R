@@ -78,8 +78,7 @@ MeasureRegrRQR = R6Class(
 
     .score = function(prediction, task = NULL, train_set = NULL, weights = NULL, ...) {
       alpha = self$param_set$values$alpha
-      probs = attr(prediction$data$quantiles, "probs")
-      assert_choice(alpha, probs)
+      response = get_quantile_prediction(prediction, alpha, self$id)
 
       mu = if (private$.pred_set_mean) {
         quantile(prediction$truth, probs = alpha)
@@ -90,7 +89,7 @@ MeasureRegrRQR = R6Class(
       numerator = sum(
         mlr3measures::pinball(
           truth = prediction$truth,
-          response = prediction$data$quantiles[, which(probs == alpha)],
+          response = response,
           alpha = alpha
         )
       )

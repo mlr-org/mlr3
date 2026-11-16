@@ -40,6 +40,8 @@
 * fix: `PredictionRegr` now checks that `truth` is numeric and has one element per observation.
   A missing `truth` is now replaced by one missing value per observation instead of a single missing value.
 * fix: `PredictionRegr` now checks that the quantiles matrix is numeric, that its `probs` attribute matches the number of columns and is unique, and that the quantile response is one of the predicted quantiles.
+* fix: `msr("regr.pinball")` and `msr("regr.rqr")` now match `alpha` to the predicted quantiles with a numerical tolerance, so that quantiles created with `seq()`, e.g. `seq(0.1, 0.9, by = 0.1)`, can be scored.
+  Both measures now raise an informative error that lists the predicted quantiles if `alpha` is not among them.
 * fix: `as_measure()` and `as_measures()` with `clone = TRUE` now return a deep clone, so that the parameter set is no longer shared with the original measure.
   `as_measure(NULL)` without a task type and `default_measures()` for a task type without a default measure now raise an informative error.
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).

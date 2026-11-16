@@ -33,5 +33,16 @@ test_that("mlr_measures_regr.rqr", {
   expect_number(preds$score(m_25))
 
   # alpha must be in predicted quantiles
-  expect_error(preds$score(msr("regr.pinball", alpha = 0.1)), "Must be element of set")
+  expect_error(preds$score(msr("regr.rqr", alpha = 0.1)), "needs predictions for the quantile 0.1")
+})
+
+test_that("regr.rqr matches alpha with a tolerance", {
+  task = tsk("mtcars")
+  learner = lrn("regr.featureless", predict_type = "quantiles", quantiles = seq(0.1, 0.9, by = 0.1))
+  learner$quantile_response = 0.5
+  prediction = learner$train(task)$predict(task)
+  expect_false(attr(prediction$data$quantiles, "probs")[7L] == 0.7)
+
+  # the featureless learner predicts the empirical quantile, which is the reference model of the measure
+  expect_equal(unname(prediction$score(msr("regr.rqr", alpha = 0.7))), 0)
 })
