@@ -35,6 +35,8 @@
 * fix: `ResampleResult$new()` and `as_resample_result()` now raise an error if the `ResultData` contains more than one resample result and no `view` is given, or if `view` is not a `uhash` of the `ResultData`.
   Previously, the results of all resample results were silently pooled.
 * fix: `PredictionClassif$set_threshold()` with a vector of thresholds now keeps the response of observations with missing probabilities missing, instead of assigning a random class label.
+* fix: The similarity measures `msr("sim.jaccard")` and `msr("sim.phi")` now pass `$na_value` to the similarity function, and a cloned measure no longer calls the function of the measure it was cloned from.
+  The hyperparameter `p` of `msr("sim.phi")`, which was silently ignored, now overrides the number of features of the task.
 * fix: `ResampleResult$set_threshold()` and `BenchmarkResult$set_threshold()` no longer corrupt the stored predictions of resample results with more than one iteration, which made all scores `NaN`.
   Both methods now return the object itself invisibly.
 * fix: `PredictionRegr` now checks that `truth` is numeric and has one element per observation.
