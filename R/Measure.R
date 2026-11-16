@@ -250,6 +250,10 @@ Measure = R6Class(
     #' rr = resample(task, learner, rsmp("holdout"))
     #' msr("classif.ce")$aggregate(rr)
     aggregate = function(rr) {
+      if (self$average == "custom" && is.null(self$aggregator)) {
+        error_config("Measure '%s' with average 'custom' requires an aggregator", self$id)
+      }
+
       switch(
         self$average,
         "macro_weighted" = {
