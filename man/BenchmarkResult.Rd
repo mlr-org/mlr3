@@ -440,7 +440,10 @@ if present.}
 \subsection{\code{BenchmarkResult$obs_loss()}}{
   Calculates the observation-wise loss via the \link{Measure}'s \code{obs_loss} method.
 Returns a \code{data.table()} with columns from the predictions (e.g., \code{row_ids}, \code{truth}, \code{response}, etc.),
-plus one numeric column for each measure, named with the respective measure id, and a \code{resample_result} column.
+plus one numeric column for each measure, named with the respective measure id, and a \code{resample_result} column
+with the position of the \link{ResampleResult} in \verb{$resample_results}.
+Columns that are not available for all learners, e.g. the probabilities if the predict types differ,
+are filled with \code{NA}.
 If there is no observation-wise loss function for the measure, the column is filled with \code{NA_real_} values.
 Note that some measures such as RMSE, do have an \verb{$obs_loss},
 but they require an additional transformation after aggregation,

@@ -250,7 +250,10 @@ BenchmarkResult = R6Class(
     #' @description
     #' Calculates the observation-wise loss via the [Measure]'s `obs_loss` method.
     #' Returns a `data.table()` with columns from the predictions (e.g., `row_ids`, `truth`, `response`, etc.),
-    #' plus one numeric column for each measure, named with the respective measure id, and a `resample_result` column.
+    #' plus one numeric column for each measure, named with the respective measure id, and a `resample_result` column
+    #' with the position of the [ResampleResult] in `$resample_results`.
+    #' Columns that are not available for all learners, e.g. the probabilities if the predict types differ,
+    #' are filled with `NA`.
     #' If there is no observation-wise loss function for the measure, the column is filled with `NA_real_` values.
     #' Note that some measures such as RMSE, do have an `$obs_loss`,
     #' but they require an additional transformation after aggregation,
@@ -262,11 +265,13 @@ BenchmarkResult = R6Class(
     #' bmr$obs_loss(msr("classif.acc"))
     obs_loss = function(measures = NULL, predict_sets = "test") {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
+      assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
       map_dtr(
         self$resample_results$resample_result,
         function(rr) {
           rr$obs_loss(measures, predict_sets)
         },
+        .fill = TRUE,
         .idcol = "resample_result"
       )
     },
