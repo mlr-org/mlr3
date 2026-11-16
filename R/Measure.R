@@ -296,7 +296,7 @@ Measure = R6Class(
           ) {
             error_input("Resample result has non-NULL primary_iters, but measure '%s' cannot handle them", self$id)
           }
-          private$.aggregator(rr)
+          self$aggregator(rr)
         }
       )
     },

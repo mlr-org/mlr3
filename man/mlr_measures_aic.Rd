@@ -10,7 +10,8 @@ trade-off between goodness of fit (measured in terms of
 log-likelihood) and model complexity (measured in terms of number
 of included features).
 Internally, \code{\link[stats:AIC]{stats::AIC()}} is called with parameter \code{k} (defaulting to 2).
-Requires the learner property \code{"loglik"}, \code{NA} is returned for unsupported learners.
+Requires that a \code{\link[stats:logLik]{stats::logLik()}} method exists for the model of the learner.
+For other learners, \code{NA} is returned with a warning.
 }
 \section{Dictionary}{
 

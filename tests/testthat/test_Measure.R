@@ -52,6 +52,9 @@ test_that("can set beta for fbeta during construction", {
   expect_equal(m2$param_set$values$beta, 10)
 
   expect_gt(abs(m1$score(p) - m2$score(p)), 0.0001)
+
+  m3 = msr("classif.fbeta", beta = 0.5)
+  expect_equal(unname(m3$score(p)), mlr3measures::fbeta(p$truth, p$response, positive = "M", beta = 0.5))
 })
 
 test_that("check_prerequisites / task_properties", {
@@ -133,6 +136,31 @@ test_that("time_train is > 0", {
   rr = resample(tsk("iris"), lrn("classif.debug"), rsmp("holdout"))
   res = rr$score(msr("time_train"))
   expect_gte(res$time_train, 0)
+})
+
+test_that("elapsed time is NA if the stage did not run", {
+  task = tsk("iris")
+  learner = lrn("classif.rpart")
+  expect_equal(msr("time_train")$score(NULL, learner = learner), NA_real_)
+
+  learner$train(task)
+  expect_number(msr("time_train")$score(NULL, learner = learner), lower = 0)
+  expect_equal(msr("time_predict")$score(NULL, learner = learner), NA_real_)
+  expect_equal(msr("time_both")$score(NULL, learner = learner), NA_real_)
+
+  learner$predict(task)
+  expect_number(msr("time_predict")$score(NULL, learner = learner), lower = 0)
+  expect_number(msr("time_both")$score(NULL, learner = learner), lower = 0)
+})
+
+test_that("stages of elapsed time are checked", {
+  measure = msr("time_train")
+  expect_equal(measure$stages, "train")
+  expect_error({measure$stages = "foo"}, "subset")
+  hash = measure$hash
+  measure$stages = c("train", "predict")
+  expect_false(measure$hash == hash)
+  expect_measure(measure)
 })
 
 test_that("scoring fails when measure requires_model, but model is in marshaled state", {

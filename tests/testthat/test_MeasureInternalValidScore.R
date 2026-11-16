@@ -42,6 +42,7 @@ test_that("internal valid score", {
   expect_equal(measure$minimize, NA)
   measure = msr("internal_valid_score", select = "acc", minimize = TRUE)
   expect_equal(measure$id, "acc")
+  expect_equal(measure$select, "acc")
   expect_true(measure$minimize)
 })
 
@@ -69,4 +70,11 @@ test_that("internal valid score is NA if the score is not available", {
 
   learner = make_learner(list(acc = c(0.5, 0.6)))
   expect_error(msr("internal_valid_score")$score(NULL, learner = learner), "single number as validation score 'acc'")
+})
+
+test_that("select is part of the hash", {
+  m1 = msr("internal_valid_score", select = "acc", id = "valid")
+  m2 = msr("internal_valid_score", select = "mbrier", id = "valid")
+  expect_false(m1$hash == m2$hash)
+  expect_equal(m1$hash, msr("internal_valid_score", select = "acc", id = "valid")$hash)
 })

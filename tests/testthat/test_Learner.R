@@ -447,6 +447,13 @@ test_that("validate changes phash and hash", {
   expect_false(l1$hash == l2$hash)
 })
 
+test_that("predict_sets change phash and hash", {
+  l1 = lrn("classif.rpart")
+  l2 = lrn("classif.rpart", predict_sets = c("train", "test"))
+  expect_false(l1$hash == l2$hash)
+  expect_false(l1$phash == l2$phash)
+})
+
 test_that("timeout, deadline, and encapsulation change phash and hash", {
   base = lrn("classif.debug")
 
@@ -1291,6 +1298,44 @@ test_that("oob_error is available without storing models via $.extract_oob_error
   rr = resample(task, learner, rsmp("holdout"), store_models = FALSE)
 
   expect_equal(rr$aggregate(msr("oob_error")), c(oob_error = 0.123))
+})
+
+test_that("oob_error is NA if the training failed", {
+  LearnerDummyOOB = R6Class(
+    "LearnerDummyOOB",
+    inherit = LearnerClassifDebug,
+    public = list(
+      initialize = function() {
+        super$initialize()
+        self$properties = c(self$properties, "oob_error")
+      },
+      oob_error = function() {
+        if (is.null(self$model)) {
+          stop("No model stored")
+        }
+        0.123
+      }
+    ),
+    private = list(
+      .extract_oob_error = function() {
+        0.123
+      }
+    )
+  )
+
+  task = tsk("iris")
+  learner = LearnerDummyOOB$new()
+  expect_equal(msr("oob_error")$score(NULL, learner = learner), NA_real_)
+
+  learner$param_set$set_values(error_train = 1)
+  learner$encapsulate("evaluate", fallback = lrn("classif.featureless"))
+  rr = suppressWarnings(resample(task, learner, rsmp("holdout")))
+  expect_equal(rr$score(msr("oob_error"))$oob_error, NA_real_)
+
+  learner$param_set$set_values(error_train = 0)
+  learner$train(task)
+  learner$state$oob_error = NULL
+  expect_equal(msr("oob_error")$score(NULL, learner = learner), 0.123)
 })
 
 test_that("config error is not caught by encapsulation by default", {
