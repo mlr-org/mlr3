@@ -78,6 +78,12 @@
   so it can be combined with other quantile predictions, e.g., in
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md)
   with an empty test set.
+- fix: `ResampleResult$new()` and
+  [`as_resample_result()`](https://mlr3.mlr-org.com/dev/reference/as_resample_result.md)
+  now raise an error if the `ResultData` contains more than one resample
+  result and no `view` is given, or if `view` is not a `uhash` of the
+  `ResultData`. Previously, the results of all resample results were
+  silently pooled.
 - fix: `PredictionClassif$set_threshold()` with a vector of thresholds
   now keeps the response of observations with missing probabilities
   missing, instead of assigning a random class label.
