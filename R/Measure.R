@@ -211,9 +211,9 @@ Measure = R6Class(
     #' prediction = learner$predict(task)
     #' msr("classif.ce")$score(prediction)
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
-      assert_scorable(self, task = task, learner = learner, prediction = prediction)
       properties = self$properties
-      assert_prediction(prediction, null.ok = "requires_no_prediction" %nin% properties)
+      assert_prediction(prediction, null.ok = "requires_no_prediction" %chin% properties)
+      assert_scorable(self, task = task, learner = learner, prediction = prediction)
 
       # check should be added to assert_measure()
       # except when the checks are superfluous for rr$score() and bmr$score()

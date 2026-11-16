@@ -54,6 +54,8 @@
 * fix: `Task$cbind()` now raises an error if `data` does not contain all rows of the task, instead of silently filling the new columns with missing values.
   Columns that already have a role other than `"feature"` keep their roles instead of additionally becoming features.
   `$cbind()` and `$rbind()` now check the column roles when they modify columns with a role, e.g., rejecting negative weights, and leave the task unchanged if the check fails.
+* fix: `Measure$score()` now accepts `prediction = NULL` only for measures with the property `"requires_no_prediction"`.
+  Previously, the check was inverted: measures that need a prediction returned `NaN` for `NULL`, and measures that need no prediction rejected it.
 * fix: The option `mlr3.exec_random` now actually randomizes the execution order of `resample()` and `benchmark()` iterations when parallelizing with `future`. The random ordering was silently ignored because it was attached to `future.scheduling` while `future.chunk.size` was always set (#1508).
 * fix: `Task$set_levels()` now raises an error for columns that are not factors and for duplicated or missing levels, instead of silently converting the column to a factor in `$data()`.
   `Task$set_col_roles()` now rejects the primary key, like `$col_roles`.
