@@ -1293,6 +1293,44 @@ test_that("oob_error is available without storing models via $.extract_oob_error
   expect_equal(rr$aggregate(msr("oob_error")), c(oob_error = 0.123))
 })
 
+test_that("oob_error is NA if the training failed", {
+  LearnerDummyOOB = R6Class(
+    "LearnerDummyOOB",
+    inherit = LearnerClassifDebug,
+    public = list(
+      initialize = function() {
+        super$initialize()
+        self$properties = c(self$properties, "oob_error")
+      },
+      oob_error = function() {
+        if (is.null(self$model)) {
+          stop("No model stored")
+        }
+        0.123
+      }
+    ),
+    private = list(
+      .extract_oob_error = function() {
+        0.123
+      }
+    )
+  )
+
+  task = tsk("iris")
+  learner = LearnerDummyOOB$new()
+  expect_equal(msr("oob_error")$score(NULL, learner = learner), NA_real_)
+
+  learner$param_set$set_values(error_train = 1)
+  learner$encapsulate("evaluate", fallback = lrn("classif.featureless"))
+  rr = suppressWarnings(resample(task, learner, rsmp("holdout")))
+  expect_equal(rr$score(msr("oob_error"))$oob_error, NA_real_)
+
+  learner$param_set$set_values(error_train = 0)
+  learner$train(task)
+  learner$state$oob_error = NULL
+  expect_equal(msr("oob_error")$score(NULL, learner = learner), 0.123)
+})
+
 test_that("config error is not caught by encapsulation by default", {
   l = lrn("classif.debug", config_error = TRUE)
   l$encapsulate("evaluate", lrn("classif.featureless"))
