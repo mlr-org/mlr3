@@ -3,8 +3,7 @@
 * BREAKING CHANGE: `as_task_classif()` and `as_task_regr()` now raise an error if the target column contains missing values instead of showing a message (#1442).
 * fix: Mutating a shallow clone of a task via `$rename()`, `$set_levels()`, `$droplevels()`, `$cbind()`, `$labels`, or `$positive` no longer modifies the column information of the original task.
 * fix: Errors caused by prior misconfiguration (e.g., predicting with an untrained learner, uninstantiated resamplings, missing stored models or backends, and unsupported predict types) now signal `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer masked by fallback learners under encapsulation (#1500).
-* fix: `Learner$predict()` and `Learner$train()` no longer fail with a `Mlr3ErrorTimeout` for learners serialized with mlr3 versions before 1.7.0, which lack the `$deadline` field (#1516).
-  `Learner$predict()` now also warns about a version mismatch if the learner was trained with an mlr3 version older than 0.13.1, which did not store the version in the learner state.
+* fix: `Learner$predict()` and `Learner$train()` no longer fail with a `Mlr3ErrorTimeout` for learners serialized with mlr3 versions before 1.7.0, which lack the private `$.deadline` field (#1516).
 * fix: `BenchmarkResult$combine()` and `c()` no longer fail if the benchmark result to add is empty.
 * fix: `benchmark()` with callbacks that write to `$data_extra` now stores the extra data with the experiment that produced it, instead of assigning it to another task, learner, or resampling.
 * fix: `BenchmarkResult$filter()`, `$resample_result()`, and `$set_threshold()` now raise an error if `i` contains missing values.

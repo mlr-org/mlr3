@@ -894,7 +894,8 @@ Learner = R6Class(
         private$.deadline,
         private$.encapsulation,
         private$.when,
-        mget(private$.extra_hash, envir = self)
+        # learners serialized with older mlr3 versions have no .extra_hash field (#1516)
+        mget(private$.extra_hash %??% character(), envir = self)
       )
     },
 
@@ -918,7 +919,8 @@ Learner = R6Class(
         private$.deadline,
         private$.encapsulation,
         private$.when,
-        mget(private$.extra_hash, envir = self)
+        # learners serialized with older mlr3 versions have no .extra_hash field (#1516)
+        mget(private$.extra_hash %??% character(), envir = self)
       )
     },
 
@@ -1120,10 +1122,8 @@ Learner = R6Class(
     #' date-time) instead of a relative time in seconds.
     #' Default is `as.POSIXct(c(train = Inf, predict = Inf))`.
     deadline = function(rhs) {
-      # learners serialized with mlr3 < 1.7.0 have no deadline field (#1516)
-      deadline = private$.deadline %??% as.POSIXct(c(train = Inf, predict = Inf), origin = "1970-01-01")
       if (missing(rhs)) {
-        return(deadline)
+        return(private$.deadline)
       }
       if (is.numeric(rhs)) {
         # origin is required for R < 4.3
@@ -1132,8 +1132,7 @@ Learner = R6Class(
       assert_posixct(rhs, any.missing = FALSE, .var.name = "deadline")
       assert_names(names(rhs), type = "unique", subset.of = c("train", "predict"), .var.name = "names of deadline")
       # Merge with current deadline values
-      deadline[names(rhs)] = rhs
-      private$.deadline = deadline
+      private$.deadline[names(rhs)] = rhs
       private$.deadline
     },
 

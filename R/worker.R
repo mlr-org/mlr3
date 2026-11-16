@@ -287,19 +287,11 @@ learner_predict = function(learner, task, row_ids = NULL) {
   # ensure that required packages are installed
   require_namespaces(learner$packages)
 
-  if (getOption("mlr3.warn_version_mismatch", TRUE) && !is.null(learner$state$model)) {
+  if (getOption("mlr3.warn_version_mismatch", TRUE)) {
     v_train = learner$state$mlr3_version
     v_predict = mlr_reflections$package_version
 
-    if (is.null(v_train)) {
-      # states created with mlr3 < 0.13.1 do not store the version (#1516)
-      warning_mlr3(
-        # nolint next
-        "Detected version mismatch: Learner '%s' has been trained with an unknown mlr3 version older than 0.13.1, not matching currently installed version '%s'",
-        learner$id,
-        v_predict
-      )
-    } else if (v_train != v_predict) {
+    if (!is.null(v_train) && v_train != v_predict) {
       warning_mlr3(
         # nolint next
         "Detected version mismatch: Learner '%s' has been trained with mlr3 version '%s', not matching currently installed version '%s'",

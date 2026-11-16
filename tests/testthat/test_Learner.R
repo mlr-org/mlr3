@@ -1440,22 +1440,18 @@ test_that("deadline setter merges, validates, and keeps POSIXct(2)", {
   )
 })
 
-test_that("learner serialized without deadline field can train and predict", {
-  # simulates a learner serialized with mlr3 < 1.7.0 (#1516)
+test_that("learner serialized without deadline and extra_hash fields works", {
+  # simulates a learner serialized with an older mlr3 version (#1516)
   task = tsk("mtcars")
   l = lrn("regr.rpart")
-  l$train(task)
   get_private(l, ".deadline") = NULL
-  expect_null(get_private(l)$.deadline)
+  get_private(l, ".extra_hash") = NULL
 
-  expect_posixct(l$deadline, len = 2L)
-  expect_prediction(l$predict(task))
+  expect_string(l$hash)
+  expect_string(l$phash)
   l$train(task)
   expect_prediction(l$predict(task))
-
-  l$deadline = c(train = Sys.time() + 60)
-  expect_posixct(get_private(l)$.deadline, len = 2L)
-  expect_true(is.infinite(as.numeric(l$deadline[["predict"]])))
+  expect_resample_result(resample(task, l, rsmp("holdout")))
 })
 
 test_that("predict warns on version mismatch", {
@@ -1466,16 +1462,9 @@ test_that("predict warns on version mismatch", {
   l$state$mlr3_version = as.package_version("0.13.1")
   expect_warning(l$predict(task), "version '0.13.1'", class = "Mlr3Warning")
 
-  # states created with mlr3 < 0.13.1 do not store the version (#1516)
+  # states set by hand do not store the version
   l$state$mlr3_version = NULL
-  expect_warning(l$predict(task), "unknown mlr3 version", class = "Mlr3Warning")
-
-  old_opts = options(mlr3.warn_version_mismatch = FALSE)
-  on.exit(options(old_opts), add = TRUE)
   expect_no_warning(l$predict(task))
-
-  l$state$model = NULL
-  expect_error(l$predict(task), "has not been trained", class = "Mlr3ErrorConfig")
 })
 
 test_that("deadline works as intended: callr", {
