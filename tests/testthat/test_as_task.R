@@ -32,3 +32,18 @@ test_that("as_task_xx error messages (#944)", {
 test_that("error when arguments are misspelled", {
   expect_error(as_task(tsk("iris"), clone2 = TRUE), "Received the following")
 })
+
+test_that("typed converters return a deep clone", {
+  check = function(task, converter) {
+    task$internal_valid_task = 1:20
+    cloned = converter(task, clone = TRUE)
+    expect_different_address(task, cloned)
+    cloned$internal_valid_task$filter(1:5)
+    expect_equal(task$internal_valid_task$nrow, 20L)
+  }
+
+  check(tsk("iris"), as_task_classif)
+  check(tsk("mtcars"), as_task_regr)
+  check(as_task_unsupervised(iris), as_task_unsupervised)
+  check(as_task_unsupervised(iris), function(x, clone) as_tasks_unsupervised(x, clone = clone)[[1L]])
+})

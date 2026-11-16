@@ -24,7 +24,7 @@ as_task_regr = function(x, ...) {
 #' @export
 # nolint next
 as_task_regr.TaskRegr = function(x, clone = FALSE, ...) {
-  if (clone) x$clone() else x
+  if (clone) x$clone(deep = TRUE) else x
 }
 
 

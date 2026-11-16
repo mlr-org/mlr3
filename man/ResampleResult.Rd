@@ -17,6 +17,9 @@ Do not modify any object without cloning it first.
 \item \code{as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")}\cr
 \link{ResampleResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a tabular view of the internal data.
+If \code{reassemble_learners} is \code{FALSE}, the learners are returned without their state and hyperparameter values.
+If \code{convert_predictions} is \code{FALSE}, the predictions are returned as lists of \link{PredictionData} objects,
+one for each stored predict set.
 \item \code{c(...)}\cr
 (\link{ResampleResult}, ...) -> \link{BenchmarkResult}\cr
 Combines multiple objects convertible to \link{BenchmarkResult} into a new \link{BenchmarkResult}.
@@ -117,7 +120,7 @@ Other resample:
   \describe{
     \item{\code{task_type}}{(\code{character(1)})\cr
 Task type of objects in the \code{ResampleResult}, e.g. \code{"classif"} or \code{"regr"}.
-This is \code{NA} for empty \link{ResampleResult}s.}
+This is \code{NULL} for empty \link{ResampleResult}s.}
 
     \item{\code{uhash}}{(\code{character(1)})\cr
 Unique hash for this object.}
@@ -138,8 +141,9 @@ Instantiated \link{Resampling} object which stores the splits into training and 
     \item{\code{learners}}{(list of \link{Learner})\cr
 List of trained learners, sorted by resampling iteration.}
 
-    \item{\code{data_extra}}{(list())\cr
-Additional data stored in the \link{ResampleResult}.}
+    \item{\code{data_extra}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Additional data stored in the \link{ResampleResult}.
+A table with the columns \code{"uhash"}, \code{"iteration"}, and \code{"data_extra"}.}
 
     \item{\code{warnings}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 A table with all warning messages.
@@ -267,7 +271,7 @@ If you calculate the performance on this prediction object directly, this is cal
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{predict_sets}}{(\code{character()})\cr
-Subset of \verb{\{"train", "test"\}}.}
+Subset of \verb{\{"train", "test", "internal_valid"\}}.}
     }
     \if{html}{\out{</div>}}
   }
@@ -306,7 +310,7 @@ Subset of \verb{\{"train", "test", "internal_valid"\}}.}
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
-    List of \link{Prediction} objects, one per element in \code{predict_sets}.
+    List of \link{Prediction} objects, one per resampling iteration.
 Or list of empty \code{list()}s if no predictions are available.
   }
   \subsection{Examples}{
@@ -393,6 +397,9 @@ The predict sets.}
     }
     \if{html}{\out{</div>}}
   }
+  \subsection{Returns}{
+    \code{\link[data.table:data.table]{data.table::data.table()}}.
+  }
   \subsection{Examples}{
     \if{html}{\out{<div class="r example copy">}}
     \preformatted{rr$obs_loss(msr("classif.acc"))
@@ -470,6 +477,10 @@ the object in its previous state.
   Shrinks the \link{ResampleResult} by discarding parts of the internally stored data.
 Note that certain operations might stop work, e.g. extracting
 importance values from learners or calculating measures requiring the task's data.
+
+If the \link{ResampleResult} was extracted from a \link{BenchmarkResult}, the data is shared with the \link{BenchmarkResult}.
+Models are only removed from the learners of this \link{ResampleResult},
+but the task is also used by the other resample results of the \link{BenchmarkResult}.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{ResampleResult$discard(backends = FALSE, models = FALSE)}
@@ -510,6 +521,9 @@ Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
     }
     \if{html}{\out{</div>}}
   }
+  \subsection{Returns}{
+    Returns the object itself, but modified \strong{by reference}.
+  }
   \subsection{Examples}{
     \if{html}{\out{<div class="r example copy">}}
     \preformatted{rr$marshal()
@@ -535,6 +549,9 @@ Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
 Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Returns the object itself, but modified \strong{by reference}.
   }
   \subsection{Examples}{
     \if{html}{\out{<div class="r example copy">}}
@@ -571,6 +588,9 @@ Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding t
 }}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Returns the object itself, but modified \strong{by reference}.
   }
   \subsection{Examples}{
     \if{html}{\out{<div class="r example copy">}}

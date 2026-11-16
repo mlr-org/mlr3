@@ -13,6 +13,8 @@
 #' If `learner$predict()` is called manually, the last predict time gets overwritten.
 #' The elapsed time accounts only for the training duration of the primary learner,
 #' excluding the time required for training the fallback learner.
+#' Returns `NA` if the time of one of the stages is not available,
+#' e.g. because the learner was not trained or did not predict yet.
 #'
 #' @template param_id
 #' @templateVar id time_train
@@ -24,11 +26,6 @@ MeasureElapsedTime = R6Class(
   "MeasureElapsedTime",
   inherit = Measure,
   public = list(
-    #' @field stages (`character()`)\cr
-    #' Which stages of the learner to measure?
-    #' Usually set during construction.
-    stages = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
@@ -43,17 +40,35 @@ MeasureElapsedTime = R6Class(
         predict_type = NA_character_,
         range = c(0, Inf),
         minimize = TRUE,
-        properties = c("requires_learner", "requires_no_prediction"),
+        properties = c("na_score", "requires_learner", "requires_no_prediction"),
         label = "Elapsed Time",
         man = "mlr3::mlr_measures_elapsed_time"
       )
-      self$stages = assert_subset(stages, c("train", "predict"), empty.ok = FALSE)
+      self$stages = stages
+    }
+  ),
+
+  active = list(
+    #' @field stages (`character()`)\cr
+    #' Which stages of the learner to measure?
+    #' Usually set during construction.
+    stages = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.stages)
+      }
+      private$.stages = assert_subset(rhs, c("train", "predict"), empty.ok = FALSE)
     }
   ),
 
   private = list(
+    .stages = NULL,
+
     .score = function(prediction, learner, ...) {
-      sum(unlist(learner$state[sprintf("%s_time", self$stages)], use.names = FALSE))
+      times = unlist(learner$state[sprintf("%s_time", self$stages)], use.names = FALSE)
+      if (length(times) < length(self$stages)) {
+        return(NA_real_)
+      }
+      sum(times)
     },
 
     .extra_hash = "stages"

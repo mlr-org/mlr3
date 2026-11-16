@@ -197,7 +197,7 @@ Measure(s) to calculate.}
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
-    \link{Prediction}.
+    Named \code{numeric()}.
   }
 }
 
@@ -224,6 +224,9 @@ in this example taking the square-root.
 Measure(s) to calculate.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{\link[data.table:data.table]{data.table::data.table()}}.
   }
 }
 

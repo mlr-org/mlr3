@@ -181,3 +181,15 @@ test_that("LearnerClassif predict_newdata_fast passes task type properties", {
 
   expect_list(learner$predict_newdata_fast(task$data(1:3, cols = task$feature_names)))
 })
+
+test_that("LearnerClassif predict_newdata_fast imputes a factor fallback response into a character response", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", predict_missing = 1)
+  learner$encapsulate("evaluate", fallback = lrn("classif.rpart"))
+  learner$train(task)
+
+  pred = learner$predict_newdata_fast(task$data())
+  expect_character(pred$response, any.missing = FALSE)
+  expect_subset(pred$response, task$class_names)
+  expect_equal(pred$response, as.character(learner$predict_newdata(task$data())$response))
+})

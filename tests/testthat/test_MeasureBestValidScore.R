@@ -4,16 +4,16 @@ test_that("best valid score", {
   pred = learner$predict(task)
   rr = resample(task, learner, rsmp("holdout"))
   expect_equal(
-    rr$score(msr("best_valid_score", select = "acc"))$acc,
+    rr$score(msr("best_valid_score", select = "acc"))$best_acc,
     rr$learners[[1]]$best_valid_scores$acc
   )
   expect_equal(
-    rr$score(msr("best_valid_score", select = "wrong_name"))$wrong_name,
+    rr$score(msr("best_valid_score", select = "wrong_name"))$best_wrong_name,
     NA_real_
   )
   rr = resample(task, lrn("classif.rpart"), rsmp("holdout"))
   expect_equal(
-    rr$score(msr("best_valid_score", select = "acc"))$acc,
+    rr$score(msr("best_valid_score", select = "acc"))$best_acc,
     NA_real_
   )
   expect_measure(msr("best_valid_score"))
@@ -25,7 +25,7 @@ test_that("best valid score", {
   learner$train(task)
   pred = learner$predict(task)
   rr = resample(task, learner, rsmp("holdout"))
-  expect_equal(rr$score(m)$a, NA_real_)
+  expect_equal(rr$score(m)$best_a, NA_real_)
 
   task = tsk("iris")
   # the first validation score is taken by default
@@ -41,7 +41,9 @@ test_that("best valid score", {
   expect_equal(measure$id, "best_valid_score")
   expect_equal(measure$minimize, NA)
   measure = msr("best_valid_score", select = "acc", minimize = TRUE)
-  expect_equal(measure$id, "acc")
+  expect_equal(measure$id, "best_acc")
+  expect_equal(measure$select, "acc")
+  expect_error({measure$select = "mbrier"}, "read-only")
   expect_true(measure$minimize)
 })
 
@@ -65,17 +67,10 @@ test_that("best valid score differs from final valid score with early stopping",
   expect_true(learner$best_valid_scores$acc >= learner$internal_valid_scores$acc)
   expect_true(learner$best_valid_scores$mbrier <= learner$internal_valid_scores$mbrier)
 
-  # both measures are available side by side during resampling.
-  # their ids clash when `select` is given, so we check them one at a time
   rr = resample(task, learner, rsmp("holdout"))
-  expect_equal(
-    rr$score(msr("best_valid_score", select = "acc"))$acc,
-    rr$learners[[1]]$best_valid_scores$acc
-  )
-  expect_equal(
-    rr$score(msr("internal_valid_score", select = "acc"))$acc,
-    rr$learners[[1]]$internal_valid_scores$acc
-  )
+  scores = rr$score(list(msr("internal_valid_score", select = "acc"), msr("best_valid_score", select = "acc")))
+  expect_equal(scores$acc, rr$learners[[1]]$internal_valid_scores$acc)
+  expect_equal(scores$best_acc, rr$learners[[1]]$best_valid_scores$acc)
 })
 
 test_that("best valid scores are stored in the state without storing models", {
@@ -83,7 +78,7 @@ test_that("best valid scores are stored in the state without storing models", {
   learner = lrn("classif.debug", validate = 0.2, early_stopping = TRUE, iter = 5)
   rr = resample(task, learner, rsmp("holdout"), store_models = FALSE)
   expect_equal(
-    rr$score(msr("best_valid_score", select = "acc"))$acc,
+    rr$score(msr("best_valid_score", select = "acc"))$best_acc,
     rr$learners[[1]]$state$best_valid_scores$acc
   )
   expect_number(rr$learners[[1]]$state$best_valid_scores$acc)
@@ -141,5 +136,5 @@ test_that("learners without the best score extractor report no best scores", {
   expect_null(rr$learners[[1]]$state$best_valid_scores)
   expect_null(rr$learners[[1]]$best_valid_scores)
   expect_equal(rr$score(msr("internal_valid_score", select = "acc"))$acc, 0.5)
-  expect_equal(rr$score(msr("best_valid_score", select = "acc"))$acc, NA_real_)
+  expect_equal(rr$score(msr("best_valid_score", select = "acc"))$best_acc, NA_real_)
 })
