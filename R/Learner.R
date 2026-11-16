@@ -911,6 +911,7 @@ Learner = R6Class(
         self$fallback$hash,
         self$parallel_predict,
         get0("validate", self),
+        self$predict_sets,
         private$.use_weights,
         private$.predict_raw,
         private$.timeout,

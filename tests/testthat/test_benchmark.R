@@ -143,6 +143,22 @@ test_that("bmr$combine()", {
   expect_data_table(get_private(bmr2)$.data$data$fact, nrows = 25L)
 })
 
+test_that("combine keeps learners that differ in predict sets", {
+  task = tsk("sonar")
+  bmr1 = benchmark(benchmark_grid(task, lrn("classif.rpart"), rsmp("holdout")))
+  bmr2 = benchmark(benchmark_grid(task, lrn("classif.rpart", predict_sets = c("train", "test")), rsmp("holdout")))
+  bmr_combined = c(bmr1, bmr2)
+
+  tab = bmr_combined$score()
+  expect_identical(map(tab$learner, "predict_sets"), list("test", c("train", "test")))
+  expect_names(names(tab), must.include = c("prediction_train", "prediction_test"))
+  expect_class(tab$prediction_train[[2L]], "PredictionClassif")
+
+  measure = msr("classif.ce", predict_sets = "train", id = "ce_train")
+  expect_equal(bmr_combined$resample_result(2L)$aggregate(measure), bmr2$aggregate(measure)$ce_train, ignore_attr = TRUE)
+  expect_warning(bmr_combined$resample_result(2L)$aggregate(measure), NA)
+})
+
 test_that("empty bmr", {
   bmr_new = BenchmarkResult$new()
   expect_benchmark_result(bmr_new)
