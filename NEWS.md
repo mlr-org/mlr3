@@ -7,6 +7,9 @@
 * fix: `benchmark()` with callbacks that write to `$data_extra` now stores the extra data with the experiment that produced it, instead of assigning it to another task, learner, or resampling.
 * fix: `BenchmarkResult$filter()`, `$resample_result()`, and `$set_threshold()` now raise an error if `i` contains missing values.
   Previously, `$filter(i = NA)` silently removed all resample results.
+* fix: `print()` for the result of `score_roc_measures()` now shows the confusion matrix with the truth in rows and the prediction in columns, as labeled.
+  Previously, the counts of false positives and false negatives were shown in each other's place.
+  `score_roc_measures()` now returns unnamed scores, ignores observation weights so that the measures match the returned confusion matrix, and raises an error for predictions that are not binary classification predictions.
 * fix: `LearnerRegr`'s `$hash` and `$phash` now include `$quantiles` and `$quantile_response`, so learners predicting different quantiles are no longer treated as identical, e.g., when combining resample results (#1518).
   Subclasses of `Learner` can now add fields to the hash via the private field `$.extra_hash`.
 * fix: `BenchmarkResult$aggregate()` with `conditions = TRUE` now returns the number of resampling iterations with at least one warning or error, as documented, instead of the total number of warnings or errors.
