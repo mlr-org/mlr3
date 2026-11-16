@@ -356,6 +356,11 @@
   merged learners that differed only in these settings and ran them with
   the settings of the first one
   ([\#1511](https://github.com/mlr-org/mlr3/issues/1511)).
+- fix: `Learner$predict_newdata()` no longer fails with an assertion
+  error when the training task has an offset column that is missing in
+  `newdata`. The offset is now dropped for learners without the
+  `"offset"` property, which ignore it during training anyway, and an
+  informative error is raised for learners with the property.
 - fix: `Learner$clone(deep = TRUE)` now also deep clones the stored
   state of the fallback learner, so the fallback’s training task and log
   are no longer shared between clones.
