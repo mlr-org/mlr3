@@ -95,7 +95,8 @@ as_result_data = function(
   ResultData$new(
     data.table(
       task = list(task),
-      learner = learners,
+      # ResultData resets the learner it stores as prototype, so do not pass the learners of the user
+      learner = map(learners, function(learner) learner$clone()),
       learner_hash = hashes(learners),
       learner_state = learner_states,
       param_values = map(learners, function(x) x$param_set$values),
