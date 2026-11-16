@@ -176,7 +176,7 @@ test_that("MeasureRegrRSQ works with weights during resampling", {
   expect_equal(rr_train_mean$aggregate(measure_train)[["regr.rsq"]], mean(scores_manual_train))
 
   measure_train$average = "micro"
-  expect_error(rr_train_mean$aggregate(measure_train), "requires the train_set")
+  expect_error(rr_train_mean$aggregate(measure_train), "cannot be micro-averaged")
 
   measure_train$average = "macro_weighted"
   weights_per_fold_train = map_dbl(rr_train_mean$predictions("test"), function(p) sum(p$weights))
