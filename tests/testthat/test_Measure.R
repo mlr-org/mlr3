@@ -291,6 +291,29 @@ test_that("measure weights", {
   expect_equal(m$aggregate(rr_measure_weights), c(classif.acc = 5 / 14))
 })
 
+test_that("macro_weighted uses the predict sets of the measure", {
+  task = tsk("sonar")
+  resampling = rsmp("custom")$instantiate(task, train_sets = list(1:100, 1:150), test_sets = list(101:208, 151:208))
+  rr = resample(task, lrn("classif.rpart", predict_sets = "train"), resampling)
+  m = msr("classif.ce", predict_sets = "train", average = "macro_weighted")
+  scores = rr$score(m)$classif.ce
+  expect_equal(unname(rr$aggregate(m)), weighted.mean(scores, c(100, 150)))
+
+  rr = resample(task, lrn("classif.rpart", predict_sets = c("train", "test")), resampling)
+  scores = rr$score(m)$classif.ce
+  expect_equal(unname(rr$aggregate(m)), weighted.mean(scores, c(100, 150)))
+})
+
+test_that("macro_weighted checks the aggregator", {
+  rr = resample(tsk("sonar"), lrn("classif.rpart"), rsmp("cv", folds = 3))
+  m = msr("classif.ce", average = "macro_weighted", aggregator = max)
+  expect_error(rr$aggregate(m), "must accept the scores")
+
+  m$aggregator = function(x, w) sum(x * w)
+  scores = rr$score(m)
+  expect_equal(unname(rr$aggregate(m)), sum(scores$classif.ce * lengths(map(rr$predictions(), "row_ids"))))
+})
+
 test_that("primary iters are respected", {
   task = tsk("sonar")
   learner = lrn("classif.rpart", predict_type = "prob")
