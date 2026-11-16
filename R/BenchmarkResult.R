@@ -338,12 +338,12 @@ BenchmarkResult = R6Class(
           resampling_hash = .SD$resampling_hash[1L],
           resample_result = list(create_rr(.BY[[1L]])),
           warnings = if (conditions) {
-            sum(map_int(.SD$learner_state, function(s) sum(s$log$class == "warning")))
+            sum(map_lgl(.SD$learner_state, function(s) any(s$log$class == "warning")))
           } else {
             NA_integer_
           },
           errors = if (conditions) {
-            sum(map_int(.SD$learner_state, function(s) sum(s$log$class == "error")))
+            sum(map_lgl(.SD$learner_state, function(s) any(s$log$class == "error")))
           } else {
             NA_integer_
           }
