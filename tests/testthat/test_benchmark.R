@@ -91,6 +91,30 @@ test_that("discarding model", {
   expect_false(every(map(as.data.table(bmr2)$learner, "model"), is.null))
 })
 
+test_that("discard and marshal on a resample result of a benchmark result", {
+  design = benchmark_grid(tsk("iris"), lrns(c("classif.rpart", "classif.debug")), rsmp("cv", folds = 3))
+  bmr = benchmark(design, store_models = TRUE)
+  has_model = function(rr) map_lgl(rr$learners, function(l) !is.null(l$model))
+
+  rr = bmr$resample_result(2)
+  expect_invisible(rr$marshal())
+  expect_r6(rr$marshal(), "ResampleResult")
+  expect_true(every(rr$learners, function(l) is_marshaled_model(l$model)))
+  expect_false(some(bmr$resample_result(1)$learners, function(l) is_marshaled_model(l$model)))
+  expect_r6(rr$unmarshal(), "ResampleResult")
+  expect_false(some(rr$learners, function(l) is_marshaled_model(l$model)))
+
+  expect_invisible(rr$discard(models = TRUE))
+  expect_r6(rr$discard(models = TRUE), "ResampleResult")
+  expect_equal(has_model(rr), rep(FALSE, 3))
+  expect_equal(has_model(bmr$resample_result(1)), rep(TRUE, 3))
+
+  expect_r6(bmr$marshal(), "BenchmarkResult")
+  expect_r6(bmr$unmarshal(), "BenchmarkResult")
+  expect_r6(bmr$discard(models = TRUE), "BenchmarkResult")
+  expect_equal(has_model(bmr$resample_result(1)), rep(FALSE, 3))
+})
+
 test_that("bmr$combine()", {
   bmr_new = benchmark(benchmark_grid(mlr_tasks$mget("wine"), learners, resamplings))
 

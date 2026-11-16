@@ -471,6 +471,10 @@ the object in its previous state.
   Shrinks the \link{ResampleResult} by discarding parts of the internally stored data.
 Note that certain operations might stop work, e.g. extracting
 importance values from learners or calculating measures requiring the task's data.
+
+If the \link{ResampleResult} was extracted from a \link{BenchmarkResult}, the data is shared with the \link{BenchmarkResult}.
+Models are only removed from the learners of this \link{ResampleResult},
+but the task is also used by the other resample results of the \link{BenchmarkResult}.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{ResampleResult$discard(backends = FALSE, models = FALSE)}
@@ -511,6 +515,9 @@ Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
     }
     \if{html}{\out{</div>}}
   }
+  \subsection{Returns}{
+    Returns the object itself, but modified \strong{by reference}.
+  }
   \subsection{Examples}{
     \if{html}{\out{<div class="r example copy">}}
     \preformatted{rr$marshal()
@@ -536,6 +543,9 @@ Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
 Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Returns the object itself, but modified \strong{by reference}.
   }
   \subsection{Examples}{
     \if{html}{\out{<div class="r example copy">}}

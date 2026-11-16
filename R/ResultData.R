@@ -333,9 +333,12 @@ ResultData = R6Class(
     #' This will do nothing to models that are already marshaled.
     #' @param ... (any)\cr
     #'   Additional arguments passed to [`marshal_model()`].
-    marshal = function(...) {
+    marshal = function(..., view = NULL) {
+      # nolint next
+      .__ii__ = private$get_view_index(view)
       learner_state = NULL
-      self$data$fact[,
+      self$data$fact[
+        .__ii__,
         learner_state := lapply(learner_state, function(x) marshal_state_if_model(.state = x, inplace = TRUE, ...))
       ]
       invisible(self)
@@ -345,9 +348,12 @@ ResultData = R6Class(
     #' This will do nothing to models which are not marshaled.
     #' @param ... (any)\cr
     #'   Additional arguments passed to [`unmarshal_model()`].
-    unmarshal = function(...) {
+    unmarshal = function(..., view = NULL) {
+      # nolint next
+      .__ii__ = private$get_view_index(view)
       learner_state = NULL
-      self$data$fact[,
+      self$data$fact[
+        .__ii__,
         learner_state := lapply(learner_state, function(x) unmarshal_state_if_model(.state = x, inplace = TRUE, ...))
       ]
       invisible(self)
@@ -359,18 +365,20 @@ ResultData = R6Class(
     #' @param backends (`logical(1)`)\cr
     #'   If `TRUE`, the [DataBackend] is removed from all stored [Task]s.
     #' @param models (`logical(1)`)\cr
-    #'   If `TRUE`, the stored model is removed from all [Learner]s.
+    #'   If `TRUE`, the stored model is removed from all [Learner]s in the view.
     #'
     #' @return Modified `self` (invisibly).
-    discard = function(backends = FALSE, models = FALSE) {
+    discard = function(backends = FALSE, models = FALSE, view = NULL) {
       if (assert_flag(backends)) {
         tab = self$data$tasks
         set(tab, j = "task", value = lapply(tab$task, task_rm_backend))
       }
 
       if (assert_flag(models)) {
-        tab = self$data$fact
-        set(tab, j = "learner_state", value = lapply(tab$learner_state, remove_named, "model"))
+        # nolint next
+        .__ii__ = private$get_view_index(view)
+        learner_state = NULL
+        self$data$fact[.__ii__, learner_state := lapply(learner_state, remove_named, "model")]
       }
 
       invisible(self)

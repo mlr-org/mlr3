@@ -427,7 +427,7 @@ E.g., can be called after filtering/subsetting the fact table.
 This will do nothing to models that are already marshaled.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{ResultData$marshal(...)}
+    \preformatted{ResultData$marshal(..., view = NULL)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -435,6 +435,10 @@ This will do nothing to models that are already marshaled.
     \describe{
       \item{\code{...}}{(any)\cr
 Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
     }
     \if{html}{\out{</div>}}
   }
@@ -448,7 +452,7 @@ Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
 This will do nothing to models which are not marshaled.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{ResultData$unmarshal(...)}
+    \preformatted{ResultData$unmarshal(..., view = NULL)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -456,6 +460,10 @@ This will do nothing to models which are not marshaled.
     \describe{
       \item{\code{...}}{(any)\cr
 Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}.}
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
     }
     \if{html}{\out{</div>}}
   }
@@ -468,7 +476,7 @@ Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}
   Shrinks the object by discarding parts of the stored data.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{ResultData$discard(backends = FALSE, models = FALSE)}
+    \preformatted{ResultData$discard(backends = FALSE, models = FALSE, view = NULL)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -477,7 +485,11 @@ Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}
       \item{\code{backends}}{(\code{logical(1)})\cr
 If \code{TRUE}, the \link{DataBackend} is removed from all stored \link{Task}s.}
       \item{\code{models}}{(\code{logical(1)})\cr
-If \code{TRUE}, the stored model is removed from all \link{Learner}s.}
+If \code{TRUE}, the stored model is removed from all \link{Learner}s in the view.}
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
+      \item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
+Single \code{uhash} to restrict the results to.}
     }
     \if{html}{\out{</div>}}
   }
