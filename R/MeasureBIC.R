@@ -9,7 +9,8 @@
 #' log-likelihood) and model complexity (measured in terms of number
 #' of included features).
 #' Internally, [stats::BIC()] is called.
-#' Requires the learner property `"loglik"`, `NA` is returned for unsupported learners.
+#' Requires that a [stats::logLik()] method exists for the model of the learner.
+#' For other learners, `NA` is returned with a warning.
 #'
 #' @templateVar id bic
 #' @template measure
@@ -38,17 +39,11 @@ MeasureBIC = R6Class(
 
   private = list(
     .score = function(prediction, learner, ...) {
-      learner = learner$base_learner()
-
-      tryCatch(
-        {
-          stats::BIC(stats::logLik(learner$model))
-        },
-        error = function(e) {
-          warning_config("Learner '%s' does not support BIC calculation", learner$id)
-          NA_real_
-        }
-      )
+      loglik = learner_loglik(learner$base_learner(), "BIC")
+      if (is.null(loglik)) {
+        return(NA_real_)
+      }
+      stats::BIC(loglik)
     }
   )
 )
