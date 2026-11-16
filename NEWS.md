@@ -31,6 +31,7 @@
 * fix: `PredictionClassif` now raises an error for probability matrices without column names or with duplicated column names, instead of silently replacing all probabilities with zero and drawing a random response.
 * fix: `ResampleResult$discard()`, `$marshal()`, and `$unmarshal()` on a resample result extracted with `BenchmarkResult$resample_result()` now only change the models of this resample result instead of the models of the complete benchmark result.
   These methods and their `BenchmarkResult` counterparts now return the object itself invisibly, as documented, instead of the internal `ResultData`.
+* fix: `msr("classif.fbeta")` now accepts non-integer values for `beta`, e.g. `beta = 0.5`.
 * fix: Predicting zero rows with a `LearnerRegr` with predict type `"quantiles"` now returns a prediction with an empty quantiles matrix, so it can be combined with other quantile predictions, e.g., in `resample()` with an empty test set.
 * fix: `ResampleResult$new()` and `as_resample_result()` now raise an error if the `ResultData` contains more than one resample result and no `view` is given, or if `view` is not a `uhash` of the `ResultData`.
   Previously, the results of all resample results were silently pooled.

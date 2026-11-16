@@ -278,7 +278,7 @@ mlr_measures$add("classif.dor", function() MeasureBinarySimple$new(name = "dor")
 #' @templateVar id fbeta
 #' @template measure_binary
 mlr_measures$add("classif.fbeta", function() {
-  MeasureBinarySimple$new(name = "fbeta", param_set = ps(beta = p_int(lower = 0L)))
+  MeasureBinarySimple$new(name = "fbeta", param_set = ps(beta = p_dbl(lower = 0)))
 })
 
 #' @templateVar id fdr
