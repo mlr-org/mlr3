@@ -19,6 +19,8 @@
 * fix: `PredictionRegr` now checks that `truth` is numeric and has one element per observation.
   A missing `truth` is now replaced by one missing value per observation instead of a single missing value.
 * fix: `PredictionRegr` now checks that the quantiles matrix is numeric, that its `probs` attribute matches the number of columns and is unique, and that the quantile response is one of the predicted quantiles.
+* fix: `ResampleResult$learners` is now ordered by resampling iteration also when the hyperparameter values of the learners differ between iterations, e.g., for results created with `as_result_data()`.
+  Previously, the learners were ordered by their hash and no longer matched the predictions.
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
 * fix: `Task$rbind()` now invalidates `$row_hash` and `$col_hashes`, so `resample()` and `benchmark()` detect resamplings instantiated before the rows were added.
   `$materialize_view()`, `$labels`, `$col_info`, `$backend`, `$extra_args`, and `TaskClassif$positive` now invalidate the cached task hash, and `$extra_args` is now part of the task hash.

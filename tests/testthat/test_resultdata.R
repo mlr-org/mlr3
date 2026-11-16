@@ -46,6 +46,22 @@ test_that("results are ordered", {
   expect_true(every(map(rdata$data$tasks$task, "backend"), is.null))
 })
 
+test_that("learners are ordered by iteration", {
+  task = tsk("iris")
+  resampling = rsmp("cv", folds = 3)$instantiate(task)
+  cp = c(0.3, 0.2, 0.1)
+  learners = map(1:3, function(i) lrn("classif.rpart", cp = cp[i])$train(task, resampling$train_set(i)))
+  predictions = map(1:3, function(i) list(test = learners[[i]]$predict(task, resampling$test_set(i))))
+  models = map(learners, "model")
+  rdata = as_result_data(task, learners, resampling, 1:3, predictions)
+  rr = ResampleResult$new(rdata)
+
+  expect_equal(map_dbl(rr$learners, function(l) l$param_set$values$cp), cp)
+  expect_equal(map(rr$learners, "model"), models)
+  expect_equal(map(rdata$learner_states(), "model"), models)
+  expect_equal(map(rr$learners, "model"), map(as.data.table(rr)$learner, "model"))
+})
+
 test_that("mlr3tuning use case", {
   task = tsk("iris")
   learners = replicate(3, lrn("classif.rpart"), simplify = FALSE)
