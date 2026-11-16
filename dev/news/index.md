@@ -154,6 +154,9 @@
   `$materialize_view()`, `$labels`, `$col_info`, `$backend`,
   `$extra_args`, and `TaskClassif$positive` now invalidate the cached
   task hash, and `$extra_args` is now part of the task hash.
+- fix: `Measure$aggregate()` with `average = "custom"` now raises an
+  informative error if the measure has no `aggregator`, instead of
+  failing with “attempt to apply non-function”.
 - fix:
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
   [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
