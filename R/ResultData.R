@@ -284,9 +284,18 @@ ResultData = R6Class(
     combine = function(rdata) {
       assert_class(rdata, "ResultData")
 
-      rbind_if_new = function(x, y, on = key(x)) {
+      keys = list(
+        fact = c("uhash", "iteration"),
+        tasks = "task_hash",
+        learners = "learner_phash",
+        resamplings = "resampling_hash",
+        learner_components = "learner_hash",
+        data_extras = c("uhash", "iteration")
+      )
+
+      rbind_if_new = function(x, y, on) {
         if (nrow(x) == 0L) {
-          return(y[, names(x), with = FALSE])
+          return(setkeyv(y[, names(x), with = FALSE], on))
         }
 
         new_rows = y[!x, on = on]
@@ -299,7 +308,7 @@ ResultData = R6Class(
 
       self$data$uhashes = funion(self$data$uhashes, rdata$data$uhashes, all = FALSE)
       for (nn in setdiff(names(self$data), "uhashes")) {
-        self$data[[nn]] = rbind_if_new(self$data[[nn]], rdata$data[[nn]])
+        self$data[[nn]] = rbind_if_new(self$data[[nn]], rdata$data[[nn]], on = keys[[nn]])
       }
 
       invisible(self)
@@ -321,8 +330,14 @@ ResultData = R6Class(
         if (nrow(tab)) {
           keycol = key(tab)
           y = unique(fact[, keycol, with = FALSE], by = keycol)
-          self$data[[nn]] = merge(tab, y, by = keycol, sort = TRUE)
+          self$data[[nn]] = setkeyv(merge(tab, y, by = keycol, sort = TRUE), keycol)
         }
+      }
+
+      if (nrow(self$data$data_extras)) {
+        keycol = c("uhash", "iteration")
+        data_extras = merge(self$data$data_extras, fact[, keycol, with = FALSE], by = keycol, sort = TRUE)
+        self$data$data_extras = setkeyv(data_extras, keycol)
       }
 
       invisible(self)
