@@ -6,7 +6,9 @@
 #' @description
 #' Returns the out-of-bag error of the [Learner] for learners that support it
 #' (learners with property `"oob_error"`).
-#' Returns `NA` for unsupported learners.
+#' Returns `NA` for unsupported learners,
+#' and if neither the out-of-bag error nor the model is stored, e.g. because the training failed and
+#' the fallback learner was used.
 #'
 #' @templateVar id oob_error
 #' @template measure
@@ -43,6 +45,10 @@ MeasureOOBError = R6Class(
       # prefer value captured during training in learner$state to avoid requiring stored models
       if (!is.null(learner$state$oob_error)) {
         return(learner$state$oob_error)
+      }
+
+      if (is.null(learner$model)) {
+        return(NA_real_)
       }
 
       learner$oob_error()
