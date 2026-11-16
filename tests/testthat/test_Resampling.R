@@ -13,6 +13,27 @@ test_that("re-instantiating", {
   expect_resampling(r$instantiate(t2, train_sets = list(1), test_sets = list(2)), task = t2)
 })
 
+test_that("re-instantiating on a task without groups drops the groups", {
+  data = data.table(y = rnorm(40), x = rnorm(40), g = rep(1:20, each = 2))
+  task_grouped = as_task_regr(data, target = "y")
+  task_grouped$col_roles$group = "g"
+  task = as_task_regr(data[, c("y", "x")], target = "y")$filter(1:20)
+
+  keys = setdiff(mlr_resamplings$keys(), c("custom", "custom_cv", "ordered_holdout"))
+  for (key in keys) {
+    r = rsmp(key)
+    r$instantiate(task_grouped)
+    r$instantiate(task)
+    for (i in seq_len(min(r$iters, 3L))) {
+      expect_subset(r$train_set(i), task$row_ids)
+      expect_subset(r$test_set(i), task$row_ids)
+    }
+
+    r = rsmp(key)$instantiate(task_grouped)$clone(deep = TRUE)$instantiate(task)
+    expect_subset(r$test_set(1L), task$row_ids)
+  }
+})
+
 test_that("param_vals", {
   task = tsk("iris")
   r = rsmp("bootstrap", repeats = 100L, ratio = 1)
