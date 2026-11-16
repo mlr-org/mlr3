@@ -130,11 +130,12 @@ BenchmarkResult = R6Class(
     combine = function(bmr) {
       if (!is.null(bmr)) {
         assert_benchmark_result(bmr)
-        if (private$.data$iterations() && self$task_type != bmr$task_type) {
+        rdata = get_private(bmr)$.data
+        if (private$.data$iterations() && rdata$iterations() && self$task_type != bmr$task_type) {
           error_input("BenchmarkResult is of task type '%s', but must be '%s'", bmr$task_type, self$task_type)
         }
 
-        private$.data$combine(get_private(bmr)$.data)
+        private$.data$combine(rdata)
       }
 
       invisible(self)
@@ -572,7 +573,7 @@ BenchmarkResult = R6Class(
     #' Task type of objects in the `BenchmarkResult`.
     #' All stored objects ([Task], [Learner], [Prediction]) in a single `BenchmarkResult` are
     #' required to have the same task type, e.g., `"classif"` or `"regr"`.
-    #' This is `NA` for empty [BenchmarkResult]s.
+    #' This is `NULL` for empty [BenchmarkResult]s.
     task_type = function(rhs) {
       assert_ro_binding(rhs)
       private$.data$task_type

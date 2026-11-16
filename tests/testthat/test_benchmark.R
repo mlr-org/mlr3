@@ -155,6 +155,17 @@ test_that("empty bmr", {
   expect_data_table(get_private(bmr_new)$.data$data$fact, nrows = nrow(get_private(bmr)$.data))
 })
 
+test_that("bmr$combine() works with an empty bmr as argument", {
+  bmr_combined = bmr$clone(deep = TRUE)$combine(BenchmarkResult$new())
+  expect_benchmark_result(bmr_combined)
+  expect_identical(bmr_combined$uhashes, bmr$uhashes)
+
+  bmr_combined = c(bmr, BenchmarkResult$new())
+  expect_benchmark_result(bmr_combined)
+  expect_identical(bmr_combined$uhashes, bmr$uhashes)
+  expect_null(BenchmarkResult$new()$task_type)
+})
+
 test_that("bmr$resample_result()", {
   uhashes = bmr$uhashes
   expect_resample_result(bmr$resample_result(1L))
