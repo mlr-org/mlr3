@@ -17,6 +17,9 @@ Do not modify any object without cloning it first.
 \item \code{as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")}\cr
 \link{ResampleResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a tabular view of the internal data.
+If \code{reassemble_learners} is \code{FALSE}, the learners are returned without their state and hyperparameter values.
+If \code{convert_predictions} is \code{FALSE}, the predictions are returned as lists of \link{PredictionData} objects,
+one for each stored predict set.
 \item \code{c(...)}\cr
 (\link{ResampleResult}, ...) -> \link{BenchmarkResult}\cr
 Combines multiple objects convertible to \link{BenchmarkResult} into a new \link{BenchmarkResult}.

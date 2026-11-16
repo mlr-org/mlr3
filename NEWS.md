@@ -10,6 +10,7 @@
   `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
 * fix: `PredictionClassif` now raises an error if the predicted response contains labels that are not class labels of the task, instead of silently converting them to missing values.
 * fix: `Learner$predict()` on a `TaskUnsupervised` now returns the predicted classes of a classification learner instead of only missing values, and no longer errors with predict type `"prob"`.
+* fix: `as.data.table()` for a `ResampleResult` now respects the documented arguments `reassemble_learners` and `convert_predictions`, which were silently ignored.
 * fix: `PredictionRegr$filter()` and `c()` with `keep_duplicates = FALSE` now also subset the distributions of predictions with predict type `"distr"`, which previously kept the distributions of all rows (#1400).
 * fix: `as_result_data()` now raises an error if the predictions of an iteration are not named with the predict sets, e.g. `list(test = prediction)`, instead of creating a result whose scores are all `NaN`.
   The argument `iterations` now also accepts integer-valued doubles.
