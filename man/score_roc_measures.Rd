@@ -8,7 +8,7 @@ score_roc_measures(pred)
 }
 \arguments{
 \item{pred}{(\link{PredictionClassif})\cr
-The prediction object.}
+The prediction object of a binary classification task.}
 }
 \value{
 \code{list()}\cr
@@ -24,17 +24,18 @@ Calculate a set of roc performance measures based on the confusion matrix.
 \item \code{tnr} True negative rate (Specificity)
 \item \code{ppv} Positive predictive value (Precision)
 \item \code{fomr} False omission rate
-\item \code{lrp} Positive likelihood ratio (LR+)
+\item \code{lr_plus} Positive likelihood ratio (LR+)
 \item \code{fdr} False discovery rate
 \item \code{npv} Negative predictive value
 \item \code{acc} Accuracy
-\item \code{lrm} Negative likelihood ratio (LR-)
+\item \code{lr_minus} Negative likelihood ratio (LR-)
 \item \code{dor} Diagnostic odds ratio
 }
+
+The measures are calculated from the unweighted confusion matrix, i.e., observation weights are ignored.
 }
 \examples{
 learner = lrn("classif.rpart", predict_type = "prob")
-splits = partition(task = tsk("sonar"), ratio = 0.7)
 task = tsk("sonar")
 learner$train(task)
 pred = learner$predict(task)

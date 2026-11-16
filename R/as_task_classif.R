@@ -25,7 +25,7 @@ as_task_classif = function(x, ...) {
 #' @export
 # nolint next
 as_task_classif.TaskClassif = function(x, clone = FALSE, ...) {
-  if (clone) x$clone() else x
+  if (clone) x$clone(deep = TRUE) else x
 }
 
 #' @rdname as_task_classif

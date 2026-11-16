@@ -50,18 +50,34 @@ MeasureRegrPinball = R6Class(
   private = list(
     .score = function(prediction, weights = NULL, ...) {
       alpha = self$param_set$values$alpha
-      probs = attr(prediction$data$quantiles, "probs")
-      assert_choice(alpha, probs)
 
       mlr3measures::pinball(
         truth = prediction$truth,
-        response = prediction$data$quantiles[, which(probs == alpha)],
+        response = get_quantile_prediction(prediction, alpha, self$id),
         alpha = alpha,
         sample_weights = weights
       )
     }
   )
 )
+
+# Returns the predictions for quantile `alpha`.
+# The quantiles are matched with a tolerance, because `seq(0.1, 0.9, by = 0.1)[3] == 0.3` is `FALSE`.
+get_quantile_prediction = function(prediction, alpha, measure_id) {
+  assert_number(alpha, lower = 0, upper = 1)
+  quantiles = prediction$data$quantiles
+  probs = attr(quantiles, "probs")
+  i = which(abs(probs - alpha) < sqrt(.Machine$double.eps))
+  if (length(i) != 1L) {
+    error_input(
+      "Measure '%s' needs predictions for the quantile %s, but the prediction only contains the quantiles %s",
+      measure_id,
+      format(alpha),
+      str_collapse(format(probs), quote = "'")
+    )
+  }
+  quantiles[, i]
+}
 
 #' @include mlr_measures.R
 mlr_measures$add("regr.pinball", MeasureRegrPinball)

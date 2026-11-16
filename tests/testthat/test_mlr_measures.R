@@ -34,6 +34,15 @@ test_that("custom aggregation", {
   expect_equal(aggr[["max_ce"]], max(perf$classif.ce))
 })
 
+test_that("custom average requires an aggregator", {
+  rr = resample(tsk("wine"), lrn("classif.featureless"), rsmp("holdout"))
+  m = msr("classif.ce", average = "custom")
+  expect_error(rr$aggregate(m), "requires an aggregator")
+
+  m$aggregator = function(rr) 1
+  expect_equal(rr$aggregate(m), c(classif.ce = 1))
+})
+
 test_that("as.data.table(..., objects = TRUE)", {
   tab = as.data.table(mlr_measures, objects = TRUE)
   expect_data_table(tab)
