@@ -33,6 +33,7 @@
   Combining classification predictions with different class labels or regression predictions with different quantiles now raises an error.
 * fix: `ResampleResult$warnings`, `$errors`, and `$obs_loss()` now report the resampling iteration instead of the position of the iteration in the result, which differed after `$filter()`.
   `$obs_loss()` now raises an informative error if no predictions are stored for the requested predict sets.
+* fix: `rsmp("bootstrap")` no longer fails with "incorrect number of dimensions" on tasks with a single observation or a single group.
 * fix: `PredictionClassif` now raises an error for probability matrices without column names or with duplicated column names, instead of silently replacing all probabilities with zero and drawing a random response.
 * fix: `ResampleResult$discard()`, `$marshal()`, and `$unmarshal()` on a resample result extracted with `BenchmarkResult$resample_result()` now only change the models of this resample result instead of the models of the complete benchmark result.
   These methods and their `BenchmarkResult` counterparts now return the object itself invisibly, as documented, instead of the internal `ResultData`.
