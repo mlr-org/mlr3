@@ -277,12 +277,26 @@ Measure = R6Class(
           set_names(aggregator(tab[[self$id]]), self$id)
         },
         "micro" = {
-          if (is.null(get_private(rr$resampling)$.primary_iters)) {
-            self$score(rr$prediction(self$predict_sets), task = rr$task, learner = rr$learner)
-          } else {
-            prediction = do.call(c, rr$predictions(self$predict_sets)[get_private(rr$resampling)$.primary_iters])
-            self$score(prediction, task = rr$task, learner = rr$learner)
+          if (any(c("requires_model", "requires_train_set") %chin% self$properties)) {
+            error_config(
+              "Measure '%s' requires the model or the train set of each iteration and cannot be micro-averaged",
+              self$id
+            )
           }
+          primary_iters = get_private(rr$resampling)$.primary_iters
+          prediction = if (is.null(primary_iters)) {
+            rr$prediction(self$predict_sets)
+          } else {
+            do.call(c, rr$predictions(self$predict_sets)[primary_iters])
+          }
+          score = if (inherits(prediction, "Prediction")) {
+            self$score(prediction, task = rr$task, learner = rr$learner)
+          } else {
+            # no predictions stored for the predict sets of the measure
+            assert_measure(self, task = rr$task, learner = rr$learner)
+            NaN
+          }
+          if (length(score) == 1L) set_names(score, self$id) else score
         },
         "custom" = {
           if (

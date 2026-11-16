@@ -30,6 +30,21 @@ test_that("average with micro/macro", {
   expect_equal(aggr[[2]], macro$score(rr$prediction("test")))
 })
 
+test_that("micro average without predictions or with unsupported measures", {
+  task = tsk("sonar")
+  rr = resample(task, lrn("classif.rpart", predict_sets = "train"), rsmp("cv", folds = 3))
+  m = msr("classif.ce", average = "micro")
+  expect_warning(res <- rr$aggregate(m), "predict sets", fixed = TRUE)
+  expect_identical(res, c(classif.ce = NaN))
+
+  rr = resample(task, lrn("classif.rpart"), rsmp("cv", folds = 3))
+  expect_named(m$aggregate(rr), "classif.ce")
+
+  rr = resample(tsk("mtcars"), lrn("regr.rpart"), rsmp("cv", folds = 3))
+  m = msr("regr.rsq", pred_set_mean = FALSE, average = "micro")
+  expect_error(rr$aggregate(m), "cannot be micro-averaged")
+})
+
 test_that("k is hashed in AIC", {
   m1 = msr("aic", k = 2)
   m2 = msr("aic", k = 3)

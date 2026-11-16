@@ -21,6 +21,8 @@
   The argument `hashes`, which had no effect, now adds the columns `task_hash`, `learner_hash`, and `resampling_hash`.
 * fix: `Learner$predict()` on a `TaskUnsupervised` now returns the predicted classes of a classification learner instead of only missing values, and no longer errors with predict type `"prob"`.
 * fix: `as.data.table()` for a `ResampleResult` now respects the documented arguments `reassemble_learners` and `convert_predictions`, which were silently ignored.
+* fix: `Measure$aggregate()` with `average = "micro"` now returns `NaN` with a warning if no predictions are stored for the predict sets of the measure, like `average = "macro"`, instead of failing with an assertion on the prediction.
+  Measures that require the model or the train set of each iteration now raise an informative error when micro-averaged, and the result is named with the id of the measure.
 * fix: `PredictionRegr$filter()` and `c()` with `keep_duplicates = FALSE` now also subset the distributions of predictions with predict type `"distr"`, which previously kept the distributions of all rows (#1400).
 * fix: `as_result_data()` now raises an error if the predictions of an iteration are not named with the predict sets, e.g. `list(test = prediction)`, instead of creating a result whose scores are all `NaN`.
   The argument `iterations` now also accepts integer-valued doubles.
