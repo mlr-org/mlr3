@@ -51,6 +51,7 @@
 * fix: `resample()` and `benchmark()` with `allow_hotstart = TRUE` no longer carry over the prediction time, validation scores, fallback state, and task copies of the start learner into the hotstarted learner, which inflated `msr("time_predict")` (#1504).
 * fix: `Task$set_row_roles()` now stores row ids as integers, so the same set of rows no longer results in different task hashes depending on the type of the passed row ids.
   Assigning to `$row_roles` now raises an error for row ids that do not exist in the backend.
+* fix: `as_task_classif()`, `as_task_regr()`, `as_task_unsupervised()`, and `as_tasks_unsupervised()` with `clone = TRUE` now return a deep clone like `as_task()`, so that the internal validation task is no longer shared with the original task.
 * fix: Callbacks now receive the model in unmarshaled form in the `on_resample_end` stage of `resample()` and `benchmark()`, regardless of `unmarshal`, `store_models`, and the execution mode (#1509).
 * fix: `Measure$obs_loss()` now returns missing values with a warning if the prediction does not contain the predict type required by the measure, like `$score()`, instead of failing inside the loss function.
   The argument `prediction` is now checked.
