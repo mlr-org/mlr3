@@ -126,9 +126,11 @@ Other benchmark:
   ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Returns a table with three columns:
 
-  - `uhash` ([`character()`](https://rdrr.io/r/base/character.html)).
+  - `"uhash"` (`character(1)`),
 
-  - `resample_result`
+  - `"nr"` (`integer(1)`), the position of the resample result, and
+
+  - `"resample_result"`
     ([ResampleResult](https://mlr3.mlr-org.com/dev/reference/ResampleResult.md)).
 
 - `n_resample_results`:
@@ -358,8 +360,8 @@ id of the respective
 - `conditions`:
 
   (`logical(1)`)  
-  Adds condition messages (`"warnings"`, `"errors"`) as extra list
-  columns of character vectors to the returned table
+  Adds the logged conditions (`"warnings"`, `"errors"`) as extra list
+  columns of condition objects to the returned table.
 
 - `predictions`:
 
@@ -506,8 +508,8 @@ from the returned
 
 ### `BenchmarkResult$filter()`
 
-Subsets the benchmark result. You can either directly provide the row
-IDs or the uhashes of the resample results to keep, or use the
+Subsets the benchmark result. You can either directly provide the
+positions or the uhashes of the resample results to keep, or use the
 `learner_ids`, `task_ids` and `resampling_ids` arguments to filter for
 learner, task and resampling IDs. The three options are mutually
 exclusive.
@@ -527,7 +529,9 @@ exclusive.
 - `i`:
 
   ([`integer()`](https://rdrr.io/r/base/integer.html) \| `NULL`)  
-  The iteration values to filter for.
+  The positions of the resample results to keep. The position is the
+  index of the resample result in `$uhashes`, which is the column `nr`
+  in the tables returned by `$aggregate()` and `$score()`.
 
 - `uhashes`:
 
@@ -592,7 +596,9 @@ IDs. All three options are mutually exclusive.
 - `i`:
 
   (`integer(1)` \| `NULL`)  
-  The iteration value to filter for.
+  The position of the resample result. The position is the index of the
+  resample result in `$uhashes`, which is the column `nr` in the tables
+  returned by `$aggregate()` and `$score()`.
 
 - `uhash`:
 
@@ -678,8 +684,8 @@ learners, given they have output a probability prediction for a binary
 classification task.
 
 The resample results for which to change the threshold can either be
-specified directly via `uhashes`, by selecting the specific iterations
-(`i`) or by filtering according to learner, task and resampling IDs.
+specified directly via `uhashes`, by their positions (`i`) or by
+filtering according to learner, task and resampling IDs.
 
 If none of the three options is specified, the threshold is set for all
 resample results.
@@ -706,7 +712,10 @@ resample results.
 - `i`:
 
   ([`integer()`](https://rdrr.io/r/base/integer.html) \| `NULL`)  
-  The iteration values to filter for.
+  The positions of the resample results for which the threshold should
+  be set. The position is the index of the resample result in
+  `$uhashes`, which is the column `nr` in the tables returned by
+  `$aggregate()` and `$score()`.
 
 - `uhashes`:
 
@@ -824,11 +833,11 @@ bmr$learners
 head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 #>                                   uhash                task
 #>                                  <char>              <list>
-#> 1: baba8247-a291-4ec8-a2d2-68ec72444f45 <TaskClassif:sonar>
-#> 2: baba8247-a291-4ec8-a2d2-68ec72444f45 <TaskClassif:sonar>
-#> 3: baba8247-a291-4ec8-a2d2-68ec72444f45 <TaskClassif:sonar>
-#> 4: 7e92acf3-896c-4eb8-ba49-12c0a39a0af4 <TaskClassif:sonar>
-#> 5: 7e92acf3-896c-4eb8-ba49-12c0a39a0af4 <TaskClassif:sonar>
+#> 1: 533579da-2c73-4ad7-9ad0-63810f0314d9 <TaskClassif:sonar>
+#> 2: 533579da-2c73-4ad7-9ad0-63810f0314d9 <TaskClassif:sonar>
+#> 3: 533579da-2c73-4ad7-9ad0-63810f0314d9 <TaskClassif:sonar>
+#> 4: 1df05da6-0d85-4c58-8d05-736373cc489b <TaskClassif:sonar>
+#> 5: 1df05da6-0d85-4c58-8d05-736373cc489b <TaskClassif:sonar>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1

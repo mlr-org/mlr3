@@ -147,8 +147,9 @@ Table of included <a href="Resampling.html">Resampling</a>s with three columns:<
 
     <dt><code>resample_results</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
-Returns a table with three columns:</p><ul><li><p><code>uhash</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>).</p></li>
-<li><p><code>resample_result</code> (<a href="ResampleResult.html">ResampleResult</a>).</p></li>
+Returns a table with three columns:</p><ul><li><p><code>"uhash"</code> (<code>character(1)</code>),</p></li>
+<li><p><code>"nr"</code> (<code>integer(1)</code>), the position of the resample result, and</p></li>
+<li><p><code>"resample_result"</code> (<a href="ResampleResult.html">ResampleResult</a>).</p></li>
 </ul></dd>
 
 
@@ -335,8 +336,8 @@ extra character columns to the returned table.</p></dd>
 
       <dt><code>conditions</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
-Adds condition messages (<code>"warnings"</code>, <code>"errors"</code>) as extra
-list columns of character vectors to the returned table</p></dd>
+Adds the logged conditions (<code>"warnings"</code>, <code>"errors"</code>) as extra
+list columns of condition objects to the returned table.</p></dd>
 
       <dt><code>predictions</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
@@ -456,7 +457,7 @@ iterations with errors as extra integer column <code>"errors"</code>.</p></dd>
 <p></p><hr><a id="method-BenchmarkResult-filter"></a><div class="section">
 <h3 id="benchmarkresult-filter-"><code>BenchmarkResult$filter()</code><a class="anchor" aria-label="anchor" href="#benchmarkresult-filter-"></a></h3>
 <p>Subsets the benchmark result.
-You can either directly provide the row IDs or the uhashes of the resample results to keep,
+You can either directly provide the positions or the uhashes of the resample results to keep,
 or use the <code>learner_ids</code>, <code>task_ids</code> and <code>resampling_ids</code> arguments to filter for learner,
 task and resampling IDs.
 The three options are mutually exclusive.</p><div class="section">
@@ -472,7 +473,9 @@ The three options are mutually exclusive.</p><div class="section">
 <h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>i</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> | <code>NULL</code>)<br>
-The iteration values to filter for.</p></dd>
+The positions of the resample results to keep.
+The position is the index of the resample result in <code>$uhashes</code>,
+which is the column <code>nr</code> in the tables returned by <code>$aggregate()</code> and <code>$score()</code>.</p></dd>
 
       <dt><code>uhashes</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code>NULL</code>)<br>
@@ -530,7 +533,9 @@ All three options are mutually exclusive.</p><div class="section">
 <h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>i</code></dt>
 <dd><p>(<code>integer(1)</code> | <code>NULL</code>)<br>
-The iteration value to filter for.</p></dd>
+The position of the resample result.
+The position is the index of the resample result in <code>$uhashes</code>,
+which is the column <code>nr</code> in the tables returned by <code>$aggregate()</code> and <code>$score()</code>.</p></dd>
 
       <dt><code>uhash</code></dt>
 <dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
@@ -604,7 +609,7 @@ the object in its previous state.</p>
 <p>Sets the threshold for the response prediction of classification learners, given they have
 output a probability prediction for a binary classification task.</p>
 <p>The resample results for which to change the threshold can either be specified directly
-via <code>uhashes</code>, by selecting the specific iterations (<code>i</code>) or by filtering according to
+via <code>uhashes</code>, by their positions (<code>i</code>) or by filtering according to
 learner, task and resampling IDs.</p>
 <p>If none of the three options is specified, the threshold is set for all resample results.</p><div class="section">
 <h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
@@ -625,7 +630,9 @@ Threshold value.</p></dd>
 
       <dt><code>i</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> | <code>NULL</code>)<br>
-The iteration values to filter for.</p></dd>
+The positions of the resample results for which the threshold should be set.
+The position is the index of the resample result in <code>$uhashes</code>,
+which is the column <code>nr</code> in the tables returned by <code>$aggregate()</code> and <code>$score()</code>.</p></dd>
 
       <dt><code>uhashes</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code>NULL</code>)<br>
@@ -739,11 +746,11 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;              &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: baba8247-a291-4ec8-a2d2-68ec72444f45 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: baba8247-a291-4ec8-a2d2-68ec72444f45 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: baba8247-a291-4ec8-a2d2-68ec72444f45 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 7e92acf3-896c-4eb8-ba49-12c0a39a0af4 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 7e92acf3-896c-4eb8-ba49-12c0a39a0af4 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 533579da-2c73-4ad7-9ad0-63810f0314d9 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 533579da-2c73-4ad7-9ad0-63810f0314d9 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 533579da-2c73-4ad7-9ad0-63810f0314d9 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 1df05da6-0d85-4c58-8d05-736373cc489b &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 1df05da6-0d85-4c58-8d05-736373cc489b &lt;TaskClassif:sonar&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>
