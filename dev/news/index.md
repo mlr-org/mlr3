@@ -356,6 +356,9 @@
   merged learners that differed only in these settings and ran them with
   the settings of the first one
   ([\#1511](https://github.com/mlr-org/mlr3/issues/1511)).
+- fix: `Learner$clone(deep = TRUE)` now also deep clones the stored
+  state of the fallback learner, so the fallback’s training task and log
+  are no longer shared between clones.
 - fix: `Learner$predict()` and `Learner$predict_newdata_fast()` no
   longer change the predict type of the stored fallback learner when the
   fallback is used, so `$hash` stays constant after predicting and
