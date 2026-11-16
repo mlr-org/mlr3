@@ -35,6 +35,8 @@
 * fix: `ResampleResult$new()` and `as_resample_result()` now raise an error if the `ResultData` contains more than one resample result and no `view` is given, or if `view` is not a `uhash` of the `ResultData`.
   Previously, the results of all resample results were silently pooled.
 * fix: `PredictionClassif$set_threshold()` with a vector of thresholds now keeps the response of observations with missing probabilities missing, instead of assigning a random class label.
+* fix: `msr("best_valid_score")` with `select` now uses the id `"best_<select>"`, e.g. `"best_acc"`, instead of `"<select>"`, so that it can be scored together with `msr("internal_valid_score")` for the same score, which previously failed because both measures had the same id.
+  Both measures gain the read-only field `$select`, which is now part of the hash.
 * fix: `ResampleResult$set_threshold()` and `BenchmarkResult$set_threshold()` no longer corrupt the stored predictions of resample results with more than one iteration, which made all scores `NaN`.
   Both methods now return the object itself invisibly.
 * fix: `PredictionRegr` now checks that `truth` is numeric and has one element per observation.

@@ -8,7 +8,9 @@
 #' This is only available for learners that have both the `"validation"` and the `"internal_tuning"` property,
 #' because tracking a best iteration only makes sense for learners that iterate.
 #' Returns `NA` for unsupported learners, when no validation was done, or when the selected id was not found.
-#' The `id` of this measure is set to the value of `select` if provided.
+#' If `select` is provided, the `id` of this measure is set to the value of `select` with the prefix `"best_"`,
+#' e.g. `"best_acc"`, so that it can be scored together with
+#' [`msr("internal_valid_score")`][mlr_measures_internal_valid_score].
 #'
 #' While [`msr("internal_valid_score")`][mlr_measures_internal_valid_score] reports the validation score of the
 #' *final* model, this measure reports the *best* validation score observed during training.
@@ -23,7 +25,8 @@
 #' @export
 #' @examples
 #' rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3), rsmp("holdout"))
-#' rr$score(msr("best_valid_score", select = "acc"))
+#' measures = list(msr("internal_valid_score", select = "acc"), msr("best_valid_score", select = "acc"))
+#' rr$score(measures)
 MeasureBestValidScore = R6Class(
   "MeasureBestValidScore",
   inherit = MeasureValidScore,
@@ -44,7 +47,8 @@ MeasureBestValidScore = R6Class(
         label = "Best Validation Score",
         man = "mlr3::mlr_measures_best_valid_score",
         select = select,
-        minimize = minimize
+        minimize = minimize,
+        id_prefix = "best_"
       )
     }
   )
