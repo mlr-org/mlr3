@@ -101,6 +101,7 @@
 * fix: `PredictionRegr$new()` now takes the quantile response from the checked prediction data, so a numeric `response` attribute on `quantiles` no longer results in an empty `$response` and failing scores.
 * fix: `PredictionRegr$new()` and `as_prediction()` with `check = TRUE` no longer fail with "invalid format '%g'" on quantile prediction data that has already been checked, e.g., the `$data` of an existing prediction.
 * fix: `Learner$hash` and `Learner$phash` now include the timeout, the deadline, the encapsulation method, and the `when` handler, so all learner hashes change. Previously, `benchmark()` merged learners that differed only in these settings and ran them with the settings of the first one (#1511).
+* fix: `Learner$clone(deep = TRUE)` now also deep clones the stored state of the fallback learner, so the fallback's training task and log are no longer shared between clones.
 * fix: `Learner$predict()` and `Learner$predict_newdata_fast()` no longer change the predict type of the stored fallback learner when the fallback is used, so `$hash` stays constant after predicting and `HotstartStack` and `BenchmarkResult` keep finding the learner by its hash.
 * fix: `LearnerClassif$predict_newdata_fast()` now imputes missing responses by class label, so a fallback learner returning a factor no longer inserts integer codes into a character response.
 * fix: `Learner$new()` now checks that `param_set` is a `ParamSet` instead of failing later with "attempt to apply non-function".

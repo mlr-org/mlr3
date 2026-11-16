@@ -1599,6 +1599,17 @@ test_that("deadline works as intended: mirai", {
   expect_true((l$timings["predict"] < allowed))
 })
 
+test_that("fallback state is deep cloned", {
+  learner = lrn("classif.rpart")
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+  learner$train(tsk("iris"))
+  clone = learner$clone(deep = TRUE)
+
+  expect_different_address(learner$state$fallback_state$train_task, clone$state$fallback_state$train_task)
+  expect_different_address(learner$state$fallback_state$log, clone$state$fallback_state$log)
+  expect_equal(learner$state$fallback_state$model, clone$state$fallback_state$model)
+})
+  
 test_that("predicting with a fallback does not change the learner hash", {
   task = tsk("iris")
   learner = lrn("classif.debug", predict_type = "prob", predict_missing = 0.5)
