@@ -139,6 +139,16 @@
   that its `probs` attribute matches the number of columns and is
   unique, and that the quantile response is one of the predicted
   quantiles.
+- fix:
+  [`as_measure()`](https://mlr3.mlr-org.com/dev/reference/as_measure.md)
+  and
+  [`as_measures()`](https://mlr3.mlr-org.com/dev/reference/as_measure.md)
+  with `clone = TRUE` now return a deep clone, so that the parameter set
+  is no longer shared with the original measure. `as_measure(NULL)`
+  without a task type and
+  [`default_measures()`](https://mlr3.mlr-org.com/dev/reference/default_measures.md)
+  for a task type without a default measure now raise an informative
+  error.
 - fix: `Learner$encapsulate()`: a `when` handler now also decides for
   errors of class `Mlr3ErrorConfig`, which previously always errored
   even when a handler was registered
