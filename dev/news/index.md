@@ -39,6 +39,12 @@
   `PredictionClassif` and `PredictionRegr` now reject extra data whose
   names collide with reserved prediction columns
   ([\#1517](https://github.com/mlr-org/mlr3/issues/1517)).
+- fix: `ResampleResult$filter()` now keeps the iterations sorted, so
+  that combining a filtered result with
+  [`c()`](https://rdrr.io/r/base/c.html) no longer errors and
+  `$predictions()` and `$learners` stay ordered by iteration. Tasks,
+  learners, resamplings, and extra data that are no longer referenced
+  are now removed from the filtered result.
 - fix: `PredictionClassif` now raises an error if the predicted response
   contains labels that are not class labels of the task, instead of
   silently converting them to missing values.
