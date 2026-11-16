@@ -14,6 +14,8 @@
 * fix: `PredictionClassif` now raises an error if the predicted response contains labels that are not class labels of the task, instead of silently converting them to missing values.
 * fix: `Learner$predict()` on a `TaskUnsupervised` now returns the predicted classes of a classification learner instead of only missing values, and no longer errors with predict type `"prob"`.
 * fix: `as.data.table()` for a `ResampleResult` now respects the documented arguments `reassemble_learners` and `convert_predictions`, which were silently ignored.
+* fix: `Learner$phash` now includes `$predict_sets`, so the partial hashes of all learners change.
+  Previously, combining benchmark results of learners that differed only in their predict sets kept only the first learner, so `BenchmarkResult$score()` returned a learner with the wrong predict sets and omitted the prediction columns of the other predict sets.
 * fix: `PredictionRegr$filter()` and `c()` with `keep_duplicates = FALSE` now also subset the distributions of predictions with predict type `"distr"`, which previously kept the distributions of all rows (#1400).
 * fix: `as_result_data()` now raises an error if the predictions of an iteration are not named with the predict sets, e.g. `list(test = prediction)`, instead of creating a result whose scores are all `NaN`.
   The argument `iterations` now also accepts integer-valued doubles.

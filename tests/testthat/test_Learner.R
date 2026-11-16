@@ -447,6 +447,13 @@ test_that("validate changes phash and hash", {
   expect_false(l1$hash == l2$hash)
 })
 
+test_that("predict_sets change phash and hash", {
+  l1 = lrn("classif.rpart")
+  l2 = lrn("classif.rpart", predict_sets = c("train", "test"))
+  expect_false(l1$hash == l2$hash)
+  expect_false(l1$phash == l2$phash)
+})
+
 test_that("timeout, deadline, and encapsulation change phash and hash", {
   base = lrn("classif.debug")
 

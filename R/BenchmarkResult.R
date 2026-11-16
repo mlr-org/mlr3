@@ -212,7 +212,7 @@ BenchmarkResult = R6Class(
       if (predictions && nrow(tab)) {
         predict_sets = intersect(
           mlr_reflections$predict_sets,
-          unlist(map(self$learners$learner, "predict_sets"), use.names = FALSE)
+          unlist(map(tab$prediction, names), use.names = FALSE)
         )
         predict_cols = sprintf("prediction_%s", predict_sets)
         for (i in seq_along(predict_sets)) {
