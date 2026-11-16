@@ -25,7 +25,10 @@
 #' @export
 #' @examples
 #' rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3), rsmp("holdout"))
-#' measures = list(msr("internal_valid_score", select = "acc"), msr("best_valid_score", select = "acc"))
+#' measures = list(
+#'   msr("internal_valid_score", select = "acc"),
+#'   msr("best_valid_score", select = "acc")
+#' )
 #' rr$score(measures)
 MeasureBestValidScore = R6Class(
   "MeasureBestValidScore",
