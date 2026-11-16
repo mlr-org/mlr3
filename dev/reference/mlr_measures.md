@@ -276,9 +276,9 @@ as.data.table(mlr_measures)
 #> 59: requires_task,requires_learner,requires_model,requires_no_prediction
 #> 60:                                requires_model,requires_no_prediction
 #> 61:                                requires_model,requires_no_prediction
-#> 62:                              requires_learner,requires_no_prediction
-#> 63:                              requires_learner,requires_no_prediction
-#> 64:                              requires_learner,requires_no_prediction
+#> 62:                     na_score,requires_learner,requires_no_prediction
+#> 63:                     na_score,requires_learner,requires_no_prediction
+#> 64:                     na_score,requires_learner,requires_no_prediction
 #>                                                               properties
 #>                                                                   <list>
 #>     task_properties

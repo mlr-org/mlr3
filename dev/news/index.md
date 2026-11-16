@@ -144,6 +144,12 @@
 - fix: `PredictionClassif$set_threshold()` with a vector of thresholds
   now keeps the response of observations with missing probabilities
   missing, instead of assigning a random class label.
+- fix: `msr("best_valid_score")` with `select` now uses the id
+  `"best_<select>"`, e.g. `"best_acc"`, instead of `"<select>"`, so that
+  it can be scored together with `msr("internal_valid_score")` for the
+  same score, which previously failed because both measures had the same
+  id. Both measures gain the read-only field `$select`, which is now
+  part of the hash.
 - fix: The similarity measures `msr("sim.jaccard")` and `msr("sim.phi")`
   now pass `$na_value` to the similarity function, and a cloned measure
   no longer calls the function of the measure it was cloned from. The
@@ -161,6 +167,12 @@
   that its `probs` attribute matches the number of columns and is
   unique, and that the quantile response is one of the predicted
   quantiles.
+- fix: `msr("regr.pinball")` and `msr("regr.rqr")` now match `alpha` to
+  the predicted quantiles with a numerical tolerance, so that quantiles
+  created with [`seq()`](https://rdrr.io/r/base/seq.html),
+  e.g. `seq(0.1, 0.9, by = 0.1)`, can be scored. Both measures now raise
+  an informative error that lists the predicted quantiles if `alpha` is
+  not among them.
 - fix:
   [`as_measure()`](https://mlr3.mlr-org.com/dev/reference/as_measure.md)
   and
@@ -179,6 +191,10 @@
   `predict_sets` and returns an empty list for an empty
   `ResampleResult`, as documented. `ResampleResult$iters` is now
   read-only.
+- fix: `msr("time_train")`, `msr("time_predict")`, and
+  `msr("time_both")` now return `NA` instead of `0` if the learner was
+  not trained or did not predict yet. The field `$stages` of
+  `MeasureElapsedTime` is now checked on assignment.
 - fix: `Task$rbind()` now invalidates `$row_hash` and `$col_hashes`, so
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
   [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)

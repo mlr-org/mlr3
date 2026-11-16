@@ -11,13 +11,17 @@ When predictions for multiple predict sets were made during resample() or benchm
 the predict time shows the cumulative duration of all predictions.
 If learner$predict() is called manually, the last predict time gets overwritten.
 The elapsed time accounts only for the training duration of the primary learner,
-excluding the time required for training the fallback learner."><meta property="og:description" content="Measures the elapsed time during train (&quot;time_train&quot;), predict (&quot;time_predict&quot;), or both (&quot;time_both&quot;).
+excluding the time required for training the fallback learner.
+Returns NA if the time of one of the stages is not available,
+e.g. because the learner was not trained or did not predict yet."><meta property="og:description" content="Measures the elapsed time during train (&quot;time_train&quot;), predict (&quot;time_predict&quot;), or both (&quot;time_both&quot;).
 Aggregation of elapsed time defaults to mean but can be configured via the field aggregator of the Measure.
 When predictions for multiple predict sets were made during resample() or benchmark(),
 the predict time shows the cumulative duration of all predictions.
 If learner$predict() is called manually, the last predict time gets overwritten.
 The elapsed time accounts only for the training duration of the primary learner,
-excluding the time required for training the fallback learner."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
+excluding the time required for training the fallback learner.
+Returns NA if the time of one of the stages is not available,
+e.g. because the learner was not trained or did not predict yet."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -67,7 +71,9 @@ Aggregation of elapsed time defaults to mean but can be configured via the field
 the predict time shows the cumulative duration of all predictions.
 If <code>learner$predict()</code> is called manually, the last predict time gets overwritten.
 The elapsed time accounts only for the training duration of the primary learner,
-excluding the time required for training the fallback learner.</p>
+excluding the time required for training the fallback learner.
+Returns <code>NA</code> if the time of one of the stages is not available,
+e.g. because the learner was not trained or did not predict yet.</p>
     </div>
 
 
@@ -130,8 +136,8 @@ excluding the time required for training the fallback learner.</p>
     <p><code><a href="Measure.html">Measure</a></code> -&gt; <code>MeasureElapsedTime</code></p>
     </div>
     <div class="section level2">
-    <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
-    <p></p><div class="r6-fields"><dl><dt><code>stages</code></dt>
+    <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
+    <p></p><div class="r6-active-bindings"><dl><dt><code>stages</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Which stages of the learner to measure?
 Usually set during construction.</p></dd>

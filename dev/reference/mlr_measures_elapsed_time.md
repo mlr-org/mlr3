@@ -12,7 +12,9 @@ the predict time shows the cumulative duration of all predictions. If
 `learner$predict()` is called manually, the last predict time gets
 overwritten. The elapsed time accounts only for the training duration of
 the primary learner, excluding the time required for training the
-fallback learner.
+fallback learner. Returns `NA` if the time of one of the stages is not
+available, e.g. because the learner was not trained or did not predict
+yet.
 
 ## Dictionary
 
@@ -90,7 +92,7 @@ Other Measure:
 [`Measure`](https://mlr3.mlr-org.com/dev/reference/Measure.md) -\>
 `MeasureElapsedTime`
 
-## Public fields
+## Active bindings
 
 - `stages`:
 

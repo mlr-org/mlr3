@@ -6,8 +6,10 @@ only available for learners that have both the `"validation"` and the
 `"internal_tuning"` property, because tracking a best iteration only
 makes sense for learners that iterate. Returns `NA` for unsupported
 learners, when no validation was done, or when the selected id was not
-found. The `id` of this measure is set to the value of `select` if
-provided.
+found. If `select` is provided, the `id` of this measure is set to the
+value of `select` with the prefix `"best_"`, e.g. `"best_acc"`, so that
+it can be scored together with
+[`msr("internal_valid_score")`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_internal_valid_score.md).
 
 While
 [`msr("internal_valid_score")`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_internal_valid_score.md)
@@ -156,9 +158,13 @@ The objects of this class are cloneable with this method.
 
 ``` r
 rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3), rsmp("holdout"))
-rr$score(msr("best_valid_score", select = "acc"))
-#>    task_id    learner_id resampling_id iteration       acc
-#>     <char>        <char>        <char>     <int>     <num>
-#> 1:    iris classif.debug       holdout         1 0.3666667
+measures = list(
+  msr("internal_valid_score", select = "acc"),
+  msr("best_valid_score", select = "acc")
+)
+rr$score(measures)
+#>    task_id    learner_id resampling_id iteration       acc  best_acc
+#>     <char>        <char>        <char>     <int>     <num>     <num>
+#> 1:    iris classif.debug       holdout         1 0.3666667 0.3666667
 #> Hidden columns: task, learner, resampling, prediction_test
 ```
