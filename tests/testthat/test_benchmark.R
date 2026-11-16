@@ -1085,3 +1085,16 @@ test_that("obs_loss works", {
   expect_set_equal(obs_loss$iteration, seq(3L))
   expect_set_equal(obs_loss$resample_result, seq(2L))
 })
+
+test_that("obs_loss works with different predict types", {
+  learners = list(lrn("classif.rpart", predict_type = "prob"), lrn("classif.featureless"))
+  design = suppressWarnings(benchmark_grid(tsk("sonar"), learners, rsmp("holdout")))
+  bmr = benchmark(design)
+
+  obs_loss = bmr$obs_loss(msr("classif.ce"))
+  expect_data_table(obs_loss, nrows = 138L)
+  expect_names(names(obs_loss), must.include = c("resample_result", "response", "prob.M", "prob.R", "classif.ce"))
+  expect_numeric(obs_loss[list(1L), on = "resample_result"]$prob.M, any.missing = FALSE)
+  expect_true(allMissing(obs_loss[list(2L), on = "resample_result"]$prob.M))
+  expect_error(bmr$obs_loss(msr("classif.ce"), predict_sets = "foo"), "subset")
+})
