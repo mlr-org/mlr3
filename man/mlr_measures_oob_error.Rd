@@ -7,7 +7,9 @@
 \description{
 Returns the out-of-bag error of the \link{Learner} for learners that support it
 (learners with property \code{"oob_error"}).
-Returns \code{NA} for unsupported learners.
+Returns \code{NA} for unsupported learners,
+and if neither the out-of-bag error nor the model is stored, e.g. because the training failed and
+the fallback learner was used.
 }
 \section{Dictionary}{
 

@@ -102,6 +102,19 @@ test_that("setting threshold edge cases (#452)", {
   expect_equal(as.character(prd$response), c("setosa", "versicolor", "versicolor"))
 })
 
+test_that("setting threshold keeps missing predictions", {
+  prob = matrix(c(0.5, NA, 0.1, 0.3, NA, 0.1, 0.2, NA, 0.8), 3, dimnames = list(NULL, c("a", "b", "c")))
+  p = PredictionClassif$new(row_ids = 1:3, truth = factor(c("a", "b", "c")), prob = prob)
+  p$set_threshold(c(a = 0.3, b = 0.3, c = 0.4))
+  expect_equal(as.character(p$response), c("a", NA, "c"))
+  expect_equal(p$missing, 2L)
+
+  prob = matrix(c(0.6, NA, 0.1, 0.4, NA, 0.9), 3, dimnames = list(NULL, c("a", "b")))
+  p = PredictionClassif$new(row_ids = 1:3, truth = factor(c("a", "b", "a")), prob = prob)
+  p$set_threshold(0.5)
+  expect_equal(as.character(p$response), c("a", NA, "b"))
+})
+
 test_that("confusion", {
   task = tsk("iris")
   lrn = lrn("classif.featureless")
@@ -143,6 +156,19 @@ test_that("c", {
   expect_matrix(p3$prob, nrows = nrow(p1$prob), ncols = ncol(p1$prob))
 })
 
+test_that("c aligns prob columns by class label", {
+  prob = matrix(c(0.9, 0.2, 0.1, 0.8), 2, dimnames = list(NULL, c("a", "b")))
+  p1 = PredictionClassif$new(row_ids = 1:2, truth = factor(c("a", "b"), levels = c("a", "b")), prob = prob)
+  p2 = PredictionClassif$new(row_ids = 3:4, truth = factor(c("a", "b"), levels = c("b", "a")), prob = prob)
+  pred = c(p1, p2)
+  expect_equal(pred$prob, rbind(prob, prob))
+  expect_equal(as.character(pred$response), c("a", "b", "a", "b"))
+
+  p3 = PredictionClassif$new(row_ids = 5:6, truth = factor(c("a", "b"), levels = c("a", "b", "c")),
+    prob = cbind(prob, c = 0))
+  expect_error(c(p1, p3), "Different class labels")
+})
+
 test_that("as_prediction_classif", {
   task = tsk("penguins")
   learner = lrn("classif.featureless", method = "weighted.sample")
@@ -156,6 +182,30 @@ test_that("as_prediction_classif", {
   # issue #870
   tab = data.frame(row_ids = 1:3, truth = factor(c("a", "b", "a")), response = factor(c("a", "b", "b")))
   expect_class(as_prediction_classif(tab), "PredictionClassif")
+})
+
+test_that("as_prediction_classif round-trips extra data (#1517)", {
+  task = tsk("iris")
+  p = lrn("classif.rpart", predict_type = "prob")$train(task)$predict(task)
+  p = PredictionClassif$new(
+    row_ids = p$row_ids, truth = p$truth, response = p$response, prob = p$prob,
+    extra = list(foo = seq_along(p$row_ids), bar = letters[(seq_along(p$row_ids) %% 26L) + 1L])
+  )
+
+  tab = as.data.table(p)
+  p2 = as_prediction_classif(tab)
+  expect_equal(p2$extra, p$extra)
+  expect_equal(p2$prob, p$prob)
+  expect_equal(as.data.table(p2), tab)
+
+  expect_error(
+    PredictionClassif$new(task = task, response = task$truth(), extra = list(truth = task$truth())),
+    "reserved prediction column names"
+  )
+  expect_error(
+    PredictionClassif$new(task = task, response = task$truth(), extra = list(prob.foo = 1:150)),
+    "reserved prediction column names"
+  )
 })
 
 test_that("#615", {

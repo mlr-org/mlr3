@@ -24,7 +24,7 @@ as_task_regr = function(x, ...) {
 #' @export
 # nolint next
 as_task_regr.TaskRegr = function(x, clone = FALSE, ...) {
-  if (clone) x$clone() else x
+  if (clone) x$clone(deep = TRUE) else x
 }
 
 
@@ -48,8 +48,7 @@ as_task_regr.data.frame = function(x, target, id = deparse1(substitute(x)), labe
   }
 
   if (anyMissing(x[[target]])) {
-    messagef("Target column '%s' contains missing values. This will be an error in the future.", target)
-    # error_input("Target column '%s' must not contain missing values", target)
+    error_input("Target column '%s' must not contain missing values", target)
   }
 
   TaskRegr$new(id = id, backend = x, target = target, label = label)

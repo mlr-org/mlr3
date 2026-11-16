@@ -107,27 +107,27 @@ LearnerClassif = R6Class(
       if (is.null(task) && is.null(self$state$train_task)) {
         error_config("No task stored, and no task provided")
       }
-      feature_names = self$state$train_task$feature_names %??% task$feature_names
-      class_names = self$state$train_task$class_names %??% task$class_names
+      meta_task = self$state$train_task %??% task
+      feature_names = meta_task$feature_names
+      class_names = meta_task$class_names
 
       # add data and most common used meta data
       fake_task = list(
         # some learners require that newdata contains the features names in the same order as the training data
         data = function(...) newdata[, feature_names, with = FALSE],
         class_names = class_names,
+        # binary learners use positive and negative to name and order the probability columns
+        positive = meta_task$positive,
+        negative = meta_task$negative,
+        # learners branch on the task type, other properties (e.g. offset) are not supported here
+        properties = intersect(meta_task$properties, c("twoclass", "multiclass")),
         feature_names = feature_names,
         nrow = nrow(newdata)
       )
 
       # train failed, use fallback
       if (is.null(self$model) && !is.null(self$state$fallback_state$model)) {
-        # the trained fallback model lives in the main learner's state, not on the fallback object itself
-        # (e.g. after resample() / benchmark()), and its predict type is only synced in the predict path,
-        # so restore both before predicting (see learner_predict() in worker.R)
-        fb = self$fallback
-        fb$predict_type = self$predict_type
-        fb$state = self$state$fallback_state
-        return(fb$predict_newdata_fast(newdata, task))
+        return(with_fallback(self, function(fb) fb$predict_newdata_fast(newdata, task)))
       }
       pred = get_private(self)$.predict(fake_task)
 
@@ -143,13 +143,12 @@ LearnerClassif = R6Class(
 
       miss_ids = which(miss)
       if (length(miss_ids) && !is.null(self$state$fallback_state$model)) {
-        fb = self$fallback
-        fb$predict_type = self$predict_type
-        fb$state = self$state$fallback_state
-        pred_miss = fb$predict_newdata_fast(newdata[miss_ids, ], task)
+        pred_miss = with_fallback(self, function(fb) fb$predict_newdata_fast(newdata[miss_ids, ], task))
 
         if (!is.null(pred$response)) {
-          pred$response[miss_ids] = pred_miss$response
+          # learners return either character or factor responses; assigning a factor into a character vector
+          # would insert the integer codes, so impute by label
+          pred$response[miss_ids] = as.character(pred_miss$response)
         }
 
         if (!is.null(pred$prob)) {

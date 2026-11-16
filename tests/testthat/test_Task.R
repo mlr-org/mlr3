@@ -194,6 +194,46 @@ test_that("cbind/rbind works", {
   expect_set_equal(task$row_ids, 1:102)
 })
 
+test_that("cbind checks the rows of data", {
+  task = tsk("iris")
+  expect_error(task$cbind(data.table(..row_id = 1:10, foo = 1:10)), "missing the following row ids")
+  expect_error(task$cbind(data.table(foo = integer())), "data has 0 rows")
+  expect_error(task$cbind(data.table(foo = 1:10)), "data has 10 rows")
+  expect_set_equal(task$feature_names, setdiff(names(iris), "Species"))
+
+  task$filter(1:10)
+  task$cbind(data.table(..row_id = 1:150, foo = 1:150))
+  expect_equal(task$data()$foo, 1:10)
+})
+
+test_that("cbind keeps existing column roles", {
+  task = tsk("iris")
+  task$col_roles$stratum = "Petal.Width"
+  task$col_roles$feature = setdiff(task$feature_names, "Petal.Width")
+  task$cbind(data.table(Petal.Width = rev(iris$Petal.Width)))
+  expect_false("Petal.Width" %in% task$feature_names)
+  expect_equal(task$col_roles$stratum, "Petal.Width")
+  expect_equal(task$data(cols = "Petal.Width")[[1L]], rev(iris$Petal.Width))
+})
+
+test_that("cbind and rbind check column roles", {
+  task = tsk("mtcars")
+  task$cbind(data.table(w = runif(32)))
+  task$set_col_roles("w", roles = "weights_learner")
+  hash = task$hash
+  backend = task$backend
+  expect_error(task$cbind(data.table(w = -runif(32))), "Element 1 is not >= 0")
+  expect_identical(task$backend, backend)
+  expect_identical(task$hash, hash)
+  expect_true(all(task$weights_learner$weight >= 0))
+
+  newdata = task$data(rows = 1:2, cols = c(task$feature_names, task$target_names, "w"))
+  newdata$w = -1
+  expect_error(task$rbind(newdata), "Element 33 is not >= 0")
+  expect_equal(task$nrow, 32L)
+  expect_identical(task$backend, backend)
+})
+
 test_that("filter works", {
   task = tsk("iris")
   task$filter(1:100)
@@ -234,6 +274,26 @@ test_that("rename works", {
   expect_set_equal(task$feature_names, setdiff(new, "xx_Species"))
   expect_equal(task$target_names, "xx_Species")
   expect_task_classif(task)
+})
+
+test_that("mutating a shallow clone does not modify col_info of the original task", {
+  task = tsk("iris")
+  ci = copy(task$col_info)
+
+  task$clone()$rename("Sepal.Length", "foo")
+  task$clone()$set_levels(list(Species = c("setosa", "versicolor")))
+  task$clone()$filter(1:100)$droplevels()
+  task$clone()$cbind(data.table(Species = factor(rep(c("a", "b", "c"), 50))))
+  task2 = task$clone()
+  task2$labels = c(Species = "foo")
+  expect_equal(task$col_info, ci)
+  expect_task_classif(task)
+
+  task = tsk("sonar")
+  ci = copy(task$col_info)
+  task2 = task$clone()
+  task2$positive = "R"
+  expect_equal(task$col_info, ci)
 })
 
 test_that("stratify works", {
@@ -629,6 +689,35 @@ test_that("set_levels", {
   expect_equal(levels(head(task, 1)$sex), new_lvls)
 })
 
+test_that("set_levels only works for factor columns", {
+  task = tsk("mtcars")
+  expect_error(task$set_levels(list(cyl = c("4", "6", "8"))), "factor columns")
+  expect_false(any(task$col_info$fix_factor_levels))
+
+  task = tsk("penguins")
+  expect_error(task$set_levels(list(sex = c("male", "male"))), "duplicated")
+  expect_error(task$set_levels(list(sex = c("male", NA))), "missing")
+})
+
+test_that("set_col_roles rejects the primary key", {
+  task = tsk("iris")
+  expect_error(task$set_col_roles("..row_id", add_to = "feature"), "subset")
+  expect_false("..row_id" %in% task$feature_names)
+})
+
+test_that("task_type must match the class of the task", {
+  task = tsk("iris")
+  expect_error(
+    {
+      task$task_type = "regr"
+    },
+    "must inherit from"
+  )
+  expect_equal(task$task_type, "classif")
+  task$task_type = "classif"
+  expect_equal(task$task_type, "classif")
+})
+
 test_that("special chars in feature names (#697)", {
   expect_error(
     TaskRegr$new("test", data.table(`%asd` = 1:3, t = 3:1), target = "t"),
@@ -730,6 +819,37 @@ test_that("integer vector can be passed to internal_valid_task", {
   task$internal_valid_task = 5
   expect_permutation(task$row_ids, 1:4)
   expect_equal(task$internal_valid_task$row_ids, 5)
+})
+
+test_that("internal_valid_task with row ids keeps duplicated training rows", {
+  task = tsk("iris")
+  task$row_roles$use = c(1:10, 1:10, 11:15)
+  task$internal_valid_task = 11:15
+  expect_equal(task$row_ids, c(1:10, 1:10))
+  expect_equal(task$internal_valid_task$row_ids, 11:15)
+})
+
+test_that("internal_valid_task checks its input", {
+  task = tsk("iris")$filter(1:100)
+  expect_error(
+    {
+      task$internal_valid_task = 101:110
+    },
+    "do not exist"
+  )
+  expect_equal(task$nrow, 100L)
+  expect_error(
+    {
+      task$internal_valid_task = "foo"
+    },
+    "Task"
+  )
+})
+
+test_that("internal_valid_task is returned visibly", {
+  task = tsk("iris")
+  task$internal_valid_task = 1:10
+  expect_visible(task$internal_valid_task)
 })
 
 test_that("cbind supports non-standard primary key (#961)", {
@@ -1007,6 +1127,99 @@ test_that("row_hash works correctly", {
     },
     "is read-only"
   )
+})
+
+test_that("set_row_roles stores integer row ids", {
+  task = tsk("iris")
+  task$set_row_roles(c(1, 2), roles = "use")
+  expect_integer(task$row_ids)
+
+  a = tsk("iris")$filter(1:100)
+  b = tsk("iris")
+  b$set_row_roles(101:150, remove_from = "use")
+  b$set_row_roles(1:100, remove_from = "use")
+  b$set_row_roles(as.numeric(1:100), add_to = "use")
+  expect_identical(a$row_hash, b$row_hash)
+  expect_identical(a$hash, b$hash)
+})
+
+test_that("row_roles must refer to existing rows", {
+  task = tsk("iris")
+  expect_error(
+    {
+      task$row_roles$use = 1:1000
+    },
+    "elements of row_roles"
+  )
+  expect_equal(task$nrow, 150L)
+}) 
+  
+test_that("rbind invalidates row_hash and col_hashes", {
+  task = tsk("iris")
+  row_hash = task$row_hash
+  col_hashes = task$col_hashes
+  task$rbind(iris[1:3, ])
+  expect_equal(task$row_hash, calculate_hash(task$row_ids))
+  expect_false(identical(task$row_hash, row_hash))
+  expect_false(identical(task$col_hashes, col_hashes))
+})
+
+test_that("cached hash equals recomputed hash after mutations", {
+  expect_fresh_hash = function(task) {
+    cached = task$hash
+    ee = get_private(task)
+    ee$.hash = NULL
+    expect_identical(cached, task$hash)
+  }
+
+  task = tsk("iris")
+  task$hash
+  task$labels = c(Species = "x")
+  expect_fresh_hash(task)
+
+  task = tsk("iris")$filter(1:100)
+  task$hash
+  task$col_hashes
+  task$materialize_view()
+  expect_fresh_hash(task)
+  col_hashes = task$col_hashes
+  ee = get_private(task)
+  ee$.col_hashes = NULL
+  expect_identical(col_hashes, task$col_hashes)
+
+  task = tsk("iris")
+  task$hash
+  task$col_info = copy(task$col_info)[id == "Species", label := "x"]
+  expect_fresh_hash(task)
+
+  task = tsk("iris")
+  task$hash
+  task$backend = as_data_backend(iris[1:100, ])
+  expect_fresh_hash(task)
+
+  task = tsk("sonar")
+  task$hash
+  task$positive = "R"
+  expect_fresh_hash(task)
+
+  task = tsk("sonar")
+  h = task$hash
+  task$extra_args = list(positive = "R")
+  expect_false(identical(h, task$hash))
+})
+
+test_that("task_rm_backend keeps the hashes", {
+  task = tsk("iris")
+  task$internal_valid_task = 1:10
+  hash = task$hash
+  col_hashes = task$col_hashes
+  valid_hash = task$internal_valid_task$hash
+  task = task_rm_backend(task)
+  expect_null(task$backend)
+  expect_null(task$internal_valid_task$backend)
+  expect_identical(task$hash, hash)
+  expect_identical(task$col_hashes, col_hashes)
+  expect_identical(task$internal_valid_task$hash, valid_hash)
 })
 
 test_that("row_ids_backend works correctly", {

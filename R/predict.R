@@ -45,7 +45,7 @@ predict.Learner = function(object, newdata, predict_type = NULL, ...) {
       error_input("Unknown parameters: %s", str_collapse(names(pars)[i]))
     }
 
-    object = object$clone()
+    object = object$clone(deep = TRUE)
     object$param_set$values = insert_named(object$param_set$values, list(...))
   }
 

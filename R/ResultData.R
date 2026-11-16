@@ -74,6 +74,14 @@ ResultData = R6Class(
             )
           )
           uhashes = data.table(uhash = unique(data$uhash))
+
+          # data_extra is in the order of the rows of data, so it must be attached before data is sorted
+          data_extras = if (!is.null(data_extra)) {
+            assert_list(data_extra, len = nrow(data))
+            data.table(uhash = data$uhash, iteration = data$iteration, data_extra = data_extra)
+          } else {
+            data.table(uhash = character(), iteration = integer(), data_extra = list())
+          }
           setkeyv(data, c("uhash", "iteration"))
 
           task = learner = resampling = NULL
@@ -91,12 +99,6 @@ ResultData = R6Class(
           set(data, j = "resampling", value = NULL)
           set(data, j = "param_values", value = NULL)
 
-          data_extras = if (!is.null(data_extra)) {
-            assert_list(data_extra, len = nrow(data))
-            data.table(uhash = data$uhash, iteration = data$iteration, data_extra = data_extra)
-          } else {
-            data.table(uhash = character(), iteration = integer(), data_extra = list())
-          }
           # remove null rows in data_extra
           data_extras = data_extras[!map_lgl(data_extra, is.null)]
           setkeyv(data_extras, c("uhash", "iteration"))
@@ -284,9 +286,18 @@ ResultData = R6Class(
     combine = function(rdata) {
       assert_class(rdata, "ResultData")
 
-      rbind_if_new = function(x, y, on = key(x)) {
+      keys = list(
+        fact = c("uhash", "iteration"),
+        tasks = "task_hash",
+        learners = "learner_phash",
+        resamplings = "resampling_hash",
+        learner_components = "learner_hash",
+        data_extras = c("uhash", "iteration")
+      )
+
+      rbind_if_new = function(x, y, on) {
         if (nrow(x) == 0L) {
-          return(y[, names(x), with = FALSE])
+          return(setkeyv(y[, names(x), with = FALSE], on))
         }
 
         new_rows = y[!x, on = on]
@@ -299,7 +310,7 @@ ResultData = R6Class(
 
       self$data$uhashes = funion(self$data$uhashes, rdata$data$uhashes, all = FALSE)
       for (nn in setdiff(names(self$data), "uhashes")) {
-        self$data[[nn]] = rbind_if_new(self$data[[nn]], rdata$data[[nn]])
+        self$data[[nn]] = rbind_if_new(self$data[[nn]], rdata$data[[nn]], on = keys[[nn]])
       }
 
       invisible(self)
@@ -321,8 +332,14 @@ ResultData = R6Class(
         if (nrow(tab)) {
           keycol = key(tab)
           y = unique(fact[, keycol, with = FALSE], by = keycol)
-          self$data[[nn]] = merge(tab, y, by = keycol, sort = TRUE)
+          self$data[[nn]] = setkeyv(merge(tab, y, by = keycol, sort = TRUE), keycol)
         }
+      }
+
+      if (nrow(self$data$data_extras)) {
+        keycol = c("uhash", "iteration")
+        data_extras = merge(self$data$data_extras, fact[, keycol, with = FALSE], by = keycol, sort = TRUE)
+        self$data$data_extras = setkeyv(data_extras, keycol)
       }
 
       invisible(self)
@@ -333,9 +350,12 @@ ResultData = R6Class(
     #' This will do nothing to models that are already marshaled.
     #' @param ... (any)\cr
     #'   Additional arguments passed to [`marshal_model()`].
-    marshal = function(...) {
+    marshal = function(..., view = NULL) {
+      # nolint next
+      .__ii__ = private$get_view_index(view)
       learner_state = NULL
-      self$data$fact[,
+      self$data$fact[
+        .__ii__,
         learner_state := lapply(learner_state, function(x) marshal_state_if_model(.state = x, inplace = TRUE, ...))
       ]
       invisible(self)
@@ -345,9 +365,12 @@ ResultData = R6Class(
     #' This will do nothing to models which are not marshaled.
     #' @param ... (any)\cr
     #'   Additional arguments passed to [`unmarshal_model()`].
-    unmarshal = function(...) {
+    unmarshal = function(..., view = NULL) {
+      # nolint next
+      .__ii__ = private$get_view_index(view)
       learner_state = NULL
-      self$data$fact[,
+      self$data$fact[
+        .__ii__,
         learner_state := lapply(learner_state, function(x) unmarshal_state_if_model(.state = x, inplace = TRUE, ...))
       ]
       invisible(self)
@@ -359,18 +382,20 @@ ResultData = R6Class(
     #' @param backends (`logical(1)`)\cr
     #'   If `TRUE`, the [DataBackend] is removed from all stored [Task]s.
     #' @param models (`logical(1)`)\cr
-    #'   If `TRUE`, the stored model is removed from all [Learner]s.
+    #'   If `TRUE`, the stored model is removed from all [Learner]s in the view.
     #'
     #' @return Modified `self` (invisibly).
-    discard = function(backends = FALSE, models = FALSE) {
+    discard = function(backends = FALSE, models = FALSE, view = NULL) {
       if (assert_flag(backends)) {
         tab = self$data$tasks
         set(tab, j = "task", value = lapply(tab$task, task_rm_backend))
       }
 
       if (assert_flag(models)) {
-        tab = self$data$fact
-        set(tab, j = "learner_state", value = lapply(tab$learner_state, remove_named, "model"))
+        # nolint next
+        .__ii__ = private$get_view_index(view)
+        learner_state = NULL
+        self$data$fact[.__ii__, learner_state := lapply(learner_state, remove_named, "model")]
       }
 
       invisible(self)
@@ -380,7 +405,7 @@ ResultData = R6Class(
     #' Combines internal tables into a single flat [data.table()].
     #'
     #' @param reassemble_learners (`logical(1)`)\cr
-    #'   Reassemble the tasks?
+    #'   Reassemble the learners?
     #' @param convert_predictions (`logical(1)`)\cr
     #'   Convert [PredictionData] to [Prediction]?
     #' @template param_predict_sets
@@ -442,9 +467,14 @@ ResultData = R6Class(
     logs = function(view = NULL, condition) {
       # nolint next
       .__ii__ = private$get_view_index(view)
-      learner_state = NULL
-      logs = map(self$data$fact[.__ii__, learner_state], function(s) list(condition = get_log_condition(s, condition)))
-      rbindlist(logs, idcol = "iteration", use.names = TRUE)
+      tab = self$data$fact[.__ii__, c("iteration", "learner_state"), with = FALSE]
+      logs = map(tab$learner_state, function(s) list(condition = get_log_condition(s, condition)))
+      logs = rbindlist(logs, idcol = "iteration", use.names = TRUE)
+      if (!nrow(logs)) {
+        return(data.table(iteration = integer(), condition = list()))
+      }
+      # replace the position in the table with the resampling iteration
+      set(logs, j = "iteration", value = tab$iteration[logs$iteration])[]
     },
 
     #' @description
@@ -454,17 +484,21 @@ ResultData = R6Class(
     #' @param threshold (`numeric(1)`)\cr
     #'   Threshold value.
     #' @template param_ties_method
+    #'
+    #' @return Modified `self` (invisibly).
     set_threshold = function(view = NULL, threshold, ties_method = "random") {
       assert_numeric(threshold, len = 1L, lower = 0, upper = 1)
       assert_choice(ties_method, c("random", "first", "last"))
       # nolint next
       .__ii__ = private$get_view_index(view)
+      # the outer list() is the column wrapper of data.table, so that this also works for a single row
       self$data$fact[
         .__ii__,
-        "prediction" := lapply(get("prediction"), function(ps) {
-          list(lapply(ps, set_threshold_pdata, threshold, ties_method))
-        })
+        "prediction" := list(lapply(get("prediction"), function(ps) {
+          lapply(ps, set_threshold_pdata, threshold, ties_method)
+        }))
       ]
+      invisible(self)
     }
   ),
 

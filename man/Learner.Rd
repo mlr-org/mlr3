@@ -355,11 +355,14 @@ Logged error condition objects.}
 Hash (unique identifier) for this object.
 The hash is calculated based on the learner id, the parameter settings,
 the predict type, the fallback hash, the parallel predict setting,
-the validate setting, the predict sets, and the predict raw setting.}
+the validate setting, the predict sets, the use weights setting, the predict raw setting,
+the timeout, the deadline, the encapsulation method, and the \code{when} handler of the encapsulation.
+Learners can define additional fields to be included in the hash by setting the private field \verb{$.extra_hash}.}
 
     \item{\code{phash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this partial object, excluding some components
-which are varied systematically during tuning (parameter values).}
+which are varied systematically during tuning (parameter values).
+Fields listed in the private field \verb{$.extra_hash} are included.}
 
     \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type, e.g. \code{"response"}.
@@ -438,8 +441,8 @@ This currently only works for methods \code{Learner$predict()} and \code{Learner
 and has no effect during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}} where you have other means
 to parallelize.
 
-Note that the recorded time required for prediction is not properly defined and
-depends on the parallelization backend.}
+Note that the recorded time required for prediction is the sum of the prediction times of all chunks,
+which depends on the parallelization backend.}
 
     \item{\code{predict_raw}}{(\code{logical(1)})\cr
 If set to \code{TRUE}, the raw prediction object from the upstream model is stored in the
@@ -838,7 +841,8 @@ Also see the section on error handling in the mlr3book:
 One of \code{"none"}, \code{"try"}, \code{"evaluate"}, \code{"callr"} or \code{"mirai"}.
 See the description for details.}
       \item{\code{fallback}}{\link{Learner}\cr
-The fallback learner for failed predictions.}
+The fallback learner for failed predictions.
+Must support the \verb{$predict_type} of the learner.}
       \item{\code{when}}{(\verb{function(cond, stage)})\cr
 Function that takes in the condition (\code{cond}) and the stage (\code{"train"} or \code{"predict"}) and
 returns \code{logical(1)} indicating whether to run the fallback learner.

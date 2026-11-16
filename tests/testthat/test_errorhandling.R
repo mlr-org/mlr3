@@ -88,3 +88,13 @@ test_that("encapsulation / benchmark", {
   expect_equal(aggr$warnings, 3L)
   expect_equal(aggr$errors, 3L)
 })
+
+test_that("aggregate counts iterations with conditions", {
+  learner = lrn("classif.debug", warning_train = 1, warning_predict = 1)
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+
+  bmr = benchmark(benchmark_grid(tsk("iris"), learner, rsmp("cv", folds = 3)))
+  aggr = bmr$aggregate(conditions = TRUE)
+  expect_equal(aggr$warnings, 3L)
+  expect_equal(aggr$errors, 0L)
+})

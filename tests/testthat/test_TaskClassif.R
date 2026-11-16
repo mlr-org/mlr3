@@ -44,7 +44,7 @@ test_that("Target is character/factor", {
 
 test_that("TaskClassif rejects NAs in target", {
   dt = data.table::data.table(x = 1:10, y = factor(c(NA, letters[1:9])))
-  expect_message(as_task_classif(dt, target = "y"), "contains missing")
+  expect_error(as_task_classif(dt, target = "y"), "must not contain missing values")
 })
 
 test_that("0 feature task", {
@@ -178,4 +178,7 @@ test_that("offset column role works with multiclass tasks", {
   expect_subset("offset", task$properties)
   expect_data_table(task$offset, nrows = task$nrow, ncols = 3)
   expect_subset(c("row_id", "offset_1", "offset_2"), names(task$offset))
+
+  task$cbind(data.table(o3 = runif(task$nrow)))
+  expect_error(task$set_col_roles(c("offset_1", "o3"), "offset"), class = "Mlr3ErrorInput")
 })

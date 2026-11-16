@@ -96,8 +96,10 @@ PredictionClassif = R6Class(
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
     #'
-    #' @param extra (`list()`)\cr
-    #'   List of extra data to be stored in the prediction object.
+    #' @param extra (named `list()`)\cr
+    #'   Additional per-observation data to be stored in the prediction object.
+    #'   Each element must be a vector with the same length as `row_ids`.
+    #'   See the `$extra` field for details.
     #'
     #' @param raw (any)\cr
     #'   Raw prediction object from the upstream model. Stored as-is without validation.
@@ -223,6 +225,8 @@ set_threshold_pdata = function(pdata, threshold, ties_method) {
   }
 
   ind = max.col(prob, ties.method = ties_method)
+  # missing predictions stay missing
+  ind[row_any_na(pdata$prob)] = NA_integer_
   pdata$response = factor(lvls[ind], levels = lvls)
   pdata
 }

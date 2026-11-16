@@ -16,6 +16,9 @@
 #' * `as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")`\cr
 #'   [ResampleResult] -> [data.table::data.table()]\cr
 #'   Returns a tabular view of the internal data.
+#'   If `reassemble_learners` is `FALSE`, the learners are returned without their state and hyperparameter values.
+#'   If `convert_predictions` is `FALSE`, the predictions are returned as lists of [PredictionData] objects,
+#'   one for each stored predict set.
 #' * `c(...)`\cr
 #'   ([ResampleResult], ...) -> [BenchmarkResult]\cr
 #'   Combines multiple objects convertible to [BenchmarkResult] into a new [BenchmarkResult].
@@ -58,6 +61,18 @@ ResampleResult = R6Class(
     initialize = function(data = ResultData$new(), view = NULL) {
       private$.data = assert_class(data, "ResultData")
       private$.view = assert_string(view, null.ok = TRUE)
+
+      uhashes = data$uhashes()
+      if (is.null(view)) {
+        if (length(uhashes) > 1L) {
+          error_input(
+            "ResultData contains %i resample results, select one of them with argument 'view'",
+            length(uhashes)
+          )
+        }
+      } else if (view %nin% uhashes) {
+        error_input("ResultData does not contain a resample result with uhash '%s'", view)
+      }
     },
 
     #' @description
@@ -97,12 +112,13 @@ ResampleResult = R6Class(
     #' If you calculate the performance on this prediction object directly, this is called micro averaging.
     #'
     #' @param predict_sets (`character()`)\cr
-    #'   Subset of `{"train", "test"}`.
+    #'   Subset of `{"train", "test", "internal_valid"}`.
     #' @return [Prediction] or empty `list()` if no predictions are available.
     #' @examples
     #' rr$prediction()
     prediction = function(predict_sets = "test") {
-      private$.data$prediction(private$.view, predict_sets)
+      assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
+      private$.data$prediction(private$.view, predict_sets) %??% list()
     },
 
     #' @description
@@ -115,7 +131,7 @@ ResampleResult = R6Class(
     #'
     #' @param predict_sets (`character()`)\cr
     #'   Subset of `{"train", "test", "internal_valid"}`.
-    #' @return List of [Prediction] objects, one per element in `predict_sets`.
+    #' @return List of [Prediction] objects, one per resampling iteration.
     #' Or list of empty `list()`s if no predictions are available.
     #' @examples
     #' rr$predictions()
@@ -216,17 +232,32 @@ ResampleResult = R6Class(
     #'
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
+    #' @return [data.table::data.table()].
     #' @examples
     #' rr$obs_loss(msr("classif.acc"))
     obs_loss = function(measures = NULL, predict_sets = "test") {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
-      map_dtr(
-        self$predictions(predict_sets),
+      predictions = self$predictions(predict_sets)
+      if (some(predictions, function(pred) !inherits(pred, "Prediction"))) {
+        error_input("No predictions available for predict sets %s", str_collapse(predict_sets, quote = "'"))
+      }
+      iterations = private$.data$as_data_table(
+        view = private$.view,
+        reassemble_learners = FALSE,
+        convert_predictions = FALSE
+      )$iteration
+      tab = map_dtr(
+        predictions,
         function(pred) {
           pred$obs_loss(measures)
         },
         .idcol = "iteration"
       )
+      if (nrow(tab)) {
+        # replace the position in the list with the resampling iteration
+        set(tab, j = "iteration", value = iterations[tab$iteration])
+      }
+      tab[]
     },
 
     #' @description
@@ -258,7 +289,7 @@ ResampleResult = R6Class(
       iters = assert_integerish(
         iters,
         lower = 1L,
-        upper = self$resampling$iters,
+        upper = self$resampling$iters %??% Inf,
         any.missing = FALSE,
         unique = TRUE,
         coerce = TRUE
@@ -270,7 +301,10 @@ ResampleResult = R6Class(
         fact = fact[list(private$.view), on = "uhash", nomatch = NULL]
       }
 
-      private$.data$data$fact = fact[list(iters), on = "iteration", nomatch = NULL]
+      # keep the fact table sorted and keyed, and remove objects which are not referenced anymore
+      fact = fact[list(sort(iters)), on = "iteration", nomatch = NULL]
+      private$.data$data$fact = setkeyv(fact, c("uhash", "iteration"))
+      private$.data$sweep()
 
       invisible(self)
     },
@@ -279,6 +313,10 @@ ResampleResult = R6Class(
     #' Shrinks the [ResampleResult] by discarding parts of the internally stored data.
     #' Note that certain operations might stop work, e.g. extracting
     #' importance values from learners or calculating measures requiring the task's data.
+    #'
+    #' If the [ResampleResult] was extracted from a [BenchmarkResult], the data is shared with the [BenchmarkResult].
+    #' Models are only removed from the learners of this [ResampleResult],
+    #' but the task is also used by the other resample results of the [BenchmarkResult].
     #'
     #' @param backends (`logical(1)`)\cr
     #'   If `TRUE`, the [DataBackend] is removed from all stored [Task]s.
@@ -290,26 +328,33 @@ ResampleResult = R6Class(
     #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     discard = function(backends = FALSE, models = FALSE) {
-      private$.data$discard(backends = backends, models = models)
+      private$.data$discard(backends = backends, models = models, view = private$.view)
+      invisible(self)
     },
 
     #' @description
     #' Marshals all stored models.
     #' @param ... (any)\cr
     #'   Additional arguments passed to [`marshal_model()`].
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
     #' @examples
     #' rr$marshal()
     marshal = function(...) {
-      private$.data$marshal(...)
+      private$.data$marshal(..., view = private$.view)
+      invisible(self)
     },
     #' @description
     #' Unmarshals all stored models.
     #' @param ... (any)\cr
     #'   Additional arguments passed to [`unmarshal_model()`].
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
     #' @examples
     #' rr$unmarshal()
     unmarshal = function(...) {
-      private$.data$unmarshal(...)
+      private$.data$unmarshal(..., view = private$.view)
+      invisible(self)
     },
 
     #' @description
@@ -319,22 +364,30 @@ ResampleResult = R6Class(
     #' @param threshold (`numeric(1)`)\cr
     #'   Threshold value.
     #' @template param_ties_method
+    #'
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
     #' @examples
     #' learner = lrn("classif.rpart", predict_type = "prob")
     #' rr = resample(tsk("sonar"), learner, rsmp("cv", folds = 3))
     #' rr$set_threshold(0.6)
     set_threshold = function(threshold, ties_method = "random") {
-      if (!self$task_type == "classif") {
-        error_input("Can only change the threshold for classification problems, but task type is '%s'.", self$task_type)
+      task_type = self$task_type
+      if (!identical(task_type, "classif")) {
+        error_input(
+          "Can only change the threshold for classification problems, but task type is '%s'.",
+          task_type %??% NA_character_
+        )
       }
       private$.data$set_threshold(self$uhash, threshold, ties_method)
+      invisible(self)
     }
   ),
 
   active = list(
     #' @field task_type (`character(1)`)\cr
     #' Task type of objects in the `ResampleResult`, e.g. `"classif"` or `"regr"`.
-    #' This is `NA` for empty [ResampleResult]s.
+    #' This is `NULL` for empty [ResampleResult]s.
     task_type = function(rhs) {
       assert_ro_binding(rhs)
       private$.data$task_type
@@ -351,6 +404,7 @@ ResampleResult = R6Class(
     #' @field iters (`integer(1)`)\cr
     #' Number of resampling iterations stored in the `ResampleResult`.
     iters = function(rhs) {
+      assert_ro_binding(rhs)
       private$.data$iterations(private$.view)
     },
 
@@ -395,8 +449,9 @@ ResampleResult = R6Class(
       private$.data$learners(private$.view)$learner
     },
 
-    #' @field data_extra (list())\cr
+    #' @field data_extra ([data.table::data.table()])\cr
     #' Additional data stored in the [ResampleResult].
+    #' A table with the columns `"uhash"`, `"iteration"`, and `"data_extra"`.
     data_extra = function(rhs) {
       assert_ro_binding(rhs)
       private$.data$data_extra(private$.view)
@@ -438,9 +493,22 @@ ResampleResult = R6Class(
 
 #' @export
 # nolint next
-as.data.table.ResampleResult = function(x, ..., predict_sets = "test") {
+as.data.table.ResampleResult = function(
+  x,
+  ...,
+  reassemble_learners = TRUE,
+  convert_predictions = TRUE,
+  predict_sets = "test"
+) {
+  assert_flag(reassemble_learners)
+  assert_flag(convert_predictions)
   private = get_private(x)
-  tab = private$.data$as_data_table(view = private$.view, predict_sets = predict_sets)
+  tab = private$.data$as_data_table(
+    view = private$.view,
+    reassemble_learners = reassemble_learners,
+    convert_predictions = convert_predictions,
+    predict_sets = predict_sets
+  )
   cns = c("task", "learner", "resampling", "iteration", "prediction", if ("data_extra" %in% names(tab)) "data_extra")
   tab[, cns, with = FALSE]
 }

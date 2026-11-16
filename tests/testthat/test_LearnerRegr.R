@@ -159,3 +159,16 @@ test_that("LearnerRegr predict_newdata_fast syncs fallback predict_type", {
   pred = learner$predict_newdata_fast(newdata)
   expect_numeric(pred$se, len = nrow(newdata), any.missing = FALSE)
 })
+
+test_that("LearnerRegr hash and phash include quantiles and quantile_response (#1518)", {
+  l1 = lrn("regr.featureless", predict_type = "quantiles", quantiles = c(0.1, 0.9), quantile_response = 0.1)
+  l2 = lrn("regr.featureless", predict_type = "quantiles", quantiles = c(0.2, 0.8), quantile_response = 0.2)
+  expect_false(l1$hash == l2$hash)
+  expect_false(l1$phash == l2$phash)
+
+  l3 = l1$clone()
+  expect_identical(l1$hash, l3$hash)
+  l3$quantile_response = 0.9
+  expect_false(l1$hash == l3$hash)
+  expect_false(l1$phash == l3$phash)
+})

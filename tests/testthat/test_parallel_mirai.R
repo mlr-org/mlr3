@@ -13,6 +13,18 @@ test_that("parallel resample", {
   )
 })
 
+test_that("errors on the workers are propagated", {
+  with_mirai(
+    {
+      task = tsk("iris")
+      learner = lrn("classif.debug", error_train = 1)
+      expect_error(resample(task, learner, rsmp("holdout")), "classif.debug->train")
+      expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "classif.debug->train")
+    },
+    compute = "mlr3_parallelization"
+  )
+})
+
 test_that("parallel benchmark", {
   task = tsk("sonar")
   learner = lrn("classif.rpart")

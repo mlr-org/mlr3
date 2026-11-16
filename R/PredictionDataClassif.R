@@ -9,12 +9,19 @@ check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
   assert_factor(pdata$truth, len = n, null.ok = TRUE)
   # unsupervised task
   if (is.null(pdata$truth)) {
-    lvls = fget_key(train_task$col_info, train_task$target_names, "levels", "id")
-    pdata$truth = if (length(pdata$row_ids)) factor(NA, lvls) else factor(levels = lvls)
+    lvls = fget_key(train_task$col_info, train_task$target_names, "levels", "id")[[1L]]
+    pdata$truth = factor(rep(NA_character_, n), levels = lvls)
   }
   lvls = levels(pdata$truth)
 
   if (!is.null(pdata$response)) {
+    unknown = setdiff(as.character(unique(pdata$response)), c(lvls, NA_character_))
+    if (length(unknown)) {
+      error_learner_predict(
+        "Predicted response contains labels which are not class labels: %s",
+        str_collapse(unknown, n = 5L, quote = "'")
+      )
+    }
     pdata$response = assert_factor(as_factor(unname(pdata$response), levels = lvls))
     assert_prediction_count(length(pdata$response), n, "response")
   }
@@ -26,6 +33,9 @@ check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
     assert_row_sums(prob)
 
     if (!identical(colnames(prob), lvls)) {
+      if (is.null(colnames(prob)) || anyDuplicated(colnames(prob))) {
+        error_input("Probability matrix must have unique column names corresponding to the class labels")
+      }
       assert_subset(colnames(prob), lvls)
 
       # add missing columns with prob == 0
@@ -59,6 +69,11 @@ check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
 
   if (!is.null(pdata$extra)) {
     assert_list(pdata$extra, names = "unique")
+    nn = names(pdata$extra)
+    reserved = nn[nn %chin% c("row_ids", "truth", "response", "weights") | startsWith(nn, "prob.")]
+    if (length(reserved)) {
+      error_input("Extra data may not use reserved prediction column names: %s", str_collapse(reserved))
+    }
     len = lengths(pdata$extra)
     if (any(len != n)) {
       error_learner_predict("Extra data must have the same length as the number of predictions")
@@ -88,8 +103,9 @@ is_missing_prediction_data.PredictionDataClassif = function(pdata, ...) {
 
 #' @rdname PredictionData
 #'
-#' @param keep_duplicates (`logical(1)`)
-#'   If `TRUE`, the combined [PredictionData] object is filtered for duplicated row ids (starting from last).
+#' @param keep_duplicates (`logical(1)`)\cr
+#'   If `FALSE`, duplicated row ids are removed from the combined [PredictionData] object,
+#'   keeping the data of the object passed last.
 #' @param ... (one or more [PredictionData] objects).
 #' @export
 c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
@@ -121,7 +137,18 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
     if ("weights" %chin% names(dots[[1L]])) "weights"
   )
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
-  prob = do.call(rbind, map(dots, "prob"))
+  # align the columns of the probability matrices by class label, the order of the levels may differ
+  cn = colnames(dots[[1L]]$prob)
+  prob = do.call(rbind, map(dots, function(x) {
+    prob = x$prob
+    if (is.null(prob) || identical(colnames(prob), cn)) {
+      return(prob)
+    }
+    if (!setequal(colnames(prob), cn)) {
+      error_input("Cannot rbind predictions: Different class labels in the probability matrices")
+    }
+    prob[, cn, drop = FALSE]
+  }))
 
   extra = if ("extra" %chin% names(dots[[1L]])) {
     rbindlist(map(dots, "extra"), fill = TRUE, use.names = TRUE)

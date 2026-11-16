@@ -900,6 +900,9 @@ task$rbind(extra)
 The row ids must be provided as column in \code{data}
 (with column name matching the primary key name of the \link{DataBackend}).
 If this column is missing, it is assumed that the rows are exactly in the order of \verb{$row_ids}.
+Otherwise, \code{data} must contain all rows of \verb{$row_ids}.
+Columns of \code{data} without a role in the task are added as features,
+columns with an existing role keep their roles.
 In case of name clashes of column names in \code{data} and \link{DataBackend}, columns in \code{data} have higher precedence
 and virtually overwrite the columns in the \link{DataBackend}.
 

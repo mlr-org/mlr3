@@ -247,7 +247,7 @@ Learner = R6Class(
       } else {
         private$.use_weights = "error"
       }
-      private$.param_set = param_set
+      private$.param_set = assert_param_set(param_set)
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Learner '%s'", id))
     },
@@ -300,8 +300,8 @@ Learner = R6Class(
         cli_li("Other settings: use_weights = '{self$use_weights}', predict_raw = '{self$predict_raw}'")
       })
 
-      w = self$warnings
-      e = self$errors
+      w = map_chr(self$warnings, function(cond) trimws(conditionMessage(cond)))
+      e = map_chr(self$errors, function(cond) trimws(conditionMessage(cond)))
       if (length(w)) {
         cat_cli(cli_alert_warning("Warnings: {w}"))
       }
@@ -420,19 +420,22 @@ Learner = R6Class(
 
       # we only have to marshal here for the parallel prediction case, because learner_predict() handles the
       # marshaling for call-r encapsulation itself
-      if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L) {
+      if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L && length(row_ids %??% task$row_ids) > 0L) {
         row_ids = row_ids %??% task$row_ids
         chunked = chunk_vector(row_ids, n_chunks = nbrOfWorkers(), shuffle = FALSE)
         self$model = marshal_model(self$model, inplace = TRUE)
-        pdata = future.apply::future_lapply(
+        results = future.apply::future_lapply(
           chunked,
-          learner_predict,
+          learner_predict_chunk,
           learner = self,
           task = task,
           future.globals = FALSE,
           future.seed = TRUE
         )
-        pdata = do.call(c, pdata)
+        pdata = do.call(c, map(results, "pdata"))
+        # the workers operate on copies of the learner, so merge their log entries and predict times
+        self$state$log = rbindlist(c(list(self$state$log), map(results, "log")), use.names = TRUE)
+        self$state$predict_time = sum(map_dbl(results, "predict_time"))
       } else {
         pdata = learner_predict(self, task, row_ids)
       }
@@ -440,7 +443,7 @@ Learner = R6Class(
       if (is.null(pdata)) {
         return(NULL)
       } else {
-        as_prediction(pdata)
+        as_prediction(pdata, check = FALSE)
       }
     },
 
@@ -547,6 +550,19 @@ Learner = R6Class(
           task_col_roles[[role]] = character(0)
         }
       }
+
+      # the offset is only used by learners with the "offset" property, all other learners ignore it during training
+      missing_offset = setdiff(task_col_roles[["offset"]], newdata$colnames)
+      if (length(missing_offset)) {
+        if ("offset" %in% self$properties) {
+          error_input(
+            "Learner '%s' uses the offset column(s) %s of the training task, which are missing in newdata",
+            self$id,
+            str_collapse(missing_offset, quote = "'")
+          )
+        }
+        task_col_roles[["offset"]] = character(0)
+      }
       task$col_roles = task_col_roles
 
       self$predict(task)
@@ -633,6 +649,7 @@ Learner = R6Class(
     #'  See the description for details.
     #' @param fallback [Learner]\cr
     #'  The fallback learner for failed predictions.
+    #'  Must support the `$predict_type` of the learner.
     #' @param when (`function(cond, stage)`)\cr
     #'  Function that takes in the condition (`cond`) and the stage (`"train"` or `"predict"`) and
     #'  returns `logical(1)` indicating whether to run the fallback learner.
@@ -647,8 +664,7 @@ Learner = R6Class(
     #' learner$encapsulate("try", fallback = fallback)
     encapsulate = function(method, fallback = NULL, when = NULL) {
       assert_choice(method, c("none", "try", "evaluate", "callr", "mirai"))
-
-      private$.when = assert_function(when, null.ok = TRUE)
+      assert_function(when, null.ok = TRUE)
 
       if (!is.null(when)) {
         fargs = formalArgs(when)
@@ -657,8 +673,24 @@ Learner = R6Class(
         }
       }
 
-      if (method != "none") {
+      if (method == "none") {
+        if (!is.null(fallback)) {
+          error_config("Fallback learner must be `NULL` if encapsulation is set to `none`.")
+        }
+        if (!is.null(when)) {
+          error_config("Handler `when` must be `NULL` if encapsulation is set to `none`.")
+        }
+      } else {
         assert_learner(fallback, task_type = self$task_type)
+
+        if (self$predict_type %nin% fallback$predict_types) {
+          error_config(
+            "The fallback learner '%s' does not support the predict type '%s' of the base learner '%s'.",
+            fallback$id,
+            self$predict_type,
+            self$id
+          )
+        }
 
         if (!identical(self$predict_type, fallback$predict_type)) {
           warning_config(
@@ -687,14 +719,13 @@ Learner = R6Class(
             class = "Mlr3WarningConfigFallbackProperties"
           )
         }
-      } else if (method == "none" && !is.null(fallback)) {
-        error_config("Fallback learner must be `NULL` if encapsulation is set to `none`.")
       }
 
       private$.encapsulation = c(train = method, predict = method)
       private$.fallback = fallback
+      private$.when = when
 
-      return(invisible(self))
+      invisible(self)
     },
 
     #' @description
@@ -856,7 +887,9 @@ Learner = R6Class(
     #' Hash (unique identifier) for this object.
     #' The hash is calculated based on the learner id, the parameter settings,
     #' the predict type, the fallback hash, the parallel predict setting,
-    #' the validate setting, the predict sets, and the predict raw setting.
+    #' the validate setting, the predict sets, the use weights setting, the predict raw setting,
+    #' the timeout, the deadline, the encapsulation method, and the `when` handler of the encapsulation.
+    #' Learners can define additional fields to be included in the hash by setting the private field `$.extra_hash`.
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(
@@ -869,13 +902,19 @@ Learner = R6Class(
         get0("validate", self),
         self$predict_sets,
         private$.use_weights,
-        private$.predict_raw
+        private$.predict_raw,
+        private$.timeout,
+        private$.deadline,
+        private$.encapsulation,
+        private$.when,
+        mget(private$.extra_hash, envir = self)
       )
     },
 
     #' @field phash (`character(1)`)\cr
     #' Hash (unique identifier) for this partial object, excluding some components
     #' which are varied systematically during tuning (parameter values).
+    #' Fields listed in the private field `$.extra_hash` are included.
     phash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(
@@ -885,8 +924,14 @@ Learner = R6Class(
         self$fallback$hash,
         self$parallel_predict,
         get0("validate", self),
+        self$predict_sets,
         private$.use_weights,
-        private$.predict_raw
+        private$.predict_raw,
+        private$.timeout,
+        private$.deadline,
+        private$.encapsulation,
+        private$.when,
+        mget(private$.extra_hash, envir = self)
       )
     },
 
@@ -1041,8 +1086,8 @@ Learner = R6Class(
     #' and has no effect during [resample()] or [benchmark()] where you have other means
     #' to parallelize.
     #'
-    #' Note that the recorded time required for prediction is not properly defined and
-    #' depends on the parallelization backend.
+    #' Note that the recorded time required for prediction is the sum of the prediction times of all chunks,
+    #' which depends on the parallelization backend.
     parallel_predict = function(rhs) {
       if (missing(rhs)) {
         return(private$.parallel_predict)
@@ -1124,6 +1169,7 @@ Learner = R6Class(
     .timeout = NULL,
     .deadline = NULL,
     .man = NULL,
+    .extra_hash = character(),
     .when = NULL,
     .use_weights = NULL,
     .encapsulation = c(train = "none", predict = "none"),
@@ -1155,13 +1201,7 @@ Learner = R6Class(
         name,
         .param_set = value$clone(deep = TRUE),
         .fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
-        state = {
-          if (!is.null(value$train_task)) {
-            value$train_task = value$train_task$clone(deep = TRUE)
-          }
-          value$log = copy(value$log)
-          value
-        },
+        state = clone_learner_state(value),
         value
       )
     }
@@ -1178,6 +1218,20 @@ rd_info.Learner = function(obj, ...) {
     sprintf("* Required Packages: %s", rd_format_packages(obj$packages))
   )
   paste(x, collapse = "\n")
+}
+
+# deep copies the mutable parts of a learner state, including the state of a fallback learner
+clone_learner_state = function(state) {
+  if (!is.null(state$train_task)) {
+    state$train_task = state$train_task$clone(deep = TRUE)
+  }
+  if (!is.null(state$log)) {
+    state$log = copy(state$log)
+  }
+  if (!is.null(state$fallback_state)) {
+    state$fallback_state = clone_learner_state(state$fallback_state)
+  }
+  state
 }
 
 get_log_condition = function(state, condition) {

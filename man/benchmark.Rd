@@ -43,11 +43,12 @@ If not \code{NA}, enables encapsulation by setting the field
 \code{Learner$encapsulate} to one of the supported values:
 \code{"none"} (disable encapsulation),
 \code{"try"} (captures errors but output is printed to the console and not logged),
-\code{"evaluate"} (execute via \CRANpkg{evaluate}) and
-\code{"callr"} (start in external session via \CRANpkg{callr}).
+\code{"evaluate"} (execute via \CRANpkg{evaluate}),
+\code{"callr"} (start in external session via \CRANpkg{callr}) and
+\code{"mirai"} (start in a \CRANpkg{mirai} daemon, see \link{Learner}).
 If \code{NA}, encapsulation is not changed, i.e. the settings of the
 individual learner are active.
-Additionally, if encapsulation is set to \code{"evaluate"} or \code{"callr"},
+Additionally, if encapsulation is set to \code{"try"}, \code{"evaluate"}, \code{"callr"}, or \code{"mirai"},
 the fallback learner is set to the featureless learner if the learner
 does not already have a fallback configured.}
 

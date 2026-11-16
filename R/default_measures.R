@@ -22,5 +22,8 @@ default_measures = function(task_type) {
   }
   assert_choice(task_type, names(mlr_reflections$default_measures))
   keys = mlr_reflections$default_measures[[task_type]]
+  if (anyMissing(keys)) {
+    error_input("There is no default measure for task type '%s'", task_type)
+  }
   mlr_measures$mget(keys)
 }

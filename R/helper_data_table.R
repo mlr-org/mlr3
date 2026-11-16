@@ -41,9 +41,9 @@ ijoin = function(tab, .__i__, .__j__, .__key__, nomatch = NULL, mult = "all") {
 }
 
 # updating join:
-# replaces values in x with values in y
+# replaces values in x with values in y, returns a modified copy of x
 ujoin = function(x, y, key) {
   cn = setdiff(intersect(names(x), names(y)), key)
   expr = parse(text = paste0("`:=`(", paste0(sprintf("%1$s=i.%1$s", cn), collapse = ","), ")"))
-  x[y, eval(expr), on = key][]
+  copy(x)[y, eval(expr), on = key][]
 }

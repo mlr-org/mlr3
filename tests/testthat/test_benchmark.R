@@ -52,6 +52,20 @@ test_that("Basic benchmarking", {
   expect_numeric(tab[[m$id]], any.missing = FALSE, lower = m$range[1], upper = m$range[2])
 })
 
+test_that("benchmark works with a data.frame design", {
+  design = as.data.frame(benchmark_grid(tsks(c("iris", "sonar")), lrn("classif.rpart"), rsmp("holdout")))
+  expect_data_frame(design, nrows = 2L)
+  expect_false(is.data.table(design))
+
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+  expect_equal(bmr$n_resample_results, 2L)
+  expect_set_equal(bmr$tasks$task_id, c("iris", "sonar"))
+
+  bmr = benchmark(design[1L, ])
+  expect_equal(bmr$n_resample_results, 1L)
+})
+
 test_that("ResampleResult / hash", {
   m = msr("classif.ce")
   aggr = bmr$aggregate(m, uhashes = TRUE)
@@ -75,6 +89,30 @@ test_that("discarding model", {
   bmr2 = benchmark(benchmark_grid(tasks[1L], learners[1L], resamplings), store_models = TRUE)
   expect_benchmark_result(bmr2)
   expect_false(every(map(as.data.table(bmr2)$learner, "model"), is.null))
+})
+
+test_that("discard and marshal on a resample result of a benchmark result", {
+  design = benchmark_grid(tsk("iris"), lrns(c("classif.rpart", "classif.debug")), rsmp("cv", folds = 3))
+  bmr = benchmark(design, store_models = TRUE)
+  has_model = function(rr) map_lgl(rr$learners, function(l) !is.null(l$model))
+
+  rr = bmr$resample_result(2)
+  expect_invisible(rr$marshal())
+  expect_r6(rr$marshal(), "ResampleResult")
+  expect_true(every(rr$learners, function(l) is_marshaled_model(l$model)))
+  expect_false(some(bmr$resample_result(1)$learners, function(l) is_marshaled_model(l$model)))
+  expect_r6(rr$unmarshal(), "ResampleResult")
+  expect_false(some(rr$learners, function(l) is_marshaled_model(l$model)))
+
+  expect_invisible(rr$discard(models = TRUE))
+  expect_r6(rr$discard(models = TRUE), "ResampleResult")
+  expect_equal(has_model(rr), rep(FALSE, 3))
+  expect_equal(has_model(bmr$resample_result(1)), rep(TRUE, 3))
+
+  expect_r6(bmr$marshal(), "BenchmarkResult")
+  expect_r6(bmr$unmarshal(), "BenchmarkResult")
+  expect_r6(bmr$discard(models = TRUE), "BenchmarkResult")
+  expect_equal(has_model(bmr$resample_result(1)), rep(FALSE, 3))
 })
 
 test_that("bmr$combine()", {
@@ -105,6 +143,22 @@ test_that("bmr$combine()", {
   expect_data_table(get_private(bmr2)$.data$data$fact, nrows = 25L)
 })
 
+test_that("combine keeps learners that differ in predict sets", {
+  task = tsk("sonar")
+  bmr1 = benchmark(benchmark_grid(task, lrn("classif.rpart"), rsmp("holdout")))
+  bmr2 = benchmark(benchmark_grid(task, lrn("classif.rpart", predict_sets = c("train", "test")), rsmp("holdout")))
+  bmr_combined = c(bmr1, bmr2)
+
+  tab = bmr_combined$score()
+  expect_identical(map(tab$learner, "predict_sets"), list("test", c("train", "test")))
+  expect_names(names(tab), must.include = c("prediction_train", "prediction_test"))
+  expect_class(tab$prediction_train[[2L]], "PredictionClassif")
+
+  measure = msr("classif.ce", predict_sets = "train", id = "ce_train")
+  expect_equal(bmr_combined$resample_result(2L)$aggregate(measure), bmr2$aggregate(measure)$ce_train, ignore_attr = TRUE)
+  expect_warning(bmr_combined$resample_result(2L)$aggregate(measure), NA)
+})
+
 test_that("empty bmr", {
   bmr_new = BenchmarkResult$new()
   expect_benchmark_result(bmr_new)
@@ -117,6 +171,17 @@ test_that("empty bmr", {
   expect_data_table(get_private(bmr_new)$.data$data$fact, nrows = nrow(get_private(bmr)$.data))
 })
 
+test_that("bmr$combine() works with an empty bmr as argument", {
+  bmr_combined = bmr$clone(deep = TRUE)$combine(BenchmarkResult$new())
+  expect_benchmark_result(bmr_combined)
+  expect_identical(bmr_combined$uhashes, bmr$uhashes)
+
+  bmr_combined = c(bmr, BenchmarkResult$new())
+  expect_benchmark_result(bmr_combined)
+  expect_identical(bmr_combined$uhashes, bmr$uhashes)
+  expect_null(BenchmarkResult$new()$task_type)
+})
+
 test_that("bmr$resample_result()", {
   uhashes = bmr$uhashes
   expect_resample_result(bmr$resample_result(1L))
@@ -127,6 +192,18 @@ test_that("bmr$resample_result()", {
   expect_error(bmr$resample_result(100))
   expect_error(bmr$resample_result(uhash = "a"))
   expect_error(bmr$resample_result(i = 1, uhash = uhashes[1]))
+})
+
+test_that("ResampleResult requires a single resample result", {
+  design = benchmark_grid(tsk("iris"), lrns(c("classif.featureless", "classif.rpart")), rsmp("cv", folds = 3))
+  bmr = benchmark(design)
+  rdata = get_private(bmr)$.data
+
+  expect_error(ResampleResult$new(rdata), "contains 2 resample results")
+  expect_error(as_resample_result(rdata), "contains 2 resample results")
+  expect_error(ResampleResult$new(rdata, view = "abc"), "does not contain")
+  expect_resample_result(ResampleResult$new(rdata, view = bmr$uhashes[2L]))
+  expect_resample_result(as_resample_result(rdata, view = bmr$uhashes[2L]))
 })
 
 test_that("inputs are cloned", {
@@ -333,6 +410,19 @@ test_that("filter", {
   expect_benchmark_result(bmr2)
 })
 
+test_that("missing values are rejected when selecting resample results", {
+  bmr = benchmark(benchmark_grid(tsks(c("iris", "sonar")), lrn("classif.featureless"), rsmp("holdout")))
+
+  expect_error(bmr$filter(i = NA), "missing")
+  expect_error(bmr$filter(i = c(1L, NA)), "missing")
+  expect_error(bmr$filter(uhashes = NA_character_), "missing")
+  expect_error(bmr$filter(task_ids = NA_character_), "missing")
+  expect_error(bmr$resample_result(i = NA), "missing")
+  expect_error(bmr$set_threshold(0.5, i = NA), "missing")
+  expect_error(uhashes(bmr, learner_ids = NA_character_), "missing")
+  expect_identical(bmr$n_resample_results, 2L)
+})
+
 test_that("aggregated performance values are calculated correctly (#555)", {
   task = tsk("spam")
   learner1 = lrn("classif.featureless")
@@ -408,6 +498,25 @@ test_that("disable cloning", {
   expect_identical(task$hash, bmr$tasks$task[[1]]$hash)
   expect_identical(learner$hash, bmr$learners$learner[[1]]$hash)
   expect_identical(resampling$hash, bmr$resamplings$resampling[[1]]$hash)
+})
+
+test_that("learners differing only in timeout are not merged", {
+  task = tsk("iris")
+  resampling = rsmp("holdout")$instantiate(task)
+  learner_1 = lrn("classif.rpart")
+  learner_2 = lrn("classif.rpart")
+  learner_2$timeout = c(train = 5)
+  expect_false(learner_1$hash == learner_2$hash)
+  design = data.table(task = list(task, task), learner = list(learner_1, learner_2), resampling = list(resampling, resampling))
+
+  callback = callback_resample("test.timeout",
+    on_resample_end = function(callback, context) {
+      context$data_extra = list(timeout = context$learner$timeout[["train"]])
+    }
+  )
+  bmr = benchmark(design, callbacks = callback)
+  expect_set_equal(map_dbl(as.data.table(bmr)$data_extra, "timeout"), c(Inf, 5))
+  expect_set_equal(map_dbl(bmr$learners$learner, function(l) l$timeout[["train"]]), c(Inf, 5))
 })
 
 test_that("task and learner assertions", {
@@ -661,6 +770,28 @@ test_that("predictions retrieved with as.data.table and predictions method are e
   expect_equal(tab$prediction, predictions)
 })
 
+test_that("as.data.table respects its arguments", {
+  tab = as.data.table(bmr)
+  expect_names(names(tab), disjunct.from = c("task_hash", "learner_hash", "resampling_hash"))
+  expect_class(tab$prediction[[1L]], "Prediction")
+
+  tab = as.data.table(bmr, hashes = TRUE)
+  expect_names(names(tab), must.include = c("task_hash", "learner_hash", "resampling_hash"))
+  expect_identical(tab$task_hash, hashes(tab$task))
+  expect_identical(tab$resampling_hash, hashes(tab$resampling))
+
+  bmr_models = benchmark(benchmark_grid(tsk("iris"), lrn("classif.rpart", cp = 0.2), rsmp("holdout")),
+    store_models = TRUE)
+  tab = as.data.table(bmr_models)
+  expect_false(is.null(tab$learner[[1L]]$model))
+  tab = as.data.table(bmr_models, reassemble_learners = FALSE, convert_predictions = FALSE)
+  expect_null(tab$learner[[1L]]$model)
+  expect_list(tab$prediction[[1L]], names = "unique")
+  expect_class(tab$prediction[[1L]]$test, "PredictionData")
+
+  expect_error(as.data.table(bmr, predict_sets = "foo"), "subset")
+})
+
 test_that("score works with predictions and empty predictions", {
   learner_1 = lrn("classif.rpart", predict_sets = "train", id = "learner_1")
   learner_2 = lrn("classif.rpart", predict_sets = "test", id = "learner_2")
@@ -775,6 +906,22 @@ test_that("can change the threshold", {
   bmr$set_threshold(0.9, i = 1)
   expect_true(all(bmr$resample_result(1)$prediction()$response == "versicolor"))
   expect_false(all(bmr$resample_result(2)$prediction()$response == "versicolor"))
+})
+
+test_that("can change the threshold with multiple iterations", {
+  design = benchmark_grid(
+    tsk("sonar"),
+    lrns(c("classif.featureless", "classif.rpart"), predict_type = "prob"),
+    rsmp("cv", folds = 3)
+  )
+  bmr = benchmark(design)
+  expected = map(bmr$resample_result(2)$predictions(), function(p) p$clone()$set_threshold(0.9, ties_method = "first")$response)
+  unchanged = map(bmr$resample_result(1)$predictions(), "response")
+
+  expect_invisible(bmr$set_threshold(0.9, i = 2, ties_method = "first"))
+  expect_equal(map(bmr$resample_result(2)$predictions(), "response"), expected)
+  expect_equal(map(bmr$resample_result(1)$predictions(), "response"), unchanged)
+  expect_numeric(bmr$aggregate(msr("classif.ce"))$classif.ce, any.missing = FALSE, len = 2)
 })
 
 test_that("uhashe(s) work", {
@@ -975,4 +1122,17 @@ test_that("obs_loss works", {
   expect_numeric(obs_loss$classif.acc, len = 200L)
   expect_set_equal(obs_loss$iteration, seq(3L))
   expect_set_equal(obs_loss$resample_result, seq(2L))
+})
+
+test_that("obs_loss works with different predict types", {
+  learners = list(lrn("classif.rpart", predict_type = "prob"), lrn("classif.featureless"))
+  design = suppressWarnings(benchmark_grid(tsk("sonar"), learners, rsmp("holdout")))
+  bmr = benchmark(design)
+
+  obs_loss = bmr$obs_loss(msr("classif.ce"))
+  expect_data_table(obs_loss, nrows = 138L)
+  expect_names(names(obs_loss), must.include = c("resample_result", "response", "prob.M", "prob.R", "classif.ce"))
+  expect_numeric(obs_loss[list(1L), on = "resample_result"]$prob.M, any.missing = FALSE)
+  expect_true(allMissing(obs_loss[list(2L), on = "resample_result"]$prob.M))
+  expect_error(bmr$obs_loss(msr("classif.ce"), predict_sets = "foo"), "subset")
 })
