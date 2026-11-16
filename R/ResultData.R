@@ -74,6 +74,14 @@ ResultData = R6Class(
             )
           )
           uhashes = data.table(uhash = unique(data$uhash))
+
+          # data_extra is in the order of the rows of data, so it must be attached before data is sorted
+          data_extras = if (!is.null(data_extra)) {
+            assert_list(data_extra, len = nrow(data))
+            data.table(uhash = data$uhash, iteration = data$iteration, data_extra = data_extra)
+          } else {
+            data.table(uhash = character(), iteration = integer(), data_extra = list())
+          }
           setkeyv(data, c("uhash", "iteration"))
 
           task = learner = resampling = NULL
@@ -91,12 +99,6 @@ ResultData = R6Class(
           set(data, j = "resampling", value = NULL)
           set(data, j = "param_values", value = NULL)
 
-          data_extras = if (!is.null(data_extra)) {
-            assert_list(data_extra, len = nrow(data))
-            data.table(uhash = data$uhash, iteration = data$iteration, data_extra = data_extra)
-          } else {
-            data.table(uhash = character(), iteration = integer(), data_extra = list())
-          }
           # remove null rows in data_extra
           data_extras = data_extras[!map_lgl(data_extra, is.null)]
           setkeyv(data_extras, c("uhash", "iteration"))
