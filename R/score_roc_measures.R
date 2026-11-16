@@ -9,15 +9,17 @@
 #' * `tnr` True negative rate (Specificity)
 #' * `ppv` Positive predictive value (Precision)
 #' * `fomr` False omission rate
-#' * `lrp` Positive likelihood ratio (LR+)
+#' * `lr_plus` Positive likelihood ratio (LR+)
 #' * `fdr` False discovery rate
 #' * `npv` Negative predictive value
 #' * `acc` Accuracy
-#' * `lrm` Negative likelihood ratio (LR-)
+#' * `lr_minus` Negative likelihood ratio (LR-)
 #' * `dor` Diagnostic odds ratio
 #'
+#' The measures are calculated from the unweighted confusion matrix, i.e., observation weights are ignored.
+#'
 #' @param pred ([PredictionClassif])\cr
-#' The prediction object.
+#' The prediction object of a binary classification task.
 #'
 #' @return `list()`\cr
 #'  A list containing two elements `confusion_matrix` which is the 2 times 2 confusion matrix
@@ -25,24 +27,29 @@
 #' @export
 #' @examples
 #' learner = lrn("classif.rpart", predict_type = "prob")
-#' splits = partition(task = tsk("sonar"), ratio = 0.7)
 #' task = tsk("sonar")
 #' learner$train(task)
 #' pred = learner$predict(task)
 #' score_roc_measures(pred)
 score_roc_measures = function(pred) {
-  assert_prediction(pred)
+  assert_class(pred, "PredictionClassif")
+  if (length(levels(pred$truth)) != 2L) {
+    error_input("ROC measures require a binary classification prediction")
+  }
 
-  score_tpr = pred$score(msr("classif.tpr"))
-  score_fnr = pred$score(msr("classif.fnr"))
-  score_fpr = pred$score(msr("classif.fpr"))
-  score_tnr = pred$score(msr("classif.tnr"))
-  score_ppv = pred$score(msr("classif.ppv"))
+  score = function(key) {
+    unname(pred$score(msr(key, use_weights = "ignore")))
+  }
+
+  score_tpr = score("classif.tpr")
+  score_fnr = score("classif.fnr")
+  score_fpr = score("classif.fpr")
+  score_tnr = score("classif.tnr")
+  score_ppv = score("classif.ppv")
   score_fdr = 1 - score_ppv
-  score_npv = pred$score(msr("classif.npv"))
+  score_npv = score("classif.npv")
   score_fomr = 1 - score_npv
-  score_acc = pred$score(msr("classif.acc"))
-  score_fpr = pred$score(msr("classif.fpr"))
+  score_acc = score("classif.acc")
   score_lr_plus = score_tpr / score_fpr
   score_lr_minus = score_fnr / score_tnr
   score_dor = score_lr_plus / score_lr_minus
@@ -90,8 +97,9 @@ print.roc_measures = function(x, abbreviations = TRUE, digits = 2L, ...) {
   # format measures
   x$measures = mapply(function(m, v) paste0(m, ": ", round(v, digits)), names(x$measures), x$measures)
 
+  # the confusion matrix stores the response in rows, the layout below needs the truth in rows
   res = cbind(
-    round(x$confusion_matrix, digits = digits),
+    round(t(x$confusion_matrix), digits = digits),
     c(x$measures[["tpr"]], x$measures[["fpr"]]),
     c(x$measures[["fnr"]], x$measures[["tnr"]])
   )
@@ -115,11 +123,11 @@ print.roc_measures = function(x, abbreviations = TRUE, digits = 2L, ...) {
       cli_li("tnr - True negative rate (Specificity)")
       cli_li("ppv - Positive predictive value (Precision)")
       cli_li("fomr - False omission rate")
-      cli_li("lrp - Positive likelihood ratio (LR+)")
+      cli_li("lr_plus - Positive likelihood ratio (LR+)")
       cli_li("fdr - False discovery rate")
       cli_li("npv - Negative predictive value")
       cli_li("acc - Accuracy")
-      cli_li("lrm - Negative likelihood ratio (LR-)")
+      cli_li("lr_minus - Negative likelihood ratio (LR-)")
       cli_li("dor - Diagnostic odds ratio")
     })
   }

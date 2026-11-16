@@ -112,13 +112,7 @@ LearnerRegr = R6Class(
 
       # train failed, use fallback
       if (is.null(self$model) && !is.null(self$state$fallback_state$model)) {
-        # the trained fallback model lives in the main learner's state, not on the fallback object itself
-        # (e.g. after resample() / benchmark()), and its predict type is only synced in the predict path,
-        # so restore both before predicting (see learner_predict() in worker.R)
-        fb = self$fallback
-        fb$predict_type = self$predict_type
-        fb$state = self$state$fallback_state
-        return(fb$predict_newdata_fast(newdata, task))
+        return(with_fallback(self, function(fb) fb$predict_newdata_fast(newdata, task)))
       }
       pred = get_private(self)$.predict(fake_task)
 
@@ -138,10 +132,7 @@ LearnerRegr = R6Class(
 
       miss_ids = which(miss)
       if (length(miss_ids) && !is.null(self$state$fallback_state$model)) {
-        fb = self$fallback
-        fb$predict_type = self$predict_type
-        fb$state = self$state$fallback_state
-        pred_miss = fb$predict_newdata_fast(newdata[miss_ids, ], task)
+        pred_miss = with_fallback(self, function(fb) fb$predict_newdata_fast(newdata[miss_ids, ], task))
 
         if (!is.null(pred$response)) {
           pred$response[miss_ids] = pred_miss$response
@@ -163,9 +154,10 @@ LearnerRegr = R6Class(
   active = list(
     #' @field quantiles (`numeric()`)\cr
     #' Numeric vector of probabilities to be used while predicting quantiles.
-    #' Elements must be between 0 and 1, not missing and provided in ascending order.
+    #' Elements must be between 0 and 1, unique, not missing, and provided in ascending order.
     #' If only one quantile is provided, it is used as response.
     #' Otherwise, set `$quantile_response` to specify the response quantile.
+    #' A previously set `$quantile_response` is kept if it is contained in the new quantiles and reset to `NULL` otherwise.
     #' Set to `NULL` to reset both `$quantiles` and `$quantile_response`.
     quantiles = function(rhs) {
       if (missing(rhs)) {
@@ -186,12 +178,15 @@ LearnerRegr = R6Class(
         upper = 1,
         any.missing = FALSE,
         min.len = 1L,
+        unique = TRUE,
         sorted = TRUE,
         .var.name = "quantiles"
       )
 
       if (length(private$.quantiles) == 1L) {
         private$.quantile_response = private$.quantiles
+      } else if (!is.null(private$.quantile_response) && private$.quantile_response %nin% private$.quantiles) {
+        private$.quantile_response = NULL
       }
     },
 

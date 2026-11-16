@@ -20,6 +20,9 @@ as_measure = function(x, task_type = NULL, clone = FALSE, ...) {
 # nolint next
 as_measure.NULL = function(x, task_type = NULL, clone = FALSE, ...) {
   assert_empty_ellipsis(...)
+  if (is.null(task_type)) {
+    error_input("A task type is required to construct a default measure")
+  }
   default_measures(task_type)[[1L]]
 }
 
@@ -28,7 +31,7 @@ as_measure.NULL = function(x, task_type = NULL, clone = FALSE, ...) {
 # nolint next
 as_measure.Measure = function(x, task_type = NULL, clone = FALSE, ...) {
   assert_empty_ellipsis(...)
-  if (isTRUE(clone)) x$clone() else x
+  if (isTRUE(clone)) x$clone(deep = TRUE) else x
 }
 
 #' @export
@@ -49,6 +52,7 @@ as_measures.default = function(x, task_type = NULL, clone = FALSE, ...) {
 #' @rdname as_measure
 # nolint next
 as_measures.NULL = function(x, task_type = NULL, clone = FALSE, ...) {
+  assert_empty_ellipsis(...)
   default_measures(task_type)
 }
 

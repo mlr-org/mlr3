@@ -1,6 +1,10 @@
 test_that("construction", {
   l = Learner$new("test-learner", task_type = "classif", predict_types = "prob")
   expect_class(l, "Learner")
+  expect_error(
+    Learner$new("test-learner", task_type = "classif", predict_types = "prob", param_set = list(a = 1)),
+    "Assertion on .param_set. failed"
+  )
 })
 
 test_that("clone", {
@@ -244,6 +248,40 @@ test_that("fallback learner is deep cloned (#511)", {
   expect_different_address(l$fallback, l$clone(deep = TRUE)$fallback)
 })
 
+test_that("encapsulate() validates before changing the learner", {
+  learner = lrn("classif.rpart")
+  hash = learner$hash
+
+  expect_error(learner$encapsulate("evaluate", lrn("regr.featureless"), when = function(cond, stage) TRUE))
+  expect_identical(learner$hash, hash)
+  expect_null(learner$fallback)
+  expect_equal(learner$encapsulation, c(train = "none", predict = "none"))
+
+  expect_error(learner$encapsulate("none", when = function(cond, stage) TRUE), "must be `NULL`")
+  expect_error(learner$encapsulate("none", fallback = lrn("classif.featureless")), "must be `NULL`")
+  expect_identical(learner$hash, hash)
+})
+
+test_that("encapsulate() rejects a fallback that does not support the predict type", {
+  LearnerResponseOnly = R6Class(
+    "LearnerResponseOnly",
+    inherit = LearnerClassifFeatureless,
+    public = list(
+      initialize = function() {
+        super$initialize()
+        private$.predict_types = "response"
+      }
+    )
+  )
+
+  learner = lrn("classif.debug", predict_type = "prob")
+  expect_error(learner$encapsulate("evaluate", LearnerResponseOnly$new()), "does not support the predict type")
+  expect_null(learner$fallback)
+
+  learner$predict_type = "response"
+  expect_no_error(learner$encapsulate("evaluate", LearnerResponseOnly$new()))
+})
+
 test_that("learner cannot be trained with TuneToken present", {
   task = tsk("california_housing")
   learner = lrn("regr.rpart", cp = paradox::to_tune(0.1, 0.3))
@@ -409,6 +447,13 @@ test_that("validate changes phash and hash", {
   expect_false(l1$hash == l2$hash)
 })
 
+test_that("predict_sets change phash and hash", {
+  l1 = lrn("classif.rpart")
+  l2 = lrn("classif.rpart", predict_sets = c("train", "test"))
+  expect_false(l1$hash == l2$hash)
+  expect_false(l1$phash == l2$phash)
+})
+
 test_that("timeout, deadline, and encapsulation change phash and hash", {
   base = lrn("classif.debug")
 
@@ -571,6 +616,31 @@ test_that("model is marshaled during parallel predict", {
   expect_class(pred, "Prediction")
 })
 
+test_that("parallel predict keeps the log and the predict time", {
+  skip_if_not_installed("future")
+  task = tsk("iris")
+  learner = lrn("classif.debug", warning_predict = 1)
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+  learner$train(task)
+  learner$parallel_predict = TRUE
+
+  with_future(
+    future::multisession,
+    {
+      pred = learner$predict(task)
+      expect_prediction(pred)
+      expect_equal(pred$row_ids, task$row_ids)
+      expect_length(learner$warnings, 2L)
+      expect_gt(learner$timings["predict"], 0)
+
+      pred = learner$predict(task, integer(0))
+      expect_prediction(pred)
+      expect_length(pred$row_ids, 0L)
+    },
+    workers = 2L
+  )
+})
+
 test_that("model is marshaled during callr prediction", {
   # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
   # id. LearnerClassifDebug then checks during `.predict()`,
@@ -694,6 +764,29 @@ test_that("quantiles in LearnerRegr", {
   tab = as.data.table(pred)
   expect_data_table(tab, nrows = task$nrow)
   expect_subset("q0.5", names(tab))
+})
+
+test_that("quantiles setter resets a quantile_response that is no longer contained", {
+  learner = lrn("regr.debug", predict_type = "quantiles")
+  learner$quantiles = c(0.1, 0.5, 0.9)
+  learner$quantile_response = 0.5
+
+  learner$quantiles = c(0.25, 0.5, 0.75)
+  expect_equal(learner$quantile_response, 0.5)
+
+  learner$quantiles = c(0.2, 0.8)
+  expect_null(learner$quantile_response)
+  expect_error(learner$train(tsk("mtcars")), "Quantile response must be set")
+
+  learner$quantiles = 0.3
+  expect_equal(learner$quantile_response, 0.3)
+
+  expect_error(
+    {
+      learner$quantiles = c(0.5, 0.5)
+    },
+    "duplicated"
+  )
 })
 
 test_that("predict time is cumulative", {
@@ -963,6 +1056,17 @@ test_that("Learner printer for encapsulation", {
   expect_output(print(lrn("classif.rpart")$encapsulate("none")), "Encapsulation: none \\(fallback: -\\)")
 })
 
+test_that("Learner printer for warnings and errors", {
+  learner = lrn("classif.debug", warning_train = 1, error_predict = 1)
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+  learner$train(tsk("iris"))$predict(tsk("iris"))
+
+  out = paste(capture.output(print(learner)), collapse = "\n")
+  expect_match(out, "Warnings: .*Warning from classif.debug->train\\(\\)")
+  expect_match(out, "Errors: .*Error from classif.debug->predict\\(\\)")
+  expect_no_match(out, "list(", fixed = TRUE)
+})
+
 test_that("error conditions are working: callr", {
   # no runtime test on CRAN
   skip_on_cran()
@@ -1194,6 +1298,44 @@ test_that("oob_error is available without storing models via $.extract_oob_error
   rr = resample(task, learner, rsmp("holdout"), store_models = FALSE)
 
   expect_equal(rr$aggregate(msr("oob_error")), c(oob_error = 0.123))
+})
+
+test_that("oob_error is NA if the training failed", {
+  LearnerDummyOOB = R6Class(
+    "LearnerDummyOOB",
+    inherit = LearnerClassifDebug,
+    public = list(
+      initialize = function() {
+        super$initialize()
+        self$properties = c(self$properties, "oob_error")
+      },
+      oob_error = function() {
+        if (is.null(self$model)) {
+          stop("No model stored")
+        }
+        0.123
+      }
+    ),
+    private = list(
+      .extract_oob_error = function() {
+        0.123
+      }
+    )
+  )
+
+  task = tsk("iris")
+  learner = LearnerDummyOOB$new()
+  expect_equal(msr("oob_error")$score(NULL, learner = learner), NA_real_)
+
+  learner$param_set$set_values(error_train = 1)
+  learner$encapsulate("evaluate", fallback = lrn("classif.featureless"))
+  rr = suppressWarnings(resample(task, learner, rsmp("holdout")))
+  expect_equal(rr$score(msr("oob_error"))$oob_error, NA_real_)
+
+  learner$param_set$set_values(error_train = 0)
+  learner$train(task)
+  learner$state$oob_error = NULL
+  expect_equal(msr("oob_error")$score(NULL, learner = learner), 0.123)
 })
 
 test_that("config error is not caught by encapsulation by default", {
@@ -1493,4 +1635,29 @@ test_that("deadline works as intended: mirai", {
   l$train(tsk("iris"))
   expect_no_error(l$predict(tsk("iris")))
   expect_true((l$timings["predict"] < allowed))
+})
+
+test_that("predicting with a fallback does not change the learner hash", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", predict_type = "prob", predict_missing = 0.5)
+  suppressWarnings(learner$encapsulate("evaluate", lrn("classif.featureless")))
+  learner$train(task)
+  hash = learner$hash
+
+  learner$predict(task)
+  expect_identical(learner$hash, hash)
+  expect_identical(learner$fallback$predict_type, "response")
+
+  learner$predict_newdata_fast(task$data())
+  expect_identical(learner$hash, hash)
+  expect_identical(learner$fallback$predict_type, "response")
+
+  learner = lrn("classif.debug", predict_type = "prob", error_train = 1)
+  suppressWarnings(learner$encapsulate("evaluate", lrn("classif.featureless")))
+  learner$train(task)
+  hash = learner$hash
+  learner$predict(task)
+  learner$predict_newdata_fast(task$data())
+  expect_identical(learner$hash, hash)
+  expect_identical(learner$fallback$predict_type, "response")
 })
