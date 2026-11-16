@@ -586,6 +586,10 @@ classification task. This modifies the object in-place.
 
   - `"last"`: Select the last class label among tied values.
 
+#### Returns
+
+Returns the object itself, but modified **by reference**.
+
 #### Examples
 
     learner = lrn("classif.rpart", predict_type = "prob")
@@ -815,15 +819,4 @@ rr$unmarshal()
 learner = lrn("classif.rpart", predict_type = "prob")
 rr = resample(tsk("sonar"), learner, rsmp("cv", folds = 3))
 rr$set_threshold(0.6)
-#> Key: <uhash, iteration>
-#>                                   uhash iteration      learner_state prediction
-#>                                  <char>     <int>             <list>     <list>
-#> 1: 2a056ad9-5fb3-4359-aadd-b30389a0999b         1 <learner_state[8]>  <list[1]>
-#> 2: 2a056ad9-5fb3-4359-aadd-b30389a0999b         2 <learner_state[8]>  <list[1]>
-#> 3: 2a056ad9-5fb3-4359-aadd-b30389a0999b         3 <learner_state[8]>  <list[1]>
-#>        learner_hash        task_hash    learner_phash  resampling_hash
-#>              <char>           <char>           <char>           <char>
-#> 1: e1292f17850073a2 f855443664c6cb00 6d8cb558afa47d24 1b22df191e2103ce
-#> 2: e1292f17850073a2 f855443664c6cb00 6d8cb558afa47d24 1b22df191e2103ce
-#> 3: e1292f17850073a2 f855443664c6cb00 6d8cb558afa47d24 1b22df191e2103ce
 ```

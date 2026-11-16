@@ -781,6 +781,10 @@ learners, given they have output a probability prediction.
 
   - `"last"`: Select the last class label among tied values.
 
+#### Returns
+
+Modified `self` (invisibly).
+
 ------------------------------------------------------------------------
 
 ### `ResultData$clone()`

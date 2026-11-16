@@ -103,6 +103,11 @@
 - fix: `PredictionClassif$set_threshold()` with a vector of thresholds
   now keeps the response of observations with missing probabilities
   missing, instead of assigning a random class label.
+- fix: `ResampleResult$set_threshold()` and
+  `BenchmarkResult$set_threshold()` no longer corrupt the stored
+  predictions of resample results with more than one iteration, which
+  made all scores `NaN`. Both methods now return the object itself
+  invisibly.
 - fix: `PredictionRegr` now checks that `truth` is numeric and has one
   element per observation. A missing `truth` is now replaced by one
   missing value per observation instead of a single missing value.
