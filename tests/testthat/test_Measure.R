@@ -379,3 +379,19 @@ test_that("obs_loss works", {
   obs_loss = measure$obs_loss(pred)
   expect_numeric(obs_loss, len = task$nrow, any.missing = FALSE)
 })
+
+test_that("obs_loss checks the prediction and the predict type", {
+  task = tsk("iris")
+  pred = lrn("classif.rpart")$train(task)$predict(task)
+
+  measure = msr("classif.logloss")
+  expect_warning(loss <- measure$obs_loss(pred), "is missing predict type")
+  expect_identical(loss, rep(NA_real_, task$nrow))
+  expect_warning(tab <- pred$obs_loss(measure), "is missing predict type")
+  expect_identical(tab$classif.logloss, rep(NA_real_, task$nrow))
+  measure$check_prerequisites = "ignore"
+  expect_identical(measure$obs_loss(pred), rep(NA_real_, task$nrow))
+
+  expect_error(msr("classif.ce")$obs_loss(NULL), "Prediction")
+  expect_numeric(msr("classif.ce")$obs_loss(pred), len = task$nrow, any.missing = FALSE)
+})
