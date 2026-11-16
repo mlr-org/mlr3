@@ -57,6 +57,7 @@
 * fix: `as_measure()` and `as_measures()` with `clone = TRUE` now return a deep clone, so that the parameter set is no longer shared with the original measure.
   `as_measure(NULL)` without a task type and `default_measures()` for a task type without a default measure now raise an informative error.
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
+* fix: `resample()` and `benchmark()` with `store_models = FALSE` now also discard the model, the training task copy, and the data prototype of the fallback learner, which were kept for every iteration (#1510).
 * fix: `ResampleResult$prediction()` now checks the argument `predict_sets` and returns an empty list for an empty `ResampleResult`, as documented.
   `ResampleResult$iters` is now read-only.
 * fix: `msr("time_train")`, `msr("time_predict")`, and `msr("time_both")` now return `NA` instead of `0` if the learner was not trained or did not predict yet.
