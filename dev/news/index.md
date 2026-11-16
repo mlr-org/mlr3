@@ -113,6 +113,8 @@
   of the complete benchmark result. These methods and their
   `BenchmarkResult` counterparts now return the object itself invisibly,
   as documented, instead of the internal `ResultData`.
+- fix: `msr("classif.fbeta")` now accepts non-integer values for `beta`,
+  e.g. `beta = 0.5`.
 - fix: Predicting zero rows with a `LearnerRegr` with predict type
   `"quantiles"` now returns a prediction with an empty quantiles matrix,
   so it can be combined with other quantile predictions, e.g., in
@@ -127,6 +129,11 @@
 - fix: `PredictionClassif$set_threshold()` with a vector of thresholds
   now keeps the response of observations with missing probabilities
   missing, instead of assigning a random class label.
+- fix: The similarity measures `msr("sim.jaccard")` and `msr("sim.phi")`
+  now pass `$na_value` to the similarity function, and a cloned measure
+  no longer calls the function of the measure it was cloned from. The
+  hyperparameter `p` of `msr("sim.phi")`, which was silently ignored,
+  now overrides the number of features of the task.
 - fix: `ResampleResult$set_threshold()` and
   `BenchmarkResult$set_threshold()` no longer corrupt the stored
   predictions of resample results with more than one iteration, which
@@ -179,6 +186,16 @@
   same set of rows no longer results in different task hashes depending
   on the type of the passed row ids. Assigning to `$row_roles` now
   raises an error for row ids that do not exist in the backend.
+- fix:
+  [`as_task_classif()`](https://mlr3.mlr-org.com/dev/reference/as_task_classif.md),
+  [`as_task_regr()`](https://mlr3.mlr-org.com/dev/reference/as_task_regr.md),
+  [`as_task_unsupervised()`](https://mlr3.mlr-org.com/dev/reference/as_task_unsupervised.md),
+  and
+  [`as_tasks_unsupervised()`](https://mlr3.mlr-org.com/dev/reference/as_task_unsupervised.md)
+  with `clone = TRUE` now return a deep clone like
+  [`as_task()`](https://mlr3.mlr-org.com/dev/reference/as_task.md), so
+  that the internal validation task is no longer shared with the
+  original task.
 - fix: Callbacks now receive the model in unmarshaled form in the
   `on_resample_end` stage of
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
