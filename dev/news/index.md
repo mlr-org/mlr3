@@ -193,6 +193,13 @@
   errors of class `Mlr3ErrorConfig`, which previously always errored
   even when a handler was registered
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- fix:
+  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
+  [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
+  with `store_models = FALSE` now also discard the model, the training
+  task copy, and the data prototype of the fallback learner, which were
+  kept for every iteration
+  ([\#1510](https://github.com/mlr-org/mlr3/issues/1510)).
 - fix: `ResampleResult$prediction()` now checks the argument
   `predict_sets` and returns an empty list for an empty
   `ResampleResult`, as documented. `ResampleResult$iters` is now

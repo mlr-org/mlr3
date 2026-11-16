@@ -90,9 +90,10 @@ Additionally, you can set the additional column 'param_values', see <code><a hre
 
 <dt id="arg-store-models">store_models<a class="anchor" aria-label="anchor" href="#arg-store-models"></a></dt>
 <dd><p>(<code>logical(1)</code>)<br>
-Store the fitted model in the resulting object=
+Store the fitted model in the resulting object.
 Set to <code>TRUE</code> if you want to further analyze the models or want to
-extract information like variable importance.</p></dd>
+extract information like variable importance.
+If <code>FALSE</code>, the model of the fallback learner is discarded as well.</p></dd>
 
 
 <dt id="arg-store-backends">store_backends<a class="anchor" aria-label="anchor" href="#arg-store-backends"></a></dt>
@@ -259,12 +260,12 @@ Note that results computed in debug mode use a different seeding mechanism and a
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                   task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: ef45f75d-c67d-4002-8cde-816005f580ec &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: ef45f75d-c67d-4002-8cde-816005f580ec &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: ef45f75d-c67d-4002-8cde-816005f580ec &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: d4445250-9988-42b1-8a06-becfcd2938ba &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: d4445250-9988-42b1-8a06-becfcd2938ba &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: d4445250-9988-42b1-8a06-becfcd2938ba &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: c6cdfe5d-f4b0-44f7-b34a-5a66ac848d86 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: c6cdfe5d-f4b0-44f7-b34a-5a66ac848d86 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: c6cdfe5d-f4b0-44f7-b34a-5a66ac848d86 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: c8aa73da-ca02-484e-81bc-354870d41021 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: c8aa73da-ca02-484e-81bc-354870d41021 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: c8aa73da-ca02-484e-81bc-354870d41021 &lt;TaskClassif:penguins&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>

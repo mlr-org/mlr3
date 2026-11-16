@@ -52,9 +52,10 @@ benchmark(
 - store_models:
 
   (`logical(1)`)  
-  Store the fitted model in the resulting object= Set to `TRUE` if you
+  Store the fitted model in the resulting object. Set to `TRUE` if you
   want to further analyze the models or want to extract information like
-  variable importance.
+  variable importance. If `FALSE`, the model of the fallback learner is
+  discarded as well.
 
 - store_backends:
 
@@ -253,12 +254,12 @@ bmr = benchmark(design)
 head(as.data.table(bmr))
 #>                                   uhash                   task
 #>                                  <char>                 <list>
-#> 1: ef45f75d-c67d-4002-8cde-816005f580ec <TaskClassif:penguins>
-#> 2: ef45f75d-c67d-4002-8cde-816005f580ec <TaskClassif:penguins>
-#> 3: ef45f75d-c67d-4002-8cde-816005f580ec <TaskClassif:penguins>
-#> 4: d4445250-9988-42b1-8a06-becfcd2938ba <TaskClassif:penguins>
-#> 5: d4445250-9988-42b1-8a06-becfcd2938ba <TaskClassif:penguins>
-#> 6: d4445250-9988-42b1-8a06-becfcd2938ba <TaskClassif:penguins>
+#> 1: c6cdfe5d-f4b0-44f7-b34a-5a66ac848d86 <TaskClassif:penguins>
+#> 2: c6cdfe5d-f4b0-44f7-b34a-5a66ac848d86 <TaskClassif:penguins>
+#> 3: c6cdfe5d-f4b0-44f7-b34a-5a66ac848d86 <TaskClassif:penguins>
+#> 4: c8aa73da-ca02-484e-81bc-354870d41021 <TaskClassif:penguins>
+#> 5: c8aa73da-ca02-484e-81bc-354870d41021 <TaskClassif:penguins>
+#> 6: c8aa73da-ca02-484e-81bc-354870d41021 <TaskClassif:penguins>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1
