@@ -754,6 +754,28 @@ test_that("predictions retrieved with as.data.table and predictions method are e
   expect_equal(tab$prediction, predictions)
 })
 
+test_that("as.data.table respects its arguments", {
+  tab = as.data.table(bmr)
+  expect_names(names(tab), disjunct.from = c("task_hash", "learner_hash", "resampling_hash"))
+  expect_class(tab$prediction[[1L]], "Prediction")
+
+  tab = as.data.table(bmr, hashes = TRUE)
+  expect_names(names(tab), must.include = c("task_hash", "learner_hash", "resampling_hash"))
+  expect_identical(tab$task_hash, hashes(tab$task))
+  expect_identical(tab$resampling_hash, hashes(tab$resampling))
+
+  bmr_models = benchmark(benchmark_grid(tsk("iris"), lrn("classif.rpart", cp = 0.2), rsmp("holdout")),
+    store_models = TRUE)
+  tab = as.data.table(bmr_models)
+  expect_false(is.null(tab$learner[[1L]]$model))
+  tab = as.data.table(bmr_models, reassemble_learners = FALSE, convert_predictions = FALSE)
+  expect_null(tab$learner[[1L]]$model)
+  expect_list(tab$prediction[[1L]], names = "unique")
+  expect_class(tab$prediction[[1L]]$test, "PredictionData")
+
+  expect_error(as.data.table(bmr, predict_sets = "foo"), "subset")
+})
+
 test_that("score works with predictions and empty predictions", {
   learner_1 = lrn("classif.rpart", predict_sets = "train", id = "learner_1")
   learner_2 = lrn("classif.rpart", predict_sets = "test", id = "learner_2")

@@ -23,9 +23,14 @@ Do not modify any extracted object without cloning it first.
 \section{S3 Methods}{
 
 \itemize{
-\item \code{as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE)}\cr
+\item \code{as.data.table(bmr, ..., hashes = FALSE, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE)}\cr
 \link{BenchmarkResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a tabular view of the internal data.
+If \code{hashes} is \code{TRUE}, the columns \code{task_hash}, \code{learner_hash}, and \code{resampling_hash} are added.
+If \code{reassemble_learners} is \code{FALSE}, the learners are returned without their state and hyperparameter values.
+If \code{convert_predictions} is \code{FALSE}, the predictions are returned as lists of \link{PredictionData} objects,
+one for each stored predict set.
+If \code{task_characteristics} is \code{TRUE}, the characteristics of the tasks are added as columns.
 \item \code{c(...)}\cr
 (\link{BenchmarkResult}, ...) -> \link{BenchmarkResult}\cr
 Combines multiple objects convertible to \link{BenchmarkResult} into a new \link{BenchmarkResult}.
