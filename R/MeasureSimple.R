@@ -222,17 +222,11 @@ MeasureSimilaritySimple = R6Class(
       info = mlr3measures::measures[[name]]
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
 
-      agg = function(rr) {
-        sets = map(rr$learners, function(l) l$selected_features())
-        self$fun(sets, p = length(rr$task$feature_names))
-      }
-
       super$initialize(
         id = paste0("sim.", name),
         param_set = param_set,
         range = c(info$lower, info$upper),
         minimize = info$minimize,
-        aggregator = agg,
         predict_type = NA_character_,
         packages = "mlr3measures",
         label = info$title,
@@ -241,8 +235,28 @@ MeasureSimilaritySimple = R6Class(
     }
   ),
 
+  active = list(
+    # a method instead of a closure created in `initialize()`, so that clones do not call the original object
+    aggregator = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.aggregate_sets
+    }
+  ),
+
   private = list(
-    .extra_hash = c("fun", "na_value")
+    .extra_hash = c("fun", "na_value"),
+
+    .aggregate_sets = function(rr) {
+      sets = map(rr$learners, function(l) l$selected_features())
+      pv = self$param_set$get_values()
+      invoke(
+        self$fun,
+        sets = sets,
+        p = pv$p %??% length(rr$task$feature_names),
+        na_value = self$na_value,
+        .args = remove_named(pv, "p")
+      )
+    }
   )
 )
 
