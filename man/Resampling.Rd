@@ -59,6 +59,14 @@ Next, the grouping information is replaced with the respective row ids to genera
 The sets can be accessed via \verb{$train_set(i)} and \verb{$test_set(i)}, respectively.
 }
 
+\section{Duplicated row ids}{
+
+A \link{Task} may contain the same observation more than once (duplicates in \code{task$row_ids}).
+All copies of an observation are kept together, like the observations of a group.
+The sampling is performed on the unique row ids,
+and all copies either go into the training set or into the test set.
+}
+
 \section{Inheriting}{
 
 It is possible to overwrite both \code{private$.get_instance()} to have full control,

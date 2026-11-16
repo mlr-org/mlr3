@@ -57,6 +57,12 @@
 #' Next, the grouping information is replaced with the respective row ids to generate training and test sets.
 #' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
+#' @section Duplicated row ids:
+#' A [Task] may contain the same observation more than once (duplicates in `task$row_ids`).
+#' All copies of an observation are kept together, like the observations of a group.
+#' The sampling is performed on the unique row ids,
+#' and all copies either go into the training set or into the test set.
+#'
 #' @section Inheriting:
 #' It is possible to overwrite both `private$.get_instance()` to have full control,
 #' or only `private$.sample()` when one wants to use the pre-defined mechanism for stratification and grouping.
@@ -318,18 +324,29 @@ Resampling = R6Class(
     .get_instance = function(task) {
       strata = task$strata
       groups = task$groups
+      if (!is.null(strata) && !is.null(groups)) {
+        error_input("Cannot combine stratification with grouping")
+      }
+
+      row_ids = task$row_ids
+      if (is.null(groups) && anyDuplicated(row_ids)) {
+        # all copies of an observation must end up in the same set,
+        # so sample the unique row ids and expand them like groups in `.get_set()`
+        groups = data.table(row_id = row_ids, group = row_ids)
+      }
+
       if (is.null(strata)) {
         if (is.null(groups)) {
-          private$.sample(task$row_ids, task = task)
+          private$.sample(row_ids, task = task)
         } else {
           private$.groups = groups
           private$.sample(unique(groups$group), task = task)
         }
       } else {
         if (!is.null(groups)) {
-          error_input("Cannot combine stratification with grouping")
+          private$.groups = groups
         }
-        private$.combine(lapply(strata$row_id, private$.sample, task = task))
+        private$.combine(lapply(strata$row_id, function(ids) private$.sample(unique(ids), task = task)))
       }
     },
 

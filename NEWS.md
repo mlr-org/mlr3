@@ -40,6 +40,9 @@
 * fix: Predicting zero rows with a `LearnerRegr` with predict type `"quantiles"` now returns a prediction with an empty quantiles matrix, so it can be combined with other quantile predictions, e.g., in `resample()` with an empty test set.
 * fix: `ResampleResult$new()` and `as_resample_result()` now raise an error if the `ResultData` contains more than one resample result and no `view` is given, or if `view` is not a `uhash` of the `ResultData`.
   Previously, the results of all resample results were silently pooled.
+* fix: `Resampling$instantiate()` on a task with duplicated row ids now keeps all copies of an observation together in the training set or in the test set.
+  Previously, the copies were sampled independently, so the same observation could be used for training and testing in one iteration.
+  The sampling is now performed on the unique row ids, which changes set sizes and iteration counts (e.g. for `rsmp("loo")`) on such tasks.
 * fix: `PredictionClassif$set_threshold()` with a vector of thresholds now keeps the response of observations with missing probabilities missing, instead of assigning a random class label.
 * fix: `msr("best_valid_score")` with `select` now uses the id `"best_<select>"`, e.g. `"best_acc"`, instead of `"<select>"`, so that it can be scored together with `msr("internal_valid_score")` for the same score, which previously failed because both measures had the same id.
   Both measures gain the read-only field `$select`, which is now part of the hash.
