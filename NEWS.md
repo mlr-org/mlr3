@@ -45,6 +45,8 @@
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
 * fix: `ResampleResult$prediction()` now checks the argument `predict_sets` and returns an empty list for an empty `ResampleResult`, as documented.
   `ResampleResult$iters` is now read-only.
+* fix: `msr("time_train")`, `msr("time_predict")`, and `msr("time_both")` now return `NA` instead of `0` if the learner was not trained or did not predict yet.
+  The field `$stages` of `MeasureElapsedTime` is now checked on assignment.
 * fix: `Task$rbind()` now invalidates `$row_hash` and `$col_hashes`, so `resample()` and `benchmark()` detect resamplings instantiated before the rows were added.
   `$materialize_view()`, `$labels`, `$col_info`, `$backend`, `$extra_args`, and `TaskClassif$positive` now invalidate the cached task hash, and `$extra_args` is now part of the task hash.
 * fix: `Measure$aggregate()` with `average = "custom"` now raises an informative error if the measure has no `aggregator`, instead of failing with "attempt to apply non-function".
