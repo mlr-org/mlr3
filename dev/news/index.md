@@ -172,6 +172,10 @@
   [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md),
   regardless of `unmarshal`, `store_models`, and the execution mode
   ([\#1509](https://github.com/mlr-org/mlr3/issues/1509)).
+- fix: `Measure$obs_loss()` now returns missing values with a warning if
+  the prediction does not contain the predict type required by the
+  measure, like `$score()`, instead of failing inside the loss function.
+  The argument `prediction` is now checked.
 - fix: `learner_predict()` now invalidates the cached task hash when
   subsetting to the predict rows, so `task$hash` is correct inside
   `.predict()` and

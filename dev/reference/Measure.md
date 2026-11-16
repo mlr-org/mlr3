@@ -660,7 +660,9 @@ Calculates the observation-wise loss. Returns a
 each row in the
 [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md). If
 there is no observation-wise loss function for the measure, `NA_real_`
-values are returned.
+values are returned. The same holds if the
+[Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md) does
+not contain the predict type required by the measure.
 
 #### Usage
 
