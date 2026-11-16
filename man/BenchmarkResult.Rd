@@ -209,8 +209,9 @@ Table of included \link{Resampling}s with three columns:
     \item{\code{resample_results}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Returns a table with three columns:
 \itemize{
-\item \code{uhash} (\code{character()}).
-\item \code{resample_result} (\link{ResampleResult}).
+\item \code{"uhash"} (\code{character(1)}),
+\item \code{"nr"} (\code{integer(1)}), the position of the resample result, and
+\item \code{"resample_result"} (\link{ResampleResult}).
 }}
 
     \item{\code{n_resample_results}}{(\code{integer(1)})\cr
@@ -419,8 +420,8 @@ Measure(s) to calculate.}
 Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) as
 extra character columns to the returned table.}
       \item{\code{conditions}}{(\code{logical(1)})\cr
-Adds condition messages (\code{"warnings"}, \code{"errors"}) as extra
-list columns of character vectors to the returned table}
+Adds the logged conditions (\code{"warnings"}, \code{"errors"}) as extra
+list columns of condition objects to the returned table.}
       \item{\code{predictions}}{(\code{logical(1)})\cr
 Additionally return prediction objects, one column for each \code{predict_set} of all learners combined.
 Columns are named \code{"prediction_train"}, \code{"prediction_test"} and \code{"prediction_internal_valid"},
@@ -546,7 +547,7 @@ iterations with errors as extra integer column \code{"errors"}.}
 \if{latex}{\out{\hypertarget{method-BenchmarkResult-filter}{}}}
 \subsection{\code{BenchmarkResult$filter()}}{
   Subsets the benchmark result.
-You can either directly provide the row IDs or the uhashes of the resample results to keep,
+You can either directly provide the positions or the uhashes of the resample results to keep,
 or use the \code{learner_ids}, \code{task_ids} and \code{resampling_ids} arguments to filter for learner,
 task and resampling IDs.
 The three options are mutually exclusive.
@@ -565,7 +566,9 @@ The three options are mutually exclusive.
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{i}}{(\code{integer()} | \code{NULL})\cr
-The iteration values to filter for.}
+The positions of the resample results to keep.
+The position is the index of the resample result in \verb{$uhashes},
+which is the column \code{nr} in the tables returned by \verb{$aggregate()} and \verb{$score()}.}
       \item{\code{uhashes}}{(\code{character()} | \code{NULL})\cr
 The uhashes of the resample results to filter for.}
       \item{\code{learner_ids}}{(\code{character()} | \code{NULL})\cr
@@ -621,7 +624,9 @@ All three options are mutually exclusive.
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{i}}{(\code{integer(1)} | \code{NULL})\cr
-The iteration value to filter for.}
+The position of the resample result.
+The position is the index of the resample result in \verb{$uhashes},
+which is the column \code{nr} in the tables returned by \verb{$aggregate()} and \verb{$score()}.}
       \item{\code{uhash}}{(\code{character(1)} | \code{NULL})\cr
 The unique identifier to filter for.}
       \item{\code{task_id}}{(\code{character(1)} | \code{NULL})\cr
@@ -695,7 +700,7 @@ the object in its previous state.
 output a probability prediction for a binary classification task.
 
 The resample results for which to change the threshold can either be specified directly
-via \code{uhashes}, by selecting the specific iterations (\code{i}) or by filtering according to
+via \code{uhashes}, by their positions (\code{i}) or by filtering according to
 learner, task and resampling IDs.
 
 If none of the three options is specified, the threshold is set for all resample results.
@@ -718,7 +723,9 @@ If none of the three options is specified, the threshold is set for all resample
       \item{\code{threshold}}{(\code{numeric(1)})\cr
 Threshold value.}
       \item{\code{i}}{(\code{integer()} | \code{NULL})\cr
-The iteration values to filter for.}
+The positions of the resample results for which the threshold should be set.
+The position is the index of the resample result in \verb{$uhashes},
+which is the column \code{nr} in the tables returned by \verb{$aggregate()} and \verb{$score()}.}
       \item{\code{uhashes}}{(\code{character()} | \code{NULL})\cr
 The unique identifiers of the \link{ResampleResult}s for which the threshold should be set.}
       \item{\code{learner_ids}}{(\code{character()} | \code{NULL})\cr
