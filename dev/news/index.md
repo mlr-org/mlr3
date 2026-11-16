@@ -190,6 +190,10 @@
   features. `$cbind()` and `$rbind()` now check the column roles when
   they modify columns with a role, e.g., rejecting negative weights, and
   leave the task unchanged if the check fails.
+- fix: `Measure$score()` now accepts `prediction = NULL` only for
+  measures with the property `"requires_no_prediction"`. Previously, the
+  check was inverted: measures that need a prediction returned `NaN` for
+  `NULL`, and measures that need no prediction rejected it.
 - fix: The option `mlr3.exec_random` now actually randomizes the
   execution order of
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
