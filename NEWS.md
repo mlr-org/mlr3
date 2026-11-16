@@ -49,6 +49,8 @@
 * fix: `Task$set_row_roles()` now stores row ids as integers, so the same set of rows no longer results in different task hashes depending on the type of the passed row ids.
   Assigning to `$row_roles` now raises an error for row ids that do not exist in the backend.
 * fix: Callbacks now receive the model in unmarshaled form in the `on_resample_end` stage of `resample()` and `benchmark()`, regardless of `unmarshal`, `store_models`, and the execution mode (#1509).
+* fix: `Measure$obs_loss()` now returns missing values with a warning if the prediction does not contain the predict type required by the measure, like `$score()`, instead of failing inside the loss function.
+  The argument `prediction` is now checked.
 * fix: `learner_predict()` now invalidates the cached task hash when subsetting to the predict rows, so `task$hash` is correct inside `.predict()` and `resample()` no longer stores a wrong task hash when a learner reads the hash during prediction (#1503).
 * fix: `benchmark()` now accepts a plain `data.frame` as `design`, as documented, instead of failing with "replacement has 0 rows" (#1505).
 * fix: `Task$cbind()` now raises an error if `data` does not contain all rows of the task, instead of silently filling the new columns with missing values.

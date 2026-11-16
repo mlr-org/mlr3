@@ -301,6 +301,7 @@ Measure = R6Class(
     #' Calculates the observation-wise loss.
     #' Returns a `numeric()` with one element for each row in the [Prediction].
     #' If there is no observation-wise loss function for the measure, `NA_real_` values are returned.
+    #' The same holds if the [Prediction] does not contain the predict type required by the measure.
     #'
     #' @param prediction ([Prediction]).
     #' @param task ([Task]).
@@ -314,11 +315,19 @@ Measure = R6Class(
     #' prediction = learner$predict(task)
     #' msr("classif.ce")$obs_loss(prediction)
     obs_loss = function(prediction, task = NULL, learner = NULL) {
+      assert_prediction(prediction)
       if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
         error_input("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
       }
 
       if ("obs_loss" %nin% self$properties) {
+        return(rep(NA_real_, length(prediction$row_ids)))
+      }
+
+      if (!is_scalar_na(self$predict_type) && self$predict_type %nin% prediction$predict_types) {
+        if (self$check_prerequisites != "ignore") {
+          warning_config("Measure '%s' is missing predict type '%s' of prediction", self$id, self$predict_type)
+        }
         return(rep(NA_real_, length(prediction$row_ids)))
       }
 
