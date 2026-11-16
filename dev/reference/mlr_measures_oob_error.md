@@ -3,7 +3,9 @@
 Returns the out-of-bag error of the
 [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md) for
 learners that support it (learners with property `"oob_error"`). Returns
-`NA` for unsupported learners.
+`NA` for unsupported learners, and if neither the out-of-bag error nor
+the model is stored, e.g. because the training failed and the fallback
+learner was used.
 
 ## Dictionary
 

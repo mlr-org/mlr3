@@ -232,6 +232,9 @@
   now accepts a plain `data.frame` as `design`, as documented, instead
   of failing with “replacement has 0 rows”
   ([\#1505](https://github.com/mlr-org/mlr3/issues/1505)).
+- fix: `msr("oob_error")` now returns `NA` if the training failed and
+  the fallback learner was used, instead of failing with the error of
+  the learner about the missing model.
 - fix: `Task$cbind()` now raises an error if `data` does not contain all
   rows of the task, instead of silently filling the new columns with
   missing values. Columns that already have a role other than
