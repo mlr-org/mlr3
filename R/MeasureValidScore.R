@@ -36,8 +36,21 @@ MeasureValidScore = R6Class(
     .scores_field = NULL,
     .select = NULL,
     .score = function(prediction, learner, ...) {
-      x = get0(private$.scores_field, learner)
-      x[[private$.select %??% 1]] %??% NA_real_
+      scores = as.list(get0(private$.scores_field, learner))
+      select = private$.select %??% 1L
+      score = if (is.character(select) || length(scores)) scores[[select]]
+      if (is.null(score)) {
+        return(NA_real_)
+      }
+      if (!test_number(score, na.ok = TRUE)) {
+        error_learner(
+          "Learner '%s' must return a single number as validation score '%s' in '$%s'",
+          learner$id,
+          private$.select %??% names(scores)[1L] %??% "1",
+          private$.scores_field
+        )
+      }
+      score
     }
   )
 )

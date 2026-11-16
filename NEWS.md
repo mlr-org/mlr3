@@ -49,6 +49,8 @@
   Both methods now return the object itself invisibly.
 * fix: `PredictionRegr` now checks that `truth` is numeric and has one element per observation.
   A missing `truth` is now replaced by one missing value per observation instead of a single missing value.
+* fix: `msr("internal_valid_score")` and `msr("best_valid_score")` now return `NA`, as documented, if the learner reports no validation scores or reports them as a named vector that does not contain the selected score, instead of failing with "subscript out of bounds".
+  A validation score that is not a single number now raises an informative error.
 * fix: `PredictionRegr` now checks that the quantiles matrix is numeric, that its `probs` attribute matches the number of columns and is unique, and that the quantile response is one of the predicted quantiles.
 * fix: `msr("regr.pinball")` and `msr("regr.rqr")` now match `alpha` to the predicted quantiles with a numerical tolerance, so that quantiles created with `seq()`, e.g. `seq(0.1, 0.9, by = 0.1)`, can be scored.
   Both measures now raise an informative error that lists the predicted quantiles if `alpha` is not among them.
