@@ -36,6 +36,10 @@
   ([\#1518](https://github.com/mlr-org/mlr3/issues/1518)). Subclasses of
   `Learner` can now add fields to the hash via the private field
   `$.extra_hash`.
+- fix: `BenchmarkResult$aggregate()` with `conditions = TRUE` now
+  returns the number of resampling iterations with at least one warning
+  or error, as documented, instead of the total number of warnings or
+  errors.
 - fix:
   [`as_prediction_classif()`](https://mlr3.mlr-org.com/dev/reference/as_prediction_classif.md)
   and
