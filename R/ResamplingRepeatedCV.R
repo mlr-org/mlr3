@@ -126,7 +126,8 @@ ResamplingRepeatedCV = R6Class(
     },
 
     .combine = function(instances) {
-      rbindlist(instances, use.names = TRUE)
+      pv = self$param_set$values
+      cv_combine_strata(instances, as.integer(pv$folds), as.integer(pv$repeats))
     },
 
     deep_clone = function(name, value) {
