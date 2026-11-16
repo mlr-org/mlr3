@@ -7,11 +7,11 @@ MeasureValidScore = R6Class(
   "MeasureValidScore",
   inherit = Measure,
   public = list(
-    initialize = function(scores_field, id, label, man, select = NULL, minimize = NA) {
+    initialize = function(scores_field, id, label, man, select = NULL, minimize = NA, id_prefix = "") {
       private$.scores_field = assert_string(scores_field)
       private$.select = assert_string(select, null.ok = TRUE)
       super$initialize(
-        id = select %??% id,
+        id = if (is.null(select)) id else paste0(assert_string(id_prefix), select),
         task_type = NA_character_,
         properties = c("na_score", "requires_learner", "requires_no_prediction"),
         predict_sets = NULL,
@@ -24,7 +24,15 @@ MeasureValidScore = R6Class(
     }
   ),
 
+  active = list(
+    select = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.select
+    }
+  ),
+
   private = list(
+    .extra_hash = "select",
     .scores_field = NULL,
     .select = NULL,
     .score = function(prediction, learner, ...) {

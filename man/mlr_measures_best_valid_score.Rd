@@ -9,7 +9,9 @@ Returns the selected best internal validation score of the \link{Learner}.
 This is only available for learners that have both the \code{"validation"} and the \code{"internal_tuning"} property,
 because tracking a best iteration only makes sense for learners that iterate.
 Returns \code{NA} for unsupported learners, when no validation was done, or when the selected id was not found.
-The \code{id} of this measure is set to the value of \code{select} if provided.
+If \code{select} is provided, the \code{id} of this measure is set to the value of \code{select} with the prefix \code{"best_"},
+e.g. \code{"best_acc"}, so that it can be scored together with
+\code{\link[=mlr_measures_internal_valid_score]{msr("internal_valid_score")}}.
 
 While \code{\link[=mlr_measures_internal_valid_score]{msr("internal_valid_score")}} reports the validation score of the
 \emph{final} model, this measure reports the \emph{best} validation score observed during training.
@@ -45,7 +47,11 @@ Empty ParamSet
 
 \examples{
 rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3), rsmp("holdout"))
-rr$score(msr("best_valid_score", select = "acc"))
+measures = list(
+  msr("internal_valid_score", select = "acc"),
+  msr("best_valid_score", select = "acc")
+)
+rr$score(measures)
 }
 \seealso{
 \itemize{
