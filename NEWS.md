@@ -9,6 +9,7 @@
   Previously, `$filter(i = NA)` silently removed all resample results.
 * fix: `LearnerRegr`'s `$hash` and `$phash` now include `$quantiles` and `$quantile_response`, so learners predicting different quantiles are no longer treated as identical, e.g., when combining resample results (#1518).
   Subclasses of `Learner` can now add fields to the hash via the private field `$.extra_hash`.
+* fix: `BenchmarkResult$aggregate()` with `conditions = TRUE` now returns the number of resampling iterations with at least one warning or error, as documented, instead of the total number of warnings or errors.
 * fix: `as_prediction_classif()` and `as_prediction_regr()` now store all columns that are not reserved prediction columns as extra data, so predictions with extra data survive the round trip through `as.data.table()`.
   `as_prediction_regr()` now also reconstructs quantile predictions from columns named `q<prob>` and raises an error for tables with a `distr` column.
   `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
