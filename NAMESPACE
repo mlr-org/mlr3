@@ -317,6 +317,7 @@ importFrom(utils,
   bibentry,
   data,
   getFromNamespace,
+  getS3method,
   head,
   packageVersion,
   tail

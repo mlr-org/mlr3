@@ -1,6 +1,9 @@
 # mlr3 (development version)
 
 * BREAKING CHANGE: `as_task_classif()` and `as_task_regr()` now raise an error if the target column contains missing values instead of showing a message (#1442).
+* feat: `default_fallback()` now also creates a fallback learner for learners that inherit directly from `Learner`, e.g., `GraphLearner` of mlr3pipelines or `AutoTuner` of mlr3tuning, by using the method of the learner class registered for their task type in `mlr_reflections$task_types`.
+  `resample()` and `benchmark()` with `encapsulate` no longer fail with "Could not find default fallback learner" for these learners.
+  If no fallback learner is available for the task type of a learner, `default_fallback()` now raises an error instead of returning `NULL` (#1545).
 * fix: Mutating a shallow clone of a task via `$rename()`, `$set_levels()`, `$droplevels()`, `$cbind()`, `$labels`, or `$positive` no longer modifies the column information of the original task.
 * fix: Errors caused by prior misconfiguration (e.g., predicting with an untrained learner, uninstantiated resamplings, missing stored models or backends, and unsupported predict types) now signal `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer masked by fallback learners under encapsulation (#1500).
 * fix: `LearnerRegr`'s `$hash` and `$phash` now include `$quantiles` and `$quantile_response`, so learners predicting different quantiles are no longer treated as identical, e.g., when combining resample results (#1518).

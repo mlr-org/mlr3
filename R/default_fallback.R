@@ -5,6 +5,11 @@
 #' The function searches for a suitable fallback learner based on the task type.
 #' Additional checks are performed to ensure that the fallback learner supports the predict type.
 #'
+#' Learners that inherit directly from [Learner], e.g., `GraphLearner` of \CRANpkg{mlr3pipelines}
+#' or `AutoTuner` of \CRANpkg{mlr3tuning}, use the method of the learner class that is registered for their task type
+#' in [`mlr_reflections$task_types`][mlr_reflections].
+#' An error is raised if no fallback learner is available for the task type of the learner.
+#'
 #' @param learner [Learner]\cr
 #'  The learner for which a fallback learner should be created.
 #' @param ... `any`\cr
@@ -19,8 +24,15 @@ default_fallback = function(learner, ...) {
 #' @rdname default_fallback
 #' @export
 default_fallback.Learner = function(learner, ...) {
-  # FIXME: remove when new encapsulate/fallback system is in place
-  NULL
+  task_type = learner$task_type
+  learner_class = mlr_reflections$task_types[list(task_type), "learner", on = "type", with = FALSE][[1L]][1L]
+  # methods of inheriting classes were already tried by dispatch, avoid infinite call loop
+  # also handles task types associated with a plain Learner (e.g. unsupervised)
+  method = if (!inherits(learner, learner_class)) getS3method("default_fallback", learner_class, optional = TRUE)
+  if (is.null(method)) {
+    error_config("Could not find default fallback learner for learner '%s' with task type '%s'.", learner$id, task_type)
+  }
+  method(learner, ...)
 }
 
 #' @rdname default_fallback

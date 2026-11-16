@@ -29,4 +29,9 @@ ignored.}
 Create a fallback learner for a given learner.
 The function searches for a suitable fallback learner based on the task type.
 Additional checks are performed to ensure that the fallback learner supports the predict type.
+
+Learners that inherit directly from \link{Learner}, e.g., \code{GraphLearner} of \CRANpkg{mlr3pipelines}
+or \code{AutoTuner} of \CRANpkg{mlr3tuning}, use the method of the learner class that is registered for their task type
+in \code{\link[=mlr_reflections]{mlr_reflections$task_types}}.
+An error is raised if no fallback learner is available for the task type of the learner.
 }
