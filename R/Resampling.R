@@ -225,7 +225,8 @@ Resampling = R6Class(
     #' @field hash (`character(1)`)\cr
     #' Hash (unique identifier) for this object.
     #' If the object has not been instantiated yet, `NA_character_` is returned.
-    #' The hash is calculated based on the class name, the id, the parameter set, and the instance.
+    #' The hash is calculated based on the class name, the id, the parameter set, the instance,
+    #' and the groups of the task, if any.
     hash = function(rhs) {
       assert_ro_binding(rhs)
       if (!self$is_instantiated) {
@@ -233,7 +234,13 @@ Resampling = R6Class(
       }
 
       if (is.null(private$.hash)) {
-        private$.hash = calculate_hash(list(class(self), self$id, self$param_set$values, self$instance))
+        private$.hash = calculate_hash(list(
+          class(self),
+          self$id,
+          self$param_set$values,
+          self$instance,
+          private$.groups
+        ))
       }
 
       private$.hash
