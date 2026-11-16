@@ -16,6 +16,8 @@ the predict time shows the cumulative duration of all predictions.
 If \code{learner$predict()} is called manually, the last predict time gets overwritten.
 The elapsed time accounts only for the training duration of the primary learner,
 excluding the time required for training the fallback learner.
+Returns \code{NA} if the time of one of the stages is not available,
+e.g. because the learner was not trained or did not predict yet.
 }
 \section{Dictionary}{
 
@@ -79,8 +81,8 @@ Other Measure:
 \section{Super class}{
 \code{\link[mlr3:Measure]{Measure}} -> \code{MeasureElapsedTime}
 }
-\section{Public fields}{
-  \if{html}{\out{<div class="r6-fields">}}
+\section{Active bindings}{
+  \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
     \item{\code{stages}}{(\code{character()})\cr
 Which stages of the learner to measure?
