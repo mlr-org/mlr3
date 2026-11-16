@@ -5,6 +5,8 @@
 * fix: Errors caused by prior misconfiguration (e.g., predicting with an untrained learner, uninstantiated resamplings, missing stored models or backends, and unsupported predict types) now signal `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer masked by fallback learners under encapsulation (#1500).
 * fix: `BenchmarkResult$combine()` and `c()` no longer fail if the benchmark result to add is empty.
 * fix: `benchmark()` with callbacks that write to `$data_extra` now stores the extra data with the experiment that produced it, instead of assigning it to another task, learner, or resampling.
+* fix: `BenchmarkResult$filter()`, `$resample_result()`, and `$set_threshold()` now raise an error if `i` contains missing values.
+  Previously, `$filter(i = NA)` silently removed all resample results.
 * fix: `LearnerRegr`'s `$hash` and `$phash` now include `$quantiles` and `$quantile_response`, so learners predicting different quantiles are no longer treated as identical, e.g., when combining resample results (#1518).
   Subclasses of `Learner` can now add fields to the hash via the private field `$.extra_hash`.
 * fix: `as_prediction_classif()` and `as_prediction_regr()` now store all columns that are not reserved prediction columns as extra data, so predictions with extra data survive the round trip through `as.data.table()`.
