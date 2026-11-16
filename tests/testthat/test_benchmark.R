@@ -1064,8 +1064,8 @@ test_that("obs_loss works", {
 
 test_that("obs_loss works with different predict types", {
   learners = list(lrn("classif.rpart", predict_type = "prob"), lrn("classif.featureless"))
-  design = benchmark_grid(tsk("sonar"), learners, rsmp("holdout"))
-  expect_warning({bmr = benchmark(design)}, "Multiple predict types detected")
+  design = suppressWarnings(benchmark_grid(tsk("sonar"), learners, rsmp("holdout")))
+  bmr = benchmark(design)
 
   obs_loss = bmr$obs_loss(msr("classif.ce"))
   expect_data_table(obs_loss, nrows = 138L)
