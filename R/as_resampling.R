@@ -15,7 +15,7 @@ as_resampling = function(x, ...) {
 # nolint next
 as_resampling.Resampling = function(x, clone = FALSE, ...) {
   assert_empty_ellipsis(...)
-  if (isTRUE(clone)) x$clone() else x
+  if (isTRUE(clone)) x$clone(deep = TRUE) else x
 }
 
 #' @export

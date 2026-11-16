@@ -56,6 +56,7 @@
   Both measures now raise an informative error that lists the predicted quantiles if `alpha` is not among them.
 * fix: `as_measure()` and `as_measures()` with `clone = TRUE` now return a deep clone, so that the parameter set is no longer shared with the original measure.
   `as_measure(NULL)` without a task type and `default_measures()` for a task type without a default measure now raise an informative error.
+* fix: `as_resampling()` and `as_resamplings()` with `clone = TRUE` now return a deep clone, so that changing the parameter values of the clone no longer changes the original resampling.
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
 * fix: `ResampleResult$prediction()` now checks the argument `predict_sets` and returns an empty list for an empty `ResampleResult`, as documented.
   `ResampleResult$iters` is now read-only.
