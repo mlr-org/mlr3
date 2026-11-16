@@ -177,8 +177,8 @@ BenchmarkResult = R6Class(
     #'   extra character columns to the returned table.
     #'
     #' @param conditions (`logical(1)`)\cr
-    #'   Adds condition messages (`"warnings"`, `"errors"`) as extra
-    #'   list columns of character vectors to the returned table
+    #'   Adds the logged conditions (`"warnings"`, `"errors"`) as extra
+    #'   list columns of condition objects to the returned table.
     #'
     #' @param predictions (`logical(1)`)\cr
     #'   Additionally return prediction objects, one column for each `predict_set` of all learners combined.
@@ -415,13 +415,15 @@ BenchmarkResult = R6Class(
 
     #' @description
     #' Subsets the benchmark result.
-    #' You can either directly provide the row IDs or the uhashes of the resample results to keep,
+    #' You can either directly provide the positions or the uhashes of the resample results to keep,
     #' or use the `learner_ids`, `task_ids` and `resampling_ids` arguments to filter for learner,
     #' task and resampling IDs.
     #' The three options are mutually exclusive.
     #'
     #' @param i (`integer()` | `NULL`)\cr
-    #'   The iteration values to filter for.
+    #'   The positions of the resample results to keep.
+    #'   The position is the index of the resample result in `$uhashes`,
+    #'   which is the column `nr` in the tables returned by `$aggregate()` and `$score()`.
     #' @param uhashes (`character()` | `NULL`)\cr
     #'   The uhashes of the resample results to filter for.
     #' @param learner_ids (`character()` | `NULL`)\cr
@@ -469,7 +471,9 @@ BenchmarkResult = R6Class(
     #' All three options are mutually exclusive.
     #'
     #' @param i (`integer(1)` | `NULL`)\cr
-    #'   The iteration value to filter for.
+    #'   The position of the resample result.
+    #'   The position is the index of the resample result in `$uhashes`,
+    #'   which is the column `nr` in the tables returned by `$aggregate()` and `$score()`.
     #' @param uhash (`character(1)` | `NULL`)\cr
     #'   The unique identifier to filter for.
     #' @param learner_id (`character(1)` | `NULL`)\cr
@@ -524,7 +528,7 @@ BenchmarkResult = R6Class(
     #' output a probability prediction for a binary classification task.
     #'
     #' The resample results for which to change the threshold can either be specified directly
-    #' via `uhashes`, by selecting the specific iterations (`i`) or by filtering according to
+    #' via `uhashes`, by their positions (`i`) or by filtering according to
     #' learner, task and resampling IDs.
     #'
     #' If none of the three options is specified, the threshold is set for all resample results.
@@ -532,7 +536,9 @@ BenchmarkResult = R6Class(
     #' @param threshold (`numeric(1)`)\cr
     #'   Threshold value.
     #' @param i (`integer()` | `NULL`)\cr
-    #'   The iteration values to filter for.
+    #'   The positions of the resample results for which the threshold should be set.
+    #'   The position is the index of the resample result in `$uhashes`,
+    #'   which is the column `nr` in the tables returned by `$aggregate()` and `$score()`.
     #' @param uhashes (`character()` | `NULL`)\cr
     #'   The unique identifiers of the [ResampleResult]s for which the threshold should be set.
     #' @param learner_ids (`character()` | `NULL`)\cr
@@ -626,8 +632,10 @@ BenchmarkResult = R6Class(
 
     #' @field resample_results ([data.table::data.table()])\cr
     #' Returns a table with three columns:
-    #' * `uhash` (`character()`).
-    #' * `resample_result` ([ResampleResult]).
+    #'
+    #' * `"uhash"` (`character(1)`),
+    #' * `"nr"` (`integer(1)`), the position of the resample result, and
+    #' * `"resample_result"` ([ResampleResult]).
     resample_results = function(rhs) {
       assert_ro_binding(rhs)
       rdata = private$.data$data
@@ -676,7 +684,7 @@ BenchmarkResult = R6Class(
       args = discard(list(learner_ids = learner_ids, task_ids = task_ids, resampling_ids = resampling_ids), is.null)
 
       if (sum(!is.null(i), !is.null(uhashes), length(args) > 0L) > 1) {
-        error_input("At most one of `i`, `uhash`, or IDs can be provided.")
+        error_input("At most one of `i`, the uhashes, or the ids can be provided.")
       }
       if (!is.null(i)) {
         uhashes = self$uhashes
