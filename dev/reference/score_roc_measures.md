@@ -15,7 +15,7 @@ matrix.
 
 - `fomr` False omission rate
 
-- `lrp` Positive likelihood ratio (LR+)
+- `lr_plus` Positive likelihood ratio (LR+)
 
 - `fdr` False discovery rate
 
@@ -23,9 +23,12 @@ matrix.
 
 - `acc` Accuracy
 
-- `lrm` Negative likelihood ratio (LR-)
+- `lr_minus` Negative likelihood ratio (LR-)
 
 - `dor` Diagnostic odds ratio
+
+The measures are calculated from the unweighted confusion matrix, i.e.,
+observation weights are ignored.
 
 ## Usage
 
@@ -38,7 +41,7 @@ score_roc_measures(pred)
 - pred:
 
   ([PredictionClassif](https://mlr3.mlr-org.com/dev/reference/PredictionClassif.md))  
-  The prediction object.
+  The prediction object of a binary classification task.
 
 ## Value
 
@@ -51,7 +54,6 @@ above mentioned measures.
 
 ``` r
 learner = lrn("classif.rpart", predict_type = "prob")
-splits = partition(task = tsk("sonar"), ratio = 0.7)
 task = tsk("sonar")
 learner$train(task)
 pred = learner$predict(task)
@@ -61,8 +63,8 @@ score_roc_measures(pred)
 #> 
 #>     predicted
 #> true M        R                                   
-#>    M 95       10         tpr: 0.86      fnr: 0.14 
-#>    R 16       87         fpr: 0.1       tnr: 0.9  
+#>    M 95       16         tpr: 0.86      fnr: 0.14 
+#>    R 10       87         fpr: 0.1       tnr: 0.9  
 #>      ppv: 0.9 fomr: 0.16 lr_plus: 8.3   acc: 0.88 
 #>      fdr: 0.1 npv: 0.84  lr_minus: 0.16 dor: 51.66
 #> 
@@ -73,10 +75,10 @@ score_roc_measures(pred)
 #> • tnr - True negative rate (Specificity)
 #> • ppv - Positive predictive value (Precision)
 #> • fomr - False omission rate
-#> • lrp - Positive likelihood ratio (LR+)
+#> • lr_plus - Positive likelihood ratio (LR+)
 #> • fdr - False discovery rate
 #> • npv - Negative predictive value
 #> • acc - Accuracy
-#> • lrm - Negative likelihood ratio (LR-)
+#> • lr_minus - Negative likelihood ratio (LR-)
 #> • dor - Diagnostic odds ratio
 ```

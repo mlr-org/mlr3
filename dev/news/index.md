@@ -30,6 +30,15 @@
 - fix: `BenchmarkResult$filter()`, `$resample_result()`, and
   `$set_threshold()` now raise an error if `i` contains missing values.
   Previously, `$filter(i = NA)` silently removed all resample results.
+- fix: [`print()`](https://rdrr.io/r/base/print.html) for the result of
+  [`score_roc_measures()`](https://mlr3.mlr-org.com/dev/reference/score_roc_measures.md)
+  now shows the confusion matrix with the truth in rows and the
+  prediction in columns, as labeled. Previously, the counts of false
+  positives and false negatives were shown in each other’s place.
+  [`score_roc_measures()`](https://mlr3.mlr-org.com/dev/reference/score_roc_measures.md)
+  now returns unnamed scores, ignores observation weights so that the
+  measures match the returned confusion matrix, and raises an error for
+  predictions that are not binary classification predictions.
 - fix: `LearnerRegr`’s `$hash` and `$phash` now include `$quantiles` and
   `$quantile_response`, so learners predicting different quantiles are
   no longer treated as identical, e.g., when combining resample results
@@ -80,6 +89,12 @@
   for a `ResampleResult` now respects the documented arguments
   `reassemble_learners` and `convert_predictions`, which were silently
   ignored.
+- fix: `Learner$phash` now includes `$predict_sets`, so the partial
+  hashes of all learners change. Previously, combining benchmark results
+  of learners that differed only in their predict sets kept only the
+  first learner, so `BenchmarkResult$score()` returned a learner with
+  the wrong predict sets and omitted the prediction columns of the other
+  predict sets.
 - fix: `PredictionRegr$filter()` and
   [`c()`](https://rdrr.io/r/base/c.html) with `keep_duplicates = FALSE`
   now also subset the distributions of predictions with predict type
