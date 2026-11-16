@@ -383,6 +383,19 @@ test_that("filter", {
   expect_benchmark_result(bmr2)
 })
 
+test_that("missing values are rejected when selecting resample results", {
+  bmr = benchmark(benchmark_grid(tsks(c("iris", "sonar")), lrn("classif.featureless"), rsmp("holdout")))
+
+  expect_error(bmr$filter(i = NA), "missing")
+  expect_error(bmr$filter(i = c(1L, NA)), "missing")
+  expect_error(bmr$filter(uhashes = NA_character_), "missing")
+  expect_error(bmr$filter(task_ids = NA_character_), "missing")
+  expect_error(bmr$resample_result(i = NA), "missing")
+  expect_error(bmr$set_threshold(0.5, i = NA), "missing")
+  expect_error(uhashes(bmr, learner_ids = NA_character_), "missing")
+  expect_identical(bmr$n_resample_results, 2L)
+})
+
 test_that("aggregated performance values are calculated correctly (#555)", {
   task = tsk("spam")
   learner1 = lrn("classif.featureless")

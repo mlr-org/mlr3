@@ -680,8 +680,9 @@ BenchmarkResult = R6Class(
       }
       if (!is.null(i)) {
         uhashes = self$uhashes
-        uhashes = uhashes[assert_integerish(i, lower = 1L, upper = length(uhashes))]
+        uhashes = uhashes[assert_integerish(i, lower = 1L, upper = length(uhashes), any.missing = FALSE)]
       } else if (!is.null(uhashes)) {
+        assert_character(uhashes, any.missing = FALSE)
         assert_subset(uhashes, self$uhashes)
       } else {
         uhashes = invoke(match.fun("uhashes"), bmr = self, .args = args)
@@ -755,9 +756,9 @@ print.bmr_aggregate = function(x, ...) {
 #' @export
 uhashes = function(bmr, learner_ids = NULL, task_ids = NULL, resampling_ids = NULL) {
   assert_class(bmr, "BenchmarkResult")
-  assert_character(learner_ids, null.ok = TRUE)
-  assert_character(task_ids, null.ok = TRUE)
-  assert_character(resampling_ids, null.ok = TRUE)
+  assert_character(learner_ids, any.missing = FALSE, null.ok = TRUE)
+  assert_character(task_ids, any.missing = FALSE, null.ok = TRUE)
+  assert_character(resampling_ids, any.missing = FALSE, null.ok = TRUE)
   bmr$uhash_table[
     (is.null(learner_ids) | (get("learner_id") %in% learner_ids)) &
       (is.null(task_ids) | (get("task_id") %in% task_ids)) &
