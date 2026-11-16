@@ -4,8 +4,10 @@ Calculates the Bayesian Information Criterion (BIC) which is a trade-off
 between goodness of fit (measured in terms of log-likelihood) and model
 complexity (measured in terms of number of included features).
 Internally, [`stats::BIC()`](https://rdrr.io/r/stats/AIC.html) is
-called. Requires the learner property `"loglik"`, `NA` is returned for
-unsupported learners.
+called. Requires that a
+[`stats::logLik()`](https://rdrr.io/r/stats/logLik.html) method exists
+for the model of the learner. For other learners, `NA` is returned with
+a warning.
 
 ## Dictionary
 

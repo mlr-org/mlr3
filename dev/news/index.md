@@ -239,6 +239,11 @@
   features. `$cbind()` and `$rbind()` now check the column roles when
   they modify columns with a role, e.g., rejecting negative weights, and
   leave the task unchanged if the check fails.
+- fix: `msr("aic")` and `msr("bic")` no longer hide errors raised while
+  computing the log-likelihood behind the warning that the learner does
+  not support the calculation. The warning and the `NA` score are now
+  only returned if the model has no
+  [`logLik()`](https://rdrr.io/r/stats/logLik.html) method.
 - fix: `Measure$score()` now accepts `prediction = NULL` only for
   measures with the property `"requires_no_prediction"`. Previously, the
   check was inverted: measures that need a prediction returned `NaN` for

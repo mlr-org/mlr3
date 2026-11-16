@@ -10,12 +10,14 @@ trade-off between goodness of fit (measured in terms of
 log-likelihood) and model complexity (measured in terms of number
 of included features).
 Internally, stats::BIC() is called.
-Requires the learner property &quot;loglik&quot;, NA is returned for unsupported learners."><meta property="og:description" content="Calculates the Bayesian Information Criterion (BIC) which is a
+Requires that a stats::logLik() method exists for the model of the learner.
+For other learners, NA is returned with a warning."><meta property="og:description" content="Calculates the Bayesian Information Criterion (BIC) which is a
 trade-off between goodness of fit (measured in terms of
 log-likelihood) and model complexity (measured in terms of number
 of included features).
 Internally, stats::BIC() is called.
-Requires the learner property &quot;loglik&quot;, NA is returned for unsupported learners."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
+Requires that a stats::logLik() method exists for the model of the learner.
+For other learners, NA is returned with a warning."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -64,7 +66,8 @@ trade-off between goodness of fit (measured in terms of
 log-likelihood) and model complexity (measured in terms of number
 of included features).
 Internally, <code><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">stats::BIC()</a></code> is called.
-Requires the learner property <code>"loglik"</code>, <code>NA</code> is returned for unsupported learners.</p>
+Requires that a <code><a href="https://rdrr.io/r/stats/logLik.html" class="external-link">stats::logLik()</a></code> method exists for the model of the learner.
+For other learners, <code>NA</code> is returned with a warning.</p>
     </div>
 
 
