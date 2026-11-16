@@ -52,6 +52,9 @@ test_that("can set beta for fbeta during construction", {
   expect_equal(m2$param_set$values$beta, 10)
 
   expect_gt(abs(m1$score(p) - m2$score(p)), 0.0001)
+
+  m3 = msr("classif.fbeta", beta = 0.5)
+  expect_equal(unname(m3$score(p)), mlr3measures::fbeta(p$truth, p$response, positive = "M", beta = 0.5))
 })
 
 test_that("check_prerequisites / task_properties", {

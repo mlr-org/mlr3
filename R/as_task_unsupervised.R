@@ -14,7 +14,7 @@ as_task_unsupervised = function(x, ...) {
 #' @export
 # nolint next
 as_task_unsupervised.Task = function(x, clone = FALSE, ...) {
-  if (clone) x$clone() else x
+  if (clone) x$clone(deep = TRUE) else x
 }
 
 #' @rdname as_task_unsupervised
@@ -63,5 +63,5 @@ as_tasks_unsupervised.list = function(x, clone = FALSE, ...) {
 #' @export
 # nolint next
 as_tasks_unsupervised.Task = function(x, clone = FALSE, ...) {
-  list(if (clone) x$clone() else x)
+  list(if (clone) x$clone(deep = TRUE) else x)
 }

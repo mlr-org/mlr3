@@ -7,6 +7,9 @@
 * fix: `benchmark()` with callbacks that write to `$data_extra` now stores the extra data with the experiment that produced it, instead of assigning it to another task, learner, or resampling.
 * fix: `BenchmarkResult$filter()`, `$resample_result()`, and `$set_threshold()` now raise an error if `i` contains missing values.
   Previously, `$filter(i = NA)` silently removed all resample results.
+* fix: `print()` for the result of `score_roc_measures()` now shows the confusion matrix with the truth in rows and the prediction in columns, as labeled.
+  Previously, the counts of false positives and false negatives were shown in each other's place.
+  `score_roc_measures()` now returns unnamed scores, ignores observation weights so that the measures match the returned confusion matrix, and raises an error for predictions that are not binary classification predictions.
 * fix: `LearnerRegr`'s `$hash` and `$phash` now include `$quantiles` and `$quantile_response`, so learners predicting different quantiles are no longer treated as identical, e.g., when combining resample results (#1518).
   Subclasses of `Learner` can now add fields to the hash via the private field `$.extra_hash`.
 * fix: `BenchmarkResult$aggregate()` with `conditions = TRUE` now returns the number of resampling iterations with at least one warning or error, as documented, instead of the total number of warnings or errors.
@@ -21,6 +24,8 @@
   The argument `hashes`, which had no effect, now adds the columns `task_hash`, `learner_hash`, and `resampling_hash`.
 * fix: `Learner$predict()` on a `TaskUnsupervised` now returns the predicted classes of a classification learner instead of only missing values, and no longer errors with predict type `"prob"`.
 * fix: `as.data.table()` for a `ResampleResult` now respects the documented arguments `reassemble_learners` and `convert_predictions`, which were silently ignored.
+* fix: `Learner$phash` now includes `$predict_sets`, so the partial hashes of all learners change.
+  Previously, combining benchmark results of learners that differed only in their predict sets kept only the first learner, so `BenchmarkResult$score()` returned a learner with the wrong predict sets and omitted the prediction columns of the other predict sets.
 * fix: `PredictionRegr$filter()` and `c()` with `keep_duplicates = FALSE` now also subset the distributions of predictions with predict type `"distr"`, which previously kept the distributions of all rows (#1400).
 * fix: `as_result_data()` now raises an error if the predictions of an iteration are not named with the predict sets, e.g. `list(test = prediction)`, instead of creating a result whose scores are all `NaN`.
   The argument `iterations` now also accepts integer-valued doubles.
@@ -31,12 +36,15 @@
 * fix: `PredictionClassif` now raises an error for probability matrices without column names or with duplicated column names, instead of silently replacing all probabilities with zero and drawing a random response.
 * fix: `ResampleResult$discard()`, `$marshal()`, and `$unmarshal()` on a resample result extracted with `BenchmarkResult$resample_result()` now only change the models of this resample result instead of the models of the complete benchmark result.
   These methods and their `BenchmarkResult` counterparts now return the object itself invisibly, as documented, instead of the internal `ResultData`.
+* fix: `msr("classif.fbeta")` now accepts non-integer values for `beta`, e.g. `beta = 0.5`.
 * fix: Predicting zero rows with a `LearnerRegr` with predict type `"quantiles"` now returns a prediction with an empty quantiles matrix, so it can be combined with other quantile predictions, e.g., in `resample()` with an empty test set.
 * fix: `ResampleResult$new()` and `as_resample_result()` now raise an error if the `ResultData` contains more than one resample result and no `view` is given, or if `view` is not a `uhash` of the `ResultData`.
   Previously, the results of all resample results were silently pooled.
 * fix: `PredictionClassif$set_threshold()` with a vector of thresholds now keeps the response of observations with missing probabilities missing, instead of assigning a random class label.
 * fix: `msr("best_valid_score")` with `select` now uses the id `"best_<select>"`, e.g. `"best_acc"`, instead of `"<select>"`, so that it can be scored together with `msr("internal_valid_score")` for the same score, which previously failed because both measures had the same id.
   Both measures gain the read-only field `$select`, which is now part of the hash.
+* fix: The similarity measures `msr("sim.jaccard")` and `msr("sim.phi")` now pass `$na_value` to the similarity function, and a cloned measure no longer calls the function of the measure it was cloned from.
+  The hyperparameter `p` of `msr("sim.phi")`, which was silently ignored, now overrides the number of features of the task.
 * fix: `ResampleResult$set_threshold()` and `BenchmarkResult$set_threshold()` no longer corrupt the stored predictions of resample results with more than one iteration, which made all scores `NaN`.
   Both methods now return the object itself invisibly.
 * fix: `PredictionRegr` now checks that `truth` is numeric and has one element per observation.
@@ -53,6 +61,7 @@
 * fix: `resample()` and `benchmark()` with `allow_hotstart = TRUE` no longer carry over the prediction time, validation scores, fallback state, and task copies of the start learner into the hotstarted learner, which inflated `msr("time_predict")` (#1504).
 * fix: `Task$set_row_roles()` now stores row ids as integers, so the same set of rows no longer results in different task hashes depending on the type of the passed row ids.
   Assigning to `$row_roles` now raises an error for row ids that do not exist in the backend.
+* fix: `as_task_classif()`, `as_task_regr()`, `as_task_unsupervised()`, and `as_tasks_unsupervised()` with `clone = TRUE` now return a deep clone like `as_task()`, so that the internal validation task is no longer shared with the original task.
 * fix: Callbacks now receive the model in unmarshaled form in the `on_resample_end` stage of `resample()` and `benchmark()`, regardless of `unmarshal`, `store_models`, and the execution mode (#1509).
 * fix: `Measure$obs_loss()` now returns missing values with a warning if the prediction does not contain the predict type required by the measure, like `$score()`, instead of failing inside the loss function.
   The argument `prediction` is now checked.

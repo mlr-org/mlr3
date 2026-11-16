@@ -25,3 +25,16 @@ test_that("similarity example", {
   x = bmr$aggregate(msr("sim.jaccard"))
   expect_numeric(x$sim.jaccard, any.missing = FALSE)
 })
+
+test_that("similarity measures use parameters, na_value and fun of the clone", {
+  expect_equal(msr("sim.phi")$aggregate(rr), mlr3measures::phi(map(rr$learners, function(l) l$selected_features()), p = 7))
+  expect_true(msr("sim.phi", p = 1000)$aggregate(rr) != msr("sim.phi")$aggregate(rr))
+
+  m1 = msr("sim.jaccard")
+  m2 = m1$clone(deep = TRUE)
+  m2$fun = function(sets, na_value, ...) na_value
+  m2$na_value = 42
+  expect_equal(m2$aggregate(rr), 42)
+  expect_true(m1$aggregate(rr) != 42)
+  expect_true(m1$hash != m2$hash)
+})
