@@ -537,7 +537,7 @@ are already marshaled.
 
 #### Usage
 
-    ResultData$marshal(...)
+    ResultData$marshal(..., view = NULL)
 
 #### Arguments
 
@@ -546,6 +546,16 @@ are already marshaled.
   (any)  
   Additional arguments passed to
   [`marshal_model()`](https://mlr3.mlr-org.com/dev/reference/marshaling.md).
+
+- `view`:
+
+  (`character(1)` \| `NULL`)  
+  Single `uhash` to restrict the results to.
+
+- `view`:
+
+  (`character(1)` \| `NULL`)  
+  Single `uhash` to restrict the results to.
 
 ------------------------------------------------------------------------
 
@@ -556,7 +566,7 @@ which are not marshaled.
 
 #### Usage
 
-    ResultData$unmarshal(...)
+    ResultData$unmarshal(..., view = NULL)
 
 #### Arguments
 
@@ -566,6 +576,16 @@ which are not marshaled.
   Additional arguments passed to
   [`unmarshal_model()`](https://mlr3.mlr-org.com/dev/reference/marshaling.md).
 
+- `view`:
+
+  (`character(1)` \| `NULL`)  
+  Single `uhash` to restrict the results to.
+
+- `view`:
+
+  (`character(1)` \| `NULL`)  
+  Single `uhash` to restrict the results to.
+
 ------------------------------------------------------------------------
 
 ### `ResultData$discard()`
@@ -574,7 +594,7 @@ Shrinks the object by discarding parts of the stored data.
 
 #### Usage
 
-    ResultData$discard(backends = FALSE, models = FALSE)
+    ResultData$discard(backends = FALSE, models = FALSE, view = NULL)
 
 #### Arguments
 
@@ -590,7 +610,18 @@ Shrinks the object by discarding parts of the stored data.
 
   (`logical(1)`)  
   If `TRUE`, the stored model is removed from all
-  [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md)s.
+  [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md)s in the
+  view.
+
+- `view`:
+
+  (`character(1)` \| `NULL`)  
+  Single `uhash` to restrict the results to.
+
+- `view`:
+
+  (`character(1)` \| `NULL`)  
+  Single `uhash` to restrict the results to.
 
 #### Returns
 

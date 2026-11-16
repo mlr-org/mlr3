@@ -479,12 +479,20 @@ E.g., can be called after filtering/subsetting the fact table.</p><div class="se
 <p>Marshals all stored learner models.
 This will do nothing to models that are already marshaled.</p><div class="section">
 <h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResultData</span><span class="op">$</span><span class="fu">marshal</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResultData</span><span class="op">$</span><span class="fu">marshal</span><span class="op">(</span><span class="va">...</span>, view <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-12">Arguments<a class="anchor" aria-label="anchor" href="#arguments-12"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(any)<br>
 Additional arguments passed to <code><a href="marshaling.html">marshal_model()</a></code>.</p></dd>
+
+      <dt><code>view</code></dt>
+<dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
+Single <code>uhash</code> to restrict the results to.</p></dd>
+
+      <dt><code>view</code></dt>
+<dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
+Single <code>uhash</code> to restrict the results to.</p></dd>
 
 
 </dl><p></p></div>
@@ -497,12 +505,20 @@ Additional arguments passed to <code><a href="marshaling.html">marshal_model()</
 <p>Unmarshals all stored learner models.
 This will do nothing to models which are not marshaled.</p><div class="section">
 <h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResultData</span><span class="op">$</span><span class="fu">unmarshal</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResultData</span><span class="op">$</span><span class="fu">unmarshal</span><span class="op">(</span><span class="va">...</span>, view <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-13">Arguments<a class="anchor" aria-label="anchor" href="#arguments-13"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(any)<br>
 Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()</a></code>.</p></dd>
+
+      <dt><code>view</code></dt>
+<dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
+Single <code>uhash</code> to restrict the results to.</p></dd>
+
+      <dt><code>view</code></dt>
+<dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
+Single <code>uhash</code> to restrict the results to.</p></dd>
 
 
 </dl><p></p></div>
@@ -514,7 +530,7 @@ Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()
 <h3 id="resultdata-discard-"><code>ResultData$discard()</code><a class="anchor" aria-label="anchor" href="#resultdata-discard-"></a></h3>
 <p>Shrinks the object by discarding parts of the stored data.</p><div class="section">
 <h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResultData</span><span class="op">$</span><span class="fu">discard</span><span class="op">(</span>backends <span class="op">=</span> <span class="cn">FALSE</span>, models <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResultData</span><span class="op">$</span><span class="fu">discard</span><span class="op">(</span>backends <span class="op">=</span> <span class="cn">FALSE</span>, models <span class="op">=</span> <span class="cn">FALSE</span>, view <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-14">Arguments<a class="anchor" aria-label="anchor" href="#arguments-14"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>backends</code></dt>
@@ -523,7 +539,15 @@ If <code>TRUE</code>, the <a href="DataBackend.html">DataBackend</a> is removed 
 
       <dt><code>models</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
-If <code>TRUE</code>, the stored model is removed from all <a href="Learner.html">Learner</a>s.</p></dd>
+If <code>TRUE</code>, the stored model is removed from all <a href="Learner.html">Learner</a>s in the view.</p></dd>
+
+      <dt><code>view</code></dt>
+<dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
+Single <code>uhash</code> to restrict the results to.</p></dd>
+
+      <dt><code>view</code></dt>
+<dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
+Single <code>uhash</code> to restrict the results to.</p></dd>
 
 
 </dl><p></p></div>
