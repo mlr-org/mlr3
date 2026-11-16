@@ -86,9 +86,14 @@ Do not modify any extracted object without cloning it first.</p>
     <h2 id="s-methods">S3 Methods<a class="anchor" aria-label="anchor" href="#s-methods"></a></h2>
 
 
-<ul><li><p><code>as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE)</code><br>
+<ul><li><p><code>as.data.table(bmr, ..., hashes = FALSE, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE)</code><br>
 BenchmarkResult -&gt; <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code><br>
-Returns a tabular view of the internal data.</p></li>
+Returns a tabular view of the internal data.
+If <code>hashes</code> is <code>TRUE</code>, the columns <code>task_hash</code>, <code>learner_hash</code>, and <code>resampling_hash</code> are added.
+If <code>reassemble_learners</code> is <code>FALSE</code>, the learners are returned without their state and hyperparameter values.
+If <code>convert_predictions</code> is <code>FALSE</code>, the predictions are returned as lists of <a href="PredictionData.html">PredictionData</a> objects,
+one for each stored predict set.
+If <code>task_characteristics</code> is <code>TRUE</code>, the characteristics of the tasks are added as columns.</p></li>
 <li><p><code>c(...)</code><br>
 (BenchmarkResult, ...) -&gt; BenchmarkResult<br>
 Combines multiple objects convertible to BenchmarkResult into a new BenchmarkResult.</p></li>
@@ -355,7 +360,10 @@ if present.</p></dd>
 <h3 id="benchmarkresult-obs-loss-"><code>BenchmarkResult$obs_loss()</code><a class="anchor" aria-label="anchor" href="#benchmarkresult-obs-loss-"></a></h3>
 <p>Calculates the observation-wise loss via the <a href="Measure.html">Measure</a>'s <code>obs_loss</code> method.
 Returns a <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table()</a></code> with columns from the predictions (e.g., <code>row_ids</code>, <code>truth</code>, <code>response</code>, etc.),
-plus one numeric column for each measure, named with the respective measure id, and a <code>resample_result</code> column.
+plus one numeric column for each measure, named with the respective measure id, and a <code>resample_result</code> column
+with the position of the <a href="ResampleResult.html">ResampleResult</a> in <code>$resample_results</code>.
+Columns that are not available for all learners, e.g. the probabilities if the predict types differ,
+are filled with <code>NA</code>.
 If there is no observation-wise loss function for the measure, the column is filled with <code>NA_real_</code> values.
 Note that some measures such as RMSE, do have an <code>$obs_loss</code>,
 but they require an additional transformation after aggregation,
@@ -731,11 +739,11 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;              &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2313480a-b68b-4ee7-812e-9a8fd6d89095 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2313480a-b68b-4ee7-812e-9a8fd6d89095 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2313480a-b68b-4ee7-812e-9a8fd6d89095 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: abcb6ab4-3579-4db1-b353-d4d51ef74a64 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: abcb6ab4-3579-4db1-b353-d4d51ef74a64 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: baba8247-a291-4ec8-a2d2-68ec72444f45 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: baba8247-a291-4ec8-a2d2-68ec72444f45 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: baba8247-a291-4ec8-a2d2-68ec72444f45 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 7e92acf3-896c-4eb8-ba49-12c0a39a0af4 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 7e92acf3-896c-4eb8-ba49-12c0a39a0af4 &lt;TaskClassif:sonar&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>

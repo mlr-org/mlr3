@@ -29,10 +29,18 @@ extracted object without cloning it first.
 
 ## S3 Methods
 
-- `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE)`  
+- `as.data.table(bmr, ..., hashes = FALSE, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE)`  
   BenchmarkResult -\>
   [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)  
-  Returns a tabular view of the internal data.
+  Returns a tabular view of the internal data. If `hashes` is `TRUE`,
+  the columns `task_hash`, `learner_hash`, and `resampling_hash` are
+  added. If `reassemble_learners` is `FALSE`, the learners are returned
+  without their state and hyperparameter values. If
+  `convert_predictions` is `FALSE`, the predictions are returned as
+  lists of
+  [PredictionData](https://mlr3.mlr-org.com/dev/reference/PredictionData.md)
+  objects, one for each stored predict set. If `task_characteristics` is
+  `TRUE`, the characteristics of the tasks are added as columns.
 
 - `c(...)`  
   (BenchmarkResult, ...) -\> BenchmarkResult  
@@ -379,11 +387,16 @@ Calculates the observation-wise loss via the
 [`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 with columns from the predictions (e.g., `row_ids`, `truth`, `response`,
 etc.), plus one numeric column for each measure, named with the
-respective measure id, and a `resample_result` column. If there is no
-observation-wise loss function for the measure, the column is filled
-with `NA_real_` values. Note that some measures such as RMSE, do have an
-`$obs_loss`, but they require an additional transformation after
-aggregation, in this example taking the square-root.
+respective measure id, and a `resample_result` column with the position
+of the
+[ResampleResult](https://mlr3.mlr-org.com/dev/reference/ResampleResult.md)
+in `$resample_results`. Columns that are not available for all learners,
+e.g. the probabilities if the predict types differ, are filled with
+`NA`. If there is no observation-wise loss function for the measure, the
+column is filled with `NA_real_` values. Note that some measures such as
+RMSE, do have an `$obs_loss`, but they require an additional
+transformation after aggregation, in this example taking the
+square-root.
 
 #### Usage
 
@@ -811,11 +824,11 @@ bmr$learners
 head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 #>                                   uhash                task
 #>                                  <char>              <list>
-#> 1: 2313480a-b68b-4ee7-812e-9a8fd6d89095 <TaskClassif:sonar>
-#> 2: 2313480a-b68b-4ee7-812e-9a8fd6d89095 <TaskClassif:sonar>
-#> 3: 2313480a-b68b-4ee7-812e-9a8fd6d89095 <TaskClassif:sonar>
-#> 4: abcb6ab4-3579-4db1-b353-d4d51ef74a64 <TaskClassif:sonar>
-#> 5: abcb6ab4-3579-4db1-b353-d4d51ef74a64 <TaskClassif:sonar>
+#> 1: baba8247-a291-4ec8-a2d2-68ec72444f45 <TaskClassif:sonar>
+#> 2: baba8247-a291-4ec8-a2d2-68ec72444f45 <TaskClassif:sonar>
+#> 3: baba8247-a291-4ec8-a2d2-68ec72444f45 <TaskClassif:sonar>
+#> 4: 7e92acf3-896c-4eb8-ba49-12c0a39a0af4 <TaskClassif:sonar>
+#> 5: 7e92acf3-896c-4eb8-ba49-12c0a39a0af4 <TaskClassif:sonar>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1

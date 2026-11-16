@@ -60,9 +60,18 @@
   `$predictions()` and `$learners` stay ordered by iteration. Tasks,
   learners, resamplings, and extra data that are no longer referenced
   are now removed from the filtered result.
+- fix: `BenchmarkResult$obs_loss()` now works for benchmark results with
+  learners of different predict types, instead of failing with an error
+  about inconsistent columns.
 - fix: `PredictionClassif` now raises an error if the predicted response
   contains labels that are not class labels of the task, instead of
   silently converting them to missing values.
+- fix:
+  [`as.data.table()`](https://rdrr.io/pkg/data.table/man/as.data.table.html)
+  for a `BenchmarkResult` now respects the documented arguments
+  `reassemble_learners` and `convert_predictions`, which were silently
+  ignored. The argument `hashes`, which had no effect, now adds the
+  columns `task_hash`, `learner_hash`, and `resampling_hash`.
 - fix: `Learner$predict()` on a `TaskUnsupervised` now returns the
   predicted classes of a classification learner instead of only missing
   values, and no longer errors with predict type `"prob"`.
