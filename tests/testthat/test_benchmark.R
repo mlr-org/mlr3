@@ -817,10 +817,10 @@ test_that("can change the threshold with multiple iterations", {
     rsmp("cv", folds = 3)
   )
   bmr = benchmark(design)
-  expected = map(bmr$resample_result(2)$predictions(), function(p) p$clone()$set_threshold(0.9)$response)
+  expected = map(bmr$resample_result(2)$predictions(), function(p) p$clone()$set_threshold(0.9, ties_method = "first")$response)
   unchanged = map(bmr$resample_result(1)$predictions(), "response")
 
-  expect_invisible(bmr$set_threshold(0.9, i = 2))
+  expect_invisible(bmr$set_threshold(0.9, i = 2, ties_method = "first"))
   expect_equal(map(bmr$resample_result(2)$predictions(), "response"), expected)
   expect_equal(map(bmr$resample_result(1)$predictions(), "response"), unchanged)
   expect_numeric(bmr$aggregate(msr("classif.ce"))$classif.ce, any.missing = FALSE, len = 2)

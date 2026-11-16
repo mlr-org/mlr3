@@ -586,10 +586,10 @@ test_that("can change the threshold", {
 test_that("can change the threshold with multiple iterations", {
   task = tsk("sonar")
   rr = resample(task, lrn("classif.rpart", predict_type = "prob"), rsmp("cv", folds = 3))
-  expected = map(rr$predictions(), function(p) p$clone()$set_threshold(0.9)$response)
+  expected = map(rr$predictions(), function(p) p$clone()$set_threshold(0.9, ties_method = "first")$response)
 
-  expect_invisible(rr$set_threshold(0.9))
-  expect_r6(rr$set_threshold(0.9), "ResampleResult")
+  expect_invisible(rr$set_threshold(0.9, ties_method = "first"))
+  expect_r6(rr$set_threshold(0.9, ties_method = "first"), "ResampleResult")
   expect_equal(map(rr$predictions(), "response"), expected)
   expect_prediction(rr$prediction())
   expect_number(rr$aggregate(msr("classif.ce")), na.ok = FALSE)
