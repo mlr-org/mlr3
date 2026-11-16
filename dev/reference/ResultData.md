@@ -658,7 +658,7 @@ Combines internal tables into a single flat
 - `reassemble_learners`:
 
   (`logical(1)`)  
-  Reassemble the tasks?
+  Reassemble the learners?
 
 - `convert_predictions`:
 

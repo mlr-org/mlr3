@@ -15,7 +15,12 @@ function.
 - `as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")`  
   ResampleResult -\>
   [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)  
-  Returns a tabular view of the internal data.
+  Returns a tabular view of the internal data. If `reassemble_learners`
+  is `FALSE`, the learners are returned without their state and
+  hyperparameter values. If `convert_predictions` is `FALSE`, the
+  predictions are returned as lists of
+  [PredictionData](https://mlr3.mlr-org.com/dev/reference/PredictionData.md)
+  objects, one for each stored predict set.
 
 - `c(...)`  
   (ResampleResult, ...) -\>
@@ -386,6 +391,10 @@ example taking the square-root.
 
   ([`character()`](https://rdrr.io/r/base/character.html))  
   The predict sets.
+
+#### Returns
+
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 #### Examples
 
@@ -809,9 +818,9 @@ rr$set_threshold(0.6)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 3c09a39d-aa08-494c-a66b-89b7cd3ec2f0         1 <learner_state[8]>  <list[1]>
-#> 2: 3c09a39d-aa08-494c-a66b-89b7cd3ec2f0         2 <learner_state[8]>  <list[1]>
-#> 3: 3c09a39d-aa08-494c-a66b-89b7cd3ec2f0         3 <learner_state[8]>  <list[1]>
+#> 1: e67a6d06-2a0a-4bd7-ac45-2ca0656b39b9         1 <learner_state[8]>  <list[1]>
+#> 2: e67a6d06-2a0a-4bd7-ac45-2ca0656b39b9         2 <learner_state[8]>  <list[1]>
+#> 3: e67a6d06-2a0a-4bd7-ac45-2ca0656b39b9         3 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
 #> 1: e1292f17850073a2 f855443664c6cb00 6d8cb558afa47d24 1b22df191e2103ce

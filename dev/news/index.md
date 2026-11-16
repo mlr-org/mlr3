@@ -45,6 +45,11 @@
 - fix: `Learner$predict()` on a `TaskUnsupervised` now returns the
   predicted classes of a classification learner instead of only missing
   values, and no longer errors with predict type `"prob"`.
+- fix:
+  [`as.data.table()`](https://rdrr.io/pkg/data.table/man/as.data.table.html)
+  for a `ResampleResult` now respects the documented arguments
+  `reassemble_learners` and `convert_predictions`, which were silently
+  ignored.
 - fix: `PredictionRegr$filter()` and
   [`c()`](https://rdrr.io/r/base/c.html) with `keep_duplicates = FALSE`
   now also subset the distributions of predictions with predict type
@@ -63,6 +68,11 @@
   probabilities. Combining classification predictions with different
   class labels or regression predictions with different quantiles now
   raises an error.
+- fix: `ResampleResult$warnings`, `$errors`, and `$obs_loss()` now
+  report the resampling iteration instead of the position of the
+  iteration in the result, which differed after `$filter()`.
+  `$obs_loss()` now raises an informative error if no predictions are
+  stored for the requested predict sets.
 - fix: `PredictionClassif` now raises an error for probability matrices
   without column names or with duplicated column names, instead of
   silently replacing all probabilities with zero and drawing a random
