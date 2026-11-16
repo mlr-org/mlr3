@@ -324,6 +324,15 @@ test_that("no predict_sets required (#1094)", {
   expect_warning(rr$aggregate(msr("classif.ce")), "needs predict sets")
 })
 
+test_that("score() only accepts a missing prediction if no prediction is required", {
+  task = tsk("sonar")
+  learner = lrn("classif.rpart")$train(task)
+
+  expect_error(msr("classif.ce")$score(NULL), "Prediction")
+  expect_error(msr("classif.ce")$score("a"), "Prediction")
+  expect_equal(msr("selected_features")$score(NULL, task = task, learner = learner), 6)
+})
+
 test_that("checks on predict_sets", {
   m = msr("classif.ce")
   expect_error(
