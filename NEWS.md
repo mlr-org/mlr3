@@ -12,6 +12,8 @@
 * fix: `ResampleResult$filter()` now keeps the iterations sorted, so that combining a filtered result with `c()` no longer errors and `$predictions()` and `$learners` stay ordered by iteration.
   Tasks, learners, resamplings, and extra data that are no longer referenced are now removed from the filtered result.
 * fix: `PredictionClassif` now raises an error if the predicted response contains labels that are not class labels of the task, instead of silently converting them to missing values.
+* fix: `as.data.table()` for a `BenchmarkResult` now respects the documented arguments `reassemble_learners` and `convert_predictions`, which were silently ignored.
+  The argument `hashes`, which had no effect, now adds the columns `task_hash`, `learner_hash`, and `resampling_hash`.
 * fix: `Learner$predict()` on a `TaskUnsupervised` now returns the predicted classes of a classification learner instead of only missing values, and no longer errors with predict type `"prob"`.
 * fix: `as.data.table()` for a `ResampleResult` now respects the documented arguments `reassemble_learners` and `convert_predictions`, which were silently ignored.
 * fix: `PredictionRegr$filter()` and `c()` with `keep_duplicates = FALSE` now also subset the distributions of predictions with predict type `"distr"`, which previously kept the distributions of all rows (#1400).

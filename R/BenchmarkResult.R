@@ -22,10 +22,15 @@
 #' @template param_measures
 #'
 #' @section S3 Methods:
-#' * `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE,
+#' * `as.data.table(bmr, ..., hashes = FALSE, reassemble_learners = TRUE, convert_predictions = TRUE,
 #'   predict_sets = "test", task_characteristics = FALSE)`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
 #'   Returns a tabular view of the internal data.
+#'   If `hashes` is `TRUE`, the columns `task_hash`, `learner_hash`, and `resampling_hash` are added.
+#'   If `reassemble_learners` is `FALSE`, the learners are returned without their state and hyperparameter values.
+#'   If `convert_predictions` is `FALSE`, the predictions are returned as lists of [PredictionData] objects,
+#'   one for each stored predict set.
+#'   If `task_characteristics` is `TRUE`, the characteristics of the tasks are added as columns.
 #' * `c(...)`\cr
 #'   ([BenchmarkResult], ...) -> [BenchmarkResult]\cr
 #'   Combines multiple objects convertible to [BenchmarkResult] into a new [BenchmarkResult].
@@ -700,9 +705,26 @@ BenchmarkResult = R6Class(
 
 #' @export
 # nolint next
-as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = "test", task_characteristics = FALSE) {
+as.data.table.BenchmarkResult = function(
+  x,
+  ...,
+  hashes = FALSE,
+  reassemble_learners = TRUE,
+  convert_predictions = TRUE,
+  predict_sets = "test",
+  task_characteristics = FALSE
+) {
+  assert_flag(hashes)
+  assert_flag(reassemble_learners)
+  assert_flag(convert_predictions)
+  assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
   assert_flag(task_characteristics)
-  tab = get_private(x)$.data$as_data_table(view = NULL, predict_sets = predict_sets)
+  tab = get_private(x)$.data$as_data_table(
+    view = NULL,
+    reassemble_learners = reassemble_learners,
+    convert_predictions = convert_predictions,
+    predict_sets = predict_sets
+  )
   cns = c(
     "uhash",
     "task",
@@ -710,7 +732,8 @@ as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = 
     "resampling",
     "iteration",
     "prediction",
-    if ("data_extra" %in% names(tab)) "data_extra"
+    if ("data_extra" %in% names(tab)) "data_extra",
+    if (hashes) c("task_hash", "learner_hash", "resampling_hash")
   )
 
   tab = tab[, cns, with = FALSE]
