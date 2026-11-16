@@ -83,3 +83,16 @@ test_that("multiclass with weights_measure", {
 
   expect_equal(perf, c(classif.costs = expected_cost))
 })
+
+test_that("missing values in the response", {
+  task = tsk("sonar")
+  costs = matrix(c(0, 5, 10, 0), nrow = 2)
+  rownames(costs) = colnames(costs) = task$class_names
+
+  pdata = lrn("classif.featureless")$train(task)$predict(task)$data
+  pdata$response[1:3] = NA
+  p = as_prediction(pdata)
+
+  expect_error(msr("classif.costs", costs = costs)$score(p), "cannot be calculated")
+  expect_error(msr("classif.costs", costs = costs[2:1, 2:1])$score(p), "cannot be calculated")
+})
