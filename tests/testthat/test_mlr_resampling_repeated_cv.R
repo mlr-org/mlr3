@@ -35,6 +35,15 @@ test_that("stratification", {
   }
 })
 
+test_that("more folds than observations", {
+  task = tsk("iris")$filter(1:3)
+  expect_error(
+    rsmp("repeated_cv", folds = 5L, repeats = 2L)$instantiate(task),
+    "Cannot split 3 observations into 5 folds",
+    class = "Mlr3ErrorInput"
+  )
+})
+
 test_that("grouping", {
   r = rsmp("repeated_cv", folds = 5, repeats = 2)
   expect_grouping_works(r)

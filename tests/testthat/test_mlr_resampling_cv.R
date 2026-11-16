@@ -31,6 +31,30 @@ test_that("stratification", {
   }
 })
 
+test_that("more folds than observations", {
+  task = tsk("iris")$filter(1:3)
+  expect_error(
+    rsmp("cv", folds = 5L)$instantiate(task),
+    "Cannot split 3 observations into 5 folds",
+    class = "Mlr3ErrorInput"
+  )
+  expect_resampling(rsmp("cv", folds = 3L)$instantiate(task), task = task)
+
+  data = data.table(y = rnorm(8), g = rep(1:4, each = 2L))
+  task = as_task_regr(data, target = "y")
+  task$col_roles$group = "g"
+  expect_error(rsmp("cv", folds = 5L)$instantiate(task), "Cannot split 4 groups into 5 folds", class = "Mlr3ErrorInput")
+
+  # small strata are fine, empty folds have an empty test set
+  data = data.table(y = rnorm(4), s = c("a", "a", "b", "b"))
+  task = as_task_regr(data, target = "y")
+  task$col_roles$stratum = "s"
+  r = rsmp("cv", folds = 3L)$instantiate(task)
+  expect_identical(r$test_set(3L), integer())
+  expect_set_equal(r$train_set(3L), 1:4)
+  expect_set_equal(unlist(lapply(1:3, r$test_set)), 1:4)
+})
+
 test_that("grouping", {
   r = rsmp("cv", folds = 3)
   expect_grouping_works(r)
