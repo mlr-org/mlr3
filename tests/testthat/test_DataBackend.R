@@ -21,3 +21,12 @@ test_that("Nested backends", {
   x = b7$missings(b7$rownames, c("Petal.Width", "Petal.Length"))
   expect_equal(x, set_names(c(0L, 30L), c("Petal.Width", "Petal.Length")))
 })
+
+test_that("cbind and rbind of the same backends have different hashes", {
+  b1 = as_data_backend(data.table(id = 1:2, x = 1:2), primary_key = "id")
+  b2 = as_data_backend(data.table(id = 1:2, z = 1:2), primary_key = "id")
+
+  expect_false(DataBackendCbind$new(b1, b2)$hash == DataBackendRbind$new(b1, b2)$hash)
+  expect_equal(DataBackendCbind$new(b1, b2)$hash, DataBackendCbind$new(b1, b2)$hash)
+  expect_equal(DataBackendRbind$new(b1, b2)$hash, DataBackendRbind$new(b1, b2)$hash)
+})
