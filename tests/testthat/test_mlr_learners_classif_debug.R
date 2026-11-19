@@ -82,6 +82,22 @@ test_that("marshaling", {
   expect_equal(p1, p2)
 })
 
+test_that("check_pid", {
+  task = tsk("iris")
+  learner = lrn("classif.debug")
+  expect_false(learner$param_set$default$check_pid)
+  learner$train(task)
+  expect_null(learner$model$marshal_pid)
+
+  learner = lrn("classif.debug", check_pid = TRUE)
+  learner$train(task)
+  expect_equal(learner$model$marshal_pid, Sys.getpid())
+  learner$state$model$marshal_pid = -1L
+  expect_error(learner$predict(task), "not unmarshaled correctly")
+  learner$marshal()$unmarshal()
+  expect_prediction(learner$predict(task))
+})
+
 test_that("importance and selected features", {
   l = lrn("classif.debug")
   task = tsk("iris")

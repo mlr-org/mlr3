@@ -31,7 +31,8 @@
 #'    \item{count_marshaling:}{If `TRUE`, `marshal_model` will increase the `marshal_count`
 #'      by 1 each time it is called. The default is `FALSE`.}
 #'    \item{check_pid:}{If `TRUE`, the `$predict()` function will throw an error if the model
-#'      was not unmarshaled in the same session that is used for prediction.)}
+#'      was not unmarshaled in the same session that is used for prediction.
+#'      The default is `FALSE`.}
 #' }
 #' Note that segfaults may not be triggered reliably on your operating system.
 #' Also note that if they work as intended, they will tear down your R session immediately!
@@ -98,7 +99,7 @@ LearnerClassifDebug = R6Class(
         iter                 = p_iter,
         early_stopping       = p_lgl(default = FALSE, tags = "train"),
         count_marshaling     = p_lgl(default = FALSE, tags = "train"),
-        check_pid            = p_lgl(default = TRUE, tags = "train"),
+        check_pid            = p_lgl(default = FALSE, tags = "train"),
         config_error         = p_lgl(default = FALSE, tags = "train")
       )
       super$initialize(
@@ -270,7 +271,7 @@ LearnerClassifDebug = R6Class(
         model$task_train = task$clone(deep = TRUE)
       }
 
-      if (pv$check_pid %??% FALSE) {
+      if (isTRUE(pv$check_pid)) {
         model$marshal_pid = Sys.getpid()
       }
 
