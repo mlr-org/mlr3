@@ -130,7 +130,7 @@ ee[["ordered___Date"]] =
 ## from: POSIXct
 ee[["POSIXct___Date"]] =
   function(value, type, levels) {
-    as.Date(value)
+    as.Date(value, tz = attr(value, "tzone")[1L] %??% "")
   }
 
 ## from: Date
