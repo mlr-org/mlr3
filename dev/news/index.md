@@ -458,6 +458,11 @@
   columns of the backend, including the primary key and columns without
   a column role ([\#1470](https://github.com/mlr-org/mlr3/issues/1470)).
 - fix:
+  [`auto_convert()`](https://mlr3.mlr-org.com/dev/reference/auto_convert.md)
+  now returns a `POSIXct` vector stored as double when converting
+  logical or integer missing values to `POSIXct`, instead of a `POSIXct`
+  vector with logical or integer storage.
+- fix:
   [`as_data_backend()`](https://mlr3.mlr-org.com/dev/reference/as_data_backend.md)
   now raises an error if it has to add the primary key column `..row_id`
   and the data already has a column with this name. Previously, the
