@@ -90,6 +90,8 @@ Number of columns (variables), including the primary key column.}
 Note that \code{DataBackendDataTable} does not copy the input data,
 while \code{as_data_backend()} calls \code{\link[data.table:copy]{data.table::copy()}}.
 \code{as_data_backend()} also takes care about casting to a \code{data.table()} and adds a primary key column if necessary.
+The input data is sorted by the primary key by reference via \code{\link[data.table:setkeyv]{data.table::setkeyv()}}.
+The primary key column must contain unique integer row ids without missing values.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{DataBackendDataTable$new(data, primary_key)}
