@@ -67,6 +67,35 @@ test_that("hashing", {
   }
 })
 
+test_that("duplicated row ids are kept together", {
+  task = tsk("iris")
+  task$row_roles$use = c(rep(1L, 5L), 2:100, 100L)
+  task_strata = task$clone()
+  task_strata$col_roles$stratum = "Species"
+
+  keys = setdiff(mlr_resamplings$keys(), c("custom", "custom_cv", "insample", "ordered_holdout"))
+  for (key in keys) {
+    for (t in list(task, task_strata)) {
+      r = rsmp(key)$instantiate(t)
+      iters = seq_len(min(r$iters, 5L))
+      for (i in iters) {
+        expect_length(intersect(r$train_set(i), r$test_set(i)), 0L)
+        expect_subset(c(r$train_set(i), r$test_set(i)), t$row_ids)
+      }
+      sets = unlist(lapply(iters, function(i) c(r$train_set(i), r$test_set(i))))
+      expect_true(sum(sets == 1L) %% 5L == 0L)
+    }
+  }
+
+  r = rsmp("cv", folds = 3L)$instantiate(task)
+  expect_identical(sort(unlist(lapply(1:3, r$test_set))), sort(task$row_ids))
+  rr = resample(task, lrn("classif.featureless"), r)
+  expect_identical(sort(rr$prediction()$row_ids), sort(task$row_ids))
+
+  r = rsmp("insample")$instantiate(task)
+  expect_identical(sort(r$train_set(1L)), sort(task$row_ids))
+})
+
 test_that("cloning", {
   task = tsk("iris")
   keys = setdiff(mlr_resamplings$keys(), c("custom", "custom_cv", "ordered_holdout"))
