@@ -128,6 +128,12 @@
   of the complete benchmark result. These methods and their
   `BenchmarkResult` counterparts now return the object itself invisibly,
   as documented, instead of the internal `ResultData`.
+- fix: `Resampling$hash` now includes the groups of the task the
+  resampling was instantiated on. Previously, resamplings instantiated
+  on two tasks with the same group ids but a different assignment of
+  observations to groups could have the same hash although their
+  training and test sets differed. The hashes of all instantiated
+  resamplings change.
 - fix: `msr("classif.fbeta")` now accepts non-integer values for `beta`,
   e.g. `beta = 0.5`.
 - fix: Predicting zero rows with a `LearnerRegr` with predict type
@@ -160,6 +166,11 @@
   predictions of resample results with more than one iteration, which
   made all scores `NaN`. Both methods now return the object itself
   invisibly.
+- fix: `rsmp("custom")` now requires `test_sets`, requires at least one
+  iteration, and stores the row ids as integers. Previously,
+  `test_sets = NULL` was accepted and `$test_set()` returned `NULL`.
+  `rsmp("custom_cv")` now accepts a character vector for `f`, as
+  documented.
 - fix: `PredictionRegr` now checks that `truth` is numeric and has one
   element per observation. A missing `truth` is now replaced by one
   missing value per observation instead of a single missing value.

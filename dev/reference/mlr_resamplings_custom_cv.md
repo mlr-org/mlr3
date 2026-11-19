@@ -6,6 +6,10 @@ during instantiation either via an arbitrary factor `f` with the same
 length as `task$nrow`, or via a single string `col` referring to a
 column in the task.
 
+The folds are used as provided. Column roles `"group"` and `"stratum"`
+of the [Task](https://mlr3.mlr-org.com/dev/reference/Task.md) are
+ignored.
+
 An alternative but equivalent approach using leave-one-out resampling is
 showcased in the examples of
 [mlr_resamplings_loo](https://mlr3.mlr-org.com/dev/reference/mlr_resamplings_loo.md).

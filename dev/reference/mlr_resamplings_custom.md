@@ -2,6 +2,9 @@
 
 Splits data into training and test sets using manually provided indices.
 
+The sets are used as provided. Column roles `"group"` and `"stratum"` of
+the [Task](https://mlr3.mlr-org.com/dev/reference/Task.md) are ignored.
+
 ## Dictionary
 
 This [Resampling](https://mlr3.mlr-org.com/dev/reference/Resampling.md)

@@ -10,12 +10,16 @@ on a user-provided categorical vector.
 This vector can be passed during instantiation either via an arbitrary factor f
 with the same length as task$nrow, or via a single string col referring to a
 column in the task.
+The folds are used as provided.
+Column roles &quot;group&quot; and &quot;stratum&quot; of the Task are ignored.
 An alternative but equivalent approach using leave-one-out resampling is
 showcased in the examples of mlr_resamplings_loo."><meta property="og:description" content="Splits data into training and test sets in a cross-validation fashion based
 on a user-provided categorical vector.
 This vector can be passed during instantiation either via an arbitrary factor f
 with the same length as task$nrow, or via a single string col referring to a
 column in the task.
+The folds are used as provided.
+Column roles &quot;group&quot; and &quot;stratum&quot; of the Task are ignored.
 An alternative but equivalent approach using leave-one-out resampling is
 showcased in the examples of mlr_resamplings_loo."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -66,6 +70,8 @@ on a user-provided categorical vector.
 This vector can be passed during instantiation either via an arbitrary factor <code>f</code>
 with the same length as <code>task$nrow</code>, or via a single string <code>col</code> referring to a
 column in the task.</p>
+<p>The folds are used as provided.
+Column roles <code>"group"</code> and <code>"stratum"</code> of the <a href="Task.html">Task</a> are ignored.</p>
 <p>An alternative but equivalent approach using leave-one-out resampling is
 showcased in the examples of <a href="mlr_resamplings_loo.html">mlr_resamplings_loo</a>.</p>
     </div>
