@@ -45,11 +45,17 @@ ContextResample = R6Class(
     #' @field learner ([Learner])\cr
     #' The learner to be evaluated.
     #' The learner contains the models after stage `on_resample_before_train`.
+    #' The learner cannot be replaced by another learner.
+    #' Changes to the learner itself, e.g. to `$state`, are kept.
     learner = function(rhs) {
       if (missing(rhs)) {
         return(private$.learner)
       }
-      private$.learner = assert_learner(rhs)
+      # `context$learner$state$x = 1` assigns the modified learner back to the binding
+      if (!identical(rhs, private$.learner)) {
+        error_input("The learner of the context cannot be replaced by another learner.")
+      }
+      invisible(private$.learner)
     },
 
     #' @field resampling [Resampling]\cr

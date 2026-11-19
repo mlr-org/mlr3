@@ -6,6 +6,9 @@
 * fix: `Resampling$instantiate()` on a task without groups now drops the groups of a task the resampling was instantiated on before.
   Previously, `$train_set()` and `$test_set()` translated the row ids with the groups of the earlier task and returned wrong row ids.
 * fix: `BenchmarkResult$combine()` and `c()` no longer fail if the benchmark result to add is empty.
+* BREAKING CHANGE: `ContextResample$learner` can no longer be replaced by another learner in a callback.
+  Previously, a learner assigned in the stage `on_resample_begin` was trained and its model and predictions were stored under the original learner, and a learner assigned in a later stage was silently ignored.
+  Callbacks can still modify the learner in place, e.g. write to `context$learner$state`.
 * fix: `benchmark()` with callbacks that write to `$data_extra` now stores the extra data with the experiment that produced it, instead of assigning it to another task, learner, or resampling.
 * fix: `BenchmarkResult$filter()`, `$resample_result()`, and `$set_threshold()` now raise an error if `i` contains missing values.
   Previously, `$filter(i = NA)` silently removed all resample results.
