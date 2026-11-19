@@ -19,6 +19,14 @@ test_that("ContextResample works", {
   )
   expect_error(
     {
+      ctx$learner = lrn("classif.featureless")
+    },
+    "cannot be replaced"
+  )
+  ctx$learner$state$test = 1
+  expect_equal(learner$state$test, 1)
+  expect_error(
+    {
       ctx$resampling = rsmp("cv", folds = 5)
     },
     "read-only"
