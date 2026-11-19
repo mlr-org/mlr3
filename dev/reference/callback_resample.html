@@ -175,7 +175,9 @@ Called in <code>workhorse()</code> (internal).</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>When implementing a callback, each function must have two arguments named <code>callback</code> and <code>context</code>.
 A callback can write data to the state (<code>$state</code>), e.g. settings that affect the callback itself.
-We highly discourage changing the task, learner and resampling objects via the callback.</p>
+We highly discourage changing the task, learner and resampling objects via the callback.
+Calling <code>$predict()</code> on <code>context$learner</code> changes the predict time and the log stored for the resampling iteration.
+Predict with a clone of the learner instead (see examples).</p>
     </div>
 
     <div class="section level2">
@@ -198,7 +200,8 @@ We highly discourage changing the task, learner and resampling objects via the c
 <span class="r-in"><span><span class="co"># holdout task callback</span></span></span>
 <span class="r-in"><span><span class="va">callback</span> <span class="op">=</span> <span class="fu">callback_resample</span><span class="op">(</span><span class="st">"holdout_task"</span>,</span></span>
 <span class="r-in"><span>  on_resample_before_predict <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">callback</span>, <span class="va">context</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>    <span class="va">pred</span> <span class="op">=</span> <span class="va">context</span><span class="op">$</span><span class="va">learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">callback</span><span class="op">$</span><span class="va">state</span><span class="op">$</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="co"># predict with a clone to keep the predict time of the iteration unchanged</span></span></span>
+<span class="r-in"><span>    <span class="va">pred</span> <span class="op">=</span> <span class="va">context</span><span class="op">$</span><span class="va">learner</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">callback</span><span class="op">$</span><span class="va">state</span><span class="op">$</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="va">context</span><span class="op">$</span><span class="va">data_extra</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>prediction_holdout <span class="op">=</span> <span class="va">pred</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
@@ -215,9 +218,9 @@ We highly discourage changing the task, learner and resampling objects via the c
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration data_extra</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 1285a8e4-3d59-4844-9f20-9e4f57ddb86e         1  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 1285a8e4-3d59-4844-9f20-9e4f57ddb86e         2  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 1285a8e4-3d59-4844-9f20-9e4f57ddb86e         3  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: b19a7064-cd49-4a9a-b733-0d91835c4276         1  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: b19a7064-cd49-4a9a-b733-0d91835c4276         2  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: b19a7064-cd49-4a9a-b733-0d91835c4276         3  &lt;list[1]&gt;</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

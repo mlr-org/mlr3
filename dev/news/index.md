@@ -310,6 +310,9 @@
   [`as_task()`](https://mlr3.mlr-org.com/dev/reference/as_task.md), so
   that the internal validation task is no longer shared with the
   original task.
+- fix: `clbk("mlr3.holdout_task")` no longer adds the time of the
+  holdout prediction to the predict time of the resampling iteration,
+  which inflated `msr("time_predict")`.
 - fix: Callbacks now receive the model in unmarshaled form in the
   `on_resample_end` stage of
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and

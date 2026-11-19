@@ -96,7 +96,9 @@ When implementing a callback, each function must have two arguments
 named `callback` and `context`. A callback can write data to the state
 (`$state`), e.g. settings that affect the callback itself. We highly
 discourage changing the task, learner and resampling objects via the
-callback.
+callback. Calling `$predict()` on `context$learner` changes the predict
+time and the log stored for the resampling iteration. Predict with a
+clone of the learner instead (see examples).
 
 ## Examples
 
@@ -119,7 +121,8 @@ rr$learners[[1]]$state$selected_features
 # holdout task callback
 callback = callback_resample("holdout_task",
   on_resample_before_predict = function(callback, context) {
-    pred = context$learner$predict(callback$state$task)
+    # predict with a clone to keep the predict time of the iteration unchanged
+    pred = context$learner$clone()$predict(callback$state$task)
     context$data_extra = list(prediction_holdout = pred)
   }
 )
@@ -136,7 +139,7 @@ rr$data_extra
 #> Key: <uhash, iteration>
 #>                                   uhash iteration data_extra
 #>                                  <char>     <int>     <list>
-#> 1: 1285a8e4-3d59-4844-9f20-9e4f57ddb86e         1  <list[1]>
-#> 2: 1285a8e4-3d59-4844-9f20-9e4f57ddb86e         2  <list[1]>
-#> 3: 1285a8e4-3d59-4844-9f20-9e4f57ddb86e         3  <list[1]>
+#> 1: b19a7064-cd49-4a9a-b733-0d91835c4276         1  <list[1]>
+#> 2: b19a7064-cd49-4a9a-b733-0d91835c4276         2  <list[1]>
+#> 3: b19a7064-cd49-4a9a-b733-0d91835c4276         3  <list[1]>
 ```

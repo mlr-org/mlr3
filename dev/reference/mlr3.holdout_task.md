@@ -2,7 +2,8 @@
 
 This
 [CallbackResample](https://mlr3.mlr-org.com/dev/reference/CallbackResample.md)
-predicts on an additional holdout task after training.
+predicts on an additional holdout task after training. The prediction is
+not included in the predict time of the resampling iteration.
 
 ## Parameters
 
@@ -31,7 +32,7 @@ rr$data_extra
 #> Key: <uhash, iteration>
 #>                                   uhash iteration data_extra
 #>                                  <char>     <int>     <list>
-#> 1: 01a4fe9b-ca00-4036-9ec9-307cfff23608         1  <list[1]>
-#> 2: 01a4fe9b-ca00-4036-9ec9-307cfff23608         2  <list[1]>
-#> 3: 01a4fe9b-ca00-4036-9ec9-307cfff23608         3  <list[1]>
+#> 1: 197ed90e-5035-4154-b00c-530ad484f1ba         1  <list[1]>
+#> 2: 197ed90e-5035-4154-b00c-530ad484f1ba         2  <list[1]>
+#> 3: 197ed90e-5035-4154-b00c-530ad484f1ba         3  <list[1]>
 ```
