@@ -57,6 +57,14 @@ These observations either all go together into the training set or together into
 The sampling is performed by the derived \link{Resampling} on the grouping variable.
 Next, the grouping information is replaced with the respective row ids to generate training and test sets.
 The sets can be accessed via \verb{$train_set(i)} and \verb{$test_set(i)}, respectively.
+
+Note that the groups are sampled irrespective of their size.
+Parameters like \code{folds} or \code{ratio} therefore refer to the number of groups and not to the number of observations.
+If the groups differ in size, the training and test sets can differ considerably in their number of observations,
+e.g., the test sets of a cross-validation are balanced in the number of groups but not in the number of
+observations.
+Keep this in mind when aggregating the performance with a macro average,
+as each iteration gets the same weight regardless of the size of its test set.
 }
 
 \section{Inheriting}{
