@@ -95,6 +95,10 @@
   first learner, so `BenchmarkResult$score()` returned a learner with
   the wrong predict sets and omitted the prediction columns of the other
   predict sets.
+- fix: `rsmp("subsampling")` now returns all observations as test set if
+  the training set is empty, e.g. for `ratio = 0` or if `ratio` times
+  the number of observations rounds to zero. Previously, the test set
+  was empty, too.
 - fix: `PredictionRegr$filter()` and
   [`c()`](https://rdrr.io/r/base/c.html) with `keep_duplicates = FALSE`
   now also subset the distributions of predictions with predict type
@@ -118,6 +122,8 @@
   iteration in the result, which differed after `$filter()`.
   `$obs_loss()` now raises an informative error if no predictions are
   stored for the requested predict sets.
+- fix: `rsmp("bootstrap")` no longer fails with “incorrect number of
+  dimensions” on tasks with a single observation or a single group.
 - fix: `PredictionClassif` now raises an error for probability matrices
   without column names or with duplicated column names, instead of
   silently replacing all probabilities with zero and drawing a random
