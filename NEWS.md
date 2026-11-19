@@ -47,6 +47,9 @@
   The hyperparameter `p` of `msr("sim.phi")`, which was silently ignored, now overrides the number of features of the task.
 * fix: `ResampleResult$set_threshold()` and `BenchmarkResult$set_threshold()` no longer corrupt the stored predictions of resample results with more than one iteration, which made all scores `NaN`.
   Both methods now return the object itself invisibly.
+* fix: `rsmp("custom")` now requires `test_sets`, requires at least one iteration, and stores the row ids as integers.
+  Previously, `test_sets = NULL` was accepted and `$test_set()` returned `NULL`.
+  `rsmp("custom_cv")` now accepts a character vector for `f`, as documented.
 * fix: `PredictionRegr` now checks that `truth` is numeric and has one element per observation.
   A missing `truth` is now replaced by one missing value per observation instead of a single missing value.
 * fix: `msr("internal_valid_score")` and `msr("best_valid_score")` now return `NA`, as documented, if the learner reports no validation scores or reports them as a named vector that does not contain the selected score, instead of failing with "subscript out of bounds".
