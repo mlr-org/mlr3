@@ -42,6 +42,19 @@ test_that("stratification", {
   }
 })
 
+test_that("stratification keeps the folds evenly sized", {
+  data = data.table(y = rnorm(110), s = factor(rep(1:10, each = 11)))
+  task = as_task_regr(data, target = "y")
+  task$col_roles$stratum = "s"
+
+  r = rsmp("repeated_cv", folds = 10L, repeats = 3L)
+  r$instantiate(task)
+  tab = merge(r$instance, task$data(cols = "s")[, row_id := task$row_ids], by = "row_id")
+  expect_lte(diff(range(tab[, .N, by = c("rep", "fold")]$N)), 1L)
+  expect_true(all(tab[, .N, by = c("s", "rep", "fold")]$N <= 2L))
+  expect_identical(tab[, uniqueN(fold), by = c("s", "rep")]$V1, rep(10L, 30L))
+})
+
 test_that("grouping", {
   r = rsmp("repeated_cv", folds = 5, repeats = 2)
   expect_grouping_works(r)

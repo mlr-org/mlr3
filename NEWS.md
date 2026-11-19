@@ -18,6 +18,9 @@
   `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
 * fix: `ResampleResult$filter()` now keeps the iterations sorted, so that combining a filtered result with `c()` no longer errors and `$predictions()` and `$learners` stay ordered by iteration.
   Tasks, learners, resamplings, and extra data that are no longer referenced are now removed from the filtered result.
+* fix: `rsmp("cv")` and `rsmp("repeated_cv")` on a stratified task now create folds whose sizes differ by at most one observation.
+  Previously, each stratum assigned its remainder to the first folds, so that e.g. 10 strata with 11 observations each and 10 folds resulted in one fold with 20 and nine folds with 10 observations.
+  Stratified instances created with the same seed differ from those of earlier versions.
 * fix: `BenchmarkResult$obs_loss()` now works for benchmark results with learners of different predict types, instead of failing with an error about inconsistent columns.
 * fix: `PredictionClassif` now raises an error if the predicted response contains labels that are not class labels of the task, instead of silently converting them to missing values.
 * fix: `as.data.table()` for a `BenchmarkResult` now respects the documented arguments `reassemble_learners` and `convert_predictions`, which were silently ignored.
