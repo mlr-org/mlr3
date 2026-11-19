@@ -26,7 +26,7 @@ ee[["logical___ordered"]] =
   }
 ee[["logical___POSIXct"]] =
   function(value, type, levels) {
-    if (allMissing(value)) .POSIXct(value, tz = "") else value
+    if (allMissing(value)) .POSIXct(as.double(value), tz = "") else value
   }
 ee[["logical___Date"]] =
   function(value, type, levels) {
@@ -130,7 +130,7 @@ ee[["ordered___Date"]] =
 ## from: POSIXct
 ee[["POSIXct___Date"]] =
   function(value, type, levels) {
-    as.Date(value)
+    as.Date(value, tz = attr(value, "tzone")[1L] %??% "")
   }
 
 ## from: Date
