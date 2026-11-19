@@ -83,6 +83,7 @@
   `ResampleResult$iters` is now read-only.
 * fix: `msr("time_train")`, `msr("time_predict")`, and `msr("time_both")` now return `NA` instead of `0` if the learner was not trained or did not predict yet.
   The field `$stages` of `MeasureElapsedTime` is now checked on assignment.
+* fix: `HotstartStack$start_cost()` no longer leaves a `cost` column in `$stack` if it fails, which made the next `$add()` fail with an error about inconsistent columns.
 * fix: `Task$rbind()` now invalidates `$row_hash` and `$col_hashes`, so `resample()` and `benchmark()` detect resamplings instantiated before the rows were added.
   `$materialize_view()`, `$labels`, `$col_info`, `$backend`, `$extra_args`, and `TaskClassif$positive` now invalidate the cached task hash, and `$extra_args` is now part of the task hash.
 * fix: `HotstartStack` with a `hotstart_threshold` no longer fails when adding learners without a hotstart parameter of that name or learners whose hotstart parameter is not set.
