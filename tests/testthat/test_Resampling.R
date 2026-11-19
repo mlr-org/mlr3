@@ -67,6 +67,25 @@ test_that("hashing", {
   }
 })
 
+test_that("hash includes the groups of the task", {
+  data = data.table(y = rnorm(40), x = rnorm(40), g = rep(1:20, each = 2L))
+  task_1 = as_task_regr(data, target = "y")
+  task_1$col_roles$group = "g"
+  task_2 = as_task_regr(copy(data)[, g := rep(1:20, 2L)], target = "y")
+  task_2$col_roles$group = "g"
+
+  for (key in c("cv", "insample", "holdout")) {
+    # nolint start
+    r_1 = with_seed(1L, rsmp(key)$instantiate(task_1))
+    r_2 = with_seed(1L, rsmp(key)$instantiate(task_2))
+    r_3 = with_seed(1L, rsmp(key)$instantiate(task_1))
+    # nolint end
+    expect_identical(r_1$instance, r_2$instance)
+    expect_false(identical(r_1$hash, r_2$hash))
+    expect_identical(r_1$hash, r_3$hash)
+  }
+})
+
 test_that("cloning", {
   task = tsk("iris")
   keys = setdiff(mlr_resamplings$keys(), c("custom", "custom_cv", "ordered_holdout"))

@@ -56,7 +56,7 @@ ResamplingRepeatedCV = R6Class(
     initialize = function() {
       ps = ps(
         folds = p_int(2L, tags = "required"),
-        repeats = p_int(1L)
+        repeats = p_int(1L, tags = "required")
       )
       ps$set_values(repeats = 10L, folds = 10L)
       super$initialize(
@@ -99,7 +99,7 @@ ResamplingRepeatedCV = R6Class(
 
   private = list(
     .sample = function(ids, task = NULL, ...) {
-      pv = self$param_set$values
+      pv = self$param_set$get_values()
       n = length(ids)
       folds = as.integer(pv$folds)
       assert_cv_folds(folds, ids, task)

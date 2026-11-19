@@ -208,14 +208,20 @@ Task = R6Class(
     #'
     #' @param ordered (`logical(1)`)\cr
     #'   If `TRUE`, data is ordered according to the columns with column role `"order"`.
+    #' @param all_cols (`logical(1)`)\cr
+    #'   If `TRUE`, all columns of the [DataBackend] are returned in the order of the backend,
+    #'   including the primary key and columns without a column role.
+    #'   Cannot be combined with `cols`.
     #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
     #' @examples
     #' task = tsk("penguins")
     #' task$data(rows = 1:5, cols = c("species", "sex"))
-    data = function(rows = NULL, cols = NULL, ordered = FALSE) {
+    #' task$data(rows = 1:5, all_cols = TRUE)
+    data = function(rows = NULL, cols = NULL, ordered = FALSE, all_cols = FALSE) {
       assert_has_backend(self)
       assert_flag(ordered)
+      assert_flag(all_cols)
 
       row_roles = private$.row_roles
       col_roles = private$.col_roles
@@ -229,7 +235,12 @@ Task = R6Class(
         }
       }
 
-      if (is.null(cols)) {
+      if (all_cols) {
+        if (!is.null(cols)) {
+          error_input("Cannot combine `cols` with `all_cols = TRUE`")
+        }
+        query_cols = cols = private$.backend$colnames
+      } else if (is.null(cols)) {
         query_cols = cols = c(col_roles$target, col_roles$feature)
       } else {
         assert_subset(cols, private$.col_info$id)

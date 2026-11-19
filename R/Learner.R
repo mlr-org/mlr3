@@ -550,6 +550,19 @@ Learner = R6Class(
           task_col_roles[[role]] = character(0)
         }
       }
+
+      # the offset is only used by learners with the "offset" property, all other learners ignore it during training
+      missing_offset = setdiff(task_col_roles[["offset"]], newdata$colnames)
+      if (length(missing_offset)) {
+        if ("offset" %in% self$properties) {
+          error_input(
+            "Learner '%s' uses the offset column(s) %s of the training task, which are missing in newdata",
+            self$id,
+            str_collapse(missing_offset, quote = "'")
+          )
+        }
+        task_col_roles[["offset"]] = character(0)
+      }
       task$col_roles = task_col_roles
 
       self$predict(task)
@@ -1188,13 +1201,7 @@ Learner = R6Class(
         name,
         .param_set = value$clone(deep = TRUE),
         .fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
-        state = {
-          if (!is.null(value$train_task)) {
-            value$train_task = value$train_task$clone(deep = TRUE)
-          }
-          value$log = copy(value$log)
-          value
-        },
+        state = clone_learner_state(value),
         value
       )
     }
@@ -1211,6 +1218,20 @@ rd_info.Learner = function(obj, ...) {
     sprintf("* Required Packages: %s", rd_format_packages(obj$packages))
   )
   paste(x, collapse = "\n")
+}
+
+# deep copies the mutable parts of a learner state, including the state of a fallback learner
+clone_learner_state = function(state) {
+  if (!is.null(state$train_task)) {
+    state$train_task = state$train_task$clone(deep = TRUE)
+  }
+  if (!is.null(state$log)) {
+    state$log = copy(state$log)
+  }
+  if (!is.null(state$fallback_state)) {
+    state$fallback_state = clone_learner_state(state$fallback_state)
+  }
+  state
 }
 
 get_log_condition = function(state, condition) {

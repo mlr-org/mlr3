@@ -80,6 +80,7 @@ head(task)
 
 task = tsk("penguins")
 task$data(rows = 1:5, cols = c("species", "sex"))
+task$data(rows = 1:5, all_cols = TRUE)
 
 ## ------------------------------------------------
 ## Method `Task$formula()`
@@ -615,7 +616,7 @@ Note that it is recommended to \strong{not} rely on the order of columns,
 and instead always address columns with their respective column name.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{Task$data(rows = NULL, cols = NULL, ordered = FALSE)}
+    \preformatted{Task$data(rows = NULL, cols = NULL, ordered = FALSE, all_cols = FALSE)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -628,6 +629,10 @@ Always refers to the complete data set, even after filtering.}
 Vector of column names.}
       \item{\code{ordered}}{(\code{logical(1)})\cr
 If \code{TRUE}, data is ordered according to the columns with column role \code{"order"}.}
+      \item{\code{all_cols}}{(\code{logical(1)})\cr
+If \code{TRUE}, all columns of the \link{DataBackend} are returned in the order of the backend,
+including the primary key and columns without a column role.
+Cannot be combined with \code{cols}.}
     }
     \if{html}{\out{</div>}}
   }
@@ -638,6 +643,7 @@ If \code{TRUE}, data is ordered according to the columns with column role \code{
     \if{html}{\out{<div class="r example copy">}}
     \preformatted{task = tsk("penguins")
 task$data(rows = 1:5, cols = c("species", "sex"))
+task$data(rows = 1:5, all_cols = TRUE)
 }
     \if{html}{\out{</div>}}
   }

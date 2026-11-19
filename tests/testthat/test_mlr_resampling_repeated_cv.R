@@ -15,6 +15,13 @@ test_that("folds first, then repetitions", {
   expect_equal(rrcv$repeats(seq_len(rrcv$iters)), rep(1:2, each = 3))
 })
 
+test_that("repeats is required", {
+  r = rsmp("repeated_cv")
+  r$param_set$values$repeats = NULL
+  expect_error(r$param_set$get_values(), "repeats")
+  expect_error(r$instantiate(tsk("iris")), "repeats")
+})
+
 test_that("stratification", {
   data = data.table(
     y = factor(rep(letters[1:2], times = c(90, 10))),

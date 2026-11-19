@@ -6,6 +6,9 @@
 #' @description
 #' Splits data into training and test sets using manually provided indices.
 #'
+#' The sets are used as provided.
+#' Column roles `"group"` and `"stratum"` of the [Task] are ignored.
+#'
 #' @templateVar id custom
 #' @template resampling
 #'
@@ -55,8 +58,10 @@ ResamplingCustom = R6Class(
     instantiate = function(task, train_sets, test_sets) {
       task = assert_task(as_task(task))
       private$.hash = NULL
-      assert_list(train_sets, types = "atomicvector", any.missing = FALSE)
-      assert_list(test_sets, types = "atomicvector", len = length(train_sets), any.missing = FALSE, null.ok = TRUE)
+      assert_list(train_sets, types = "atomicvector", any.missing = FALSE, min.len = 1L)
+      assert_list(test_sets, types = "atomicvector", len = length(train_sets), any.missing = FALSE)
+      train_sets = map(train_sets, assert_integerish, any.missing = FALSE, coerce = TRUE, .var.name = "train_sets")
+      test_sets = map(test_sets, assert_integerish, any.missing = FALSE, coerce = TRUE, .var.name = "test_sets")
       assert_subset(unlist(train_sets, use.names = FALSE), task$row_ids)
       assert_subset(unlist(test_sets, use.names = FALSE), task$row_ids)
       self$instance = list(train = train_sets, test = test_sets)

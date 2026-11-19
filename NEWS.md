@@ -29,6 +29,8 @@
 * fix: `as.data.table()` for a `ResampleResult` now respects the documented arguments `reassemble_learners` and `convert_predictions`, which were silently ignored.
 * fix: `Learner$phash` now includes `$predict_sets`, so the partial hashes of all learners change.
   Previously, combining benchmark results of learners that differed only in their predict sets kept only the first learner, so `BenchmarkResult$score()` returned a learner with the wrong predict sets and omitted the prediction columns of the other predict sets.
+* fix: `rsmp("subsampling")` now returns all observations as test set if the training set is empty, e.g. for `ratio = 0` or if `ratio` times the number of observations rounds to zero.
+  Previously, the test set was empty, too.
 * fix: `PredictionRegr$filter()` and `c()` with `keep_duplicates = FALSE` now also subset the distributions of predictions with predict type `"distr"`, which previously kept the distributions of all rows (#1400).
 * fix: `as_result_data()` now raises an error if the predictions of an iteration are not named with the predict sets, e.g. `list(test = prediction)`, instead of creating a result whose scores are all `NaN`.
   The argument `iterations` now also accepts integer-valued doubles.
@@ -36,9 +38,13 @@
   Combining classification predictions with different class labels or regression predictions with different quantiles now raises an error.
 * fix: `ResampleResult$warnings`, `$errors`, and `$obs_loss()` now report the resampling iteration instead of the position of the iteration in the result, which differed after `$filter()`.
   `$obs_loss()` now raises an informative error if no predictions are stored for the requested predict sets.
+* fix: `rsmp("bootstrap")` no longer fails with "incorrect number of dimensions" on tasks with a single observation or a single group.
 * fix: `PredictionClassif` now raises an error for probability matrices without column names or with duplicated column names, instead of silently replacing all probabilities with zero and drawing a random response.
 * fix: `ResampleResult$discard()`, `$marshal()`, and `$unmarshal()` on a resample result extracted with `BenchmarkResult$resample_result()` now only change the models of this resample result instead of the models of the complete benchmark result.
   These methods and their `BenchmarkResult` counterparts now return the object itself invisibly, as documented, instead of the internal `ResultData`.
+* fix: `Resampling$hash` now includes the groups of the task the resampling was instantiated on.
+  Previously, resamplings instantiated on two tasks with the same group ids but a different assignment of observations to groups could have the same hash although their training and test sets differed.
+  The hashes of all instantiated resamplings change.
 * fix: `msr("classif.fbeta")` now accepts non-integer values for `beta`, e.g. `beta = 0.5`.
 * fix: Predicting zero rows with a `LearnerRegr` with predict type `"quantiles"` now returns a prediction with an empty quantiles matrix, so it can be combined with other quantile predictions, e.g., in `resample()` with an empty test set.
 * fix: `ResampleResult$new()` and `as_resample_result()` now raise an error if the `ResultData` contains more than one resample result and no `view` is given, or if `view` is not a `uhash` of the `ResultData`.
@@ -50,6 +56,9 @@
   The hyperparameter `p` of `msr("sim.phi")`, which was silently ignored, now overrides the number of features of the task.
 * fix: `ResampleResult$set_threshold()` and `BenchmarkResult$set_threshold()` no longer corrupt the stored predictions of resample results with more than one iteration, which made all scores `NaN`.
   Both methods now return the object itself invisibly.
+* fix: `rsmp("custom")` now requires `test_sets`, requires at least one iteration, and stores the row ids as integers.
+  Previously, `test_sets = NULL` was accepted and `$test_set()` returned `NULL`.
+  `rsmp("custom_cv")` now accepts a character vector for `f`, as documented.
 * fix: `PredictionRegr` now checks that `truth` is numeric and has one element per observation.
   A missing `truth` is now replaced by one missing value per observation instead of a single missing value.
 * fix: `msr("internal_valid_score")` and `msr("best_valid_score")` now return `NA`, as documented, if the learner reports no validation scores or reports them as a named vector that does not contain the selected score, instead of failing with "subscript out of bounds".
@@ -59,13 +68,17 @@
   Both measures now raise an informative error that lists the predicted quantiles if `alpha` is not among them.
 * fix: `as_measure()` and `as_measures()` with `clone = TRUE` now return a deep clone, so that the parameter set is no longer shared with the original measure.
   `as_measure(NULL)` without a task type and `default_measures()` for a task type without a default measure now raise an informative error.
+* fix: `as_resampling()` and `as_resamplings()` with `clone = TRUE` now return a deep clone, so that changing the parameter values of the clone no longer changes the original resampling.
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
+* fix: `resample()` and `benchmark()` with `store_models = FALSE` now also discard the model, the training task copy, and the data prototype of the fallback learner, which were kept for every iteration (#1510).
 * fix: `ResampleResult$prediction()` now checks the argument `predict_sets` and returns an empty list for an empty `ResampleResult`, as documented.
   `ResampleResult$iters` is now read-only.
 * fix: `msr("time_train")`, `msr("time_predict")`, and `msr("time_both")` now return `NA` instead of `0` if the learner was not trained or did not predict yet.
   The field `$stages` of `MeasureElapsedTime` is now checked on assignment.
 * fix: `Task$rbind()` now invalidates `$row_hash` and `$col_hashes`, so `resample()` and `benchmark()` detect resamplings instantiated before the rows were added.
   `$materialize_view()`, `$labels`, `$col_info`, `$backend`, `$extra_args`, and `TaskClassif$positive` now invalidate the cached task hash, and `$extra_args` is now part of the task hash.
+* fix: `partition()` now raises an informative error if `ratio` contains missing or negative values.
+* fix: `rsmp("repeated_cv")` now raises an informative error on instantiation if the parameter `repeats` is not set.
 * fix: `Measure$aggregate()` with `average = "custom"` now raises an informative error if the measure has no `aggregator`, instead of failing with "attempt to apply non-function".
 * fix: `resample()` and `benchmark()` with `allow_hotstart = TRUE` no longer carry over the prediction time, validation scores, fallback state, and task copies of the start learner into the hotstarted learner, which inflated `msr("time_predict")` (#1504).
 * fix: `Task$set_row_roles()` now stores row ids as integers, so the same set of rows no longer results in different task hashes depending on the type of the passed row ids.
@@ -104,6 +117,8 @@
 * fix: `PredictionRegr$new()` now takes the quantile response from the checked prediction data, so a numeric `response` attribute on `quantiles` no longer results in an empty `$response` and failing scores.
 * fix: `PredictionRegr$new()` and `as_prediction()` with `check = TRUE` no longer fail with "invalid format '%g'" on quantile prediction data that has already been checked, e.g., the `$data` of an existing prediction.
 * fix: `Learner$hash` and `Learner$phash` now include the timeout, the deadline, the encapsulation method, and the `when` handler, so all learner hashes change. Previously, `benchmark()` merged learners that differed only in these settings and ran them with the settings of the first one (#1511).
+* fix: `Learner$predict_newdata()` no longer fails with an assertion error when the training task has an offset column that is missing in `newdata`. The offset is now dropped for learners without the `"offset"` property, which ignore it during training anyway, and an informative error is raised for learners with the property.
+* fix: `Learner$clone(deep = TRUE)` now also deep clones the stored state of the fallback learner, so the fallback's training task and log are no longer shared between clones.
 * fix: `Learner$predict()` and `Learner$predict_newdata_fast()` no longer change the predict type of the stored fallback learner when the fallback is used, so `$hash` stays constant after predicting and `HotstartStack` and `BenchmarkResult` keep finding the learner by its hash.
 * fix: `LearnerClassif$predict_newdata_fast()` now imputes missing responses by class label, so a fallback learner returning a factor no longer inserts integer codes into a character response.
 * fix: `Learner$new()` now checks that `param_set` is a `ParamSet` instead of failing later with "attempt to apply non-function".
@@ -111,6 +126,7 @@
 * fix: `LearnerRegr$quantiles` now resets `$quantile_response` when the new quantiles do not contain it, so predicting no longer fails with "subscript out of bounds" when accessing `$response`, and rejects duplicated quantiles.
 * fix: `Learner$predict()` with `parallel_predict = TRUE` now keeps the log entries and the predict time recorded by the workers, so `$warnings`, `$errors`, and `$timings` are no longer empty after a parallel prediction, and returns an empty prediction instead of `NULL` for zero row ids.
 * fix: `Learner$encapsulate()` now validates all arguments before changing the learner, so a failed call no longer changes `$hash`, raises an error if the fallback learner does not support the `$predict_type` of the learner instead of failing later during prediction, and rejects a `when` handler together with `method = "none"`.
+* feat: `Task$data()` gains the argument `all_cols` to return all columns of the backend, including the primary key and columns without a column role (#1470).
 
 # mlr3 1.8.0
 

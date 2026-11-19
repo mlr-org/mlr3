@@ -886,6 +886,26 @@ test_that("selected_features works", {
   expect_equal(learner$selected_features(), task$feature_names)
 })
 
+test_that("predict_newdata with offset column in the training task", {
+  dt = as.data.table(iris)
+  dt$off = seq_len(nrow(dt)) / nrow(dt)
+  task = as_task_classif(dt, target = "Species")
+  task$set_col_roles("off", "offset")
+
+  # learners without the offset property ignore the offset during training and prediction
+  learner = lrn("classif.featureless")
+  expect_warning(learner$train(task), "has offset")
+  expect_prediction(learner$predict_newdata(iris[1:3, ]))
+  expect_prediction(suppressWarnings(learner$predict_newdata(dt[1:3])))
+
+  # learners with the offset property need the offset column
+  learner = lrn("classif.debug")
+  learner$properties = c(learner$properties, "offset")
+  learner$train(task)
+  expect_error(learner$predict_newdata(iris[1:3, ]), "offset column\\(s\\) 'off'")
+  expect_prediction(learner$predict_newdata(dt[1:3]))
+})
+
 test_that("predict_newdata auto conversion (#685)", {
   l = lrn("classif.debug", save_tasks = TRUE)$train(tsk("iris")$select(c("Sepal.Length", "Sepal.Width")))
   expect_error(
@@ -1599,6 +1619,17 @@ test_that("deadline works as intended: mirai", {
   expect_true((l$timings["predict"] < allowed))
 })
 
+test_that("fallback state is deep cloned", {
+  learner = lrn("classif.rpart")
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+  learner$train(tsk("iris"))
+  clone = learner$clone(deep = TRUE)
+
+  expect_different_address(learner$state$fallback_state$train_task, clone$state$fallback_state$train_task)
+  expect_different_address(learner$state$fallback_state$log, clone$state$fallback_state$log)
+  expect_equal(learner$state$fallback_state$model, clone$state$fallback_state$model)
+})
+  
 test_that("predicting with a fallback does not change the learner hash", {
   task = tsk("iris")
   learner = lrn("classif.debug", predict_type = "prob", predict_missing = 0.5)
