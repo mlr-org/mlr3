@@ -10,6 +10,9 @@
 #' with the same length as `task$nrow`, or via a single string `col` referring to a
 #' column in the task.
 #'
+#' The folds are used as provided.
+#' Column roles `"group"` and `"stratum"` of the [Task] are ignored.
+#'
 #' An alternative but equivalent approach using leave-one-out resampling is
 #' showcased in the examples of [mlr_resamplings_loo].
 #'
@@ -77,7 +80,11 @@ ResamplingCustomCV = R6Class(
         f = task$data(cols = col)[[1L]]
         assert_atomic_vector(f, all.missing = FALSE)
       } else {
-        assert_factor(f, len = task$nrow, all.missing = FALSE)
+        if (is.character(f)) {
+          assert_character(f, len = task$nrow, all.missing = FALSE)
+        } else {
+          assert_factor(f, len = task$nrow, all.missing = FALSE)
+        }
       }
 
       self$instance = split(task$row_ids, f, drop = TRUE)

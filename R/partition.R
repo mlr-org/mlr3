@@ -10,6 +10,7 @@
 #'   If a 2 element vector is provided, the first element is the ratio for the training set,
 #'   the second element is the ratio for the test set.
 #'   The validation set will contain the remaining observations.
+#' @return Named `list()` with the row ids of the sets `"train"`, `"test"`, and `"validation"`.
 #' @export
 #' @examples
 #' # regression task partitioned into training and test set
@@ -25,7 +26,7 @@
 #' task = tsk("sonar")
 #' split = partition(task, c(0.66, 0.14))
 partition = function(task, ratio = 0.67) {
-  assert_numeric(ratio, min.len = 1L, max.len = 2L)
+  assert_numeric(ratio, lower = 0, any.missing = FALSE, min.len = 1L, max.len = 2L)
   UseMethod("partition")
 }
 

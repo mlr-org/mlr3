@@ -15,6 +15,13 @@ test_that("folds first, then repetitions", {
   expect_equal(rrcv$repeats(seq_len(rrcv$iters)), rep(1:2, each = 3))
 })
 
+test_that("repeats is required", {
+  r = rsmp("repeated_cv")
+  r$param_set$values$repeats = NULL
+  expect_error(r$param_set$get_values(), "repeats")
+  expect_error(r$instantiate(tsk("iris")), "repeats")
+})
+
 test_that("stratification", {
   data = data.table(
     y = factor(rep(letters[1:2], times = c(90, 10))),
@@ -33,6 +40,28 @@ test_that("stratification", {
     expect_equal(task$data(r$test_set(i))[y == "a", .N], 18)
     expect_equal(task$data(r$test_set(i))[y == "b", .N], 2)
   }
+})
+
+test_that("more folds than observations", {
+  task = tsk("iris")$filter(1:3)
+  expect_error(
+    rsmp("repeated_cv", folds = 5L, repeats = 2L)$instantiate(task),
+    "Cannot split 3 observations into 5 folds",
+    class = "Mlr3ErrorInput"
+  )
+})
+
+test_that("stratification keeps the folds evenly sized", {
+  data = data.table(y = rnorm(110), s = factor(rep(1:10, each = 11)))
+  task = as_task_regr(data, target = "y")
+  task$col_roles$stratum = "s"
+
+  r = rsmp("repeated_cv", folds = 10L, repeats = 3L)
+  r$instantiate(task)
+  tab = merge(r$instance, task$data(cols = "s")[, row_id := task$row_ids], by = "row_id")
+  expect_lte(diff(range(tab[, .N, by = c("rep", "fold")]$N)), 1L)
+  expect_true(all(tab[, .N, by = c("s", "rep", "fold")]$N <= 2L))
+  expect_identical(tab[, uniqueN(fold), by = c("s", "rep")]$V1, rep(10L, 30L))
 })
 
 test_that("grouping", {

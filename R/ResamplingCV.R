@@ -61,7 +61,8 @@ ResamplingCV = R6Class(
   ),
 
   private = list(
-    .sample = function(ids, ...) {
+    .sample = function(ids, task = NULL, ...) {
+      assert_cv_folds(as.integer(self$param_set$values$folds), ids, task)
       data.table(
         row_id = ids,
         fold = shuffle(seq_along0(ids) %% as.integer(self$param_set$values$folds) + 1L),
@@ -74,11 +75,11 @@ ResamplingCV = R6Class(
     },
 
     .get_test = function(i) {
-      self$instance[list(i), "row_id", on = "fold"][[1L]]
+      self$instance[list(i), "row_id", on = "fold", nomatch = NULL][[1L]]
     },
 
     .combine = function(instances) {
-      rbindlist(instances, use.names = TRUE)
+      cv_combine_strata(instances, as.integer(self$param_set$values$folds))
     },
 
     deep_clone = function(name, value) {
@@ -91,6 +92,31 @@ ResamplingCV = R6Class(
     }
   )
 )
+
+# Without strata, more folds than observations (or groups) leave some test sets empty.
+# With strata, small strata are allowed as long as the other strata fill the folds.
+assert_cv_folds = function(folds, ids, task) {
+  if (folds > length(ids) && (is.null(task) || is.null(task$strata))) {
+    error_input(
+      "Cannot split %i %s into %i folds",
+      length(ids),
+      if (is.null(task) || is.null(task$groups)) "observations" else "groups",
+      folds
+    )
+  }
+}
+
+# Each stratum assigns its remainder (`n %% folds` rows) to the first folds.
+# Rotate the fold labels so that a stratum continues where the previous one stopped,
+# otherwise the first folds grow with every stratum.
+cv_combine_strata = function(instances, folds, repeats = 1L) {
+  offset = 0L
+  for (instance in instances) {
+    set(instance, j = "fold", value = (instance$fold - 1L + offset) %% folds + 1L)
+    offset = (offset + nrow(instance) %/% repeats) %% folds
+  }
+  rbindlist(instances, use.names = TRUE)
+}
 
 #' @include mlr_resamplings.R
 mlr_resamplings$add("cv", function() ResamplingCV$new())

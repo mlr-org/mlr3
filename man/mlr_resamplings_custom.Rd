@@ -6,6 +6,9 @@
 \title{Custom Resampling}
 \description{
 Splits data into training and test sets using manually provided indices.
+
+The sets are used as provided.
+Column roles \code{"group"} and \code{"stratum"} of the \link{Task} are ignored.
 }
 \section{Dictionary}{
 

@@ -13,6 +13,27 @@ test_that("re-instantiating", {
   expect_resampling(r$instantiate(t2, train_sets = list(1), test_sets = list(2)), task = t2)
 })
 
+test_that("re-instantiating on a task without groups drops the groups", {
+  data = data.table(y = rnorm(40), x = rnorm(40), g = rep(1:20, each = 2))
+  task_grouped = as_task_regr(data, target = "y")
+  task_grouped$col_roles$group = "g"
+  task = as_task_regr(data[, c("y", "x")], target = "y")$filter(1:20)
+
+  keys = setdiff(mlr_resamplings$keys(), c("custom", "custom_cv", "ordered_holdout"))
+  for (key in keys) {
+    r = rsmp(key)
+    r$instantiate(task_grouped)
+    r$instantiate(task)
+    for (i in seq_len(min(r$iters, 3L))) {
+      expect_subset(r$train_set(i), task$row_ids)
+      expect_subset(r$test_set(i), task$row_ids)
+    }
+
+    r = rsmp(key)$instantiate(task_grouped)$clone(deep = TRUE)$instantiate(task)
+    expect_subset(r$test_set(1L), task$row_ids)
+  }
+})
+
 test_that("param_vals", {
   task = tsk("iris")
   r = rsmp("bootstrap", repeats = 100L, ratio = 1)
@@ -91,6 +112,25 @@ test_that("hashing", {
       with_seed(124L, r$instantiate(task))
       expect_false(identical(r$hash, hash))
     }
+  }
+})
+
+test_that("hash includes the groups of the task", {
+  data = data.table(y = rnorm(40), x = rnorm(40), g = rep(1:20, each = 2L))
+  task_1 = as_task_regr(data, target = "y")
+  task_1$col_roles$group = "g"
+  task_2 = as_task_regr(copy(data)[, g := rep(1:20, 2L)], target = "y")
+  task_2$col_roles$group = "g"
+
+  for (key in c("cv", "insample", "holdout")) {
+    # nolint start
+    r_1 = with_seed(1L, rsmp(key)$instantiate(task_1))
+    r_2 = with_seed(1L, rsmp(key)$instantiate(task_2))
+    r_3 = with_seed(1L, rsmp(key)$instantiate(task_1))
+    # nolint end
+    expect_identical(r_1$instance, r_2$instance)
+    expect_false(identical(r_1$hash, r_2$hash))
+    expect_identical(r_1$hash, r_3$hash)
   }
 })
 

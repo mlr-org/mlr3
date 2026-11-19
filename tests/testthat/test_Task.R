@@ -72,6 +72,25 @@ test_that("Rows return ordered with multiple order cols", {
   expect_true(all(x[, is.unsorted(Petal.Width), by = Petal.Width]$V1 == FALSE))
 })
 
+test_that("$data() returns all backend columns with all_cols", {
+  task = tsk("iris")
+  task$select("Petal.Length")
+  task$cbind(data.table(foo = 1:150))
+  task$col_roles$feature = "Petal.Length"
+
+  x = task$data(rows = 1:3, all_cols = TRUE)
+  expect_data_table(x, nrows = 3L)
+  expect_names(names(x), identical.to = task$backend$colnames)
+  expect_subset(c(task$backend$primary_key, "Sepal.Length", "foo"), names(x))
+
+  task$col_roles$order = "Sepal.Length"
+  x = task$data(ordered = TRUE, all_cols = TRUE)
+  expect_numeric(x$Sepal.Length, sorted = TRUE)
+  expect_names(names(x), identical.to = task$backend$colnames)
+
+  expect_error(task$data(cols = "Petal.Length", all_cols = TRUE), "all_cols", class = "Mlr3ErrorInput")
+})
+
 
 test_that("Task rbind", {
   task = tsk("iris")

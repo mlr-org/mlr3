@@ -11,6 +11,9 @@ This vector can be passed during instantiation either via an arbitrary factor \c
 with the same length as \code{task$nrow}, or via a single string \code{col} referring to a
 column in the task.
 
+The folds are used as provided.
+Column roles \code{"group"} and \code{"stratum"} of the \link{Task} are ignored.
+
 An alternative but equivalent approach using leave-one-out resampling is
 showcased in the examples of \link{mlr_resamplings_loo}.
 }

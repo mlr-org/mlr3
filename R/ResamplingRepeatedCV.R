@@ -56,7 +56,7 @@ ResamplingRepeatedCV = R6Class(
     initialize = function() {
       ps = ps(
         folds = p_int(2L, tags = "required"),
-        repeats = p_int(1L)
+        repeats = p_int(1L, tags = "required")
       )
       ps$set_values(repeats = 10L, folds = 10L)
       super$initialize(
@@ -98,10 +98,11 @@ ResamplingRepeatedCV = R6Class(
   ),
 
   private = list(
-    .sample = function(ids, ...) {
-      pv = self$param_set$values
+    .sample = function(ids, task = NULL, ...) {
+      pv = self$param_set$get_values()
       n = length(ids)
       folds = as.integer(pv$folds)
+      assert_cv_folds(folds, ids, task)
       map_dtr(seq_len(pv$repeats), function(i) {
         data.table(row_id = ids, rep = i, fold = shuffle(seq_len0(n) %% folds + 1L))
       })
@@ -126,7 +127,8 @@ ResamplingRepeatedCV = R6Class(
     },
 
     .combine = function(instances) {
-      rbindlist(instances, use.names = TRUE)
+      pv = self$param_set$values
+      cv_combine_strata(instances, as.integer(pv$folds), as.integer(pv$repeats))
     },
 
     deep_clone = function(name, value) {

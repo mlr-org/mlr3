@@ -22,6 +22,30 @@ test_that("stratification", {
   }
 })
 
+test_that("single observation, single group, and small strata", {
+  task = tsk("iris")$filter(1L)
+  r = rsmp("bootstrap", repeats = 3L)$instantiate(task)
+  expect_identical(r$train_set(3L), 1L)
+  expect_identical(r$test_set(3L), integer())
+
+  r = rsmp("bootstrap", repeats = 1L)$instantiate(task)
+  expect_identical(r$train_set(1L), 1L)
+
+  data = data.table(y = rnorm(4), g = "a")
+  task = as_task_regr(data, target = "y")
+  task$col_roles$group = "g"
+  r = rsmp("bootstrap", repeats = 3L)$instantiate(task)
+  expect_identical(r$train_set(1L), 1:4)
+
+  data = data.table(y = rnorm(7), s = c("a", rep("b", 6L)))
+  task = as_task_regr(data, target = "y")
+  task$col_roles$stratum = "s"
+  r = rsmp("bootstrap", repeats = 3L)$instantiate(task)
+  expect_matrix(r$instance$M, nrows = 7L, ncols = 3L)
+  expect_true(all(map_lgl(1:3, function(i) 1L %in% r$train_set(i))))
+  expect_resampling(r, task = task)
+})
+
 test_that("grouping", {
   r = rsmp("bootstrap", ratio = 1, repeats = 3)
   expect_grouping_works(r)
