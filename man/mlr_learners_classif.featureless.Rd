@@ -16,6 +16,7 @@ For weighted data, the label(s) with the highest weighted frequency are selected
 \item{sample:}{
 Randomly predict a label uniformly.
 Probabilities correspond to a uniform distribution of class labels, i.e. 1 divided by the number of classes.
+This includes classes that are not observed in the training set.
 Weights are ignored, if present.
 }
 \item{weighted.sample:}{

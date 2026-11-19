@@ -36,6 +36,37 @@ test_that("Predict with prob", {
   expect_set_equal(unique(as.numeric(p$prob)), c(0, 1))
 })
 
+test_that("classif.featureless handles classes missing in the training set", {
+  task = tsk("iris")
+  row_ids = 1:100
+
+  learner = lrn("classif.featureless", predict_type = "prob")
+  learner$train(task, row_ids = row_ids)
+  expect_equal(learner$model$tab, c(setosa = 50, versicolor = 50, virginica = 0))
+  expect_equal(unname(learner$predict(task)$prob[1L, ]), c(0.5, 0.5, 0))
+  learner$predict_type = "response"
+  expect_subset(as.character(learner$predict(task)$response), c("setosa", "versicolor"))
+
+  learner = lrn("classif.featureless", method = "sample", predict_type = "prob")
+  learner$train(task, row_ids = row_ids)
+  expect_equal(unname(learner$predict(task)$prob[1L, ]), rep(1 / 3, 3))
+  learner$predict_type = "response"
+  expect_set_equal(as.character(learner$predict(task)$response), task$class_names)
+
+  learner = lrn("classif.featureless", method = "weighted.sample", predict_type = "prob")
+  learner$train(task, row_ids = row_ids)
+  expect_true(all(learner$predict(task)$prob[, "virginica"] == 0))
+  learner$predict_type = "response"
+  expect_subset(as.character(learner$predict(task)$response), c("setosa", "versicolor"))
+})
+
+test_that("classif.featureless raises an error if all weights are 0", {
+  data = data.table(y = factor(rep(c("a", "b"), each = 5L)), x = 1, w = 0)
+  task = as_task_classif(data, target = "y")
+  task$set_col_roles("w", roles = "weights_learner")
+  expect_error(lrn("classif.featureless")$train(task), "all weights", class = "Mlr3ErrorLearnerTrain")
+})
+
 test_that("classif.featureless works on featureless task", {
   task = tsk("wine")$select(character())
   learner = lrn("classif.featureless")

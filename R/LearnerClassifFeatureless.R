@@ -15,6 +15,7 @@
 #'   \item{sample:}{
 #'     Randomly predict a label uniformly.
 #'     Probabilities correspond to a uniform distribution of class labels, i.e. 1 divided by the number of classes.
+#'     This includes classes that are not observed in the training set.
 #'     Weights are ignored, if present.
 #'   }
 #'   \item{weighted.sample:}{
@@ -83,12 +84,13 @@ LearnerClassifFeatureless = R6Class(
 
   private = list(
     .train = function(task) {
-      weights = NULL
-      counts_table = data.table(truth = task$truth(), weights = private$.get_weights(task, 1.0))[,
-        list(weights = sum(weights)),
-        by = "truth"
-      ]
-      tab = set_names(counts_table$weights, counts_table$truth)
+      truth = task$truth()
+      weights = private$.get_weights(task) %??% rep(1, length(truth))
+      # classes that are not observed get a weight of 0
+      tab = map_dbl(split(weights, truth), sum)
+      if (sum(tab) == 0) {
+        error_learner_train("Learner '%s' cannot be trained on task '%s': all weights are 0", self$id, task$id)
+      }
       set_class(list(tab = tab, features = task$feature_names), "classif.featureless_model")
     },
 
