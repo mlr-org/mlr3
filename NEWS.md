@@ -113,6 +113,7 @@
 * fix: `LearnerRegr$quantiles` now resets `$quantile_response` when the new quantiles do not contain it, so predicting no longer fails with "subscript out of bounds" when accessing `$response`, and rejects duplicated quantiles.
 * fix: `Learner$predict()` with `parallel_predict = TRUE` now keeps the log entries and the predict time recorded by the workers, so `$warnings`, `$errors`, and `$timings` are no longer empty after a parallel prediction, and returns an empty prediction instead of `NULL` for zero row ids.
 * fix: `Learner$encapsulate()` now validates all arguments before changing the learner, so a failed call no longer changes `$hash`, raises an error if the fallback learner does not support the `$predict_type` of the learner instead of failing later during prediction, and rejects a `when` handler together with `method = "none"`.
+* feat: `Task$data()` gains the argument `all_cols` to return all columns of the backend, including the primary key and columns without a column role (#1470).
 
 # mlr3 1.8.0
 
