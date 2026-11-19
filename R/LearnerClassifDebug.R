@@ -346,7 +346,7 @@ LearnerClassifDebug = R6Class(
         response = rep.int(unclass(model$response), n)
         if (!is.null(pv$predict_missing)) {
           ii = sample.int(n, n * pv$predict_missing)
-          response = switch(missing_type, "na" = replace(response, ii, NA), "omit" = response[ii])
+          response = switch(missing_type, "na" = replace(response, ii, NA), "omit" = response[setdiff(seq_len(n), ii)])
         }
       }
 
@@ -365,7 +365,7 @@ LearnerClassifDebug = R6Class(
               prob
             },
             "omit" = {
-              prob[ii, , drop = FALSE]
+              prob[setdiff(seq_len(n), ii), , drop = FALSE]
             }
           )
         }

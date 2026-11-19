@@ -44,6 +44,21 @@ test_that("NA predictions", {
   expect_equal(is.na(p$response), apply(p$prob, 1, anyMissing))
 })
 
+test_that("omitted predictions", {
+  task = tsk("iris")
+  for (predict_type in c("response", "prob")) {
+    learner = lrn("classif.debug", predict_missing = 0.1, predict_missing_type = "omit", predict_type = predict_type)
+    learner$train(task)
+    expect_error(learner$predict(task), "for 15 observations is missing")
+
+    learner$param_set$set_values(predict_missing = 0)
+    expect_prediction(learner$predict(task))
+
+    learner$param_set$set_values(predict_missing = 1)
+    expect_error(learner$predict(task), "for 150 observations is missing")
+  }
+})
+
 test_that("default_values", {
   learner = lrn("classif.debug")
   search_space = ps(iter = p_int(1, 10))

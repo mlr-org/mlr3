@@ -173,7 +173,7 @@ LearnerRegrDebug = R6Class(
           # fmt: skip
           value = switch(missing_type,
             "na" = replace(value, ii, NA),
-            "omit" = value[ii]
+            "omit" = value[setdiff(seq_len(n), ii)]
           )
         }
 

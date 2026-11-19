@@ -72,3 +72,13 @@ test_that("quantiles work", {
   learner$quantiles = c(0.25, 0.5, 0.75)
   expect_error(learner$train(task), "Quantile response must be set")
 })
+
+test_that("omitted predictions", {
+  task = tsk("mtcars")
+  learner = lrn("regr.debug", predict_missing = 0.25, predict_missing_type = "omit")
+  learner$train(task)
+  expect_error(learner$predict(task), "for 8 observations is missing")
+
+  learner$param_set$set_values(predict_missing = 0)
+  expect_prediction(learner$predict(task))
+})
