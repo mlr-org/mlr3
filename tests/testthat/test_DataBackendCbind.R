@@ -67,3 +67,24 @@ test_that("Backends with different rows", {
 
   expect_equal(b$col_hashes, c(b1$col_hashes, b2$col_hashes)[setdiff(b$colnames, b$primary_key)])
 })
+
+test_that("missings and distinct count cells filled with NA", {
+  b1 = as_data_backend(data.table(id = 1:3, a = 1:3), primary_key = "id")
+  b2 = as_data_backend(data.table(id = 2:4, b = c(NA, 3L, 4L)), primary_key = "id")
+  b = DataBackendCbind$new(b1, b2)
+
+  expect_equal(b$missings(1:4, c("a", "b", "id")), c(a = 1L, b = 2L, id = 0L))
+  expect_equal(b$missings(2:3, c("a", "b")), c(a = 0L, b = 1L))
+  expect_equal(b$missings(c(1L, 1L), "b"), c(b = 2L))
+
+  expect_equal(b$distinct(1:4, c("a", "b"), na_rm = FALSE), list(a = c(1:3, NA), b = c(NA, 3L, 4L)))
+  expect_equal(b$distinct(NULL, "a", na_rm = FALSE), list(a = c(1:3, NA)))
+  expect_equal(b$distinct(3L, c("a", "b"), na_rm = FALSE), list(a = 3L, b = 3L))
+  expect_equal(b$distinct(1:4, c("a", "b"), na_rm = TRUE), list(a = 1:3, b = 3:4))
+
+  task = as_task_regr(data.table(y = c(1, 2, 3, 4), x = c(1, 2, 3, 4)), target = "y")
+  task$filter(1:2)
+  task$cbind(data.table(z = c(10, 20)))
+  task$row_roles$use = 1:4
+  expect_equal(task$missings(), c(y = 0L, x = 0L, z = 2L))
+})

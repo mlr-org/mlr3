@@ -38,17 +38,36 @@ DataBackendRbind = R6Class(
     },
 
     distinct = function(rows, cols, na_rm = TRUE) {
+      b1 = private$.data$b1
+      b2 = private$.data$b2
       cols = intersect(cols, self$colnames)
-      d1 = private$.data$b1$distinct(rows, cols, na_rm = na_rm)
-      d2 = private$.data$b2$distinct(rows, cols, na_rm = na_rm)
-      set_names(map(cols, function(nn) union(d1[[nn]], d2[[nn]])), cols)
+      d1 = b1$distinct(rows, cols, na_rm = na_rm)
+      d2 = b2$distinct(rows, cols, na_rm = na_rm)
+      res = set_names(map(cols, function(nn) union(d1[[nn]], d2[[nn]])), cols)
+
+      # rows of a backend without the column are filled with NA in $data()
+      if (!na_rm) {
+        n = private$.n_rows(rows)
+        filled = c(if (n[["b2"]]) setdiff(cols, b2$colnames), if (n[["b1"]]) setdiff(cols, b1$colnames))
+        res[filled] = map(res[filled], function(x) union(x, NA))
+      }
+
+      res
     },
 
     missings = function(rows, cols) {
+      b1 = private$.data$b1
+      b2 = private$.data$b2
       cols = intersect(cols, self$colnames)
-      m1 = as.list(private$.data$b1$missings(rows, cols))
-      m2 = as.list(private$.data$b2$missings(rows, cols))
-      set_names(map_int(cols, function(nn) m1[[nn]] %??% 0L + m2[[nn]] %??% 0L), cols)
+      m1 = as.list(b1$missings(rows, cols))
+      m2 = as.list(b2$missings(rows, cols))
+
+      # rows of a backend without the column are filled with NA in $data()
+      n = private$.n_rows(rows)
+      m1[setdiff(cols, b1$colnames)] = n[["b1"]]
+      m2[setdiff(cols, b2$colnames)] = n[["b2"]]
+
+      set_names(map_int(cols, function(nn) m1[[nn]] + m2[[nn]]), cols)
     }
   ),
 
@@ -74,6 +93,23 @@ DataBackendRbind = R6Class(
     .calculate_hash = function() {
       data = private$.data
       calculate_hash(data$b1$hash, data$b2$hash)
+    },
+
+    # number of queried rows served by each backend, rows in both backends are served by b2
+    .n_rows = function(rows) {
+      pk = self$primary_key
+      b1 = private$.data$b1
+      b2 = private$.data$b2
+
+      if (is.null(rows)) {
+        r1 = b1$rownames
+        r2 = b2$rownames
+      } else {
+        r1 = b1$data(rows, pk)[[pk]]
+        r2 = b2$data(rows, pk)[[pk]]
+      }
+
+      list(b1 = sum(r1 %nin% r2), b2 = length(r2))
     }
   )
 )

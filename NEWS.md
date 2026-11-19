@@ -6,6 +6,9 @@
 * fix: `Resampling$instantiate()` on a task without groups now drops the groups of a task the resampling was instantiated on before.
   Previously, `$train_set()` and `$test_set()` translated the row ids with the groups of the earlier task and returned wrong row ids.
 * fix: `BenchmarkResult$combine()` and `c()` no longer fail if the benchmark result to add is empty.
+* BREAKING CHANGE: `ContextResample$learner` can no longer be replaced by another learner in a callback.
+  Previously, a learner assigned in the stage `on_resample_begin` was trained and its model and predictions were stored under the original learner, and a learner assigned in a later stage was silently ignored.
+  Callbacks can still modify the learner in place, e.g. write to `context$learner$state`.
 * fix: `benchmark()` with callbacks that write to `$data_extra` now stores the extra data with the experiment that produced it, instead of assigning it to another task, learner, or resampling.
 * fix: `BenchmarkResult$filter()`, `$resample_result()`, and `$set_threshold()` now raise an error if `i` contains missing values.
   Previously, `$filter(i = NA)` silently removed all resample results.
@@ -83,8 +86,12 @@
   `ResampleResult$iters` is now read-only.
 * fix: `msr("time_train")`, `msr("time_predict")`, and `msr("time_both")` now return `NA` instead of `0` if the learner was not trained or did not predict yet.
   The field `$stages` of `MeasureElapsedTime` is now checked on assignment.
+* fix: `HotstartStack$start_cost()` no longer leaves a `cost` column in `$stack` if it fails, which made the next `$add()` fail with an error about inconsistent columns.
 * fix: `Task$rbind()` now invalidates `$row_hash` and `$col_hashes`, so `resample()` and `benchmark()` detect resamplings instantiated before the rows were added.
   `$materialize_view()`, `$labels`, `$col_info`, `$backend`, `$extra_args`, and `TaskClassif$positive` now invalidate the cached task hash, and `$extra_args` is now part of the task hash.
+* fix: `HotstartStack` with a `hotstart_threshold` no longer fails when adding learners without a hotstart parameter of that name or learners whose hotstart parameter is not set.
+  The former are always added, the latter are not added.
+  Missing values in `hotstart_threshold` now raise an error on construction.
 * fix: `partition()` now raises an informative error if `ratio` contains missing or negative values.
 * fix: `rsmp("repeated_cv")` now raises an informative error on instantiation if the parameter `repeats` is not set.
 * fix: `Measure$aggregate()` with `average = "custom"` now raises an informative error if the measure has no `aggregator`, instead of failing with "attempt to apply non-function".
@@ -94,6 +101,7 @@
 * fix: `as_task_classif()`, `as_task_regr()`, `as_task_unsupervised()`, and `as_tasks_unsupervised()` with `clone = TRUE` now return a deep clone like `as_task()`, so that the internal validation task is no longer shared with the original task.
 * fix: `clbk("mlr3.holdout_task")` no longer adds the time of the holdout prediction to the predict time of the resampling iteration, which inflated `msr("time_predict")`.
 * fix: Callbacks now receive the model in unmarshaled form in the `on_resample_end` stage of `resample()` and `benchmark()`, regardless of `unmarshal`, `store_models`, and the execution mode (#1509).
+* fix: `clbk("mlr3.holdout_task")` now raises an informative error before training if no `task` is set, and `clbk("mlr3.model_extractor")` now raises an informative error if `fun` does not return a named list, as documented.
 * fix: `Measure$obs_loss()` now returns missing values with a warning if the prediction does not contain the predict type required by the measure, like `$score()`, instead of failing inside the loss function.
   The argument `prediction` is now checked.
 * fix: `learner_predict()` now invalidates the cached task hash when subsetting to the predict rows, so `task$hash` is correct inside `.predict()` and `resample()` no longer stores a wrong task hash when a learner reads the hash during prediction (#1503).
@@ -136,6 +144,13 @@
 * fix: `Learner$predict()` with `parallel_predict = TRUE` now keeps the log entries and the predict time recorded by the workers, so `$warnings`, `$errors`, and `$timings` are no longer empty after a parallel prediction, and returns an empty prediction instead of `NULL` for zero row ids.
 * fix: `Learner$encapsulate()` now validates all arguments before changing the learner, so a failed call no longer changes `$hash`, raises an error if the fallback learner does not support the `$predict_type` of the learner instead of failing later during prediction, and rejects a `when` handler together with `method = "none"`.
 * feat: `Task$data()` gains the argument `all_cols` to return all columns of the backend, including the primary key and columns without a column role (#1470).
+* fix: `$missings()` and `$distinct()` of tasks extended with `$rbind()` or `$cbind()` now count the missing values that fill columns or rows which are only present in one of the combined backends.
+  Previously, `task$missings()` reported no missing values for these columns, so learners without the `"missings"` property were trained on missing values.
+  `expect_backend()` now checks that `$missings()` agrees with `$data()`.
+* fix: `auto_convert()` no longer converts character or factor values that cannot be parsed to missing values when converting to `Date` or `POSIXct`.
+  Previously, only a first value that could not be parsed raised an error, so `Task$rbind()` silently stored `NA` for all later values with a different format.
+* fix: `auto_convert()` now converts ordered factors to the levels of the target ordered factor and raises an error if the values contain levels that the target does not have.
+  Previously, the levels were ignored, so `Task$rbind()` with an ordered factor with different levels made `task$data()` emit a warning and return an unordered factor.
 * fix: `auto_convert()` now converts `POSIXct` values to the `Date` in the time zone of the value instead of the date in UTC.
   Previously, e.g. `2020-01-01 00:30:00` in the time zone `Europe/Berlin` was converted to `2019-12-31`.
 * fix: `auto_convert()` now returns a `POSIXct` vector stored as double when converting logical or integer missing values to `POSIXct`, instead of a `POSIXct` vector with logical or integer storage.

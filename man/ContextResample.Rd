@@ -21,7 +21,9 @@ The task is read-only.}
 
     \item{\code{learner}}{(\link{Learner})\cr
 The learner to be evaluated.
-The learner contains the models after stage \code{on_resample_before_train}.}
+The learner contains the models after stage \code{on_resample_before_train}.
+The learner cannot be replaced by another learner.
+Changes to the learner itself, e.g. to \verb{$state}, are kept.}
 
     \item{\code{resampling}}{\link{Resampling}\cr
 The resampling strategy to be used.

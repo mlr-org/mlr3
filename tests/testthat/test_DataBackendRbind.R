@@ -61,3 +61,25 @@ test_that("Backends with same rows", {
   expect_false(anyMissing(data$Petal.Length[11:20]))
   expect_true(allMissing(data$Petal.Length[6:10]))
 })
+
+test_that("missings and distinct count cells filled with NA", {
+  b1 = as_data_backend(data.table(id = 1:2, x = 1:2, extra = c("a", "b")), primary_key = "id")
+  b2 = as_data_backend(data.table(id = 3:5, x = c(3L, NA, 5L), other = 1:3), primary_key = "id")
+  b = DataBackendRbind$new(b1, b2)
+
+  expect_equal(b$missings(1:5, c("x", "extra", "other", "id")), c(x = 1L, extra = 3L, other = 2L, id = 0L))
+  expect_equal(b$missings(1:2, c("extra", "other")), c(extra = 0L, other = 2L))
+  expect_equal(b$missings(c(3L, 3L), "extra"), c(extra = 2L))
+  expect_equal(b$missings(integer(), "extra"), c(extra = 0L))
+
+  expect_equal(b$distinct(1:5, "extra", na_rm = FALSE), list(extra = c("a", "b", NA)))
+  expect_equal(b$distinct(NULL, "extra", na_rm = FALSE), list(extra = c("a", "b", NA)))
+  expect_equal(b$distinct(1:2, "extra", na_rm = FALSE), list(extra = c("a", "b")))
+  expect_equal(b$distinct(1:5, "extra", na_rm = TRUE), list(extra = c("a", "b")))
+
+  task = as_task_regr(data.table(y = c(1, 2), x = c(1, 2), extra = c(1, 2)), target = "y")
+  task$select("x")
+  task$rbind(data.table(y = c(3, 4), x = c(3, 4)))
+  task$col_roles$feature = c("x", "extra")
+  expect_equal(task$missings(), c(y = 0L, x = 0L, extra = 2L))
+})
