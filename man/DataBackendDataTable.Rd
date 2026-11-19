@@ -39,18 +39,14 @@ Other DataBackend:
 \section{Super class}{
 \code{\link[mlr3:DataBackend]{DataBackend}} -> \code{DataBackendDataTable}
 }
-\section{Public fields}{
-  \if{html}{\out{<div class="r6-fields">}}
-  \describe{
-    \item{\code{compact_seq}}{\code{logical(1)}\cr
-If \code{TRUE}, row ids are a natural sequence from 1 to \code{nrow(data)} (determined internally).
-In this case, row lookup uses faster positional indices instead of equi joins.}
-  }
-  \if{html}{\out{</div>}}
-}
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
+    \item{\code{compact_seq}}{\code{logical(1)}\cr
+If \code{TRUE}, row ids are a natural sequence from 1 to \code{nrow(data)} (determined internally).
+In this case, row lookup uses faster positional indices instead of equi joins.
+Can only be set to \code{TRUE} if the row ids are such a sequence.}
+
     \item{\code{rownames}}{(\code{integer()})\cr
 Returns vector of all distinct row identifiers, i.e. the contents of the primary key column.}
 

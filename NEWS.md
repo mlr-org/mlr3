@@ -135,6 +135,9 @@
 * fix: `Learner$predict()` with `parallel_predict = TRUE` now keeps the log entries and the predict time recorded by the workers, so `$warnings`, `$errors`, and `$timings` are no longer empty after a parallel prediction, and returns an empty prediction instead of `NULL` for zero row ids.
 * fix: `Learner$encapsulate()` now validates all arguments before changing the learner, so a failed call no longer changes `$hash`, raises an error if the fallback learner does not support the `$predict_type` of the learner instead of failing later during prediction, and rejects a `when` handler together with `method = "none"`.
 * feat: `Task$data()` gains the argument `all_cols` to return all columns of the backend, including the primary key and columns without a column role (#1470).
+* fix: `DataBackendDataTable$data()` no longer returns all other rows for negative row ids if the row ids are a sequence from 1 to the number of rows.
+  Row ids that do not exist are ignored, as for all other backends.
+  `$compact_seq` can now only be set to `TRUE` if the row ids are such a sequence, and setting it resets the hash of the backend.
 
 # mlr3 1.8.0
 

@@ -31,11 +31,6 @@ DataBackendDataTable = R6Class(
   inherit = DataBackend,
   cloneable = FALSE,
   public = list(
-    #' @field compact_seq `logical(1)`\cr
-    #' If `TRUE`, row ids are a natural sequence from 1 to `nrow(data)` (determined internally).
-    #' In this case, row lookup uses faster positional indices instead of equi joins.
-    compact_seq = FALSE,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
@@ -67,7 +62,11 @@ DataBackendDataTable = R6Class(
       assert_names(cols, type = "unique")
       cols = intersect(cols, colnames(private$.data))
 
-      if (self$compact_seq) {
+      if (private$.compact_seq) {
+        # non-positive ids do not match a row, they must not be interpreted as positions to exclude
+        if (any(rows < 1L, na.rm = TRUE)) {
+          rows = rows[rows >= 1L]
+        }
         private$.data[rows, cols, with = FALSE, nomatch = NULL]
       } else {
         ijoin(private$.data, rows, cols, self$primary_key)
@@ -127,6 +126,22 @@ DataBackendDataTable = R6Class(
   ),
 
   active = list(
+    #' @field compact_seq `logical(1)`\cr
+    #' If `TRUE`, row ids are a natural sequence from 1 to `nrow(data)` (determined internally).
+    #' In this case, row lookup uses faster positional indices instead of equi joins.
+    #' Can only be set to `TRUE` if the row ids are such a sequence.
+    compact_seq = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.compact_seq)
+      }
+      assert_flag(rhs)
+      if (rhs && !identical(as.integer(self$rownames), seq_len(self$nrow))) {
+        error_input("Cannot set 'compact_seq': row ids are not a sequence from 1 to %i", self$nrow)
+      }
+      private$.hash = NA_character_
+      private$.compact_seq = rhs
+    },
+
     #' @field rownames (`integer()`)\cr
     #' Returns vector of all distinct row identifiers, i.e. the contents of the primary key column.
     rownames = function() {
@@ -154,9 +169,10 @@ DataBackendDataTable = R6Class(
 
   private = list(
     .calculate_hash = function() {
-      calculate_hash(self$compact_seq, private$.data)
+      calculate_hash(private$.compact_seq, private$.data)
     },
 
-    .cache = NULL
+    .cache = NULL,
+    .compact_seq = FALSE
   )
 )
