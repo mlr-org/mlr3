@@ -80,7 +80,19 @@ LearnerClassifRpart = R6Class(
       pv = self$param_set$get_values(tags = "train")
       names(pv) = replace(names(pv), names(pv) == "keep_model", "model")
       pv$weights = private$.get_weights(task)
-      invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv, .opts = allow_partial_matching)
+      data = task$data()
+
+      # rpart takes the number of classes from the largest observed level code,
+      # so the model is broken if the last level of the target is not observed
+      target = task$target_names
+      truth = data[[target]]
+      lvls = levels(truth)
+      observed = lvls %in% truth
+      if (!observed[length(lvls)]) {
+        data[[target]] = factor(truth, levels = c(lvls[!observed], lvls[observed]))
+      }
+
+      invoke(rpart::rpart, formula = task$formula(), data = data, .args = pv, .opts = allow_partial_matching)
     },
 
     .predict = function(task) {
@@ -98,10 +110,11 @@ LearnerClassifRpart = R6Class(
           .args = pv
         )
         raw = response
-        response = unname(response)
+        response = factor(unname(response), levels = task$class_names)
       } else if (self$predict_type == "prob") {
         prob = invoke(predict, self$model, newdata = newdata, type = "prob", .opts = allow_partial_matching, .args = pv)
         raw = prob
+        prob = prob[, task$class_names, drop = FALSE]
         rownames(prob) = NULL
       }
 

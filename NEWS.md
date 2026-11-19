@@ -7,6 +7,8 @@
   Previously, `$train_set()` and `$test_set()` translated the row ids with the groups of the earlier task and returned wrong row ids.
 * fix: `BenchmarkResult$combine()` and `c()` no longer fail if the benchmark result to add is empty.
 * fix: `benchmark()` with callbacks that write to `$data_extra` now stores the extra data with the experiment that produced it, instead of assigning it to another task, learner, or resampling.
+* fix: `lrn("classif.rpart")` now works if class levels of the target are not observed in the training set.
+  Previously, predicting probabilities failed with "subscript out of bounds" if the last class level was missing, and training failed if only the first class level was present.
 * fix: `BenchmarkResult$filter()`, `$resample_result()`, and `$set_threshold()` now raise an error if `i` contains missing values.
   Previously, `$filter(i = NA)` silently removed all resample results.
 * fix: `print()` for the result of `score_roc_measures()` now shows the confusion matrix with the truth in rows and the prediction in columns, as labeled.
