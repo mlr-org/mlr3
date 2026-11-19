@@ -138,6 +138,17 @@
 * fix: `$missings()` and `$distinct()` of tasks extended with `$rbind()` or `$cbind()` now count the missing values that fill columns or rows which are only present in one of the combined backends.
   Previously, `task$missings()` reported no missing values for these columns, so learners without the `"missings"` property were trained on missing values.
   `expect_backend()` now checks that `$missings()` agrees with `$data()`.
+* fix: `auto_convert()` no longer converts character or factor values that cannot be parsed to missing values when converting to `Date` or `POSIXct`.
+  Previously, only a first value that could not be parsed raised an error, so `Task$rbind()` silently stored `NA` for all later values with a different format.
+* fix: `auto_convert()` now converts ordered factors to the levels of the target ordered factor and raises an error if the values contain levels that the target does not have.
+  Previously, the levels were ignored, so `Task$rbind()` with an ordered factor with different levels made `task$data()` emit a warning and return an unordered factor.
+* fix: `auto_convert()` now converts `POSIXct` values to the `Date` in the time zone of the value instead of the date in UTC.
+  Previously, e.g. `2020-01-01 00:30:00` in the time zone `Europe/Berlin` was converted to `2019-12-31`.
+* fix: `auto_convert()` now returns a `POSIXct` vector stored as double when converting logical or integer missing values to `POSIXct`, instead of a `POSIXct` vector with logical or integer storage.
+* fix: `as_data_backend()` now raises an error if it has to add the primary key column `..row_id` and the data already has a column with this name.
+  Previously, the column was silently overwritten with the generated row ids.
+* fix: `DataBackendDataTable$new()` now raises an error if the primary key column contains duplicated, missing, or non-integer row ids.
+  Previously, such a backend was created and `$data()` returned more rows than requested or failed later.
 
 # mlr3 1.8.0
 
