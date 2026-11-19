@@ -75,7 +75,9 @@ The task is read-only.</p></dd>
     <dt><code>learner</code></dt>
 <dd><p>(<a href="Learner.html">Learner</a>)<br>
 The learner to be evaluated.
-The learner contains the models after stage <code>on_resample_before_train</code>.</p></dd>
+The learner contains the models after stage <code>on_resample_before_train</code>.
+The learner cannot be replaced by another learner.
+Changes to the learner itself, e.g. to <code>$state</code>, are kept.</p></dd>
 
 
     <dt><code>resampling</code></dt>

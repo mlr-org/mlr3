@@ -26,6 +26,12 @@
 - fix: `BenchmarkResult$combine()` and
   [`c()`](https://rdrr.io/r/base/c.html) no longer fail if the benchmark
   result to add is empty.
+- BREAKING CHANGE: `ContextResample$learner` can no longer be replaced
+  by another learner in a callback. Previously, a learner assigned in
+  the stage `on_resample_begin` was trained and its model and
+  predictions were stored under the original learner, and a learner
+  assigned in a later stage was silently ignored. Callbacks can still
+  modify the learner in place, e.g. write to `context$learner$state`.
 - fix:
   [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
   with callbacks that write to `$data_extra` now stores the extra data

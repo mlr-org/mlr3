@@ -27,7 +27,9 @@ for a list of stages that access `ContextResample`.
 
   ([Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md))  
   The learner to be evaluated. The learner contains the models after
-  stage `on_resample_before_train`.
+  stage `on_resample_before_train`. The learner cannot be replaced by
+  another learner. Changes to the learner itself, e.g. to `$state`, are
+  kept.
 
 - `resampling`:
 
