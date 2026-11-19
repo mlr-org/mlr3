@@ -42,6 +42,15 @@ test_that("stratification", {
   }
 })
 
+test_that("more folds than observations", {
+  task = tsk("iris")$filter(1:3)
+  expect_error(
+    rsmp("repeated_cv", folds = 5L, repeats = 2L)$instantiate(task),
+    "Cannot split 3 observations into 5 folds",
+    class = "Mlr3ErrorInput"
+  )
+})
+
 test_that("stratification keeps the folds evenly sized", {
   data = data.table(y = rnorm(110), s = factor(rep(1:10, each = 11)))
   task = as_task_regr(data, target = "y")

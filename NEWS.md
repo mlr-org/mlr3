@@ -25,6 +25,9 @@
 * fix: `PredictionClassif` now raises an error if the predicted response contains labels that are not class labels of the task, instead of silently converting them to missing values.
 * fix: `as.data.table()` for a `BenchmarkResult` now respects the documented arguments `reassemble_learners` and `convert_predictions`, which were silently ignored.
   The argument `hashes`, which had no effect, now adds the columns `task_hash`, `learner_hash`, and `resampling_hash`.
+* fix: `rsmp("cv")` and `rsmp("repeated_cv")` now raise an error on instantiation if the task has fewer observations or groups than folds.
+  Previously, `$test_set()` of `rsmp("cv")` returned `NA` for the empty folds and `resample()` failed with a misleading error about a different task.
+  On stratified tasks, where single folds may stay empty, `$test_set()` now returns an empty set.
 * fix: `Learner$predict()` on a `TaskUnsupervised` now returns the predicted classes of a classification learner instead of only missing values, and no longer errors with predict type `"prob"`.
 * fix: `as.data.table()` for a `ResampleResult` now respects the documented arguments `reassemble_learners` and `convert_predictions`, which were silently ignored.
 * fix: `Learner$phash` now includes `$predict_sets`, so the partial hashes of all learners change.
