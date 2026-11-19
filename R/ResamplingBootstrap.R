@@ -74,10 +74,15 @@ ResamplingBootstrap = R6Class(
   private = list(
     .sample = function(ids, ...) {
       pv = self$param_set$values
-      nr = round(length(ids) * pv$ratio)
-      x = factor(seq_along(ids))
-      M = replicate(pv$repeats, table(sample(x, nr, replace = TRUE)), simplify = "array")
-      rownames(M) = NULL
+      n = length(ids)
+      nr = round(n * pv$ratio)
+      # counts how often each id is drawn, one column per repetition
+      M = vapply(
+        seq_len(pv$repeats),
+        function(i) tabulate(sample.int(n, nr, replace = TRUE), nbins = n),
+        integer(n)
+      )
+      dim(M) = c(n, pv$repeats)
       list(row_ids = ids, M = M)
     },
 
