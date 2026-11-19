@@ -137,6 +137,11 @@ expect_backend = function(b) {
   x = b$missings(b$rownames, b$colnames)
   checkmate::expect_integerish(x, lower = 0L, upper = b$nrow, any.missing = FALSE)
   checkmate::expect_names(names(x), permutation.of = b$colnames)
+  data = b$data(b$rownames, b$colnames)
+  testthat::expect_equal(
+    x[b$colnames],
+    vapply(data, function(col) sum(is.na(col)), FUN.VALUE = integer(1L))[b$colnames]
+  )
   checkmate::expect_integerish(b$missings(b$rownames, "_not_existing_"), len = 0L, names = "named")
   checkmate::expect_integerish(b$missings(b$rownames[0L], b$colnames), len = b$ncol, names = "unique")
   checkmate::expect_integerish(b$missings(b$rownames[0L], "_not_existing_"), len = 0L, names = "unique")

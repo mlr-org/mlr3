@@ -53,3 +53,21 @@ test_that("holdout task works", {
     expect_prediction(data[["prediction_holdout"]])
   })
 })
+
+test_that("model extractor checks the return value of fun", {
+  task = tsk("sonar")
+  learner = lrn("classif.featureless")
+
+  callback = clbk("mlr3.model_extractor", fun = function(learner) 1)
+  expect_error(suppressWarnings(resample(task, learner, rsmp("holdout"), callbacks = callback)), "return value of fun")
+
+  callback = clbk("mlr3.model_extractor", fun = function(learner) list(1, 2))
+  expect_error(suppressWarnings(resample(task, learner, rsmp("holdout"), callbacks = callback)), "return value of fun")
+})
+
+test_that("holdout task checks the task", {
+  task = tsk("sonar")
+  learner = lrn("classif.featureless")
+  callback = clbk("mlr3.holdout_task")
+  expect_error(suppressWarnings(resample(task, learner, rsmp("holdout"), callbacks = callback)), "'task'")
+})

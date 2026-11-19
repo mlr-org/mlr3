@@ -56,9 +56,11 @@ learner$train(task)
     \item{\code{stack}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Stores hot start learners.}
 
-    \item{\code{hotstart_threshold}}{(named \code{numeric(1)})\cr
-Threshold for storing learners in the stack.
-If the value of the hotstart parameter is below this threshold, the learner is not added to the stack.}
+    \item{\code{hotstart_threshold}}{(named \code{numeric()})\cr
+Thresholds for storing learners in the stack.
+The names are the ids of the hotstart parameters.
+If the value of the hotstart parameter is below its threshold or not set, the learner is not added to the stack.
+Learners without a hotstart parameter of one of the names are always added.}
   }
   \if{html}{\out{</div>}}
 }
@@ -89,8 +91,8 @@ If the value of the hotstart parameter is below this threshold, the learner is n
       \item{\code{learners}}{(List of \link{Learner}s)\cr
 Learners are added to the hotstart stack. If \code{NULL} (default), empty
 stack is created.}
-      \item{\code{hotstart_threshold}}{(named \code{numeric(1)})\cr
-Threshold for storing learners in the stack.}
+      \item{\code{hotstart_threshold}}{(named \code{numeric()})\cr
+Thresholds for storing learners in the stack, named by the ids of the hotstart parameters.}
     }
     \if{html}{\out{</div>}}
   }
@@ -124,6 +126,7 @@ Learners are added to the hotstart stack.}
 \if{latex}{\out{\hypertarget{method-HotstartStack-start_cost}{}}}
 \subsection{\code{HotstartStack$start_cost()}}{
   Calculates the cost for each learner of the stack to hot start the target \code{learner}.
+The costs are returned in the order of the rows of \verb{$stack}, which is sorted by task and learner hash.
 
 The following cost values can be returned:
 \itemize{
@@ -143,10 +146,13 @@ This includes learners whose hotstart parameter is not set.
     \describe{
       \item{\code{learner}}{\link{Learner}\cr
 Target learner.}
-      \item{\code{task_hash}}{\link{Task}\cr
+      \item{\code{task_hash}}{(\code{character(1)})\cr
 Hash of the task on which the target learner is trained.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{numeric()}.
   }
 }
 

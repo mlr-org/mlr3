@@ -40,6 +40,15 @@ DataBackendCbind = R6Class(
     distinct = function(rows, cols, na_rm = TRUE) {
       d2 = private$.data$b2$distinct(rows, cols, na_rm = na_rm)
       d1 = private$.data$b1$distinct(rows, setdiff(cols, names(d2)), na_rm = na_rm)
+
+      # rows missing in one of the backends are filled with NA in $data()
+      if (!na_rm) {
+        pk = self$primary_key
+        n = private$.n_rows(rows)
+        if (n[["b1"]]) d2 = imap(d2, function(x, nn) if (nn == pk) x else union(x, NA))
+        if (n[["b2"]]) d1 = imap(d1, function(x, nn) if (nn == pk) x else union(x, NA))
+      }
+
       res = c(d1, d2)
       res[reorder_vector(names(res), cols)]
     },
@@ -50,6 +59,14 @@ DataBackendCbind = R6Class(
       if (length(m2) == 0L && length(m1) == 0L) {
         return(set_names(integer()))
       }
+
+      # rows missing in one of the backends are filled with NA in $data()
+      pk = self$primary_key
+      n = private$.n_rows(rows)
+      ii = names(m2) != pk
+      m2[ii] = m2[ii] + n[["b1"]]
+      ii = names(m1) != pk
+      m1[ii] = m1[ii] + n[["b2"]]
 
       res = c(m1, m2)
       res[reorder_vector(names(res), cols)]
@@ -82,6 +99,23 @@ DataBackendCbind = R6Class(
     .calculate_hash = function() {
       data = private$.data
       calculate_hash(data$b1$hash, data$b2$hash)
+    },
+
+    # number of queried rows which are only present in one of the backends
+    .n_rows = function(rows) {
+      pk = self$primary_key
+      b1 = private$.data$b1
+      b2 = private$.data$b2
+
+      if (is.null(rows)) {
+        r1 = b1$rownames
+        r2 = b2$rownames
+      } else {
+        r1 = b1$data(rows, pk)[[pk]]
+        r2 = b2$data(rows, pk)[[pk]]
+      }
+
+      list(b1 = sum(r1 %nin% r2), b2 = sum(r2 %nin% r1))
     }
   )
 )
