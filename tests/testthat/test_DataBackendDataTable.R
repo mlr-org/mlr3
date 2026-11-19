@@ -29,3 +29,14 @@ test_that("DataBackendDataTable with 0 rows", {
   b = as_data_backend(iris[integer(), ])
   expect_backend(b)
 })
+
+test_that("DataBackendDataTable validates the primary key", {
+  expect_error(DataBackendDataTable$new(data.table(x = 1:2), "id"), "not in 'data'")
+  expect_error(DataBackendDataTable$new(data.table(id = c(1L, 1L), x = 1:2), "id"), "duplicated")
+  expect_error(DataBackendDataTable$new(data.table(id = c(1L, NA), x = 1:2), "id"), "missing")
+  expect_error(DataBackendDataTable$new(data.table(id = c("a", "b"), x = 1:2), "id"), "integerish")
+
+  b = DataBackendDataTable$new(data.table(id = c(2, 1), x = 1:2), "id")
+  expect_backend(b)
+  expect_equal(b$data(1:2, "x")$x, 2:1)
+})
