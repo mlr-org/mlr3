@@ -54,9 +54,11 @@ HotstartStack = R6Class(
     #' Stores hot start learners.
     stack = NULL,
 
-    #' @field hotstart_threshold (named `numeric(1)`)\cr
-    #' Threshold for storing learners in the stack.
-    #' If the value of the hotstart parameter is below this threshold, the learner is not added to the stack.
+    #' @field hotstart_threshold (named `numeric()`)\cr
+    #' Thresholds for storing learners in the stack.
+    #' The names are the ids of the hotstart parameters.
+    #' If the value of the hotstart parameter is below its threshold or not set, the learner is not added to the stack.
+    #' Learners without a hotstart parameter of one of the names are always added.
     hotstart_threshold = NULL,
 
     #' @description
@@ -65,11 +67,11 @@ HotstartStack = R6Class(
     #' @param learners (List of [Learner]s)\cr
     #'   Learners are added to the hotstart stack. If `NULL` (default), empty
     #'   stack is created.
-    #' @param hotstart_threshold (named `numeric(1)`)\cr
-    #'   Threshold for storing learners in the stack.
+    #' @param hotstart_threshold (named `numeric()`)\cr
+    #'   Thresholds for storing learners in the stack, named by the ids of the hotstart parameters.
     initialize = function(learners = NULL, hotstart_threshold = NULL) {
       self$stack = data.table()
-      self$hotstart_threshold = assert_numeric(hotstart_threshold, names = "named", null.ok = TRUE)
+      self$hotstart_threshold = assert_numeric(hotstart_threshold, any.missing = FALSE, names = "unique", null.ok = TRUE)
 
       # add learners to stack
       if (!is.null(learners)) self$add(learners)
@@ -97,8 +99,12 @@ HotstartStack = R6Class(
 
       if (!is.null(self$hotstart_threshold)) {
         learners = keep(learners, function(learner) {
-          hotstart_id = learner$param_set$ids(tags = "hotstart")
-          learner$param_set$values[[hotstart_id]] >= self$hotstart_threshold[hotstart_id]
+          hotstart_id = intersect(learner$param_set$ids(tags = "hotstart"), names(self$hotstart_threshold))
+          if (!length(hotstart_id)) {
+            return(TRUE)
+          }
+          value = learner$param_set$values[[hotstart_id[1L]]]
+          !is.null(value) && value >= self$hotstart_threshold[[hotstart_id[1L]]]
         })
         if (!length(learners)) return(invisible(self))
       }

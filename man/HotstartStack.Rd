@@ -56,9 +56,11 @@ learner$train(task)
     \item{\code{stack}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Stores hot start learners.}
 
-    \item{\code{hotstart_threshold}}{(named \code{numeric(1)})\cr
-Threshold for storing learners in the stack.
-If the value of the hotstart parameter is below this threshold, the learner is not added to the stack.}
+    \item{\code{hotstart_threshold}}{(named \code{numeric()})\cr
+Thresholds for storing learners in the stack.
+The names are the ids of the hotstart parameters.
+If the value of the hotstart parameter is below its threshold or not set, the learner is not added to the stack.
+Learners without a hotstart parameter of one of the names are always added.}
   }
   \if{html}{\out{</div>}}
 }
@@ -89,8 +91,8 @@ If the value of the hotstart parameter is below this threshold, the learner is n
       \item{\code{learners}}{(List of \link{Learner}s)\cr
 Learners are added to the hotstart stack. If \code{NULL} (default), empty
 stack is created.}
-      \item{\code{hotstart_threshold}}{(named \code{numeric(1)})\cr
-Threshold for storing learners in the stack.}
+      \item{\code{hotstart_threshold}}{(named \code{numeric()})\cr
+Thresholds for storing learners in the stack, named by the ids of the hotstart parameters.}
     }
     \if{html}{\out{</div>}}
   }

@@ -410,6 +410,23 @@ test_that("HotstartStack threshold works", {
   expect_data_table(hot$stack, nrows = 1)
 })
 
+test_that("HotstartStack threshold works with other learners and unset parameters", {
+  task = tsk("sonar")
+  hot = HotstartStack$new(hotstart_threshold = c(iter = 2, nrounds = 10))
+
+  hot$add(lrn("classif.rpart")$train(task))
+  expect_data_table(hot$stack, nrows = 1)
+
+  hot$add(lrn("classif.debug")$train(task))
+  expect_data_table(hot$stack, nrows = 1)
+
+  hot$add(lrn("classif.debug", iter = 3)$train(task))
+  expect_data_table(hot$stack, nrows = 2)
+
+  expect_error(HotstartStack$new(hotstart_threshold = c(iter = NA_real_)), "missing")
+  expect_error(HotstartStack$new(hotstart_threshold = 2), "names")
+})
+
 test_that("error when adding marshaled learner", {
   hot = HotstartStack$new()
   learner = lrn("classif.debug")
