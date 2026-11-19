@@ -258,6 +258,12 @@ Measure = R6Class(
         self$average,
         "macro_weighted" = {
           aggregator = self$aggregator %??% weighted.mean
+          if (length(setdiff(names(formals(args(aggregator))), "...")) < 2L) {
+            error_config(
+              "The aggregator of measure '%s' must accept the scores and the weights as first and second argument",
+              self$id
+            )
+          }
           tab = score_measures(
             rr,
             list(self),
@@ -265,9 +271,15 @@ Measure = R6Class(
             view = get_private(rr)$.view,
             iters = get_private(rr$resampling)$.primary_iters
           )
-          # score_measures constructs both .weights and .samples, since it can work with multiple measures and hence
-          # does not depend on an individual measure's `use_weights` setting.
-          set_names(aggregator(tab[[self$id]], if (self$use_weights == "use") tab$.weights else tab$.samples), self$id)
+          # weights and number of samples are taken from the predict sets of the measure
+          use_weights = self$use_weights == "use"
+          predict_sets = self$predict_sets
+          weights = map_dbl(tab$prediction, function(pdatas) {
+            sum(map_dbl(pdatas[intersect(predict_sets, names(pdatas))], function(pdata) {
+              if (use_weights && !is.null(pdata$weights)) sum(pdata$weights) else length(pdata$row_ids)
+            }))
+          })
+          set_names(aggregator(tab[[self$id]], weights), self$id)
         },
         "macro" = {
           aggregator = self$aggregator %??% mean
@@ -690,13 +702,6 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
     reassemble_learners = reassemble_learners,
     convert_predictions = FALSE
   )
-
-  set(tab, j = ".samples", value = map_dbl(tab$prediction, function(x) length(x$test$row_ids)))
-  if (length(tab$prediction) && "weights" %chin% names(tab$prediction[[1L]]$test)) {
-    set(tab, j = ".weights", value = map_dbl(tab$prediction, function(x) sum(x$test$weights)))
-  } else {
-    set(tab, j = ".weights", value = tab$.samples)
-  }
 
   if (!is.null(iters)) {
     tab = tab[list(iters), on = "iteration"]

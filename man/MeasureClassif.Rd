@@ -124,6 +124,9 @@ the value of field \code{"average"}:
 \itemize{
 \item \code{"macro"}: A numeric vector of scores (one per iteration) is passed.
 The aggregate function defaults to \code{\link[=mean]{mean()}} in this case.
+\item \code{"macro_weighted"}: A numeric vector of scores and a numeric vector of weights (one per iteration each) are
+passed as first and second argument.
+The aggregate function defaults to \code{\link[=weighted.mean]{weighted.mean()}} in this case.
 \item \code{"micro"}: The \code{aggregator} function is not used.
 Instead, predictions from multiple iterations are first combined and then
 scored in one go.

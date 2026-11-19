@@ -24,6 +24,9 @@
   Previously, each stratum assigned its remainder to the first folds, so that e.g. 10 strata with 11 observations each and 10 folds resulted in one fold with 20 and nine folds with 10 observations.
   Stratified instances created with the same seed differ from those of earlier versions.
 * fix: `BenchmarkResult$obs_loss()` now works for benchmark results with learners of different predict types, instead of failing with an error about inconsistent columns.
+* fix: `Measure$aggregate()` with `average = "macro_weighted"` now takes the weights and the number of samples from the predict sets of the measure instead of always using the test set.
+  Previously, measures on other predict sets were aggregated to `NaN` or weighted by the size of the test sets.
+  An `aggregator` that does not accept the scores and the weights as first and second argument, e.g. `max`, now raises an error instead of silently aggregating the weights together with the scores.
 * fix: `PredictionClassif` now raises an error if the predicted response contains labels that are not class labels of the task, instead of silently converting them to missing values.
 * fix: `as.data.table()` for a `BenchmarkResult` now respects the documented arguments `reassemble_learners` and `convert_predictions`, which were silently ignored.
   The argument `hashes`, which had no effect, now adds the columns `task_hash`, `learner_hash`, and `resampling_hash`.
