@@ -66,6 +66,8 @@ test_that("model extractor checks the return value of fun", {
 })
 
 test_that("holdout task checks the task", {
+  task = tsk("sonar")
+  learner = lrn("classif.featureless")
   callback = clbk("mlr3.holdout_task")
-  expect_error(suppressWarnings(resample(tsk("sonar"), lrn("classif.featureless"), rsmp("holdout"), callbacks = callback)), "'task'")
+  expect_error(suppressWarnings(resample(task, learner, rsmp("holdout"), callbacks = callback)), "'task'")
 })
