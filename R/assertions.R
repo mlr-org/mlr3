@@ -587,6 +587,41 @@ assert_quantiles = function(learner, quantile_response = FALSE) {
   invisible(learner)
 }
 
+# checks that the model of a learner was trained for the quantiles currently set in the learner
+assert_quantiles_model = function(learner, model) {
+  if (is.null(model$quantiles)) {
+    error_config(
+      "Learner '%s' was not trained to predict quantiles, train it with predict type 'quantiles'",
+      learner$id
+    )
+  }
+
+  # models of earlier versions do not store the probabilities
+  if (is.null(model$quantile_probs)) {
+    return(invisible(learner))
+  }
+
+  if (!identical(model$quantile_probs, learner$quantiles)) {
+    error_config(
+      "Learner '%s' was trained for the quantiles %s, but `$quantiles` is now %s, train it again",
+      learner$id,
+      str_collapse(model$quantile_probs),
+      str_collapse(learner$quantiles)
+    )
+  }
+
+  if (!identical(model$quantile_response, learner$quantile_response)) {
+    error_config(
+      "Learner '%s' was trained with the quantile response %s, but `$quantile_response` is now %s, train it again",
+      learner$id,
+      model$quantile_response,
+      learner$quantile_response
+    )
+  }
+
+  invisible(learner)
+}
+
 # nolint next
 assert_param_values = function(x, n_learners = NULL, .var.name = vname(x)) {
   assert_list(x, len = n_learners, .var.name = .var.name)

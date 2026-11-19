@@ -35,6 +35,30 @@ test_that("regr.featureless quantile prediction works", {
   expect_error(learner$train(task), "Quantile response must be set")
 })
 
+test_that("regr.featureless does not relabel quantiles after training", {
+  task = tsk("mtcars")
+  learner = lrn("regr.featureless", predict_type = "quantiles", quantiles = c(0.1, 0.5, 0.9), quantile_response = 0.5)
+  learner$train(task)
+  expect_equal(learner$model$quantile_probs, c(0.1, 0.5, 0.9))
+
+  learner$quantiles = c(0.25, 0.5, 0.75)
+  expect_error(learner$predict(task), "trained for the quantiles", class = "Mlr3ErrorConfig")
+
+  learner$quantiles = c(0.1, 0.5, 0.9)
+  learner$quantile_response = 0.1
+  expect_error(learner$predict(task), "trained with the quantile response", class = "Mlr3ErrorConfig")
+
+  learner$quantile_response = 0.5
+  learner$quantiles = c(0.1, 0.5, 0.9)
+  expect_prediction(learner$predict(task))
+
+  learner = lrn("regr.featureless")$train(task)
+  learner$predict_type = "quantiles"
+  learner$quantiles = c(0.1, 0.5)
+  learner$quantile_response = 0.5
+  expect_error(learner$predict(task), "not trained to predict quantiles", class = "Mlr3ErrorConfig")
+})
+
 test_that("weights are respected", {
   # Task with weights_learner role defined in helper_misc.R
   task = cars_weights_learner

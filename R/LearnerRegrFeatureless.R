@@ -97,6 +97,8 @@ LearnerRegrFeatureless = R6Class(
           location = location,
           dispersion = dispersion,
           quantiles = quantiles,
+          quantile_probs = if (!is.null(quantiles)) private$.quantiles,
+          quantile_response = if (!is.null(quantiles)) private$.quantile_response,
           features = task$feature_names
         ),
         "regr.featureless_model"
@@ -108,6 +110,7 @@ LearnerRegrFeatureless = R6Class(
 
       if (self$predict_type == "quantiles") {
         assert_quantiles(self, quantile_response = TRUE)
+        assert_quantiles_model(self, self$model)
         quantiles = matrix(rep(self$model$quantiles, n), nrow = n, byrow = TRUE)
         setattr(quantiles, "probs", private$.quantiles)
         setattr(quantiles, "response", private$.quantile_response)

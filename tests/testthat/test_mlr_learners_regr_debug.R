@@ -72,3 +72,20 @@ test_that("quantiles work", {
   learner$quantiles = c(0.25, 0.5, 0.75)
   expect_error(learner$train(task), "Quantile response must be set")
 })
+
+test_that("regr.debug does not predict quantiles it was not trained for", {
+  task = tsk("mtcars")
+  learner = lrn("regr.debug", predict_type = "quantiles")
+  learner$quantiles = c(0.1, 0.5, 0.9)
+  learner$quantile_response = 0.5
+  learner$train(task)
+
+  learner$quantiles = c(0.25, 0.5, 0.75)
+  expect_error(learner$predict(task), "trained for the quantiles", class = "Mlr3ErrorConfig")
+
+  learner = lrn("regr.debug")$train(task)
+  learner$predict_type = "quantiles"
+  learner$quantiles = c(0.1, 0.5)
+  learner$quantile_response = 0.5
+  expect_error(learner$predict(task), "not trained to predict quantiles", class = "Mlr3ErrorConfig")
+})
