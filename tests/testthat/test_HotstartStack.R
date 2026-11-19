@@ -417,3 +417,21 @@ test_that("error when adding marshaled learner", {
   learner$marshal()
   expect_error(hot$add(learner), "unmarshaled")
 })
+
+test_that("HotstartStack works when the hotstart parameter is not set", {
+  task = tsk("sonar")
+  learner_1 = lrn("classif.debug", iter = 1)
+  learner_1$train(task)
+  learner_2 = lrn("classif.debug")
+  learner_2$train(task)
+  hot = HotstartStack$new(list(learner_1, learner_2))
+
+  learner = lrn("classif.debug")
+  expect_equal(hot$start_cost(learner, task$hash), c(NA_real_, NA_real_))
+  expect_null(get_private(hot)$.start_learner(learner, task$hash))
+  learner$hotstart_stack = hot
+  expect_class(learner$train(task)$model, "classif.debug_model")
+
+  learner = lrn("classif.debug", iter = 2)
+  expect_equal(hot$start_cost(learner, task$hash), c(1, NA_real_))
+})

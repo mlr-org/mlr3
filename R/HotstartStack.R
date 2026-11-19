@@ -121,6 +121,7 @@ HotstartStack = R6Class(
     #' The following cost values can be returned:
     #'
     #' * `NA_real_`: Learner is unsuitable to hot start target `learner`.
+    #'   This includes learners whose hotstart parameter is not set.
     #' * `-1`: Hotstart learner in the stack and target `learner` are identical.
     #' * `0` Cost for hot starting backwards is always 0.
     #' * `> 0` Cost for hot starting forward.
@@ -209,7 +210,14 @@ calculate_cost = function(start_learner, learner, hotstart_id) {
     return(NA_real_)
   }
 
-  cost = learner$param_set$values[[hotstart_id]] - start_learner$param_set$values[[hotstart_id]]
+  target_value = learner$param_set$values[[hotstart_id]]
+  start_value = start_learner$param_set$values[[hotstart_id]]
+  # without a value the model was or will be trained with the default of the upstream function, which is unknown here
+  if (is.null(target_value) || is.null(start_value)) {
+    return(NA_real_)
+  }
+
+  cost = target_value - start_value
   if (cost == 0) {
     return(-1)
   }
