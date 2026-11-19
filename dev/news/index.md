@@ -457,6 +457,11 @@
 - feat: `Task$data()` gains the argument `all_cols` to return all
   columns of the backend, including the primary key and columns without
   a column role ([\#1470](https://github.com/mlr-org/mlr3/issues/1470)).
+- fix:
+  [`as_data_backend()`](https://mlr3.mlr-org.com/dev/reference/as_data_backend.md)
+  now raises an error if it has to add the primary key column `..row_id`
+  and the data already has a column with this name. Previously, the
+  column was silently overwritten with the generated row ids.
 - fix: `DataBackendDataTable$new()` now raises an error if the primary
   key column contains duplicated, missing, or non-integer row ids.
   Previously, such a backend was created and `$data()` returned more
