@@ -99,6 +99,7 @@
 * fix: `Task$set_row_roles()` now stores row ids as integers, so the same set of rows no longer results in different task hashes depending on the type of the passed row ids.
   Assigning to `$row_roles` now raises an error for row ids that do not exist in the backend.
 * fix: `as_task_classif()`, `as_task_regr()`, `as_task_unsupervised()`, and `as_tasks_unsupervised()` with `clone = TRUE` now return a deep clone like `as_task()`, so that the internal validation task is no longer shared with the original task.
+* fix: `clbk("mlr3.holdout_task")` no longer adds the time of the holdout prediction to the predict time of the resampling iteration, which inflated `msr("time_predict")`.
 * fix: Callbacks now receive the model in unmarshaled form in the `on_resample_end` stage of `resample()` and `benchmark()`, regardless of `unmarshal`, `store_models`, and the execution mode (#1509).
 * fix: `clbk("mlr3.holdout_task")` now raises an informative error before training if no `task` is set, and `clbk("mlr3.model_extractor")` now raises an informative error if `fun` does not return a named list, as documented.
 * fix: `Measure$obs_loss()` now returns missing values with a warning if the prediction does not contain the predict type required by the measure, like `$score()`, instead of failing inside the loss function.

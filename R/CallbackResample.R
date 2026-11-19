@@ -70,6 +70,8 @@ CallbackResample = R6Class(
 #' When implementing a callback, each function must have two arguments named `callback` and `context`.
 #' A callback can write data to the state (`$state`), e.g. settings that affect the callback itself.
 #' We highly discourage changing the task, learner and resampling objects via the callback.
+#' Calling `$predict()` on `context$learner` changes the predict time and the log stored for the resampling iteration.
+#' Predict with a clone of the learner instead (see examples).
 #'
 #' @param id (`character(1)`)\cr
 #'   Identifier for the new instance.
@@ -110,7 +112,8 @@ CallbackResample = R6Class(
 #' # holdout task callback
 #' callback = callback_resample("holdout_task",
 #'   on_resample_before_predict = function(callback, context) {
-#'     pred = context$learner$predict(callback$state$task)
+#'     # predict with a clone to keep the predict time of the iteration unchanged
+#'     pred = context$learner$clone()$predict(callback$state$task)
 #'     context$data_extra = list(prediction_holdout = pred)
 #'   }
 #' )

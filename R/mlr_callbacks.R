@@ -55,6 +55,7 @@ load_callback_model_extractor = function() {
 #'
 #' @description
 #' This [CallbackResample] predicts on an additional holdout task after training.
+#' The prediction is not included in the predict time of the resampling iteration.
 #'
 #' @section Parameters:
 #' \describe{
@@ -90,7 +91,8 @@ load_callback_holdout_task = function() {
     },
 
     on_resample_before_predict = function(callback, context) {
-      pred = context$learner$predict(callback$state$task)
+      # predict with a clone so that the predict time and the log of the iteration are not changed
+      pred = context$learner$clone()$predict(callback$state$task)
       context$data_extra = list(prediction_holdout = pred)
     }
   )
