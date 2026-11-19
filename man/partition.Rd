@@ -19,6 +19,9 @@ If a 2 element vector is provided, the first element is the ratio for the traini
 the second element is the ratio for the test set.
 The validation set will contain the remaining observations.}
 }
+\value{
+Named \code{list()} with the row ids of the sets \code{"train"}, \code{"test"}, and \code{"validation"}.
+}
 \description{
 Creates a split of the row ids of a \link{Task} into a training and a test set, and optionally a validation set.
 }
