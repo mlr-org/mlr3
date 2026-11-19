@@ -459,6 +459,13 @@
   a column role ([\#1470](https://github.com/mlr-org/mlr3/issues/1470)).
 - fix:
   [`auto_convert()`](https://mlr3.mlr-org.com/dev/reference/auto_convert.md)
+  now converts ordered factors to the levels of the target ordered
+  factor and raises an error if the values contain levels that the
+  target does not have. Previously, the levels were ignored, so
+  `Task$rbind()` with an ordered factor with different levels made
+  `task$data()` emit a warning and return an unordered factor.
+- fix:
+  [`auto_convert()`](https://mlr3.mlr-org.com/dev/reference/auto_convert.md)
   now converts `POSIXct` values to the `Date` in the time zone of the
   value instead of the date in UTC. Previously,
   e.g. `2020-01-01 00:30:00` in the time zone `Europe/Berlin` was
