@@ -89,8 +89,8 @@ LearnerClassifDebug = R6Class(
         save_tasks           = p_lgl(default = FALSE, tags = c("train", "predict")),
         segfault_predict     = p_dbl(0, 1, default = 0, tags = "predict"),
         segfault_train       = p_dbl(0, 1, default = 0, tags = "train"),
-        sleep_train          = p_uty(tags = "train"),
-        sleep_predict        = p_uty(tags = "predict"),
+        sleep_train          = p_uty(tags = "train", custom_check = check_function),
+        sleep_predict        = p_uty(tags = "predict", custom_check = check_function),
         threads              = p_int(1L, tags = c("train", "threads")),
         warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
         warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
@@ -237,11 +237,9 @@ LearnerClassifDebug = R6Class(
       )
 
       if (!is.null(valid_truth)) {
-        valid_pred = private$.make_prediction(
-          task$internal_valid_task,
-          model,
-          self$param_set$get_values(tags = "predict")
-        )
+        # the validation scores cannot be computed on missing predictions
+        pv_valid = remove_named(self$param_set$get_values(tags = "predict"), "predict_missing")
+        valid_pred = private$.make_prediction(task$internal_valid_task, model, pv_valid)
 
         valid_pred = as_prediction(as_prediction_data(
           valid_pred,
@@ -344,8 +342,8 @@ LearnerClassifDebug = R6Class(
 
       if ("response" %chin% self$predict_type) {
         response = rep.int(unclass(model$response), n)
-        if (!is.null(pv$predict_missing)) {
-          ii = sample.int(n, n * pv$predict_missing)
+        if (!is.null(pv[["predict_missing"]])) {
+          ii = sample.int(n, n * pv[["predict_missing"]])
           response = switch(missing_type, "na" = replace(response, ii, NA), "omit" = response[ii])
         }
       }
@@ -356,8 +354,8 @@ LearnerClassifDebug = R6Class(
         prob = prob / rowSums(prob)
         colnames(prob) = cl
 
-        if (!is.null(pv$predict_missing)) {
-          ii = sample.int(n, n * pv$predict_missing)
+        if (!is.null(pv[["predict_missing"]])) {
+          ii = sample.int(n, n * pv[["predict_missing"]])
           prob = switch(
             missing_type,
             "na" = {

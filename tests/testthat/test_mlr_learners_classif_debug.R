@@ -66,6 +66,32 @@ test_that("validation and internal tuning", {
   expect_permutation(names(learner$internal_valid_scores), c("acc", "mbrier"))
 })
 
+test_that("validation works with missing predictions", {
+  task = tsk("iris")
+  for (missing_type in c("na", "omit")) {
+    learner = lrn("classif.debug", validate = 0.3, predict_missing = 0.5, predict_missing_type = missing_type)
+    learner$train(task)
+    expect_number(learner$internal_valid_scores$acc, lower = 0, upper = 1)
+  }
+})
+
+test_that("predict_missing_type without predict_missing", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", predict_missing_type = "omit")
+  expect_prediction(learner$train(task)$predict(task))
+  task = tsk("mtcars")
+  learner = lrn("regr.debug", predict_missing_type = "omit")
+  expect_prediction(learner$train(task)$predict(task))
+})
+
+test_that("sleep parameters must be functions", {
+  expect_error(lrn("classif.debug", sleep_train = 1), "function")
+  expect_error(lrn("classif.debug", sleep_predict = 1), "function")
+  learner = lrn("classif.debug", sleep_train = function() 0, sleep_predict = function() 0)
+  task = tsk("iris")
+  expect_prediction(learner$train(task)$predict(task))
+})
+
 test_that("disable internal tuning", {
   learner = lrn("classif.debug", early_stopping = TRUE, iter = 100, validate = 0.2)
   learner$param_set$disable_internal_tuning("iter")

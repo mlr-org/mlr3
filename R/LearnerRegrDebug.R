@@ -168,8 +168,8 @@ LearnerRegrDebug = R6Class(
 
       for (pt in names(prediction)) {
         value = rep.int(self$model[[pt]], n)
-        if (!is.null(pv$predict_missing)) {
-          ii = sample.int(n, n * pv$predict_missing)
+        if (!is.null(pv[["predict_missing"]])) {
+          ii = sample.int(n, n * pv[["predict_missing"]])
           # fmt: skip
           value = switch(missing_type,
             "na" = replace(value, ii, NA),

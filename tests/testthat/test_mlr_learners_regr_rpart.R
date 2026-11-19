@@ -85,3 +85,8 @@ test_that("use_weights actually influences the model", {
   # Predictions should differ if weights were used
   expect_false(all(p1$response == p2$response))
 })
+
+test_that("regr.rpart raises an error on a task without features", {
+  task = tsk("mtcars")$select(character())
+  expect_error(lrn("regr.rpart")$train(task), "cannot be trained", class = "Mlr3ErrorLearnerTrain")
+})

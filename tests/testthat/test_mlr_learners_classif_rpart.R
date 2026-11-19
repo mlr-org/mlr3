@@ -78,3 +78,8 @@ test_that("default_values on rpart", {
   values = default_values(learner, search_space, task)
   expect_names(names(values), permutation.of = c("minsplit", "minbucket", "cp"))
 })
+
+test_that("classif.rpart raises an error on a task without features", {
+  task = tsk("iris")$select(character())
+  expect_error(lrn("classif.rpart")$train(task), "cannot be trained", class = "Mlr3ErrorLearnerTrain")
+})
