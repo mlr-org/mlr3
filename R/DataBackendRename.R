@@ -8,6 +8,7 @@ DataBackendRename = R6Class(
     new = NULL,
 
     initialize = function(b, old, new) {
+      assert_backend(b)
       super$initialize(data = b, b$primary_key)
       assert_character(old, any.missing = FALSE, unique = TRUE)
       assert_subset(old, b$colnames)
