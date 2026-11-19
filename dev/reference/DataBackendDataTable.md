@@ -87,7 +87,11 @@ calls
 [`as_data_backend()`](https://mlr3.mlr-org.com/dev/reference/as_data_backend.md)
 also takes care about casting to a
 [`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html) and
-adds a primary key column if necessary.
+adds a primary key column if necessary. The input data is sorted by the
+primary key by reference via
+[`data.table::setkeyv()`](https://rdrr.io/pkg/data.table/man/setkey.html).
+The primary key column must contain unique integer row ids without
+missing values.
 
 #### Usage
 
