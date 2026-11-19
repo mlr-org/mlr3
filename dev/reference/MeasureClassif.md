@@ -168,6 +168,12 @@ Creates a new instance of this
     The aggregate function defaults to
     [`mean()`](https://rdrr.io/r/base/mean.html) in this case.
 
+  - `"macro_weighted"`: A numeric vector of scores and a numeric vector
+    of weights (one per iteration each) are passed as first and second
+    argument. The aggregate function defaults to
+    [`weighted.mean()`](https://rdrr.io/r/stats/weighted.mean.html) in
+    this case.
+
   - `"micro"`: The `aggregator` function is not used. Instead,
     predictions from multiple iterations are first combined and then
     scored in one go.

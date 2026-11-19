@@ -316,7 +316,11 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <p></p><hr><a id="method-Resampling-instantiate"></a><div class="section">
 <h3 id="resampling-instantiate-"><code>Resampling$instantiate()</code><a class="anchor" aria-label="anchor" href="#resampling-instantiate-"></a></h3>
 <p>Materializes fixed training and test splits for a given task and stores them in <code>r$instance</code>
-in an arbitrary format.</p><div class="section">
+in an arbitrary format.</p>
+<p>The instance is not updated if the parameter values are changed afterwards.
+<code>$iters</code> is usually derived from the current parameter values,
+while <code>$train_set()</code>, <code>$test_set()</code>, and <code>$hash</code> still refer to the old instance.
+Call <code>$instantiate()</code> again after changing the parameter values of an instantiated resampling.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Resampling</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
