@@ -189,6 +189,13 @@
   [`default_measures()`](https://mlr3.mlr-org.com/dev/reference/default_measures.md)
   for a task type without a default measure now raise an informative
   error.
+- fix:
+  [`as_resampling()`](https://mlr3.mlr-org.com/dev/reference/as_resampling.md)
+  and
+  [`as_resamplings()`](https://mlr3.mlr-org.com/dev/reference/as_resampling.md)
+  with `clone = TRUE` now return a deep clone, so that changing the
+  parameter values of the clone no longer changes the original
+  resampling.
 - fix: `Learner$encapsulate()`: a `when` handler now also decides for
   errors of class `Mlr3ErrorConfig`, which previously always errored
   even when a handler was registered

@@ -833,11 +833,11 @@ bmr$learners
 head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 #>                                   uhash                task
 #>                                  <char>              <list>
-#> 1: ddfe4c37-0a89-4ea7-bebf-105041a58f4d <TaskClassif:sonar>
-#> 2: ddfe4c37-0a89-4ea7-bebf-105041a58f4d <TaskClassif:sonar>
-#> 3: ddfe4c37-0a89-4ea7-bebf-105041a58f4d <TaskClassif:sonar>
-#> 4: f69e8fdb-2277-4a30-81dd-7e4767a90a34 <TaskClassif:sonar>
-#> 5: f69e8fdb-2277-4a30-81dd-7e4767a90a34 <TaskClassif:sonar>
+#> 1: f50df03f-cfe9-4fcf-a6f6-8d4450a388a2 <TaskClassif:sonar>
+#> 2: f50df03f-cfe9-4fcf-a6f6-8d4450a388a2 <TaskClassif:sonar>
+#> 3: f50df03f-cfe9-4fcf-a6f6-8d4450a388a2 <TaskClassif:sonar>
+#> 4: 9328a5df-83c3-46cc-aa76-ff271bbe0d3f <TaskClassif:sonar>
+#> 5: 9328a5df-83c3-46cc-aa76-ff271bbe0d3f <TaskClassif:sonar>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1
