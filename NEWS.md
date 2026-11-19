@@ -135,6 +135,9 @@
 * fix: `Learner$predict()` with `parallel_predict = TRUE` now keeps the log entries and the predict time recorded by the workers, so `$warnings`, `$errors`, and `$timings` are no longer empty after a parallel prediction, and returns an empty prediction instead of `NULL` for zero row ids.
 * fix: `Learner$encapsulate()` now validates all arguments before changing the learner, so a failed call no longer changes `$hash`, raises an error if the fallback learner does not support the `$predict_type` of the learner instead of failing later during prediction, and rejects a `when` handler together with `method = "none"`.
 * feat: `Task$data()` gains the argument `all_cols` to return all columns of the backend, including the primary key and columns without a column role (#1470).
+* fix: `$missings()` and `$distinct()` of tasks extended with `$rbind()` or `$cbind()` now count the missing values that fill columns or rows which are only present in one of the combined backends.
+  Previously, `task$missings()` reported no missing values for these columns, so learners without the `"missings"` property were trained on missing values.
+  `expect_backend()` now checks that `$missings()` agrees with `$data()`.
 * fix: `auto_convert()` no longer converts character or factor values that cannot be parsed to missing values when converting to `Date` or `POSIXct`.
   Previously, only a first value that could not be parsed raised an error, so `Task$rbind()` silently stored `NA` for all later values with a different format.
 * fix: `auto_convert()` now converts ordered factors to the levels of the target ordered factor and raises an error if the values contain levels that the target does not have.
