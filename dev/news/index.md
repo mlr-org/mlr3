@@ -459,6 +459,12 @@
   a column role ([\#1470](https://github.com/mlr-org/mlr3/issues/1470)).
 - fix:
   [`auto_convert()`](https://mlr3.mlr-org.com/dev/reference/auto_convert.md)
+  now converts `POSIXct` values to the `Date` in the time zone of the
+  value instead of the date in UTC. Previously,
+  e.g. `2020-01-01 00:30:00` in the time zone `Europe/Berlin` was
+  converted to `2019-12-31`.
+- fix:
+  [`auto_convert()`](https://mlr3.mlr-org.com/dev/reference/auto_convert.md)
   now returns a `POSIXct` vector stored as double when converting
   logical or integer missing values to `POSIXct`, instead of a `POSIXct`
   vector with logical or integer storage.
