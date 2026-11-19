@@ -135,6 +135,8 @@
 * fix: `Learner$predict()` with `parallel_predict = TRUE` now keeps the log entries and the predict time recorded by the workers, so `$warnings`, `$errors`, and `$timings` are no longer empty after a parallel prediction, and returns an empty prediction instead of `NULL` for zero row ids.
 * fix: `Learner$encapsulate()` now validates all arguments before changing the learner, so a failed call no longer changes `$hash`, raises an error if the fallback learner does not support the `$predict_type` of the learner instead of failing later during prediction, and rejects a `when` handler together with `method = "none"`.
 * feat: `Task$data()` gains the argument `all_cols` to return all columns of the backend, including the primary key and columns without a column role (#1470).
+* fix: `auto_convert()` no longer converts character or factor values that cannot be parsed to missing values when converting to `Date` or `POSIXct`.
+  Previously, only a first value that could not be parsed raised an error, so `Task$rbind()` silently stored `NA` for all later values with a different format.
 * fix: `auto_convert()` now converts ordered factors to the levels of the target ordered factor and raises an error if the values contain levels that the target does not have.
   Previously, the levels were ignored, so `Task$rbind()` with an ordered factor with different levels made `task$data()` emit a warning and return an unordered factor.
 * fix: `auto_convert()` now converts `POSIXct` values to the `Date` in the time zone of the value instead of the date in UTC.

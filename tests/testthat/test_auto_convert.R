@@ -140,6 +140,24 @@ test_that("character", {
   )
 })
 
+test_that("character and factor to Date and POSIXct", {
+  x = c("2020-01-01", NA, "2020-01-02")
+  expect_identical(auto_convert(x, "x", "Date", character()), as.Date(x))
+  expect_identical(auto_convert(factor(x), "x", "Date", character()), as.Date(x))
+  expect_identical(auto_convert(x, "x", "POSIXct", character()), as.POSIXct(x, ""))
+
+  # values which cannot be parsed must not be converted to NA
+  x = c("2020-01-01", "foo", "01.02.2020")
+  expect_error(auto_convert(x, "x", "Date", character()), "[Ii]ncompatible type")
+  expect_error(auto_convert(factor(x), "x", "Date", character()), "[Ii]ncompatible type")
+  expect_error(auto_convert(x, "x", "POSIXct", character()), "[Ii]ncompatible type")
+  expect_error(auto_convert(c("2020-01-01 10:00:00", "foo"), "x", "POSIXct", character()), "[Ii]ncompatible type")
+
+  task = as_task_regr(data.table(y = 1:2, d = as.Date(c("2020-01-01", "2020-01-02"))), target = "y")
+  expect_error(task$rbind(data.table(y = 3:4, d = c("2020-01-03", "3 Jan 2020"))), "[Ii]ncompatible type")
+  expect_equal(task$nrow, 2L)
+})
+
 test_that("factor", {
   x = factor(c("1", NA, "0"), levels = c("1", "0"))
 
