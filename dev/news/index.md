@@ -310,6 +310,10 @@
   [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md),
   regardless of `unmarshal`, `store_models`, and the execution mode
   ([\#1509](https://github.com/mlr-org/mlr3/issues/1509)).
+- fix: `clbk("mlr3.holdout_task")` now raises an informative error
+  before training if no `task` is set, and
+  `clbk("mlr3.model_extractor")` now raises an informative error if
+  `fun` does not return a named list, as documented.
 - fix: `Measure$obs_loss()` now returns missing values with a warning if
   the prediction does not contain the predict type required by the
   measure, like `$score()`, instead of failing inside the loss function.
