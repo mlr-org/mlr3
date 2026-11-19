@@ -215,6 +215,12 @@
   `$materialize_view()`, `$labels`, `$col_info`, `$backend`,
   `$extra_args`, and `TaskClassif$positive` now invalidate the cached
   task hash, and `$extra_args` is now part of the task hash.
+- fix:
+  [`partition()`](https://mlr3.mlr-org.com/dev/reference/partition.md)
+  now raises an informative error if `ratio` contains missing or
+  negative values.
+- fix: `rsmp("repeated_cv")` now raises an informative error on
+  instantiation if the parameter `repeats` is not set.
 - fix: `Measure$aggregate()` with `average = "custom"` now raises an
   informative error if the measure has no `aggregator`, instead of
   failing with “attempt to apply non-function”.

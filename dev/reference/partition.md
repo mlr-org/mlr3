@@ -28,6 +28,11 @@ partition(task, ratio = 0.67)
   set, the second element is the ratio for the test set. The validation
   set will contain the remaining observations.
 
+## Value
+
+Named [`list()`](https://rdrr.io/r/base/list.html) with the row ids of
+the sets `"train"`, `"test"`, and `"validation"`.
+
 ## Examples
 
 ``` r
