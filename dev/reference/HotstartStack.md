@@ -114,7 +114,8 @@ self (invisibly).
 ### `HotstartStack$start_cost()`
 
 Calculates the cost for each learner of the stack to hot start the
-target `learner`.
+target `learner`. The costs are returned in the order of the rows of
+`$stack`, which is sorted by task and learner hash.
 
 The following cost values can be returned:
 
@@ -140,8 +141,12 @@ The following cost values can be returned:
 
 - `task_hash`:
 
-  [Task](https://mlr3.mlr-org.com/dev/reference/Task.md)  
+  (`character(1)`)  
   Hash of the task on which the target learner is trained.
+
+#### Returns
+
+[`numeric()`](https://rdrr.io/r/base/numeric.html).
 
 ------------------------------------------------------------------------
 

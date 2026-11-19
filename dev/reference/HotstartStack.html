@@ -185,7 +185,8 @@ Learners are added to the hotstart stack.</p></dd>
 
 <p></p><hr><a id="method-HotstartStack-start_cost"></a><div class="section">
 <h3 id="hotstartstack-start-cost-"><code>HotstartStack$start_cost()</code><a class="anchor" aria-label="anchor" href="#hotstartstack-start-cost-"></a></h3>
-<p>Calculates the cost for each learner of the stack to hot start the target <code>learner</code>.</p>
+<p>Calculates the cost for each learner of the stack to hot start the target <code>learner</code>.
+The costs are returned in the order of the rows of <code>$stack</code>, which is sorted by task and learner hash.</p>
 <p>The following cost values can be returned:</p><ul><li><p><code>NA_real_</code>: Learner is unsuitable to hot start target <code>learner</code>.</p></li>
 <li><p><code>-1</code>: Hotstart learner in the stack and target <code>learner</code> are identical.</p></li>
 <li><p><code>0</code> Cost for hot starting backwards is always 0.</p></li>
@@ -200,11 +201,14 @@ Learners are added to the hotstart stack.</p></dd>
 Target learner.</p></dd>
 
       <dt><code>task_hash</code></dt>
-<dd><p><a href="Task.html">Task</a><br>
+<dd><p>(<code>character(1)</code>)<br>
 Hash of the task on which the target learner is trained.</p></dd>
 
 
 </dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
+<p><code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>.</p>
 </div>
 
 </div>
