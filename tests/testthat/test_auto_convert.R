@@ -245,6 +245,14 @@ test_that("POSIXct", {
   )
 
   expect_date(auto_convert(Sys.time(), "x", "Date", character()))
+
+  # missing values are stored as double
+  for (x in list(NA, NA_integer_, NA_real_, c(NA, NA))) {
+    res = auto_convert(x, "x", "POSIXct", character())
+    expect_class(res, "POSIXct")
+    expect_double(res, len = length(x))
+    expect_true(allMissing(res))
+  }
 })
 
 test_that("Date", {

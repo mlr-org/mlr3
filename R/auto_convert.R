@@ -26,7 +26,7 @@ ee[["logical___ordered"]] =
   }
 ee[["logical___POSIXct"]] =
   function(value, type, levels) {
-    if (allMissing(value)) .POSIXct(value, tz = "") else value
+    if (allMissing(value)) .POSIXct(as.double(value), tz = "") else value
   }
 ee[["logical___Date"]] =
   function(value, type, levels) {

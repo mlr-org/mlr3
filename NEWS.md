@@ -135,6 +135,7 @@
 * fix: `Learner$predict()` with `parallel_predict = TRUE` now keeps the log entries and the predict time recorded by the workers, so `$warnings`, `$errors`, and `$timings` are no longer empty after a parallel prediction, and returns an empty prediction instead of `NULL` for zero row ids.
 * fix: `Learner$encapsulate()` now validates all arguments before changing the learner, so a failed call no longer changes `$hash`, raises an error if the fallback learner does not support the `$predict_type` of the learner instead of failing later during prediction, and rejects a `when` handler together with `method = "none"`.
 * feat: `Task$data()` gains the argument `all_cols` to return all columns of the backend, including the primary key and columns without a column role (#1470).
+* fix: `auto_convert()` now returns a `POSIXct` vector stored as double when converting logical or integer missing values to `POSIXct`, instead of a `POSIXct` vector with logical or integer storage.
 * fix: `as_data_backend()` now raises an error if it has to add the primary key column `..row_id` and the data already has a column with this name.
   Previously, the column was silently overwritten with the generated row ids.
 * fix: `DataBackendDataTable$new()` now raises an error if the primary key column contains duplicated, missing, or non-integer row ids.
