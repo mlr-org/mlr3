@@ -457,6 +457,20 @@
 - feat: `Task$data()` gains the argument `all_cols` to return all
   columns of the backend, including the primary key and columns without
   a column role ([\#1470](https://github.com/mlr-org/mlr3/issues/1470)).
+- fix: `$missings()` and `$distinct()` of tasks extended with `$rbind()`
+  or `$cbind()` now count the missing values that fill columns or rows
+  which are only present in one of the combined backends. Previously,
+  `task$missings()` reported no missing values for these columns, so
+  learners without the `"missings"` property were trained on missing
+  values. `expect_backend()` now checks that `$missings()` agrees with
+  `$data()`.
+- fix:
+  [`auto_convert()`](https://mlr3.mlr-org.com/dev/reference/auto_convert.md)
+  no longer converts character or factor values that cannot be parsed to
+  missing values when converting to `Date` or `POSIXct`. Previously,
+  only a first value that could not be parsed raised an error, so
+  `Task$rbind()` silently stored `NA` for all later values with a
+  different format.
 - fix:
   [`auto_convert()`](https://mlr3.mlr-org.com/dev/reference/auto_convert.md)
   now converts ordered factors to the levels of the target ordered
