@@ -24,6 +24,22 @@ test_that("stratification", {
   }
 })
 
+test_that("empty training set", {
+  task = tsk("iris")$filter(1:4)
+  r = rsmp("subsampling", ratio = 0.1, repeats = 2L)$instantiate(task)
+  expect_identical(r$train_set(1L), integer())
+  expect_set_equal(r$test_set(1L), task$row_ids)
+
+  task = tsk("iris")
+  r = rsmp("subsampling", ratio = 0, repeats = 2L)$instantiate(task)
+  expect_identical(r$train_set(2L), integer())
+  expect_set_equal(r$test_set(2L), task$row_ids)
+
+  r = rsmp("subsampling", ratio = 1, repeats = 2L)$instantiate(task)
+  expect_set_equal(r$train_set(2L), task$row_ids)
+  expect_identical(r$test_set(2L), integer())
+})
+
 test_that("grouping", {
   r = rsmp("subsampling", ratio = 0.5, repeats = 3)
   expect_grouping_works(r)
