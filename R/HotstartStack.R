@@ -139,13 +139,14 @@ HotstartStack = R6Class(
       .task_hash = assert_string(task_hash)
       hotstart_id = learner$param_set$ids(tags = "hotstart")
 
-      set(self$stack, j = "cost", value = NA_real_)
-      cost = self$stack[
+      cost = rep(NA_real_, nrow(self$stack))
+      ii = self$stack[
         list(.task_hash, .learner_hash),
-        "cost" := map_dbl(get("start_learner"), function(l) calculate_cost(l, learner, hotstart_id)),
-        on = c("task_hash", "learner_hash")
-      ][, get("cost")]
-      self$stack[, "cost" := NULL]
+        on = c("task_hash", "learner_hash"),
+        nomatch = NULL,
+        which = TRUE
+      ]
+      cost[ii] = map_dbl(self$stack$start_learner[ii], function(l) calculate_cost(l, learner, hotstart_id))
       cost
     },
 

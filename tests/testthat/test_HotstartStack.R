@@ -417,3 +417,18 @@ test_that("error when adding marshaled learner", {
   learner$marshal()
   expect_error(hot$add(learner), "unmarshaled")
 })
+
+test_that("HotstartStack is unchanged after an error in start_cost", {
+  task = tsk("sonar")
+  learner_1 = lrn("classif.debug", iter = 1)
+  learner_1$train(task)
+  hot = HotstartStack$new(list(learner_1))
+
+  learner = lrn("classif.debug", iter = 2)
+  learner$param_set$tags$x = c(learner$param_set$tags$x, "hotstart")
+  expect_error(hot$start_cost(learner, task$hash))
+  expect_data_table(hot$stack, ncols = 3)
+
+  hot$add(learner_1)
+  expect_data_table(hot$stack, nrows = 2, ncols = 3)
+})
