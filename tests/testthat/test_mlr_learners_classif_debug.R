@@ -82,6 +82,27 @@ test_that("marshaling", {
   expect_equal(p1, p2)
 })
 
+test_that("hotstarting continues from the stored model", {
+  task = tsk("iris")
+  learner_1 = lrn("classif.debug", iter = 1, count_marshaling = TRUE, check_pid = TRUE, save_tasks = TRUE)
+  learner_1$train(task)
+
+  learner_2 = lrn("classif.debug", iter = 2, count_marshaling = TRUE, check_pid = TRUE, save_tasks = TRUE)
+  learner_2$hotstart_stack = HotstartStack$new(list(learner_1))
+  learner_2$train(task)
+
+  expect_class(learner_2$model, "classif.debug_model")
+  expect_equal(learner_2$model$iter, 2)
+  expect_equal(learner_1$model$iter, 1)
+  fields = c("response", "id", "random_number", "marshal_pid", "marshal_count")
+  expect_equal(unclass(learner_2$model)[fields], unclass(learner_1$model)[fields])
+  expect_task(learner_2$model$task_train)
+
+  learner_2$marshal()$unmarshal()
+  expect_equal(learner_2$model$marshal_count, 1L)
+  expect_prediction(learner_2$predict(task))
+})
+
 test_that("importance and selected features", {
   l = lrn("classif.debug")
   task = tsk("iris")
