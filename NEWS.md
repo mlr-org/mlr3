@@ -85,6 +85,9 @@
   The field `$stages` of `MeasureElapsedTime` is now checked on assignment.
 * fix: `Task$rbind()` now invalidates `$row_hash` and `$col_hashes`, so `resample()` and `benchmark()` detect resamplings instantiated before the rows were added.
   `$materialize_view()`, `$labels`, `$col_info`, `$backend`, `$extra_args`, and `TaskClassif$positive` now invalidate the cached task hash, and `$extra_args` is now part of the task hash.
+* fix: `HotstartStack` with a `hotstart_threshold` no longer fails when adding learners without a hotstart parameter of that name or learners whose hotstart parameter is not set.
+  The former are always added, the latter are not added.
+  Missing values in `hotstart_threshold` now raise an error on construction.
 * fix: `partition()` now raises an informative error if `ratio` contains missing or negative values.
 * fix: `rsmp("repeated_cv")` now raises an informative error on instantiation if the parameter `repeats` is not set.
 * fix: `Measure$aggregate()` with `average = "custom"` now raises an informative error if the measure has no `aggregator`, instead of failing with "attempt to apply non-function".
