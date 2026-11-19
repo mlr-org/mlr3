@@ -325,18 +325,17 @@ Resampling = R6Class(
     .get_instance = function(task) {
       strata = task$strata
       groups = task$groups
-      if (is.null(strata)) {
-        if (is.null(groups)) {
-          private$.sample(task$row_ids, task = task)
-        } else {
-          private$.groups = groups
-          private$.sample(unique(groups$group), task = task)
-        }
-      } else {
-        if (!is.null(groups)) {
-          error_input("Cannot combine stratification with grouping")
-        }
+      if (!is.null(strata) && !is.null(groups)) {
+        error_input("Cannot combine stratification with grouping")
+      }
+      # reset the groups of a task the resampling was instantiated on before
+      private$.groups = groups
+      if (!is.null(strata)) {
         private$.combine(lapply(strata$row_id, private$.sample, task = task))
+      } else if (is.null(groups)) {
+        private$.sample(task$row_ids, task = task)
+      } else {
+        private$.sample(unique(groups$group), task = task)
       }
     },
 
