@@ -89,12 +89,12 @@ ee[["character___ordered"]] =
 ee[["character___POSIXct"]] =
   function(value, type, levels) {
     x = try(as.POSIXct(value, ""), silent = TRUE)
-    if (inherits(x, "try-error")) value else x
+    if (inherits(x, "try-error") || anyMissing(x[!is.na(value)])) value else x
   }
 ee[["character___Date"]] =
   function(value, type, levels) {
     x = try(as.Date(value), silent = TRUE)
-    if (inherits(x, "try-error")) value else x
+    if (inherits(x, "try-error") || anyMissing(x[!is.na(value)])) value else x
   }
 
 ## from: factor
