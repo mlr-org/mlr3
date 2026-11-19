@@ -29,3 +29,14 @@ test_that("DataBackendDataTable with 0 rows", {
   b = as_data_backend(iris[integer(), ])
   expect_backend(b)
 })
+
+test_that("as_data_backend does not overwrite a column named like the primary key", {
+  data = data.frame(..row_id = c(5L, 6L), x = 1:2)
+  expect_error(as_data_backend(data), "already has a column")
+  expect_error(as_data_backend(data, primary_key = 1:2), "already has a column")
+  expect_error(as_task_regr(data, target = "x"), "already has a column")
+
+  b = as_data_backend(data, primary_key = "..row_id")
+  expect_backend(b)
+  expect_equal(b$rownames, 5:6)
+})
