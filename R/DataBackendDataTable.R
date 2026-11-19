@@ -42,16 +42,25 @@ DataBackendDataTable = R6Class(
     #' Note that `DataBackendDataTable` does not copy the input data,
     #' while `as_data_backend()` calls [data.table::copy()].
     #' `as_data_backend()` also takes care about casting to a `data.table()` and adds a primary key column if necessary.
+    #' The input data is sorted by the primary key by reference via [data.table::setkeyv()].
+    #' The primary key column must contain unique integer row ids without missing values.
     #'
     #' @param data ([data.table::data.table()])\cr
     #'   The input [data.table()].
     initialize = function(data, primary_key) {
       assert_data_table(data, col.names = "unique")
-      super$initialize(setkeyv(data, primary_key), primary_key)
+      assert_string(primary_key)
       ii = match(primary_key, names(data))
       if (is.na(ii)) {
         error_input("Primary key '%s' not in 'data'", primary_key)
       }
+      assert_integerish(
+        data[[ii]],
+        any.missing = FALSE,
+        unique = TRUE,
+        .var.name = sprintf("primary key column '%s'", primary_key)
+      )
+      super$initialize(setkeyv(data, primary_key), primary_key)
       private$.cache = set_names(replace(rep(NA, ncol(data)), ii, FALSE), names(data))
     },
 

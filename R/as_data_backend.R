@@ -79,6 +79,15 @@ as_data_backend.data.frame = function(data, primary_key = NULL, keep_rownames = 
     }
 
     primary_key = "..row_id"
+    if (primary_key %chin% names(data)) {
+      error_input(
+        paste(
+          "Cannot add the primary key column '%s': 'data' already has a column with this name.",
+          "Rename the column or pass its name as 'primary_key'."
+        ),
+        primary_key
+      )
+    }
     data = insert_named(data, list("..row_id" = row_ids))
   }
 
