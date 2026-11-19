@@ -110,11 +110,10 @@ LearnerClassifRpart = R6Class(
           .args = pv
         )
         raw = response
-        response = factor(unname(response), levels = task$class_names)
+        response = unname(response)
       } else if (self$predict_type == "prob") {
         prob = invoke(predict, self$model, newdata = newdata, type = "prob", .opts = allow_partial_matching, .args = pv)
         raw = prob
-        prob = prob[, task$class_names, drop = FALSE]
         rownames(prob) = NULL
       }
 
