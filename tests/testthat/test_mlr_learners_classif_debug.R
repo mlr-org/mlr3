@@ -88,6 +88,8 @@ test_that("sleep parameters must be functions", {
   expect_error(lrn("classif.debug", sleep_train = 1), "function")
   expect_error(lrn("classif.debug", sleep_predict = 1), "function")
   learner = lrn("classif.debug", sleep_train = function() 0, sleep_predict = function() 0)
+  learner$configure(sleep_train = NULL, sleep_predict = NULL)
+  learner$configure(sleep_train = function() 0, sleep_predict = function() 0)
   task = tsk("iris")
   expect_prediction(learner$train(task)$predict(task))
 })

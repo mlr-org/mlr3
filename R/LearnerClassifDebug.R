@@ -78,6 +78,8 @@ LearnerClassifDebug = R6Class(
         disable_in_tune = list(early_stopping = FALSE)
       )
 
+      check_sleep = crate(function(x) check_function(x, null.ok = TRUE), .parent = topenv())
+
       # fmt: skip
       param_set = ps(
         error_predict        = p_dbl(0, 1, default = 0, tags = "predict"),
@@ -89,8 +91,8 @@ LearnerClassifDebug = R6Class(
         save_tasks           = p_lgl(default = FALSE, tags = c("train", "predict")),
         segfault_predict     = p_dbl(0, 1, default = 0, tags = "predict"),
         segfault_train       = p_dbl(0, 1, default = 0, tags = "train"),
-        sleep_train          = p_uty(tags = "train", custom_check = check_function),
-        sleep_predict        = p_uty(tags = "predict", custom_check = check_function),
+        sleep_train          = p_uty(tags = "train", custom_check = check_sleep),
+        sleep_predict        = p_uty(tags = "predict", custom_check = check_sleep),
         threads              = p_int(1L, tags = c("train", "threads")),
         warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
         warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
