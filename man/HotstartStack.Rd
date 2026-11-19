@@ -110,7 +110,8 @@ Threshold for storing learners in the stack.}
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{learners}}{(List of \link{Learner}s).
-Learners are added to the hotstart stack.}
+Learners are added to the hotstart stack.
+The stack stores clones, so later changes to the learners do not affect the stack.}
     }
     \if{html}{\out{</div>}}
   }

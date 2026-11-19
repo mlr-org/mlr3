@@ -88,6 +88,8 @@
 * fix: `partition()` now raises an informative error if `ratio` contains missing or negative values.
 * fix: `rsmp("repeated_cv")` now raises an informative error on instantiation if the parameter `repeats` is not set.
 * fix: `Measure$aggregate()` with `average = "custom"` now raises an informative error if the measure has no `aggregator`, instead of failing with "attempt to apply non-function".
+* fix: `HotstartStack$add()` now stores clones of the learners.
+  Previously, a learner that was trained again or changed after it was added could hotstart a learner with a model of another task or configuration.
 * fix: `resample()` and `benchmark()` with `allow_hotstart = TRUE` no longer carry over the prediction time, validation scores, fallback state, and task copies of the start learner into the hotstarted learner, which inflated `msr("time_predict")` (#1504).
 * fix: `Task$set_row_roles()` now stores row ids as integers, so the same set of rows no longer results in different task hashes depending on the type of the passed row ids.
   Assigning to `$row_roles` now raises an error for row ids that do not exist in the backend.
