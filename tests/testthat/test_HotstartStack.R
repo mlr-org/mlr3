@@ -417,3 +417,27 @@ test_that("error when adding marshaled learner", {
   learner$marshal()
   expect_error(hot$add(learner), "unmarshaled")
 })
+
+test_that("HotstartStack is not affected by changes to added learners", {
+  task = tsk("sonar")
+  learner = lrn("classif.debug", iter = 1)
+  learner$train(task)
+  model_id = learner$model$id
+
+  hot = HotstartStack$new()
+  learner$hotstart_stack = hot
+  hot$add(learner)
+  expect_null(hot$stack$start_learner[[1L]]$hotstart_stack)
+
+  learner$param_set$values$iter = 5
+  learner$train(tsk("spam"))
+
+  target = lrn("classif.debug", iter = 2)
+  expect_equal(hot$start_cost(target, task$hash), 1)
+  start_learner = get_private(hot)$.start_learner(target, task$hash)
+  expect_equal(start_learner$state$task_hash, task$hash)
+  expect_equal(start_learner$model$id, model_id)
+
+  learner$marshal()
+  expect_false(is_marshaled_model(hot$stack$start_learner[[1L]]$model))
+})

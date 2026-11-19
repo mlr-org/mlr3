@@ -80,6 +80,7 @@ HotstartStack = R6Class(
     #'
     #' @param learners (List of [Learner]s).
     #'   Learners are added to the hotstart stack.
+    #'   The stack stores clones, so later changes to the learners do not affect the stack.
     #'
     #' @return self (invisibly).
     add = function(learners) {
@@ -102,6 +103,16 @@ HotstartStack = R6Class(
         })
         if (!length(learners)) return(invisible(self))
       }
+
+      # the hashes are computed once, so the stored learners must not change with the learners of the caller
+      # the state is a list and replaced as a whole by training, so it is shared instead of cloned
+      learners = map(learners, function(learner) {
+        state = learner$state
+        learner = learner$clone(deep = TRUE)
+        learner$state = state
+        learner$hotstart_stack = NULL
+        learner
+      })
 
       # hashes
       task_hash = map_chr(learners, function(learner) learner$state$task_hash)
