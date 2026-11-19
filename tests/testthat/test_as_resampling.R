@@ -7,6 +7,12 @@ test_that("as_resampling conversion", {
   expect_same_address(resampling, converted)
   expect_different_address(resampling, cloned)
 
+  cloned$param_set$set_values(repeats = 2L)
+  expect_identical(resampling$param_set$values$repeats, 30L)
+  cloned = as_resamplings(list(resampling), clone = TRUE)[[1L]]
+  cloned$param_set$set_values(repeats = 2L)
+  expect_identical(resampling$param_set$values$repeats, 30L)
+
   expect_list(as_resamplings(resampling), types = "Resampling")
   expect_list(as_resamplings(list(resampling)), types = "Resampling")
 })
