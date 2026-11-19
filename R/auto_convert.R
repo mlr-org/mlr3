@@ -121,7 +121,7 @@ ee[["ordered___character"]] =
 ee[["ordered___factor"]] =
   ee[["factor___factor"]]
 ee[["ordered___ordered"]] =
-  ee[["ordered___ordered"]]
+  ee[["factor___ordered"]]
 ee[["ordered___POSIXct"]] =
   ee[["character___POSIXct"]]
 ee[["ordered___Date"]] =
