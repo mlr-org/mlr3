@@ -245,6 +245,20 @@ test_that("POSIXct", {
   )
 
   expect_date(auto_convert(Sys.time(), "x", "Date", character()))
+
+  # date in the time zone of the value
+  expect_identical(
+    auto_convert(as.POSIXct("2020-01-01 00:30:00", tz = "Europe/Berlin"), "x", "Date", character()),
+    as.Date("2020-01-01")
+  )
+  expect_identical(
+    auto_convert(as.POSIXct("2020-01-01 23:30:00", tz = "America/New_York"), "x", "Date", character()),
+    as.Date("2020-01-01")
+  )
+  expect_identical(
+    auto_convert(as.POSIXct("2020-01-01 00:30:00", tz = "UTC"), "x", "Date", character()),
+    as.Date("2020-01-01")
+  )
 })
 
 test_that("Date", {
