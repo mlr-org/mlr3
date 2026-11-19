@@ -69,6 +69,13 @@
   `$predictions()` and `$learners` stay ordered by iteration. Tasks,
   learners, resamplings, and extra data that are no longer referenced
   are now removed from the filtered result.
+- fix: `rsmp("cv")` and `rsmp("repeated_cv")` on a stratified task now
+  create folds whose sizes differ by at most one observation.
+  Previously, each stratum assigned its remainder to the first folds, so
+  that e.g. 10 strata with 11 observations each and 10 folds resulted in
+  one fold with 20 and nine folds with 10 observations. Stratified
+  instances created with the same seed differ from those of earlier
+  versions.
 - fix: `BenchmarkResult$obs_loss()` now works for benchmark results with
   learners of different predict types, instead of failing with an error
   about inconsistent columns.
