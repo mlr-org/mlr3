@@ -19,6 +19,10 @@
   `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer
   masked by fallback learners under encapsulation
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- fix: `Resampling$instantiate()` on a task without groups now drops the
+  groups of a task the resampling was instantiated on before.
+  Previously, `$train_set()` and `$test_set()` translated the row ids
+  with the groups of the earlier task and returned wrong row ids.
 - fix: `BenchmarkResult$combine()` and
   [`c()`](https://rdrr.io/r/base/c.html) no longer fail if the benchmark
   result to add is empty.
@@ -88,6 +92,14 @@
   `reassemble_learners` and `convert_predictions`, which were silently
   ignored. The argument `hashes`, which had no effect, now adds the
   columns `task_hash`, `learner_hash`, and `resampling_hash`.
+- fix: `rsmp("cv")` and `rsmp("repeated_cv")` now raise an error on
+  instantiation if the task has fewer observations or groups than folds.
+  Previously, `$test_set()` of `rsmp("cv")` returned `NA` for the empty
+  folds and
+  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md)
+  failed with a misleading error about a different task. On stratified
+  tasks, where single folds may stay empty, `$test_set()` now returns an
+  empty set.
 - fix: `Learner$predict()` on a `TaskUnsupervised` now returns the
   predicted classes of a classification learner instead of only missing
   values, and no longer errors with predict type `"prob"`.
