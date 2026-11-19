@@ -205,6 +205,24 @@ test_that("ordered", {
     auto_convert(x, "x", "ordered", c("1", "0")),
     ordered(c("1", NA, "0"), levels = c("1", "0"))
   )
+
+  expect_identical(
+    auto_convert(x, "x", "ordered", c("0", "2", "1")),
+    ordered(c("1", NA, "0"), levels = c("0", "2", "1"))
+  )
+
+  expect_error(
+    auto_convert(x, "x", "ordered", c("1", "2")),
+    "[Ii]ncompatible type"
+  )
+
+  task = as_task_regr(data.table(y = 1:3, o = ordered(c("lo", "mid", "hi"), levels = c("lo", "mid", "hi"))), target = "y")
+  expect_error(task$rbind(data.table(y = 4L, o = ordered("huge"))), "[Ii]ncompatible type")
+  task$rbind(data.table(y = 4:5, o = ordered(c("lo", "hi"), levels = c("hi", "lo"))))
+  expect_identical(
+    task$data()$o,
+    ordered(c("lo", "mid", "hi", "lo", "hi"), levels = c("lo", "mid", "hi"))
+  )
 })
 
 test_that("POSIXct", {
