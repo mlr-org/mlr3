@@ -154,6 +154,11 @@ Resampling = R6Class(
     #' Materializes fixed training and test splits for a given task and stores them in `r$instance`
     #' in an arbitrary format.
     #'
+    #' The instance is not updated if the parameter values are changed afterwards.
+    #' `$iters` is usually derived from the current parameter values,
+    #' while `$train_set()`, `$test_set()`, and `$hash` still refer to the old instance.
+    #' Call `$instantiate()` again after changing the parameter values of an instantiated resampling.
+    #'
     #' @param task ([Task])\cr
     #'   Task used for instantiation.
     #'

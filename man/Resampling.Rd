@@ -307,6 +307,11 @@ The referenced help package can be opened via method \verb{$help()}.}
 \subsection{\code{Resampling$instantiate()}}{
   Materializes fixed training and test splits for a given task and stores them in \code{r$instance}
 in an arbitrary format.
+
+The instance is not updated if the parameter values are changed afterwards.
+\verb{$iters} is usually derived from the current parameter values,
+while \verb{$train_set()}, \verb{$test_set()}, and \verb{$hash} still refer to the old instance.
+Call \verb{$instantiate()} again after changing the parameter values of an instantiated resampling.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{Resampling$instantiate(task)}
