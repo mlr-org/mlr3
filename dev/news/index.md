@@ -265,6 +265,11 @@
   `$materialize_view()`, `$labels`, `$col_info`, `$backend`,
   `$extra_args`, and `TaskClassif$positive` now invalidate the cached
   task hash, and `$extra_args` is now part of the task hash.
+- fix: `HotstartStack` with a `hotstart_threshold` no longer fails when
+  adding learners without a hotstart parameter of that name or learners
+  whose hotstart parameter is not set. The former are always added, the
+  latter are not added. Missing values in `hotstart_threshold` now raise
+  an error on construction.
 - fix:
   [`partition()`](https://mlr3.mlr-org.com/dev/reference/partition.md)
   now raises an informative error if `ratio` contains missing or

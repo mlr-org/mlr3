@@ -38,10 +38,12 @@ with `"hotstart"` in learner's parameter set.
 
 - `hotstart_threshold`:
 
-  (named `numeric(1)`)  
-  Threshold for storing learners in the stack. If the value of the
-  hotstart parameter is below this threshold, the learner is not added
-  to the stack.
+  (named [`numeric()`](https://rdrr.io/r/base/numeric.html))  
+  Thresholds for storing learners in the stack. The names are the ids of
+  the hotstart parameters. If the value of the hotstart parameter is
+  below its threshold or not set, the learner is not added to the stack.
+  Learners without a hotstart parameter of one of the names are always
+  added.
 
 ## Methods
 
@@ -81,8 +83,9 @@ Creates a new instance of this
 
 - `hotstart_threshold`:
 
-  (named `numeric(1)`)  
-  Threshold for storing learners in the stack.
+  (named [`numeric()`](https://rdrr.io/r/base/numeric.html))  
+  Thresholds for storing learners in the stack, named by the ids of the
+  hotstart parameters.
 
 ------------------------------------------------------------------------
 

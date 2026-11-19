@@ -121,9 +121,11 @@ Stores hot start learners.</p></dd>
 
 
     <dt><code>hotstart_threshold</code></dt>
-<dd><p>(named <code>numeric(1)</code>)<br>
-Threshold for storing learners in the stack.
-If the value of the hotstart parameter is below this threshold, the learner is not added to the stack.</p></dd>
+<dd><p>(named <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br>
+Thresholds for storing learners in the stack.
+The names are the ids of the hotstart parameters.
+If the value of the hotstart parameter is below its threshold or not set, the learner is not added to the stack.
+Learners without a hotstart parameter of one of the names are always added.</p></dd>
 
 
 </dl><p></p></div>
@@ -152,8 +154,8 @@ Learners are added to the hotstart stack. If <code>NULL</code> (default), empty
 stack is created.</p></dd>
 
       <dt><code>hotstart_threshold</code></dt>
-<dd><p>(named <code>numeric(1)</code>)<br>
-Threshold for storing learners in the stack.</p></dd>
+<dd><p>(named <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br>
+Thresholds for storing learners in the stack, named by the ids of the hotstart parameters.</p></dd>
 
 
 </dl><p></p></div>
