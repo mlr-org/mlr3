@@ -13,7 +13,8 @@
 #' @param learner [Learner]\cr
 #'  The learner for which a fallback learner should be created.
 #' @param ... `any`\cr
-#' ignored.
+#'  Passed on to the method of the learner class registered for the task type of the learner.
+#'  Ignored by the methods of mlr3.
 #'
 #' @return [Learner]
 #' @export

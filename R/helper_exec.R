@@ -9,13 +9,7 @@ set_encapsulation = function(learners, encapsulate) {
 
   if (!is.na(encapsulate)) {
     lapply(learners, function(learner) {
-      fallback = NULL
-      if (encapsulate != "none") {
-        fallback = learner$fallback %??% default_fallback(learner)
-        if (is.null(fallback)) {
-          error_config("Could not find default fallback learner for learner '%s'", learner$id)
-        }
-      }
+      fallback = if (encapsulate != "none") learner$fallback %??% default_fallback(learner)
       learner$encapsulate(encapsulate, fallback)
     })
   }
