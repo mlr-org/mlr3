@@ -703,7 +703,7 @@ columns with their respective column name.
 
 #### Usage
 
-    Task$data(rows = NULL, cols = NULL, ordered = FALSE)
+    Task$data(rows = NULL, cols = NULL, ordered = FALSE, all_cols = FALSE)
 
 #### Arguments
 
@@ -725,6 +725,14 @@ columns with their respective column name.
   If `TRUE`, data is ordered according to the columns with column role
   `"order"`.
 
+- `all_cols`:
+
+  (`logical(1)`)  
+  If `TRUE`, all columns of the
+  [DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md)
+  are returned in the order of the backend, including the primary key
+  and columns without a column role. Cannot be combined with `cols`.
+
 #### Returns
 
 Depending on the
@@ -736,6 +744,7 @@ but usually a
 
     task = tsk("penguins")
     task$data(rows = 1:5, cols = c("species", "sex"))
+    task$data(rows = 1:5, all_cols = TRUE)
 
 ------------------------------------------------------------------------
 
@@ -1376,6 +1385,22 @@ task$data(rows = 1:5, cols = c("species", "sex"))
 #> 3:  Adelie female
 #> 4:  Adelie   <NA>
 #> 5:  Adelie female
+task$data(rows = 1:5, all_cols = TRUE)
+#> Key: <..row_id>
+#>    species    island bill_length bill_depth flipper_length body_mass    sex
+#>     <fctr>    <fctr>       <num>      <num>          <int>     <int> <fctr>
+#> 1:  Adelie Torgersen        39.1       18.7            181      3750   male
+#> 2:  Adelie Torgersen        39.5       17.4            186      3800 female
+#> 3:  Adelie Torgersen        40.3       18.0            195      3250 female
+#> 4:  Adelie Torgersen          NA         NA             NA        NA   <NA>
+#> 5:  Adelie Torgersen        36.7       19.3            193      3450 female
+#>     year ..row_id
+#>    <int>    <int>
+#> 1:  2007        1
+#> 2:  2007        2
+#> 3:  2007        3
+#> 4:  2007        4
+#> 5:  2007        5
 
 ## ------------------------------------------------
 ## Method `Task$formula()`

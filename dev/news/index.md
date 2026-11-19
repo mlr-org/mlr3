@@ -404,6 +404,9 @@
   `$predict_type` of the learner instead of failing later during
   prediction, and rejects a `when` handler together with
   `method = "none"`.
+- feat: `Task$data()` gains the argument `all_cols` to return all
+  columns of the backend, including the primary key and columns without
+  a column role ([\#1470](https://github.com/mlr-org/mlr3/issues/1470)).
 
 ## mlr3 1.8.0
 

@@ -544,7 +544,7 @@ If <code>cols</code> is <code>NULL</code>, the column order defaults to <code>c(
 Note that it is recommended to <strong>not</strong> rely on the order of columns,
 and instead always address columns with their respective column name.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span>, cols <span class="op">=</span> <span class="cn">NULL</span>, ordered <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span>, cols <span class="op">=</span> <span class="cn">NULL</span>, ordered <span class="op">=</span> <span class="cn">FALSE</span>, all_cols <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
@@ -560,6 +560,12 @@ Vector of column names.</p></dd>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>TRUE</code>, data is ordered according to the columns with column role <code>"order"</code>.</p></dd>
 
+      <dt><code>all_cols</code></dt>
+<dd><p>(<code>logical(1)</code>)<br>
+If <code>TRUE</code>, all columns of the <a href="DataBackend.html">DataBackend</a> are returned in the order of the backend,
+including the primary key and columns without a column role.
+Cannot be combined with <code>cols</code>.</p></dd>
+
 
 </dl><p></p></div>
 </div><p></p><div class="section">
@@ -568,7 +574,8 @@ If <code>TRUE</code>, data is ordered according to the columns with column role 
 </div><p></p><div class="section">
 <h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
-<span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species"</span>, <span class="st">"sex"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species"</span>, <span class="st">"sex"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, all_cols <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 </div>
@@ -1131,6 +1138,22 @@ the resulting backend contains it only once.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:  Adelie female</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:  Adelie   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:  Adelie female</span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, all_cols <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;..row_id&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    species    island bill_length bill_depth flipper_length body_mass    sex</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;fctr&gt;    &lt;fctr&gt;       &lt;num&gt;      &lt;num&gt;          &lt;int&gt;     &lt;int&gt; &lt;fctr&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  Adelie Torgersen        39.1       18.7            181      3750   male</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  Adelie Torgersen        39.5       17.4            186      3800 female</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  Adelie Torgersen        40.3       18.0            195      3250 female</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  Adelie Torgersen          NA         NA             NA        NA   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:  Adelie Torgersen        36.7       19.3            193      3450 female</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     year ..row_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt;    &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  2007        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2007        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  2007        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  2007        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:  2007        5</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `Task$formula()`</span></span></span>
