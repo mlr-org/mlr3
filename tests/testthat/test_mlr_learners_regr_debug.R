@@ -81,6 +81,18 @@ test_that("quantiles work", {
   expect_error(learner$train(task), "Quantile response must be set")
 })
 
+test_that("NA predictions", {
+  task = tsk("mtcars")
+  learner = lrn("regr.debug", predict_missing = 0.5)
+  p = learner$train(task)$predict(task)
+  expect_equal(count_missing(p$response), 16L)
+
+  learner = lrn("regr.debug", predict_missing = 0.5, predict_type = "se")
+  p = learner$train(task)$predict(task)
+  expect_equal(count_missing(p$response), 16L)
+  expect_equal(is.na(p$response), is.na(p$se))
+})
+  
 test_that("condition switches", {
   task = tsk("mtcars")
   expect_message(lrn("regr.debug", message_train = 1)$train(task), "Message from regr.debug->train()", fixed = TRUE)
