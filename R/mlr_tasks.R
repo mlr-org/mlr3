@@ -61,7 +61,7 @@ as.data.table.DictionaryTask = function(x, ..., objects = FALSE) {
     map_dtr(
       x$keys(),
       function(key) {
-        t = tryCatch(x$get(key), missingDefaultError = function(e) NULL)
+        t = tryCatch(x$get(key), missingDefaultError = function(e) NULL, packageNotFoundError = function(e) NULL)
         if (is.null(t)) {
           return(list(key = key))
         }
