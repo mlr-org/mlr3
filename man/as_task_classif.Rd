@@ -104,6 +104,9 @@ constructor of \link{TaskClassif}.
 }
 
 Note that the target column will be converted to a \code{factor()}, if possible.
+
+The methods for \code{\link{formula}}, \code{\link[=data.frame]{data.frame()}}, and \code{\link[=matrix]{matrix()}} raise an error if the target column contains missing values.
+The method for \link{DataBackend} does not check the target column, because this would require reading the data.
 }
 \examples{
 as_task_classif(palmerpenguins::penguins, target = "species")

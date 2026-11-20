@@ -11,6 +11,9 @@
 #'
 #' Note that the target column will be converted to a `factor()`, if possible.
 #'
+#' The methods for [`formula`], [data.frame()], and [matrix()] raise an error if the target column contains missing values.
+#' The method for [DataBackend] does not check the target column, because this would require reading the data.
+#'
 #' @inheritParams as_task
 #'
 #' @return [TaskClassif].
@@ -94,10 +97,6 @@ as_task_classif.DataBackend = function(
   force(id)
 
   assert_choice(target, x$colnames)
-
-  if (x$missings(x$rownames, target) > 0L) {
-    error_input("Target column '%s' must not contain missing values", target)
-  }
 
   TaskClassif$new(id = id, backend = x, target = target, positive = positive, label = label, ...)
 }
