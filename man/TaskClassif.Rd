@@ -206,6 +206,7 @@ Always refers to the complete data set, even after filtering.}
   Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
 \code{cols} defaults to all columns with storage type "factor" or "ordered".
 Also updates the task property \code{"twoclass"}/\code{"multiclass"}.
+Raises an error and leaves the task unchanged if fewer than two levels of the target would remain.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TaskClassif$droplevels(cols = NULL)}

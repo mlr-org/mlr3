@@ -12,6 +12,8 @@
   Previously, a learner assigned in the stage `on_resample_begin` was trained and its model and predictions were stored under the original learner, and a learner assigned in a later stage was silently ignored.
   Callbacks can still modify the learner in place, e.g. write to `context$learner$state`.
 * fix: `benchmark()` with callbacks that write to `$data_extra` now stores the extra data with the experiment that produced it, instead of assigning it to another task, learner, or resampling.
+* fix: `TaskClassif$droplevels()` now leaves the task unchanged if it fails because fewer than two levels of the target would remain.
+  Previously, the task kept a single class level and could no longer be printed or trained on.
 * fix: `BenchmarkResult$filter()`, `$resample_result()`, and `$set_threshold()` now raise an error if `i` contains missing values.
   Previously, `$filter(i = NA)` silently removed all resample results.
 * fix: `lrn("regr.debug")` with `predict_missing` and predict type `"se"` now returns missing values for the same observations in the response and the standard error.
