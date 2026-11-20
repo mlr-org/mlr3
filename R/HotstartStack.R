@@ -89,7 +89,7 @@ HotstartStack = R6Class(
 
       walk(learners, function(learner) {
         if (!is.null(get0("validate", learner))) {
-          error_input("Hotstart learners that did validation is currently not supported.")
+          error_input("Hotstart learners that did validation are currently not supported.")
         } else if (is.null(learner$model)) {
           error_input("Learners must be trained before adding them to the hotstart stack.")
         } else if (is_marshaled_model(learner$model)) {
@@ -123,6 +123,7 @@ HotstartStack = R6Class(
 
     #' @description
     #' Calculates the cost for each learner of the stack to hot start the target `learner`.
+    #' The costs are returned in the order of the rows of `$stack`, which is sorted by task and learner hash.
     #'
     #' The following cost values can be returned:
     #'
@@ -133,10 +134,10 @@ HotstartStack = R6Class(
     #'
     #' @param learner [Learner]\cr
     #'   Target learner.
-    #' @param task_hash [Task]\cr
+    #' @param task_hash (`character(1)`)\cr
     #'   Hash of the task on which the target learner is trained.
     #'
-    # @return `numeric()`.
+    #' @return `numeric()`.
     start_cost = function(learner, task_hash) {
       if (!nrow(self$stack)) {
         return(numeric(0))
@@ -145,13 +146,14 @@ HotstartStack = R6Class(
       .task_hash = assert_string(task_hash)
       hotstart_id = learner$param_set$ids(tags = "hotstart")
 
-      set(self$stack, j = "cost", value = NA_real_)
-      cost = self$stack[
+      cost = rep(NA_real_, nrow(self$stack))
+      ii = self$stack[
         list(.task_hash, .learner_hash),
-        "cost" := map_dbl(get("start_learner"), function(l) calculate_cost(l, learner, hotstart_id)),
-        on = c("task_hash", "learner_hash")
-      ][, get("cost")]
-      self$stack[, "cost" := NULL]
+        on = c("task_hash", "learner_hash"),
+        nomatch = NULL,
+        which = TRUE
+      ]
+      cost[ii] = map_dbl(self$stack$start_learner[ii], function(l) calculate_cost(l, learner, hotstart_id))
       cost
     },
 
@@ -184,7 +186,7 @@ HotstartStack = R6Class(
         return(NULL)
       }
       .learner_hash = learner_hotstart_hash(assert_learner(learner))
-      .task_hash = assert_character(task_hash, len = 1L)
+      .task_hash = assert_string(task_hash)
       hotstart_id = learner$param_set$ids(tags = "hotstart")
 
       start_learner = self$stack[list(.task_hash, .learner_hash), on = c("task_hash", "learner_hash"), nomatch = NULL][,

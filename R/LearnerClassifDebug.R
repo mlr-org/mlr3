@@ -9,7 +9,7 @@
 #' The following hyperparameters trigger the following actions:
 #' \describe{
 #'    \item{error_predict:}{Probability to raise an exception during predict.}
-#'    \item{error_train:}{Probability to raises an exception during train.}
+#'    \item{error_train:}{Probability to raise an exception during train.}
 #'    \item{message_predict:}{Probability to output a message during predict.}
 #'    \item{message_train:}{Probability to output a message during train.}
 #'    \item{predict_missing:}{Ratio of predictions which will be NA.}
@@ -17,8 +17,8 @@
 #'      \dQuote{na} will insert NA values,
 #'      \dQuote{omit} will just return fewer predictions than requested.}
 #'    \item{save_tasks:}{Saves input task in `model` slot during training and prediction.}
-#'    \item{segfault_predict:}{Probability to provokes a segfault during predict.}
-#'    \item{segfault_train:}{Probability to provokes a segfault during train.}
+#'    \item{segfault_predict:}{Probability to provoke a segfault during predict.}
+#'    \item{segfault_train:}{Probability to provoke a segfault during train.}
 #'    \item{sleep_train:}{Function returning a single number determining how many seconds
 #'      to sleep during `$train()`.}
 #'    \item{sleep_predict:}{Function returning a single number determining how many seconds
@@ -27,7 +27,12 @@
 #'    \item{warning_predict:}{Probability to signal a warning during predict.}
 #'    \item{warning_train:}{Probability to signal a warning during train.}
 #'    \item{x:}{Numeric tuning parameter. Has no effect.}
-#'    \item{iter:}{Integer parameter for testing hotstarting.}
+#'    \item{iter:}{Integer parameter for testing hotstarting and internal tuning.}
+#'    \item{early_stopping:}{If `TRUE`, the `iter` stored in the model is drawn uniformly from 1 to `iter`,
+#'      and the best validation scores are better than the final ones by 0.1.
+#'      Requires a validation task. The default is `FALSE`.}
+#'    \item{config_error:}{If `TRUE`, `$train()` raises an error of class `Mlr3ErrorConfig`.
+#'      The default is `FALSE`.}
 #'    \item{count_marshaling:}{If `TRUE`, `marshal_model` will increase the `marshal_count`
 #'      by 1 each time it is called. The default is `FALSE`.}
 #'    \item{check_pid:}{If `TRUE`, the `$predict()` function will throw an error if the model
@@ -79,6 +84,8 @@ LearnerClassifDebug = R6Class(
         disable_in_tune = list(early_stopping = FALSE)
       )
 
+      check_sleep = crate(function(x) check_function(x, null.ok = TRUE), .parent = topenv())
+
       # fmt: skip
       param_set = ps(
         error_predict        = p_dbl(0, 1, default = 0, tags = "predict"),
@@ -90,8 +97,8 @@ LearnerClassifDebug = R6Class(
         save_tasks           = p_lgl(default = FALSE, tags = c("train", "predict")),
         segfault_predict     = p_dbl(0, 1, default = 0, tags = "predict"),
         segfault_train       = p_dbl(0, 1, default = 0, tags = "train"),
-        sleep_train          = p_uty(tags = "train"),
-        sleep_predict        = p_uty(tags = "predict"),
+        sleep_train          = p_uty(tags = "train", custom_check = check_sleep),
+        sleep_predict        = p_uty(tags = "predict", custom_check = check_sleep),
         threads              = p_int(1L, tags = c("train", "threads")),
         warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
         warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
@@ -238,11 +245,9 @@ LearnerClassifDebug = R6Class(
       )
 
       if (!is.null(valid_truth)) {
-        valid_pred = private$.make_prediction(
-          task$internal_valid_task,
-          model,
-          self$param_set$get_values(tags = "predict")
-        )
+        # the validation scores cannot be computed on missing predictions
+        pv_valid = remove_named(self$param_set$get_values(tags = "predict"), "predict_missing")
+        valid_pred = private$.make_prediction(task$internal_valid_task, model, pv_valid)
 
         valid_pred = as_prediction(as_prediction_data(
           valid_pred,
@@ -345,8 +350,8 @@ LearnerClassifDebug = R6Class(
 
       if ("response" %chin% self$predict_type) {
         response = rep.int(unclass(model$response), n)
-        if (!is.null(pv$predict_missing)) {
-          ii = sample.int(n, n * pv$predict_missing)
+        if (!is.null(pv[["predict_missing"]])) {
+          ii = sample.int(n, n * pv[["predict_missing"]])
           response = switch(missing_type, "na" = replace(response, ii, NA), "omit" = response[ii])
         }
       }
@@ -357,8 +362,8 @@ LearnerClassifDebug = R6Class(
         prob = prob / rowSums(prob)
         colnames(prob) = cl
 
-        if (!is.null(pv$predict_missing)) {
-          ii = sample.int(n, n * pv$predict_missing)
+        if (!is.null(pv[["predict_missing"]])) {
+          ii = sample.int(n, n * pv[["predict_missing"]])
           prob = switch(
             missing_type,
             "na" = {

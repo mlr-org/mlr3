@@ -78,3 +78,28 @@ test_that("default_values on rpart", {
   values = default_values(learner, search_space, task)
   expect_names(names(values), permutation.of = c("minsplit", "minbucket", "cp"))
 })
+
+test_that("classif.rpart raises an error on a task without features", {
+  task = tsk("iris")$select(character())
+  expect_error(lrn("classif.rpart")$train(task), "cannot be trained", class = "Mlr3ErrorLearnerTrain")
+})
+
+test_that("importance and selected_features of a tree without splits", {
+  task = as_task_classif(data.table(y = factor(rep(c("a", "b"), 15L)), x = 1), target = "y")
+  learner = lrn("classif.rpart")
+  expect_error(learner$importance(), "No model stored")
+  expect_error(learner$selected_features(), "No model stored")
+
+  learner$train(task)
+  expect_equal(learner$importance(), set_names(numeric()))
+  expect_equal(learner$selected_features(), character())
+  expect_prediction(learner$predict(task))
+})
+
+test_that("predict_raw", {
+  task = tsk("iris")
+  learner = lrn("classif.rpart")
+  learner$predict_raw = TRUE
+  p = learner$train(task)$predict(task)
+  expect_equal(unname(p$data$raw), p$response)
+})

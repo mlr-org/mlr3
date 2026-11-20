@@ -6,7 +6,8 @@ test_that("Simple training/predict", {
   prediction = learner$train(task)$predict(task)
   expect_class(learner$model, "classif.debug_model")
   expect_character(learner$model$response, len = 1L, any.missing = FALSE)
-  expect_factor(prediction$response, any.missing = FALSE, levels = levels(learner$model))
+  expect_factor(prediction$response, any.missing = FALSE, levels = task$class_names)
+  expect_true(all(prediction$response == learner$model$response))
 })
 
 test_that("updating model works", {
@@ -27,7 +28,10 @@ test_that("updating model works / resample", {
   learner = lrn("classif.debug", save_tasks = TRUE)
   rr = resample(tsk("iris"), learner, rsmp("holdout"), store_models = TRUE)
   new_learner = rr$learners[[1]]
-  expect_list(new_learner$model, len = 7)
+  expect_task(new_learner$model$task_train)
+  expect_task(new_learner$model$task_predict)
+  expect_equal(new_learner$model$task_train$row_ids, rr$resampling$train_set(1))
+  expect_equal(new_learner$model$task_predict$row_ids, rr$resampling$test_set(1))
 })
 
 test_that("NA predictions", {
@@ -55,6 +59,7 @@ test_that("default_values", {
 
 test_that("default_values works with empty search space", {
   learner = lrn("classif.debug")
+  task = tsk("sonar")
   expect_list(default_values(learner, ps(), task), len = 0)
 })
 
@@ -64,6 +69,34 @@ test_that("validation and internal tuning", {
   learner$train(task)
   expect_list(learner$internal_valid_scores, len = 2L, types = "numeric")
   expect_permutation(names(learner$internal_valid_scores), c("acc", "mbrier"))
+})
+
+test_that("validation works with missing predictions", {
+  task = tsk("iris")
+  for (missing_type in c("na", "omit")) {
+    learner = lrn("classif.debug", validate = 0.3, predict_missing = 0.5, predict_missing_type = missing_type)
+    learner$train(task)
+    expect_number(learner$internal_valid_scores$acc, lower = 0, upper = 1)
+  }
+})
+
+test_that("predict_missing_type without predict_missing", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", predict_missing_type = "omit")
+  expect_prediction(learner$train(task)$predict(task))
+  task = tsk("mtcars")
+  learner = lrn("regr.debug", predict_missing_type = "omit")
+  expect_prediction(learner$train(task)$predict(task))
+})
+
+test_that("sleep parameters must be functions", {
+  expect_error(lrn("classif.debug", sleep_train = 1), "function")
+  expect_error(lrn("classif.debug", sleep_predict = 1), "function")
+  learner = lrn("classif.debug", sleep_train = function() 0, sleep_predict = function() 0)
+  learner$configure(sleep_train = NULL, sleep_predict = NULL)
+  learner$configure(sleep_train = function() 0, sleep_predict = function() 0)
+  task = tsk("iris")
+  expect_prediction(learner$train(task)$predict(task))
 })
 
 test_that("disable internal tuning", {
@@ -134,4 +167,45 @@ test_that("weights are respected", {
   # check if setosa is the most frequent sampled class, probability > 0.9
   expect_true(response_table["setosa"] > 90)
   expect_true(all(names(response_table) %in% task$class_names))
+})
+
+test_that("condition switches", {
+  task = tsk("iris")
+  expect_message(
+    lrn("classif.debug", message_train = 1)$train(task),
+    "Message from classif.debug->train()",
+    fixed = TRUE
+  )
+  expect_warning(
+    lrn("classif.debug", warning_train = 1)$train(task),
+    "Warning from classif.debug->train()",
+    fixed = TRUE
+  )
+  expect_error(
+    lrn("classif.debug", error_train = 1)$train(task),
+    "classif.debug->train()",
+    fixed = TRUE,
+    class = "Mlr3ErrorLearnerTrain"
+  )
+  expect_error(lrn("classif.debug", config_error = TRUE)$train(task), "misconfigured", class = "Mlr3ErrorConfig")
+
+  learner = lrn("classif.debug")$train(task)
+  learner$param_set$set_values(message_predict = 1)
+  expect_message(learner$predict(task), "Message from classif.debug->predict()", fixed = TRUE)
+  learner$param_set$set_values(message_predict = 0, warning_predict = 1)
+  expect_warning(learner$predict(task), "Warning from classif.debug->predict()", fixed = TRUE)
+  learner$param_set$set_values(warning_predict = 0, error_predict = 1)
+  expect_error(learner$predict(task), "classif.debug->predict()", fixed = TRUE, class = "Mlr3ErrorLearnerPredict")
+
+  learner = lrn("classif.debug", message_train = 0, warning_train = 0, error_train = 0)
+  expect_silent(learner$train(task))
+})
+
+test_that("early stopping requires a validation task", {
+  learner = lrn("classif.debug", early_stopping = TRUE, iter = 10)
+  expect_error(learner$train(tsk("iris")), "validation task", class = "Mlr3ErrorConfig")
+
+  learner$validate = 0.3
+  learner$train(tsk("iris"))
+  expect_integerish(learner$internal_tuned_values$iter, lower = 1, upper = 10, len = 1L)
 })

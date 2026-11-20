@@ -126,6 +126,7 @@ Learners are added to the hotstart stack.}
 \if{latex}{\out{\hypertarget{method-HotstartStack-start_cost}{}}}
 \subsection{\code{HotstartStack$start_cost()}}{
   Calculates the cost for each learner of the stack to hot start the target \code{learner}.
+The costs are returned in the order of the rows of \verb{$stack}, which is sorted by task and learner hash.
 
 The following cost values can be returned:
 \itemize{
@@ -144,10 +145,13 @@ The following cost values can be returned:
     \describe{
       \item{\code{learner}}{\link{Learner}\cr
 Target learner.}
-      \item{\code{task_hash}}{\link{Task}\cr
+      \item{\code{task_hash}}{(\code{character(1)})\cr
 Hash of the task on which the target learner is trained.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{numeric()}.
   }
 }
 

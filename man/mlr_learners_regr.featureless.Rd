@@ -46,7 +46,7 @@ lrn("regr.featureless")
 \section{Parameters}{
 \tabular{llll}{
    Id \tab Type \tab Default \tab Levels \cr
-   robust \tab logical \tab TRUE \tab TRUE, FALSE \cr
+   robust \tab logical \tab FALSE \tab TRUE, FALSE \cr
 }
 }
 
