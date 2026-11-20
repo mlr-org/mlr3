@@ -23,6 +23,10 @@
   groups of a task the resampling was instantiated on before.
   Previously, `$train_set()` and `$test_set()` translated the row ids
   with the groups of the earlier task and returned wrong row ids.
+- fix: `lrn("classif.debug")` and `lrn("regr.debug")` with
+  `predict_missing_type = "omit"` now omit the share of predictions
+  given by `predict_missing`. Previously, this share was returned and
+  the rest was omitted.
 - fix: `BenchmarkResult$combine()` and
   [`c()`](https://rdrr.io/r/base/c.html) no longer fail if the benchmark
   result to add is empty.
