@@ -8,6 +8,7 @@
 #' @param target (`character(1)`)\cr
 #'   New target to be set, must be a column in the `intask` data.
 #'   If `NULL`, no new target is set, and task is converted as-is.
+#'   Ignored if the new task type has no target, e.g. `"unsupervised"`.
 #' @param new_type (`character(1)`)\cr
 #'   The new task type. Must be in [`mlr_reflections$task_types`][mlr_reflections]].
 #'   If `NULL` (default), a new task with the same task_type is created.
@@ -27,14 +28,18 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
 
   # get task_type from mlr_reflections and call constructor
   constructor = get(fget_key(mlr_reflections$task_types, new_type, "task", key = "type")[[1L]])
-  common_args = intersect(names(intask$extra_args), names(formals(constructor$public_methods$initialize)))
+  constructor_args = names(formals(constructor$public_methods$initialize))
+  common_args = intersect(names(intask$extra_args), constructor_args)
+  has_target = "target" %chin% mlr_reflections$task_col_roles[[new_type]]
+  if (!has_target) {
+    target = character()
+  }
   newtask = invoke(
     constructor$new,
     id = intask$id,
     backend = intask$backend,
-    target = target,
     label = intask$label,
-    .args = intask$extra_args[common_args]
+    .args = c(if ("target" %chin% constructor_args) list(target = target), intask$extra_args[common_args])
   )
   newtask$extra_args = intask$extra_args
 
@@ -44,10 +49,12 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
   col_roles = intask$col_roles[props]
   # add the original target(s) as features, only keeping 'new_target'
   col_roles$feature = c(col_roles$feature, setdiff(intask$col_roles$target, target))
-  col_roles$target = target
+  if (has_target) {
+    col_roles$target = target
+  }
   # remove new target from features
   col_roles$feature = setdiff(col_roles$feature, target)
-  newtask$col_roles[props] = col_roles
+  newtask$col_roles[names(col_roles)] = col_roles
 
   # during prediction, when target is NA, we do not call droplevels
   if (assert_flag(drop_levels)) {

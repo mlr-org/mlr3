@@ -2,6 +2,8 @@
 #'
 #' @description
 #' Convert object to a [TaskUnsupervised] or a list of [TaskUnsupervised].
+#' A [TaskUnsupervised] is returned as-is, possibly cloned.
+#' Other tasks are converted with [convert_task()], by default the target becomes a feature.
 #'
 #' @inheritParams as_task
 #'
@@ -13,8 +15,21 @@ as_task_unsupervised = function(x, ...) {
 #' @rdname as_task_unsupervised
 #' @export
 # nolint next
-as_task_unsupervised.Task = function(x, clone = FALSE, ...) {
+as_task_unsupervised.TaskUnsupervised = function(x, clone = FALSE, ...) {
   if (clone) x$clone(deep = TRUE) else x
+}
+
+#' @rdname as_task_unsupervised
+#' @inheritParams convert_task
+#' @export
+# nolint next
+as_task_unsupervised.Task = function(x, drop_original_target = FALSE, drop_levels = TRUE, ...) {
+  convert_task(
+    intask = x,
+    new_type = "unsupervised",
+    drop_original_target = drop_original_target,
+    drop_levels = drop_levels
+  )
 }
 
 #' @rdname as_task_unsupervised
@@ -62,6 +77,6 @@ as_tasks_unsupervised.list = function(x, clone = FALSE, ...) {
 #' @rdname as_task_unsupervised
 #' @export
 # nolint next
-as_tasks_unsupervised.Task = function(x, clone = FALSE, ...) {
-  list(if (clone) x$clone(deep = TRUE) else x)
+as_tasks_unsupervised.Task = function(x, ...) {
+  list(as_task_unsupervised(x, ...))
 }

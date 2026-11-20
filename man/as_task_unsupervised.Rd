@@ -2,6 +2,7 @@
 % Please edit documentation in R/as_task_unsupervised.R
 \name{as_task_unsupervised}
 \alias{as_task_unsupervised}
+\alias{as_task_unsupervised.TaskUnsupervised}
 \alias{as_task_unsupervised.Task}
 \alias{as_task_unsupervised.data.frame}
 \alias{as_task_unsupervised.DataBackend}
@@ -12,7 +13,9 @@
 \usage{
 as_task_unsupervised(x, ...)
 
-\method{as_task_unsupervised}{Task}(x, clone = FALSE, ...)
+\method{as_task_unsupervised}{TaskUnsupervised}(x, clone = FALSE, ...)
+
+\method{as_task_unsupervised}{Task}(x, drop_original_target = FALSE, drop_levels = TRUE, ...)
 
 \method{as_task_unsupervised}{data.frame}(
   x,
@@ -32,7 +35,7 @@ as_tasks_unsupervised(x, ...)
 
 \method{as_tasks_unsupervised}{list}(x, clone = FALSE, ...)
 
-\method{as_tasks_unsupervised}{Task}(x, clone = FALSE, ...)
+\method{as_tasks_unsupervised}{Task}(x, ...)
 }
 \arguments{
 \item{x}{(any)\cr
@@ -44,6 +47,13 @@ Additional arguments.}
 \item{clone}{(\code{logical(1)})\cr
 If \code{TRUE}, ensures that the returned object is not the same as the input \code{x}.}
 
+\item{drop_original_target}{(\code{logical(1)})\cr
+If \code{FALSE} (default), the original target is added as a feature.
+Otherwise the original target is dropped.}
+
+\item{drop_levels}{(\code{logical(1)})\cr
+If \code{TRUE} (default), unused levels of the new target variable are dropped.}
+
 \item{id}{(\code{character(1)})\cr
 Id for the new task.
 Defaults to the (deparsed and substituted) name of the data argument.}
@@ -53,4 +63,6 @@ Label for the new instance.}
 }
 \description{
 Convert object to a \link{TaskUnsupervised} or a list of \link{TaskUnsupervised}.
+A \link{TaskUnsupervised} is returned as-is, possibly cloned.
+Other tasks are converted with \code{\link[=convert_task]{convert_task()}}, by default the target becomes a feature.
 }

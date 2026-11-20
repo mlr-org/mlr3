@@ -86,6 +86,13 @@ as_task_regr.TaskClassif = function(x, target, drop_original_target = FALSE, dro
 }
 
 #' @rdname as_task_regr
+#' @export
+# nolint next
+as_task_regr.TaskUnsupervised = function(x, target, drop_levels = TRUE, ...) {
+  convert_task(intask = x, target = target, new_type = "regr", drop_levels = drop_levels)
+}
+
+#' @rdname as_task_regr
 #' @param data (`data.frame()`)\cr
 #'   Data frame containing all columns referenced in formula `x`.
 #' @export

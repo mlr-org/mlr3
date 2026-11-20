@@ -7,6 +7,7 @@
 \alias{as_task_regr.matrix}
 \alias{as_task_regr.DataBackend}
 \alias{as_task_regr.TaskClassif}
+\alias{as_task_regr.TaskUnsupervised}
 \alias{as_task_regr.formula}
 \title{Convert to a Regression Task}
 \usage{
@@ -39,6 +40,8 @@ as_task_regr(x, ...)
 )
 
 \method{as_task_regr}{TaskClassif}(x, target, drop_original_target = FALSE, drop_levels = TRUE, ...)
+
+\method{as_task_regr}{TaskUnsupervised}(x, target, drop_levels = TRUE, ...)
 
 \method{as_task_regr}{formula}(
   x,

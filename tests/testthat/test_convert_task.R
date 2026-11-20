@@ -142,6 +142,45 @@ test_that("extra args survive the roundtrip", {
   expect_equal(mytask$positive, "R")
 })
 
+test_that("convert_task handles unsupervised tasks", {
+  task = tsk("iris")
+  unsupervised = convert_task(task, new_type = "unsupervised")
+  expect_class(unsupervised, "TaskUnsupervised")
+  expect_length(unsupervised$target_names, 0L)
+  expect_set_equal(unsupervised$feature_names, c(task$feature_names, "Species"))
+  expect_set_equal(
+    convert_task(task, new_type = "unsupervised", drop_original_target = TRUE)$feature_names,
+    task$feature_names
+  )
+
+  task = tsk("mtcars")$filter(1:10)
+  unsupervised = convert_task(task, new_type = "unsupervised")
+  expect_identical(unsupervised$col_roles$name, "model")
+  expect_identical(unsupervised$nrow, 10L)
+
+  expect_no_warning({
+    supervised = convert_task(unsupervised, target = "mpg", new_type = "regr")
+  })
+  expect_class(supervised, "TaskRegr")
+  expect_identical(supervised$target_names, "mpg")
+  expect_set_equal(supervised$feature_names, task$feature_names)
+  expect_identical(supervised$col_roles$name, "model")
+
+  expect_identical(as_task_regr(unsupervised, target = "mpg")$target_names, "mpg")
+  expect_class(as_task_classif(as_task_unsupervised(iris), target = "Species"), "TaskClassif")
+})
+
+test_that("as_task_unsupervised converts supervised tasks", {
+  task = tsk("iris")
+  unsupervised = as_task_unsupervised(task)
+  expect_class(unsupervised, "TaskUnsupervised")
+  expect_true("Species" %chin% unsupervised$feature_names)
+  expect_class(task, "TaskClassif")
+  expect_true("Species" %nin% as_task_unsupervised(task, drop_original_target = TRUE)$feature_names)
+  expect_class(as_tasks_unsupervised(task)[[1L]], "TaskUnsupervised")
+  expect_class(as_tasks_unsupervised(list(task, unsupervised))[[1L]], "TaskUnsupervised")
+})
+
 test_that("convert_task preserves internal_valid_task", {
   task = tsk("california_housing")
   task$internal_valid_task = sample(task$nrow, 10)
