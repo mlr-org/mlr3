@@ -38,6 +38,7 @@ as_task_regr.TaskRegr = function(x, clone = FALSE, ...) {
 # nolint next
 as_task_regr.data.frame = function(x, target, id = deparse1(substitute(x)), label = NA_character_, ...) {
   force(id)
+  assert_empty_ellipsis(...)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
   assert_choice(target, names(x))

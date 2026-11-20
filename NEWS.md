@@ -23,6 +23,8 @@
 * fix: `lrn("classif.debug")` now continues from the stored model when hotstarting and only updates `iter`.
   Previously, the model was rebuilt without the fields written by `check_pid`, `count_marshaling`, and `save_tasks`, and the response was drawn again without the weights.
 * fix: `BenchmarkResult$aggregate()` with `conditions = TRUE` now returns the number of resampling iterations with at least one warning or error, as documented, instead of the total number of warnings or errors.
+* fix: `as_task_classif()` and `as_task_regr()` now raise an error for unknown arguments if called with a `data.frame`, `matrix`, or `formula`.
+  Previously, misspelled arguments like `positve` were silently ignored.
 * fix: `as_prediction_classif()` and `as_prediction_regr()` now store all columns that are not reserved prediction columns as extra data, so predictions with extra data survive the round trip through `as.data.table()`.
   `as_prediction_regr()` now also reconstructs quantile predictions from columns named `q<prob>` and raises an error for tables with a `distr` column.
   `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
