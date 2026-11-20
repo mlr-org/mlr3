@@ -35,7 +35,7 @@ LearnerRegrFeatureless = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        robust = p_lgl(default = TRUE, tags = "train")
+        robust = p_lgl(default = FALSE, tags = "train")
       )
       ps$set_values(robust = FALSE)
 
@@ -83,13 +83,13 @@ LearnerRegrFeatureless = R6Class(
         quantile_weighted(x, probs = private$.quantiles, weights = weights)
       }
 
-      if (isFALSE(pv$robust)) {
+      if (isTRUE(pv$robust)) {
+        location = quantile_weighted(x, probs = 0.5, weights = weights, continuous = FALSE)
+        dispersion = quantile_weighted(abs(x - location), probs = 0.5, weights = weights, continuous = FALSE) * 1.4826
+      } else {
         wmd = weighted_mean_sd(x, weights)
         location = wmd$mean
         dispersion = wmd$sd
-      } else {
-        location = quantile_weighted(x, probs = 0.5, weights = weights, continuous = FALSE)
-        dispersion = quantile_weighted(abs(x - location), probs = 0.5, weights = weights, continuous = FALSE) * 1.4826
       }
 
       set_class(

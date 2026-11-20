@@ -548,7 +548,9 @@ workhorse = function(
 
   # train model
   # use `learner` reference instead of `ctx$learner` to avoid going through the active binding
-  ctx$learner = learner = ctx$learner$clone()
+  # the binding is read-only for callbacks, so the learner is written to the private field
+  ctx_private = get_private(ctx)
+  ctx_private$.learner = learner = ctx$learner$clone()
   if (length(param_values)) {
     learner$param_set$values = list()
     learner$param_set$set_values(.values = param_values)
@@ -562,7 +564,7 @@ workhorse = function(
   call_back("on_resample_before_train", callbacks, ctx)
 
   train_result = learner_train(learner, task, sets[["train"]], test_set, mode = mode)
-  ctx$learner = learner = train_result$learner
+  ctx_private$.learner = learner = train_result$learner
 
   # process the model so it can be used for prediction (e.g. marshal for callr prediction), but also
   # keep a copy of the model in current form in case this is the format that we want to send back to the main process

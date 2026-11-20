@@ -110,6 +110,8 @@ LearnerClassif = R6Class(
       meta_task = self$state$train_task %??% task
       feature_names = meta_task$feature_names
       class_names = meta_task$class_names
+      # derived from the class names, as each read of `$positive` and `$negative` looks up the class names again
+      binary = length(class_names) == 2L
 
       # add data and most common used meta data
       fake_task = list(
@@ -117,8 +119,8 @@ LearnerClassif = R6Class(
         data = function(...) newdata[, feature_names, with = FALSE],
         class_names = class_names,
         # binary learners use positive and negative to name and order the probability columns
-        positive = meta_task$positive,
-        negative = meta_task$negative,
+        positive = if (binary) class_names[1L] else NA_character_,
+        negative = if (binary) class_names[2L] else NA_character_,
         # learners branch on the task type, other properties (e.g. offset) are not supported here
         properties = intersect(meta_task$properties, c("twoclass", "multiclass")),
         feature_names = feature_names,
