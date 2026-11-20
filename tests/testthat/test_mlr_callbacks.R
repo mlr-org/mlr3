@@ -53,3 +53,34 @@ test_that("holdout task works", {
     expect_prediction(data[["prediction_holdout"]])
   })
 })
+
+test_that("holdout task does not change the state of the learner", {
+  task = tsk("sonar")
+  callback_state = callback_resample("state", on_resample_before_predict = function(callback, context) {
+    context$data_extra = c(context$data_extra, list(predicted = !is.null(context$learner$state$predict_time)))
+  })
+  callbacks = list(clbk("mlr3.holdout_task", task = task), callback_state)
+
+  rr = resample(task, lrn("classif.rpart"), rsmp("holdout"), callbacks = callbacks)
+
+  expect_prediction(rr$data_extra$data_extra[[1L]]$prediction_holdout)
+  expect_false(rr$data_extra$data_extra[[1L]]$predicted)
+})
+  
+test_that("model extractor checks the return value of fun", {
+  task = tsk("sonar")
+  learner = lrn("classif.featureless")
+
+  callback = clbk("mlr3.model_extractor", fun = function(learner) 1)
+  expect_error(suppressWarnings(resample(task, learner, rsmp("holdout"), callbacks = callback)), "return value of fun")
+
+  callback = clbk("mlr3.model_extractor", fun = function(learner) list(1, 2))
+  expect_error(suppressWarnings(resample(task, learner, rsmp("holdout"), callbacks = callback)), "return value of fun")
+})
+
+test_that("holdout task checks the task", {
+  task = tsk("sonar")
+  learner = lrn("classif.featureless")
+  callback = clbk("mlr3.holdout_task")
+  expect_error(suppressWarnings(resample(task, learner, rsmp("holdout"), callbacks = callback)), "'task'")
+})

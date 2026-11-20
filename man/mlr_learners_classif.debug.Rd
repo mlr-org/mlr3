@@ -10,7 +10,7 @@ If no hyperparameter is set, it simply constantly predicts a randomly selected l
 The following hyperparameters trigger the following actions:
 \describe{
 \item{error_predict:}{Probability to raise an exception during predict.}
-\item{error_train:}{Probability to raises an exception during train.}
+\item{error_train:}{Probability to raise an exception during train.}
 \item{message_predict:}{Probability to output a message during predict.}
 \item{message_train:}{Probability to output a message during train.}
 \item{predict_missing:}{Ratio of predictions which will be NA.}
@@ -18,8 +18,8 @@ The following hyperparameters trigger the following actions:
 \dQuote{na} will insert NA values,
 \dQuote{omit} will just return fewer predictions than requested.}
 \item{save_tasks:}{Saves input task in \code{model} slot during training and prediction.}
-\item{segfault_predict:}{Probability to provokes a segfault during predict.}
-\item{segfault_train:}{Probability to provokes a segfault during train.}
+\item{segfault_predict:}{Probability to provoke a segfault during predict.}
+\item{segfault_train:}{Probability to provoke a segfault during train.}
 \item{sleep_train:}{Function returning a single number determining how many seconds
 to sleep during \verb{$train()}.}
 \item{sleep_predict:}{Function returning a single number determining how many seconds
@@ -28,11 +28,16 @@ to sleep during \verb{$predict()}.}
 \item{warning_predict:}{Probability to signal a warning during predict.}
 \item{warning_train:}{Probability to signal a warning during train.}
 \item{x:}{Numeric tuning parameter. Has no effect.}
-\item{iter:}{Integer parameter for testing hotstarting.}
+\item{iter:}{Integer parameter for testing hotstarting and internal tuning.}
+\item{early_stopping:}{If \code{TRUE}, the \code{iter} stored in the model is drawn uniformly from 1 to \code{iter},
+and the best validation scores are better than the final ones by 0.1.
+Requires a validation task. The default is \code{FALSE}.}
+\item{config_error:}{If \code{TRUE}, \verb{$train()} raises an error of class \code{Mlr3ErrorConfig}.
+The default is \code{FALSE}.}
 \item{count_marshaling:}{If \code{TRUE}, \code{marshal_model} will increase the \code{marshal_count}
 by 1 each time it is called. The default is \code{FALSE}.}
 \item{check_pid:}{If \code{TRUE}, the \verb{$predict()} function will throw an error if the model
-was not unmarshaled in the same session that is used for prediction.)}
+was not unmarshaled in the same session that is used for prediction.}
 }
 Note that segfaults may not be triggered reliably on your operating system.
 Also note that if they work as intended, they will tear down your R session immediately!

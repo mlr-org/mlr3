@@ -90,3 +90,23 @@ test_that("regr.rpart raises an error on a task without features", {
   task = tsk("mtcars")$select(character())
   expect_error(lrn("regr.rpart")$train(task), "cannot be trained", class = "Mlr3ErrorLearnerTrain")
 })
+
+test_that("importance and selected_features of a tree without splits", {
+  task = as_task_regr(data.table(y = rep(1, 30L), x = seq_len(30L)), target = "y")
+  learner = lrn("regr.rpart")
+  expect_error(learner$importance(), "No model stored")
+  expect_error(learner$selected_features(), "No model stored")
+
+  learner$train(task)
+  expect_equal(learner$importance(), set_names(numeric()))
+  expect_equal(learner$selected_features(), character())
+  expect_prediction(learner$predict(task))
+})
+
+test_that("predict_raw", {
+  task = tsk("mtcars")
+  learner = lrn("regr.rpart")
+  learner$predict_raw = TRUE
+  p = learner$train(task)$predict(task)
+  expect_equal(unname(p$data$raw), p$response)
+})
