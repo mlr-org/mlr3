@@ -41,8 +41,9 @@ load_callback_model_extractor = function() {
     man = "mlr3::mlr3.model_extractor",
 
     on_resample_end = function(callback, context) {
-      assert_function(callback$state$fun, args = "learner")
-      context$data_extra = invoke(callback$state$fun, learner = context$learner)
+      assert_function(callback$state$fun, args = "learner", .var.name = "fun")
+      data_extra = invoke(callback$state$fun, learner = context$learner)
+      context$data_extra = assert_list(data_extra, names = "unique", .var.name = "return value of fun")
     }
   )
 }
@@ -54,6 +55,7 @@ load_callback_model_extractor = function() {
 #'
 #' @description
 #' This [CallbackResample] predicts on an additional holdout task after training.
+#' The prediction is not included in the predict time of the resampling iteration.
 #'
 #' @section Parameters:
 #' \describe{
@@ -84,8 +86,13 @@ load_callback_holdout_task = function() {
     label = "Callback Holdout Task",
     man = "mlr3::mlr3.holdout_task",
 
+    on_resample_begin = function(callback, context) {
+      assert_task(callback$state$task, .var.name = "task")
+    },
+
     on_resample_before_predict = function(callback, context) {
-      pred = context$learner$predict(callback$state$task)
+      # predict with a clone so that the predict time and the log of the iteration are not changed
+      pred = context$learner$clone()$predict(callback$state$task)
       context$data_extra = list(prediction_holdout = pred)
     }
   )

@@ -13,6 +13,20 @@ test_that("regr.featureless works on featureless task", {
   expect_number(rr$aggregate())
 })
 
+test_that("regr.featureless is not robust by default", {
+  task = tsk("mtcars")
+  learner = lrn("regr.featureless")
+  expect_false(learner$param_set$default$robust)
+  expect_false(learner$param_set$values$robust)
+  expect_equal(learner$train(task)$model$location, mean(task$truth()))
+
+  learner$param_set$values$robust = NULL
+  expect_equal(learner$train(task)$model$location, mean(task$truth()))
+
+  learner$param_set$values$robust = TRUE
+  expect_equal(unname(learner$train(task)$model$location), median(task$truth()))
+})
+
 test_that("regr.featureless quantile prediction works", {
   task = tsk("mtcars")
 
@@ -35,6 +49,30 @@ test_that("regr.featureless quantile prediction works", {
   expect_error(learner$train(task), "Quantile response must be set")
 })
 
+test_that("regr.featureless does not relabel quantiles after training", {
+  task = tsk("mtcars")
+  learner = lrn("regr.featureless", predict_type = "quantiles", quantiles = c(0.1, 0.5, 0.9), quantile_response = 0.5)
+  learner$train(task)
+  expect_equal(learner$model$quantile_probs, c(0.1, 0.5, 0.9))
+
+  learner$quantiles = c(0.25, 0.5, 0.75)
+  expect_error(learner$predict(task), "trained for the quantiles", class = "Mlr3ErrorConfig")
+
+  learner$quantiles = c(0.1, 0.5, 0.9)
+  learner$quantile_response = 0.1
+  expect_error(learner$predict(task), "trained with the quantile response", class = "Mlr3ErrorConfig")
+
+  learner$quantile_response = 0.5
+  learner$quantiles = c(0.1, 0.5, 0.9)
+  expect_prediction(learner$predict(task))
+
+  learner = lrn("regr.featureless")$train(task)
+  learner$predict_type = "quantiles"
+  learner$quantiles = c(0.1, 0.5)
+  learner$quantile_response = 0.5
+  expect_error(learner$predict(task), "not trained to predict quantiles", class = "Mlr3ErrorConfig")
+})
+
 test_that("weights are respected", {
   # Task with weights_learner role defined in helper_misc.R
   task = cars_weights_learner
@@ -53,8 +91,15 @@ test_that("weights are respected", {
   w = task$weights_learner$weight
   expected_mean = weighted.mean(dt$dist, w)
 
+  expected_sd = sqrt(sum(w * (dt$dist - expected_mean)^2) / (sum(w) - sum(w^2) / sum(w)))
+
   # Check model components
   expect_equal(learner$model$location, expected_mean)
+  expect_equal(learner$model$dispersion, expected_sd)
+
+  learner$predict_type = "se"
+  p = learner$train(task)$predict(task)
+  expect_equal(p$se, rep(expected_sd, task$nrow))
 
   # Test quantiles with robust = FALSE
   learner$predict_type = "quantiles"
@@ -112,4 +157,23 @@ test_that("weighted quantile helper function", {
     unname(quantile_weighted(c(3, 4, 1, 2), weights = c(1, 2, 1, 2), probs = 0.5, continuous = FALSE)),
     2 + 1 / 3
   )
+})
+
+test_that("regr.featureless matches mean, sd, median, and mad", {
+  task = tsk("mtcars")
+  y = task$truth()
+
+  learner = lrn("regr.featureless", predict_type = "se")$train(task)
+  expect_equal(learner$model$location, mean(y))
+  expect_equal(learner$model$dispersion, sd(y))
+
+  learner = lrn("regr.featureless", predict_type = "se", robust = TRUE)$train(task)
+  expect_equal(unname(learner$model$location), median(y))
+  expect_equal(unname(learner$model$dispersion), mad(y))
+  p = learner$predict(task)
+  expect_equal(p$response, rep(median(y), task$nrow))
+  expect_equal(p$se, rep(mad(y), task$nrow))
+
+  expect_equal(learner$importance(), set_names(rep(0, task$n_features), task$feature_names))
+  expect_equal(learner$selected_features(), character())
 })

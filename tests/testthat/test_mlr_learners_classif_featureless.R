@@ -83,3 +83,13 @@ test_that("weights are respected", {
   # Rounding necessary due to potential floating point inaccuracies
   expect_equal(round(p_prob_mode$prob[1, ], 4), round(expected_probs_mode, 4))
 })
+
+test_that("classif.featureless predicts tied labels at random", {
+  task = tsk("iris")
+  learner = lrn("classif.featureless")$train(task, row_ids = c(1:10, 51:60, 101:105))
+  response = as.character(learner$predict(task)$response)
+  expect_set_equal(response, c("setosa", "versicolor"))
+
+  expect_equal(learner$importance(), set_names(rep(0, task$n_features), task$feature_names))
+  expect_equal(learner$selected_features(), character())
+})

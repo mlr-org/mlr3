@@ -5,17 +5,30 @@
 #'
 #' @description
 #' A simple [LearnerRegr] used primarily in the unit tests and for debugging purposes.
-#' If no hyperparameter is set, it simply constantly predicts the mean value of the training data.
+#' It constantly predicts the mean value of the training data, the standard deviation as standard error,
+#' and the quantiles of the training data.
 #' The following hyperparameters trigger the following actions:
 #' \describe{
-#'    \item{predict_missing:}{Ratio of predictions which will be NA.}
+#'    \item{error_predict:}{Probability to raise an exception during predict.}
+#'    \item{error_train:}{Probability to raise an exception during train.}
+#'    \item{message_predict:}{Probability to output a message during predict.}
+#'    \item{message_train:}{Probability to output a message during train.}
+#'    \item{predict_missing:}{Ratio of predictions which will be NA.
+#'      The same observations are missing in the response and the standard error.
+#'      Ignored for predict type `"quantiles"`.}
 #'    \item{predict_missing_type:}{How to encode missingness.
 #'      \dQuote{na} will insert NA values,
 #'      \dQuote{omit} will just return fewer predictions than requested.}
 #'    \item{save_tasks:}{Saves input task in `model` slot during training and prediction.}
+#'    \item{segfault_predict:}{Probability to provoke a segfault during predict.}
+#'    \item{segfault_train:}{Probability to provoke a segfault during train.}
 #'    \item{threads:}{Number of threads to use. Has no effect.}
+#'    \item{warning_predict:}{Probability to signal a warning during predict.}
+#'    \item{warning_train:}{Probability to signal a warning during train.}
 #'    \item{x:}{Numeric tuning parameter. Has no effect.}
 #' }
+#' Note that segfaults may not be triggered reliably on your operating system.
+#' Also note that if they work as intended, they will tear down your R session immediately!
 #'
 #' @templateVar id regr.debug
 #' @template learner
@@ -119,6 +132,7 @@ LearnerRegrDebug = R6Class(
         probs = self$quantiles
         model$quantiles = unname(quantile_weighted(truth, probs, weights = weights))
         model$quantile_probs = probs
+        model$quantile_response = self$quantile_response
       }
 
       if (isTRUE(pv$save_tasks)) {
@@ -154,6 +168,7 @@ LearnerRegrDebug = R6Class(
 
       if (self$predict_type == "quantiles") {
         assert_quantiles(self, quantile_response = TRUE)
+        assert_quantiles_model(self, self$model)
         prediction = list(
           quantiles = matrix(self$model$quantiles, nrow = n, ncol = length(self$model$quantiles), byrow = TRUE)
         )
@@ -166,14 +181,15 @@ LearnerRegrDebug = R6Class(
       prediction = named_list(mlr_reflections$learner_predict_types[["regr"]][[predict_types]])
       missing_type = pv$predict_missing_type %??% "na"
 
+      ii = if (!is.null(pv[["predict_missing"]])) sample.int(n, n * pv[["predict_missing"]])
+
       for (pt in names(prediction)) {
         value = rep.int(self$model[[pt]], n)
-        if (!is.null(pv$predict_missing)) {
-          ii = sample.int(n, n * pv$predict_missing)
+        if (!is.null(ii)) {
           # fmt: skip
           value = switch(missing_type,
             "na" = replace(value, ii, NA),
-            "omit" = value[ii]
+            "omit" = value[setdiff(seq_len(n), ii)]
           )
         }
 

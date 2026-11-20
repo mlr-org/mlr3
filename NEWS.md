@@ -5,10 +5,16 @@
 * fix: Errors caused by prior misconfiguration (e.g., predicting with an untrained learner, uninstantiated resamplings, missing stored models or backends, and unsupported predict types) now signal `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer masked by fallback learners under encapsulation (#1500).
 * fix: `Resampling$instantiate()` on a task without groups now drops the groups of a task the resampling was instantiated on before.
   Previously, `$train_set()` and `$test_set()` translated the row ids with the groups of the earlier task and returned wrong row ids.
+* fix: `lrn("classif.debug")` and `lrn("regr.debug")` with `predict_missing_type = "omit"` now omit the share of predictions given by `predict_missing`.
+  Previously, this share was returned and the rest was omitted.
 * fix: `BenchmarkResult$combine()` and `c()` no longer fail if the benchmark result to add is empty.
+* BREAKING CHANGE: `ContextResample$learner` can no longer be replaced by another learner in a callback.
+  Previously, a learner assigned in the stage `on_resample_begin` was trained and its model and predictions were stored under the original learner, and a learner assigned in a later stage was silently ignored.
+  Callbacks can still modify the learner in place, e.g. write to `context$learner$state`.
 * fix: `benchmark()` with callbacks that write to `$data_extra` now stores the extra data with the experiment that produced it, instead of assigning it to another task, learner, or resampling.
 * fix: `BenchmarkResult$filter()`, `$resample_result()`, and `$set_threshold()` now raise an error if `i` contains missing values.
   Previously, `$filter(i = NA)` silently removed all resample results.
+* fix: `lrn("regr.debug")` with `predict_missing` and predict type `"se"` now returns missing values for the same observations in the response and the standard error.
 * fix: `print()` for the result of `score_roc_measures()` now shows the confusion matrix with the truth in rows and the prediction in columns, as labeled.
   Previously, the counts of false positives and false negatives were shown in each other's place.
   `score_roc_measures()` now returns unnamed scores, ignores observation weights so that the measures match the returned confusion matrix, and raises an error for predictions that are not binary classification predictions.
@@ -20,11 +26,18 @@
 * fix: `as_prediction_classif()` and `as_prediction_regr()` now store all columns that are not reserved prediction columns as extra data, so predictions with extra data survive the round trip through `as.data.table()`.
   `as_prediction_regr()` now also reconstructs quantile predictions from columns named `q<prob>` and raises an error for tables with a `distr` column.
   `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
+* fix: `lrn("regr.featureless")` now declares `FALSE` as the default of `robust`, as documented.
+  Previously, the declared default was `TRUE`, and a learner with `robust` unset predicted the median.
 * fix: `ResampleResult$filter()` now keeps the iterations sorted, so that combining a filtered result with `c()` no longer errors and `$predictions()` and `$learners` stay ordered by iteration.
   Tasks, learners, resamplings, and extra data that are no longer referenced are now removed from the filtered result.
+* fix: `lrn("classif.rpart")` and `lrn("regr.rpart")` now raise an informative error if the task has no features.
+* fix: `lrn("classif.debug")` now checks that `sleep_train` and `sleep_predict` are functions, and computes the internal validation scores if `predict_missing` is set.
+  `lrn("classif.debug")` and `lrn("regr.debug")` no longer fail if `predict_missing_type` is set without `predict_missing`.
 * fix: `rsmp("cv")` and `rsmp("repeated_cv")` on a stratified task now create folds whose sizes differ by at most one observation.
   Previously, each stratum assigned its remainder to the first folds, so that e.g. 10 strata with 11 observations each and 10 folds resulted in one fold with 20 and nine folds with 10 observations.
   Stratified instances created with the same seed differ from those of earlier versions.
+* fix: `lrn("regr.featureless")` and `lrn("regr.debug")` now raise an error if `$quantiles` or `$quantile_response` are changed after training, or if the predict type is set to `"quantiles"` after training.
+  Previously, `lrn("regr.featureless")` returned the quantiles of the trained model labeled with the new probabilities.
 * fix: `BenchmarkResult$obs_loss()` now works for benchmark results with learners of different predict types, instead of failing with an error about inconsistent columns.
 * fix: `Measure$aggregate()` with `average = "macro_weighted"` now takes the weights and the number of samples from the predict sets of the measure instead of always using the test set.
   Previously, measures on other predict sets were aggregated to `NaN` or weighted by the size of the test sets.
@@ -85,6 +98,7 @@
   `ResampleResult$iters` is now read-only.
 * fix: `msr("time_train")`, `msr("time_predict")`, and `msr("time_both")` now return `NA` instead of `0` if the learner was not trained or did not predict yet.
   The field `$stages` of `MeasureElapsedTime` is now checked on assignment.
+* fix: `HotstartStack$start_cost()` no longer leaves a `cost` column in `$stack` if it fails, which made the next `$add()` fail with an error about inconsistent columns.
 * fix: `Task$rbind()` now invalidates `$row_hash` and `$col_hashes`, so `resample()` and `benchmark()` detect resamplings instantiated before the rows were added.
   `$materialize_view()`, `$labels`, `$col_info`, `$backend`, `$extra_args`, and `TaskClassif$positive` now invalidate the cached task hash, and `$extra_args` is now part of the task hash.
 * fix: `HotstartStack` with a `hotstart_threshold` no longer fails when adding learners without a hotstart parameter of that name or learners whose hotstart parameter is not set.
@@ -97,7 +111,9 @@
 * fix: `Task$set_row_roles()` now stores row ids as integers, so the same set of rows no longer results in different task hashes depending on the type of the passed row ids.
   Assigning to `$row_roles` now raises an error for row ids that do not exist in the backend.
 * fix: `as_task_classif()`, `as_task_regr()`, `as_task_unsupervised()`, and `as_tasks_unsupervised()` with `clone = TRUE` now return a deep clone like `as_task()`, so that the internal validation task is no longer shared with the original task.
+* fix: `clbk("mlr3.holdout_task")` no longer adds the time of the holdout prediction to the predict time of the resampling iteration, which inflated `msr("time_predict")`.
 * fix: Callbacks now receive the model in unmarshaled form in the `on_resample_end` stage of `resample()` and `benchmark()`, regardless of `unmarshal`, `store_models`, and the execution mode (#1509).
+* fix: `clbk("mlr3.holdout_task")` now raises an informative error before training if no `task` is set, and `clbk("mlr3.model_extractor")` now raises an informative error if `fun` does not return a named list, as documented.
 * fix: `Measure$obs_loss()` now returns missing values with a warning if the prediction does not contain the predict type required by the measure, like `$score()`, instead of failing inside the loss function.
   The argument `prediction` is now checked.
 * fix: `learner_predict()` now invalidates the cached task hash when subsetting to the predict rows, so `task$hash` is correct inside `.predict()` and `resample()` no longer stores a wrong task hash when a learner reads the hash during prediction (#1503).
