@@ -382,11 +382,13 @@ LearnerClassifDebug = R6Class(
 
     .hotstart = function(task) {
       model = self$model
-      pars = self$param_set$get_values(tags = "train")
-      id = self$model$id
-
-      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pars$iter, id = id)
-      set_class(model, "classif.debug_model")
+      pv = self$param_set$get_values(tags = "train")
+      model$iter = pv$iter
+      model$pid = Sys.getpid()
+      if (!is.null(model$marshal_pid)) {
+        model$marshal_pid = Sys.getpid()
+      }
+      model
     }
   )
 )

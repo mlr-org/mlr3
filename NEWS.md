@@ -20,6 +20,8 @@
   `score_roc_measures()` now returns unnamed scores, ignores observation weights so that the measures match the returned confusion matrix, and raises an error for predictions that are not binary classification predictions.
 * fix: `LearnerRegr`'s `$hash` and `$phash` now include `$quantiles` and `$quantile_response`, so learners predicting different quantiles are no longer treated as identical, e.g., when combining resample results (#1518).
   Subclasses of `Learner` can now add fields to the hash via the private field `$.extra_hash`.
+* fix: `lrn("classif.debug")` now continues from the stored model when hotstarting and only updates `iter`.
+  Previously, the model was rebuilt without the fields written by `check_pid`, `count_marshaling`, and `save_tasks`, and the response was drawn again without the weights.
 * fix: `BenchmarkResult$aggregate()` with `conditions = TRUE` now returns the number of resampling iterations with at least one warning or error, as documented, instead of the total number of warnings or errors.
 * fix: `as_prediction_classif()` and `as_prediction_regr()` now store all columns that are not reserved prediction columns as extra data, so predictions with extra data survive the round trip through `as.data.table()`.
   `as_prediction_regr()` now also reconstructs quantile predictions from columns named `q<prob>` and raises an error for tables with a `distr` column.
