@@ -37,7 +37,8 @@ The default is \code{FALSE}.}
 \item{count_marshaling:}{If \code{TRUE}, \code{marshal_model} will increase the \code{marshal_count}
 by 1 each time it is called. The default is \code{FALSE}.}
 \item{check_pid:}{If \code{TRUE}, the \verb{$predict()} function will throw an error if the model
-was not unmarshaled in the same session that is used for prediction.}
+was not unmarshaled in the same session that is used for prediction.
+The default is \code{FALSE}.}
 }
 Note that segfaults may not be triggered reliably on your operating system.
 Also note that if they work as intended, they will tear down your R session immediately!
@@ -82,7 +83,7 @@ lrn("classif.debug")
    iter \tab integer \tab 1 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    early_stopping \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    count_marshaling \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   check_pid \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   check_pid \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    config_error \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
 }
 }
