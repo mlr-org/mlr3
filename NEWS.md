@@ -8,6 +8,8 @@
 * fix: `lrn("classif.debug")` and `lrn("regr.debug")` with `predict_missing_type = "omit"` now omit the share of predictions given by `predict_missing`.
   Previously, this share was returned and the rest was omitted.
 * fix: `BenchmarkResult$combine()` and `c()` no longer fail if the benchmark result to add is empty.
+* fix: `TaskClassif$properties` now derives `"twoclass"` and `"multiclass"` from the current target column.
+  Previously, the property was not updated after changing the target via `$col_roles` or `$set_col_roles()` or the levels via `$set_levels()` or `$rbind()`, so that learners without multiclass support accepted multiclass tasks.
 * BREAKING CHANGE: `ContextResample$learner` can no longer be replaced by another learner in a callback.
   Previously, a learner assigned in the stage `on_resample_begin` was trained and its model and predictions were stored under the original learner, and a learner assigned in a later stage was silently ignored.
   Callbacks can still modify the learner in place, e.g. write to `context$learner$state`.

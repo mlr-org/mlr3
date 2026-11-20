@@ -99,6 +99,41 @@ test_that("class property is updated", {
 })
 
 
+test_that("class property follows target and level changes", {
+  data = data.table(
+    y2 = factor(rep(c("a", "b"), 10)),
+    y4 = factor(rep(c("u", "v", "w", "x"), 5)),
+    x = 1:20
+  )
+
+  task = as_task_classif(data, target = "y2")
+  task$col_roles$target = "y4"
+  task$col_roles$feature = "x"
+  expect_subset("multiclass", task$properties)
+  expect_disjunct("twoclass", task$properties)
+  learner = lrn("classif.featureless")
+  learner$properties = setdiff(learner$properties, "multiclass")
+  expect_error(learner$train(task), "multiclass")
+
+  task = as_task_classif(data, target = "y2")
+  task$set_levels(list(y2 = c("a", "b", "c")))
+  expect_subset("multiclass", task$properties)
+
+  task = as_task_classif(data, target = "y4")
+  task$set_levels(list(y4 = c("u", "v")))
+  expect_subset("twoclass", task$properties)
+  expect_identical(task$positive, "u")
+
+  task = tsk("iris")$filter(1:100)$droplevels()
+  expect_subset("twoclass", task$properties)
+  task$rbind(iris)
+  expect_subset("multiclass", task$properties)
+
+  task = tsk("sonar")
+  task$set_col_roles("V1", add_to = "weights_learner")
+  expect_identical(task$properties, c("twoclass", "weights_learner"))
+})
+
 test_that("droplevels keeps level order", {
   task = tsk("iris")
   my_order = c("virginica", "setosa", "versicolor")
