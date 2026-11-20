@@ -26,6 +26,8 @@
 * fix: `as_prediction_classif()` and `as_prediction_regr()` now store all columns that are not reserved prediction columns as extra data, so predictions with extra data survive the round trip through `as.data.table()`.
   `as_prediction_regr()` now also reconstructs quantile predictions from columns named `q<prob>` and raises an error for tables with a `distr` column.
   `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
+* fix: `convert_task()`, `as_task_classif()`, and `as_task_regr()` no longer fail if the task has a positive class and the new target is a different column.
+  The positive class is now only kept if it is a class of the new binary target.
 * fix: `lrn("regr.featureless")` now declares `FALSE` as the default of `robust`, as documented.
   Previously, the declared default was `TRUE`, and a learner with `robust` unset predicted the median.
 * fix: `ResampleResult$filter()` now keeps the iterations sorted, so that combining a filtered result with `c()` no longer errors and `$predictions()` and `$learners` stay ordered by iteration.

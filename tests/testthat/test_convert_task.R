@@ -142,6 +142,29 @@ test_that("extra args survive the roundtrip", {
   expect_equal(mytask$positive, "R")
 })
 
+test_that("convert_task drops the positive class of another target", {
+  data = data.table(
+    y = factor(rep(c("a", "b"), 10)),
+    y_binary = factor(rep(c("p", "q"), each = 10)),
+    y_multi = factor(rep(c("u", "v", "w", "x"), 5)),
+    x = 1:20
+  )
+  task = as_task_classif(data, target = "y", positive = "b")
+
+  converted = convert_task(task, target = "y_binary")
+  expect_identical(converted$positive, "p")
+  expect_null(converted$extra_args$positive)
+
+  converted = convert_task(task, target = "y_multi")
+  expect_subset("multiclass", converted$properties)
+  expect_null(converted$extra_args$positive)
+
+  task_regr = as_task_regr(task, target = "x")
+  expect_identical(task_regr$extra_args$positive, "b")
+  expect_identical(as_task_classif(task_regr, target = "y")$positive, "b")
+  expect_identical(as_task_classif(task_regr, target = "y_binary")$positive, "p")
+})
+
 test_that("convert_task preserves internal_valid_task", {
   task = tsk("california_housing")
   task$internal_valid_task = sample(task$nrow, 10)
