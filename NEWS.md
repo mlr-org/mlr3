@@ -34,6 +34,8 @@
 * fix: `rsmp("cv")` and `rsmp("repeated_cv")` on a stratified task now create folds whose sizes differ by at most one observation.
   Previously, each stratum assigned its remainder to the first folds, so that e.g. 10 strata with 11 observations each and 10 folds resulted in one fold with 20 and nine folds with 10 observations.
   Stratified instances created with the same seed differ from those of earlier versions.
+* fix: `lrn("regr.featureless")` and `lrn("regr.debug")` now raise an error if `$quantiles` or `$quantile_response` are changed after training, or if the predict type is set to `"quantiles"` after training.
+  Previously, `lrn("regr.featureless")` returned the quantiles of the trained model labeled with the new probabilities.
 * fix: `BenchmarkResult$obs_loss()` now works for benchmark results with learners of different predict types, instead of failing with an error about inconsistent columns.
 * fix: `Measure$aggregate()` with `average = "macro_weighted"` now takes the weights and the number of samples from the predict sets of the measure instead of always using the test set.
   Previously, measures on other predict sets were aggregated to `NaN` or weighted by the size of the test sets.

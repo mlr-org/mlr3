@@ -132,6 +132,7 @@ LearnerRegrDebug = R6Class(
         probs = self$quantiles
         model$quantiles = unname(quantile_weighted(truth, probs, weights = weights))
         model$quantile_probs = probs
+        model$quantile_response = self$quantile_response
       }
 
       if (isTRUE(pv$save_tasks)) {
@@ -167,6 +168,7 @@ LearnerRegrDebug = R6Class(
 
       if (self$predict_type == "quantiles") {
         assert_quantiles(self, quantile_response = TRUE)
+        assert_quantiles_model(self, self$model)
         prediction = list(
           quantiles = matrix(self$model$quantiles, nrow = n, ncol = length(self$model$quantiles), byrow = TRUE)
         )
