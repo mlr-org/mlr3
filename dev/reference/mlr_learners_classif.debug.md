@@ -93,6 +93,7 @@ label. The following hyperparameters trigger the following actions:
 
   If `TRUE`, the `$predict()` function will throw an error if the model
   was not unmarshaled in the same session that is used for prediction.
+  The default is `FALSE`.
 
 Note that segfaults may not be triggered reliably on your operating
 system. Also note that if they work as intended, they will tear down
@@ -144,7 +145,7 @@ or with the associated sugar function
 | iter                 | integer   | 1       |             | \\\[1, \infty)\\ |
 | early_stopping       | logical   | FALSE   | TRUE, FALSE | \-               |
 | count_marshaling     | logical   | FALSE   | TRUE, FALSE | \-               |
-| check_pid            | logical   | TRUE    | TRUE, FALSE | \-               |
+| check_pid            | logical   | FALSE   | TRUE, FALSE | \-               |
 | config_error         | logical   | FALSE   | TRUE, FALSE | \-               |
 
 ## See also
