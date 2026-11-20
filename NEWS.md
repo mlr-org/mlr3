@@ -15,6 +15,9 @@
 * fix: `BenchmarkResult$filter()`, `$resample_result()`, and `$set_threshold()` now raise an error if `i` contains missing values.
   Previously, `$filter(i = NA)` silently removed all resample results.
 * fix: `lrn("regr.debug")` with `predict_missing` and predict type `"se"` now returns missing values for the same observations in the response and the standard error.
+* fix: `as_task_classif()` and `as_task_regr()` now change the target if called with `target` on a task that already has the requested type.
+  Previously, `target`, `drop_original_target`, and `drop_levels` were silently ignored and the task was returned with its old target.
+  Unknown arguments now raise an error.
 * fix: `print()` for the result of `score_roc_measures()` now shows the confusion matrix with the truth in rows and the prediction in columns, as labeled.
   Previously, the counts of false positives and false negatives were shown in each other's place.
   `score_roc_measures()` now returns unnamed scores, ignores observation weights so that the measures match the returned confusion matrix, and raises an error for predictions that are not binary classification predictions.

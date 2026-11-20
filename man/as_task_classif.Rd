@@ -12,7 +12,14 @@
 \usage{
 as_task_classif(x, ...)
 
-\method{as_task_classif}{TaskClassif}(x, clone = FALSE, ...)
+\method{as_task_classif}{TaskClassif}(
+  x,
+  clone = FALSE,
+  target = NULL,
+  drop_original_target = FALSE,
+  drop_levels = TRUE,
+  ...
+)
 
 \method{as_task_classif}{data.frame}(
   x,
@@ -70,6 +77,13 @@ If \code{TRUE}, ensures that the returned object is not the same as the input \c
 \item{target}{(\code{character(1)})\cr
 Name of the target column.}
 
+\item{drop_original_target}{(\code{logical(1)})\cr
+If \code{FALSE} (default), the original target is added as a feature.
+Otherwise the original target is dropped.}
+
+\item{drop_levels}{(\code{logical(1)})\cr
+If \code{TRUE} (default), unused levels of the new target variable are dropped.}
+
 \item{id}{(\code{character(1)})\cr
 Id for the new task.
 Defaults to the (deparsed and substituted) name of the data argument.}
@@ -79,13 +93,6 @@ Level of the positive class. See \link{TaskClassif}.}
 
 \item{label}{(\code{character(1)})\cr
 Label for the new instance.}
-
-\item{drop_original_target}{(\code{logical(1)})\cr
-If \code{FALSE} (default), the original target is added as a feature.
-Otherwise the original target is dropped.}
-
-\item{drop_levels}{(\code{logical(1)})\cr
-If \code{TRUE} (default), unused levels of the new target variable are dropped.}
 
 \item{data}{(\code{data.frame()})\cr
 Data frame containing all columns referenced in formula \code{x}.}
@@ -98,6 +105,7 @@ Convert object to a \link{TaskClassif}.
 This is a S3 generic. mlr3 ships with methods for the following objects:
 \enumerate{
 \item \link{TaskClassif}: returns the object as-is, possibly cloned.
+If \code{target} names a column other than the current target, \code{\link[=convert_task]{convert_task()}} is called.
 \item \code{\link{formula}}, \code{\link[=data.frame]{data.frame()}}, \code{\link[=matrix]{matrix()}}, and \link{DataBackend}: provides an alternative to the
 constructor of \link{TaskClassif}.
 \item \link{TaskRegr}: Calls \code{\link[=convert_task]{convert_task()}}.

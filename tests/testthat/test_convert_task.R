@@ -178,6 +178,28 @@ test_that("as_task_regr.TaskClassif forwards drop_original_target and drop_level
   expect_true("Species" %nin% drop$feature_names)
 })
 
+test_that("as_task_xx changes the target of a task of the same type", {
+  task = tsk("mtcars")
+  expect_identical(as_task_regr(task), task)
+  expect_identical(as_task_regr(task, target = "mpg"), task)
+  converted = as_task_regr(task, target = "hp")
+  expect_class(converted, "TaskRegr")
+  expect_identical(converted$target_names, "hp")
+  expect_true("mpg" %chin% converted$feature_names)
+  expect_identical(task$target_names, "mpg")
+  expect_true("mpg" %nin% as_task_regr(task, target = "hp", drop_original_target = TRUE)$feature_names)
+
+  data = data.table(y1 = factor(rep(c("a", "b"), 5)), y2 = factor(rep(c("u", "v", "w"), length.out = 10)), x = 1:10)
+  task = as_task_classif(data, target = "y1")
+  expect_identical(as_task_classif(task), task)
+  converted = as_task_classif(task, target = "y2")
+  expect_identical(converted$target_names, "y2")
+  expect_identical(converted$class_names, c("u", "v", "w"))
+
+  expect_error(as_task_regr(tsk("mtcars"), targett = "hp"), "Received the following")
+  expect_error(as_task_classif(task, clone = NA), "clone")
+})
+
 test_that("data.frame converters", {
   data("mtcars", package = "datasets")
   task = as_task_regr(mtcars, "mpg")

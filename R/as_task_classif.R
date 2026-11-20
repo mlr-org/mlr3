@@ -5,6 +5,7 @@
 #' This is a S3 generic. mlr3 ships with methods for the following objects:
 #'
 #' 1. [TaskClassif]: returns the object as-is, possibly cloned.
+#'    If `target` names a column other than the current target, [convert_task()] is called.
 #' 2. [`formula`], [data.frame()], [matrix()], and [DataBackend]: provides an alternative to the
 #'    constructor of [TaskClassif].
 #' 3. [TaskRegr]: Calls [convert_task()].
@@ -24,8 +25,28 @@ as_task_classif = function(x, ...) {
 #' @rdname as_task_classif
 #' @export
 # nolint next
-as_task_classif.TaskClassif = function(x, clone = FALSE, ...) {
-  if (clone) x$clone(deep = TRUE) else x
+as_task_classif.TaskClassif = function(
+  x,
+  clone = FALSE,
+  target = NULL,
+  drop_original_target = FALSE,
+  drop_levels = TRUE,
+  ...
+) {
+  assert_flag(clone)
+  assert_empty_ellipsis(...)
+
+  if (is.null(target) || identical(target, x$target_names)) {
+    return(if (clone) x$clone(deep = TRUE) else x)
+  }
+
+  convert_task(
+    intask = x,
+    target = target,
+    new_type = "classif",
+    drop_original_target = drop_original_target,
+    drop_levels = drop_levels
+  )
 }
 
 #' @rdname as_task_classif
