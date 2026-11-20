@@ -103,6 +103,11 @@
   one fold with 20 and nine folds with 10 observations. Stratified
   instances created with the same seed differ from those of earlier
   versions.
+- fix: `lrn("regr.featureless")` and `lrn("regr.debug")` now raise an
+  error if `$quantiles` or `$quantile_response` are changed after
+  training, or if the predict type is set to `"quantiles"` after
+  training. Previously, `lrn("regr.featureless")` returned the quantiles
+  of the trained model labeled with the new probabilities.
 - fix: `BenchmarkResult$obs_loss()` now works for benchmark results with
   learners of different predict types, instead of failing with an error
   about inconsistent columns.
