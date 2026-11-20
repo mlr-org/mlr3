@@ -93,6 +93,8 @@
   `as_measure(NULL)` without a task type and `default_measures()` for a task type without a default measure now raise an informative error.
 * fix: `as_resampling()` and `as_resamplings()` with `clone = TRUE` now return a deep clone, so that changing the parameter values of the clone no longer changes the original resampling.
 * fix: `Learner$encapsulate()`: a `when` handler now also decides for errors of class `Mlr3ErrorConfig`, which previously always errored even when a handler was registered (#1500).
+* fix: `HotstartStack$start_cost()` and training a learner with a `$hotstart_stack` no longer fail with "argument is of length zero" if the hotstart parameter of the learner or of a learner in the stack is not set.
+  Such learners are not used for hotstarting.
 * fix: `resample()` and `benchmark()` with `store_models = FALSE` now also discard the model, the training task copy, and the data prototype of the fallback learner, which were kept for every iteration (#1510).
 * fix: `ResampleResult$prediction()` now checks the argument `predict_sets` and returns an empty list for an empty `ResampleResult`, as documented.
   `ResampleResult$iters` is now read-only.

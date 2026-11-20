@@ -131,6 +131,7 @@ The costs are returned in the order of the rows of \verb{$stack}, which is sorte
 The following cost values can be returned:
 \itemize{
 \item \code{NA_real_}: Learner is unsuitable to hot start target \code{learner}.
+This includes learners whose hotstart parameter is not set.
 \item \code{-1}: Hotstart learner in the stack and target \code{learner} are identical.
 \item \code{0} Cost for hot starting backwards is always 0.
 \item \verb{> 0} Cost for hot starting forward.
