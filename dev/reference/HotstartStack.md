@@ -119,7 +119,8 @@ target `learner`. The costs are returned in the order of the rows of
 
 The following cost values can be returned:
 
-- `NA_real_`: Learner is unsuitable to hot start target `learner`.
+- `NA_real_`: Learner is unsuitable to hot start target `learner`. This
+  includes learners whose hotstart parameter is not set.
 
 - `-1`: Hotstart learner in the stack and target `learner` are
   identical.

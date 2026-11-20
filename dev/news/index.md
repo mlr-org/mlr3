@@ -62,6 +62,10 @@
   ([\#1518](https://github.com/mlr-org/mlr3/issues/1518)). Subclasses of
   `Learner` can now add fields to the hash via the private field
   `$.extra_hash`.
+- fix: `lrn("classif.debug")` now continues from the stored model when
+  hotstarting and only updates `iter`. Previously, the model was rebuilt
+  without the fields written by `check_pid`, `count_marshaling`, and
+  `save_tasks`, and the response was drawn again without the weights.
 - fix: `BenchmarkResult$aggregate()` with `conditions = TRUE` now
   returns the number of resampling iterations with at least one warning
   or error, as documented, instead of the total number of warnings or
@@ -271,6 +275,10 @@
   errors of class `Mlr3ErrorConfig`, which previously always errored
   even when a handler was registered
   ([\#1500](https://github.com/mlr-org/mlr3/issues/1500)).
+- fix: `HotstartStack$start_cost()` and training a learner with a
+  `$hotstart_stack` no longer fail with “argument is of length zero” if
+  the hotstart parameter of the learner or of a learner in the stack is
+  not set. Such learners are not used for hotstarting.
 - fix:
   [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) and
   [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)

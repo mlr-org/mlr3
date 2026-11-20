@@ -741,7 +741,7 @@ learner = lrn("classif.rpart")
 rr = resample(task, learner, rsmp("holdout"))
 msr("classif.ce")$aggregate(rr)
 #> classif.ce 
-#> 0.05217391 
+#> 0.07826087 
 
 ## ------------------------------------------------
 ## Method `Measure$obs_loss()`
