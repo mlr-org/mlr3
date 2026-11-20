@@ -95,6 +95,10 @@ as_task_classif.DataBackend = function(
 
   assert_choice(target, x$colnames)
 
+  if (x$missings(x$rownames, target) > 0L) {
+    error_input("Target column '%s' must not contain missing values", target)
+  }
+
   TaskClassif$new(id = id, backend = x, target = target, positive = positive, label = label, ...)
 }
 

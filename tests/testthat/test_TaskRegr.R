@@ -18,6 +18,7 @@ test_that("Target is numeric", {
 test_that("TaskRegr rejects NAs in target", {
   dt = data.table::data.table(x = 1:10, y = c(NA_real_, 2:10))
   expect_error(as_task_regr(dt, target = "y"), "must not contain missing values")
+  expect_error(as_task_regr(as_data_backend(dt), target = "y"), "must not contain missing values")
 })
 
 test_that("TaskRegr: 0 feature task", {

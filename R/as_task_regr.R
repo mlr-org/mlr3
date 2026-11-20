@@ -74,6 +74,10 @@ as_task_regr.DataBackend = function(x, target, id = deparse1(substitute(x)), lab
 
   assert_choice(target, x$colnames)
 
+  if (x$missings(x$rownames, target) > 0L) {
+    error_input("Target column '%s' must not contain missing values", target)
+  }
+
   TaskRegr$new(id = id, backend = x, target = target, label = label, ...)
 }
 

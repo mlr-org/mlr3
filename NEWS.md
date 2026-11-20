@@ -14,6 +14,7 @@
 * fix: `benchmark()` with callbacks that write to `$data_extra` now stores the extra data with the experiment that produced it, instead of assigning it to another task, learner, or resampling.
 * fix: `BenchmarkResult$filter()`, `$resample_result()`, and `$set_threshold()` now raise an error if `i` contains missing values.
   Previously, `$filter(i = NA)` silently removed all resample results.
+* fix: `as_task_classif()` and `as_task_regr()` now also raise an error for missing values in the target column if called with a `DataBackend`.
 * fix: `lrn("regr.debug")` with `predict_missing` and predict type `"se"` now returns missing values for the same observations in the response and the standard error.
 * fix: `print()` for the result of `score_roc_measures()` now shows the confusion matrix with the truth in rows and the prediction in columns, as labeled.
   Previously, the counts of false positives and false negatives were shown in each other's place.
