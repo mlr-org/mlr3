@@ -27,16 +27,27 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
 
   # get task_type from mlr_reflections and call constructor
   constructor = get(fget_key(mlr_reflections$task_types, new_type, "task", key = "type")[[1L]])
-  common_args = intersect(names(intask$extra_args), names(formals(constructor$public_methods$initialize)))
+  extra_args = intask$extra_args
+  common_args = intersect(names(extra_args), names(formals(constructor$public_methods$initialize)))
+
+  # the positive class belongs to the target it was set for
+  if ("positive" %chin% common_args && length(target) == 1L) {
+    lvls = fget_key(intask$col_info, target, "levels", key = "id")[[1L]]
+    if (length(lvls) != 2L || extra_args$positive %nin% lvls) {
+      extra_args$positive = NULL
+      common_args = setdiff(common_args, "positive")
+    }
+  }
+
   newtask = invoke(
     constructor$new,
     id = intask$id,
     backend = intask$backend,
     target = target,
     label = intask$label,
-    .args = intask$extra_args[common_args]
+    .args = extra_args[common_args]
   )
-  newtask$extra_args = intask$extra_args
+  newtask$extra_args = extra_args
 
   # copy row_roles / col_roles / properties
   newtask$row_roles = intask$row_roles
