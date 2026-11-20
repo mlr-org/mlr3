@@ -90,6 +90,9 @@ This is a S3 generic. mlr3 ships with methods for the following objects:
 constructor of \link{TaskRegr}.
 \item \link{TaskClassif}: Calls \code{\link[=convert_task]{convert_task()}}.
 }
+
+The methods for \code{\link{formula}}, \code{\link[=data.frame]{data.frame()}}, and \code{\link[=matrix]{matrix()}} raise an error if the target column contains missing values.
+The method for \link{DataBackend} does not check the target column, because this would require reading the data.
 }
 \examples{
 as_task_regr(datasets::mtcars, target = "mpg")

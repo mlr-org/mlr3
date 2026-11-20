@@ -9,6 +9,9 @@
 #'    constructor of [TaskRegr].
 #' 3. [TaskClassif]: Calls [convert_task()].
 #'
+#' The methods for [`formula`], [data.frame()], and [matrix()] raise an error if the target column contains missing values.
+#' The method for [DataBackend] does not check the target column, because this would require reading the data.
+#'
 #' @inheritParams as_task
 #'
 #' @return [TaskRegr].
