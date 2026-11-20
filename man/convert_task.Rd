@@ -18,7 +18,8 @@ A \link{Task} to be converted.}
 
 \item{target}{(\code{character(1)})\cr
 New target to be set, must be a column in the \code{intask} data.
-If \code{NULL}, no new target is set, and task is converted as-is.}
+If \code{NULL}, no new target is set, and task is converted as-is.
+Ignored if the new task type has no target, e.g. \code{"unsupervised"}.}
 
 \item{new_type}{(\code{character(1)})\cr
 The new task type. Must be in \code{\link[=mlr_reflections]{mlr_reflections$task_types}}].

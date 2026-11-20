@@ -7,6 +7,7 @@
 \alias{as_task_classif.matrix}
 \alias{as_task_classif.DataBackend}
 \alias{as_task_classif.TaskRegr}
+\alias{as_task_classif.TaskUnsupervised}
 \alias{as_task_classif.formula}
 \title{Convert to a Classification Task}
 \usage{
@@ -47,6 +48,8 @@ as_task_classif(x, ...)
   drop_levels = TRUE,
   ...
 )
+
+\method{as_task_classif}{TaskUnsupervised}(x, target, drop_levels = TRUE, ...)
 
 \method{as_task_classif}{formula}(
   x,
