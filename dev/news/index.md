@@ -76,6 +76,9 @@
   `PredictionClassif` and `PredictionRegr` now reject extra data whose
   names collide with reserved prediction columns
   ([\#1517](https://github.com/mlr-org/mlr3/issues/1517)).
+- fix: `lrn("regr.featureless")` now declares `FALSE` as the default of
+  `robust`, as documented. Previously, the declared default was `TRUE`,
+  and a learner with `robust` unset predicted the median.
 - fix: `ResampleResult$filter()` now keeps the iterations sorted, so
   that combining a filtered result with
   [`c()`](https://rdrr.io/r/base/c.html) no longer errors and

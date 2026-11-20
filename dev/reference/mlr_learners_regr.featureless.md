@@ -53,7 +53,7 @@ or with the associated sugar function
 |        |         |         |             |
 |--------|---------|---------|-------------|
 | Id     | Type    | Default | Levels      |
-| robust | logical | TRUE    | TRUE, FALSE |
+| robust | logical | FALSE   | TRUE, FALSE |
 
 ## See also
 
