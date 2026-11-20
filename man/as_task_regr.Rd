@@ -73,7 +73,8 @@ If \code{FALSE} (default), the original target is added as a feature.
 Otherwise the original target is dropped.}
 
 \item{drop_levels}{(\code{logical(1)})\cr
-If \code{TRUE} (default), unused levels of the new target variable are dropped.}
+If \code{TRUE} (default), unused levels of the new target variable are dropped.
+The levels of all other columns are taken from \code{intask}.}
 
 \item{data}{(\code{data.frame()})\cr
 Data frame containing all columns referenced in formula \code{x}.}
