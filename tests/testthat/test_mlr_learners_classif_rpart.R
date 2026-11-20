@@ -79,6 +79,11 @@ test_that("default_values on rpart", {
   expect_names(names(values), permutation.of = c("minsplit", "minbucket", "cp"))
 })
 
+test_that("classif.rpart raises an error on a task without features", {
+  task = tsk("iris")$select(character())
+  expect_error(lrn("classif.rpart")$train(task), "cannot be trained", class = "Mlr3ErrorLearnerTrain")
+})
+
 test_that("importance and selected_features of a tree without splits", {
   task = as_task_classif(data.table(y = factor(rep(c("a", "b"), 15L)), x = 1), target = "y")
   learner = lrn("classif.rpart")

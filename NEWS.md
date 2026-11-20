@@ -24,6 +24,9 @@
   `PredictionClassif` and `PredictionRegr` now reject extra data whose names collide with reserved prediction columns (#1517).
 * fix: `ResampleResult$filter()` now keeps the iterations sorted, so that combining a filtered result with `c()` no longer errors and `$predictions()` and `$learners` stay ordered by iteration.
   Tasks, learners, resamplings, and extra data that are no longer referenced are now removed from the filtered result.
+* fix: `lrn("classif.rpart")` and `lrn("regr.rpart")` now raise an informative error if the task has no features.
+* fix: `lrn("classif.debug")` now checks that `sleep_train` and `sleep_predict` are functions, and computes the internal validation scores if `predict_missing` is set.
+  `lrn("classif.debug")` and `lrn("regr.debug")` no longer fail if `predict_missing_type` is set without `predict_missing`.
 * fix: `rsmp("cv")` and `rsmp("repeated_cv")` on a stratified task now create folds whose sizes differ by at most one observation.
   Previously, each stratum assigned its remainder to the first folds, so that e.g. 10 strata with 11 observations each and 10 folds resulted in one fold with 20 and nine folds with 10 observations.
   Stratified instances created with the same seed differ from those of earlier versions.

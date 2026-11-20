@@ -86,6 +86,11 @@ test_that("use_weights actually influences the model", {
   expect_false(all(p1$response == p2$response))
 })
 
+test_that("regr.rpart raises an error on a task without features", {
+  task = tsk("mtcars")$select(character())
+  expect_error(lrn("regr.rpart")$train(task), "cannot be trained", class = "Mlr3ErrorLearnerTrain")
+})
+
 test_that("importance and selected_features of a tree without splits", {
   task = as_task_regr(data.table(y = rep(1, 30L), x = seq_len(30L)), target = "y")
   learner = lrn("regr.rpart")

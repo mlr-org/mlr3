@@ -77,6 +77,9 @@ LearnerRegrRpart = R6Class(
 
   private = list(
     .train = function(task) {
+      if (!length(task$feature_names)) {
+        error_learner_train("Learner '%s' cannot be trained on task '%s': the task has no features", self$id, task$id)
+      }
       pv = self$param_set$get_values(tags = "train")
       names(pv) = replace(names(pv), names(pv) == "keep_model", "model")
       pv$weights = private$.get_weights(task)

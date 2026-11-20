@@ -179,7 +179,7 @@ LearnerRegrDebug = R6Class(
       prediction = named_list(mlr_reflections$learner_predict_types[["regr"]][[predict_types]])
       missing_type = pv$predict_missing_type %??% "na"
 
-      ii = if (!is.null(pv$predict_missing)) sample.int(n, n * pv$predict_missing)
+      ii = if (!is.null(pv[["predict_missing"]])) sample.int(n, n * pv[["predict_missing"]])
 
       for (pt in names(prediction)) {
         value = rep.int(self$model[[pt]], n)
