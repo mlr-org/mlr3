@@ -99,6 +99,17 @@ test_that("class property is updated", {
 })
 
 
+test_that("failed droplevels leaves the task unchanged", {
+  task = tsk("iris")$filter(1:50)
+  hash = task$hash
+  expect_error(task$droplevels(), "at least two levels", class = "Mlr3ErrorInput")
+  expect_identical(task$class_names, c("setosa", "versicolor", "virginica"))
+  expect_subset("multiclass", task$properties)
+  expect_identical(task$hash, hash)
+  expect_output(print(task), "setosa")
+  expect_task(task)
+})
+
 test_that("droplevels keeps level order", {
   task = tsk("iris")
   my_order = c("virginica", "setosa", "versicolor")

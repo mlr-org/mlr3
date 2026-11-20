@@ -112,11 +112,18 @@ TaskClassif = R6Class(
     #' Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
     #' `cols` defaults to all columns with storage type "factor" or "ordered".
     #' Also updates the task property `"twoclass"`/`"multiclass"`.
+    #' Raises an error and leaves the task unchanged if fewer than two levels of the target would remain.
     #'
     #' @return Modified `self`.
     droplevels = function(cols = NULL) {
+      col_info = copy(private$.col_info)
+      hash = private$.hash
       super$droplevels(cols)
-      update_classif_property(self, private)
+      tryCatch(update_classif_property(self, private), error = function(e) {
+        private$.col_info = col_info
+        private$.hash = hash
+        stop(e)
+      })
       invisible(self)
     }
   ),
