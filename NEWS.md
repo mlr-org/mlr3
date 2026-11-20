@@ -5,6 +5,8 @@
 * fix: Errors caused by prior misconfiguration (e.g., predicting with an untrained learner, uninstantiated resamplings, missing stored models or backends, and unsupported predict types) now signal `Mlr3ErrorConfig` instead of `Mlr3ErrorInput`, so they are no longer masked by fallback learners under encapsulation (#1500).
 * fix: `Resampling$instantiate()` on a task without groups now drops the groups of a task the resampling was instantiated on before.
   Previously, `$train_set()` and `$test_set()` translated the row ids with the groups of the earlier task and returned wrong row ids.
+* fix: `lrn("classif.debug")` and `lrn("regr.debug")` with `predict_missing_type = "omit"` now omit the share of predictions given by `predict_missing`.
+  Previously, this share was returned and the rest was omitted.
 * fix: `BenchmarkResult$combine()` and `c()` no longer fail if the benchmark result to add is empty.
 * BREAKING CHANGE: `ContextResample$learner` can no longer be replaced by another learner in a callback.
   Previously, a learner assigned in the stage `on_resample_begin` was trained and its model and predictions were stored under the original learner, and a learner assigned in a later stage was silently ignored.

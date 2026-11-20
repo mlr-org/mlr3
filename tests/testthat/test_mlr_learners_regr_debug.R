@@ -121,3 +121,13 @@ test_that("save_tasks", {
   expect_equal(learner$model$task_train$row_ids, 1:20)
   expect_equal(learner$model$task_predict$row_ids, 21:32)
 })
+
+test_that("omitted predictions", {
+  task = tsk("mtcars")
+  learner = lrn("regr.debug", predict_missing = 0.25, predict_missing_type = "omit")
+  learner$train(task)
+  expect_error(learner$predict(task), "for 8 observations is missing")
+
+  learner$param_set$set_values(predict_missing = 0)
+  expect_prediction(learner$predict(task))
+})
