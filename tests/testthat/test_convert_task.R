@@ -142,6 +142,21 @@ test_that("extra args survive the roundtrip", {
   expect_equal(mytask$positive, "R")
 })
 
+test_that("convert_task looks up the task class in the namespace of its package", {
+  task_types = copy(mlr_reflections$task_types)
+  on.exit({
+    mlr_reflections$task_types = task_types
+  })
+  mlr_reflections$task_types = setkeyv(
+    rbind(task_types, data.table(type = "compiler", package = "compiler", task = "cmpfun"), fill = TRUE),
+    "type"
+  )
+  # compiler is neither attached nor imported, so the lookup must use the package column;
+  # cmpfun is found and then fails as it is no R6 class
+  expect_false("package:compiler" %in% search())
+  expect_error(convert_task(tsk("iris"), new_type = "compiler"), "closure")
+})
+
 test_that("convert_task preserves internal_valid_task", {
   task = tsk("california_housing")
   task$internal_valid_task = sample(task$nrow, 10)
