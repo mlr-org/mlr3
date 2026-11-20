@@ -11,6 +11,9 @@
 * BREAKING CHANGE: `ContextResample$learner` can no longer be replaced by another learner in a callback.
   Previously, a learner assigned in the stage `on_resample_begin` was trained and its model and predictions were stored under the original learner, and a learner assigned in a later stage was silently ignored.
   Callbacks can still modify the learner in place, e.g. write to `context$learner$state`.
+* fix: `convert_task()` now keeps the factor levels, column labels, `$man`, and `$characteristics` of the task.
+  Previously, levels set with `$set_levels()` were reset to the levels of the backend, so that values removed from the task reappeared.
+  `drop_levels = TRUE` now only drops unused levels of the target, as documented, and no longer the unused levels of features.
 * fix: `benchmark()` with callbacks that write to `$data_extra` now stores the extra data with the experiment that produced it, instead of assigning it to another task, learner, or resampling.
 * fix: `BenchmarkResult$filter()`, `$resample_result()`, and `$set_threshold()` now raise an error if `i` contains missing values.
   Previously, `$filter(i = NA)` silently removed all resample results.

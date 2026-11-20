@@ -142,6 +142,38 @@ test_that("extra args survive the roundtrip", {
   expect_equal(mytask$positive, "R")
 })
 
+test_that("convert_task keeps levels, labels, and man of the task", {
+  data = data.table(
+    y = factor(rep(c("a", "b"), 10)),
+    f = factor(rep(c("u", "v", "w", "x"), 5)),
+    x = as.numeric(1:20)
+  )
+  task = as_task_regr(data, target = "x")
+  task$set_levels(list(f = c("u", "v")))
+  task$labels = c(f = "a factor")
+  task$man = "mlr3::mlr_tasks_test"
+
+  converted = convert_task(task)
+  expect_identical(converted$levels("f"), list(f = c("u", "v")))
+  expect_identical(sum(is.na(converted$data()$f)), 10L)
+  expect_identical(converted$labels[["f"]], "a factor")
+  expect_identical(converted$man, "mlr3::mlr_tasks_test")
+  expect_identical(convert_task(task, drop_levels = FALSE)$levels("f"), list(f = c("u", "v")))
+
+  # only unused levels of the target are dropped
+  task = as_task_regr(data, target = "x")$filter(which(data$f %in% c("u", "v")))
+  converted = convert_task(task, target = "f", new_type = "classif")
+  expect_identical(converted$class_names, c("u", "v"))
+  expect_identical(converted$levels("y")[[1L]], c("a", "b"))
+  task$filter(which(data$y == "a"))
+  expect_identical(convert_task(task, target = "f", new_type = "classif")$levels("y")[[1L]], c("a", "b"))
+
+  # level order of the positive class survives
+  task = as_task_classif(data, target = "y", positive = "b")
+  expect_identical(convert_task(task)$class_names, c("b", "a"))
+  expect_identical(as_task_classif(as_task_regr(task, target = "x"), target = "y")$class_names, c("b", "a"))
+})
+
 test_that("convert_task preserves internal_valid_task", {
   task = tsk("california_housing")
   task$internal_valid_task = sample(task$nrow, 10)

@@ -16,6 +16,7 @@
 #'   Otherwise the original target is dropped.
 #' @param drop_levels (`logical(1)`)\cr
 #'   If `TRUE` (default), unused levels of the new target variable are dropped.
+#'   The levels of all other columns are taken from `intask`.
 #'
 #' @return [Task] of requested type.
 #' @export
@@ -23,7 +24,8 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
   assert_task(intask)
   target = assert_subset(target, choices = intask$col_info$id) %??% intask$target_names
   new_type = assert_choice(new_type, choices = mlr_reflections$task_types$type, null.ok = TRUE) %??% intask$task_type
-  assert_logical(drop_original_target, any.missing = FALSE, len = 1L)
+  assert_flag(drop_original_target)
+  assert_flag(drop_levels)
 
   # get task_type from mlr_reflections and call constructor
   constructor = get(fget_key(mlr_reflections$task_types, new_type, "task", key = "type")[[1L]])
@@ -37,6 +39,20 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
     .args = intask$extra_args[common_args]
   )
   newtask$extra_args = intask$extra_args
+  newtask$man = intask$man
+  newtask$characteristics = intask$characteristics
+
+  # keep levels and labels of the columns, but the level order the constructor set for the target (positive class)
+  col_info = copy(intask$col_info)
+  for (col in target) {
+    lvls = fget_key(newtask$col_info, col, "levels", key = "id")[[1L]]
+    ii = col_info[list(col), on = "id", which = TRUE]
+    if (!identical(lvls, col_info$levels[[ii]]) && setequal(lvls, col_info$levels[[ii]])) {
+      set(col_info, i = ii, j = "levels", value = list(lvls))
+      set(col_info, i = ii, j = "fix_factor_levels", value = TRUE)
+    }
+  }
+  newtask$col_info = col_info
 
   # copy row_roles / col_roles / properties
   newtask$row_roles = intask$row_roles
@@ -50,8 +66,8 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
   newtask$col_roles[props] = col_roles
 
   # during prediction, when target is NA, we do not call droplevels
-  if (assert_flag(drop_levels)) {
-    newtask$droplevels()
+  if (drop_levels) {
+    newtask$droplevels(target)
   }
 
   # if drop_original_target, remove the original target from the features
