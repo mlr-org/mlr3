@@ -12,7 +12,7 @@ label. The following hyperparameters trigger the following actions:
 
 - error_train::
 
-  Probability to raises an exception during train.
+  Probability to raise an exception during train.
 
 - message_predict::
 
@@ -37,11 +37,11 @@ label. The following hyperparameters trigger the following actions:
 
 - segfault_predict::
 
-  Probability to provokes a segfault during predict.
+  Probability to provoke a segfault during predict.
 
 - segfault_train::
 
-  Probability to provokes a segfault during train.
+  Probability to provoke a segfault during train.
 
 - sleep_train::
 
@@ -71,7 +71,18 @@ label. The following hyperparameters trigger the following actions:
 
 - iter::
 
-  Integer parameter for testing hotstarting.
+  Integer parameter for testing hotstarting and internal tuning.
+
+- early_stopping::
+
+  If `TRUE`, the `iter` stored in the model is drawn uniformly from 1 to
+  `iter`, and the best validation scores are better than the final ones
+  by 0.1. Requires a validation task. The default is `FALSE`.
+
+- config_error::
+
+  If `TRUE`, `$train()` raises an error of class `Mlr3ErrorConfig`. The
+  default is `FALSE`.
 
 - count_marshaling::
 
@@ -81,7 +92,7 @@ label. The following hyperparameters trigger the following actions:
 - check_pid::
 
   If `TRUE`, the `$predict()` function will throw an error if the model
-  was not unmarshaled in the same session that is used for prediction.)
+  was not unmarshaled in the same session that is used for prediction.
 
 Note that segfaults may not be triggered reliably on your operating
 system. Also note that if they work as intended, they will tear down

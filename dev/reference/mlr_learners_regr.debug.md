@@ -2,14 +2,32 @@
 
 A simple
 [LearnerRegr](https://mlr3.mlr-org.com/dev/reference/LearnerRegr.md)
-used primarily in the unit tests and for debugging purposes. If no
-hyperparameter is set, it simply constantly predicts the mean value of
-the training data. The following hyperparameters trigger the following
-actions:
+used primarily in the unit tests and for debugging purposes. It
+constantly predicts the mean value of the training data, the standard
+deviation as standard error, and the quantiles of the training data. The
+following hyperparameters trigger the following actions:
+
+- error_predict::
+
+  Probability to raise an exception during predict.
+
+- error_train::
+
+  Probability to raise an exception during train.
+
+- message_predict::
+
+  Probability to output a message during predict.
+
+- message_train::
+
+  Probability to output a message during train.
 
 - predict_missing::
 
-  Ratio of predictions which will be NA.
+  Ratio of predictions which will be NA. The same observations are
+  missing in the response and the standard error. Ignored for predict
+  type `"quantiles"`.
 
 - predict_missing_type::
 
@@ -20,13 +38,33 @@ actions:
 
   Saves input task in `model` slot during training and prediction.
 
+- segfault_predict::
+
+  Probability to provoke a segfault during predict.
+
+- segfault_train::
+
+  Probability to provoke a segfault during train.
+
 - threads::
 
   Number of threads to use. Has no effect.
 
+- warning_predict::
+
+  Probability to signal a warning during predict.
+
+- warning_train::
+
+  Probability to signal a warning during train.
+
 - x::
 
   Numeric tuning parameter. Has no effect.
+
+Note that segfaults may not be triggered reliably on your operating
+system. Also note that if they work as intended, they will tear down
+your R session immediately!
 
 ## Dictionary
 

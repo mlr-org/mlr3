@@ -40,6 +40,9 @@
 - fix: `BenchmarkResult$filter()`, `$resample_result()`, and
   `$set_threshold()` now raise an error if `i` contains missing values.
   Previously, `$filter(i = NA)` silently removed all resample results.
+- fix: `lrn("regr.debug")` with `predict_missing` and predict type
+  `"se"` now returns missing values for the same observations in the
+  response and the standard error.
 - fix: [`print()`](https://rdrr.io/r/base/print.html) for the result of
   [`score_roc_measures()`](https://mlr3.mlr-org.com/dev/reference/score_roc_measures.md)
   now shows the confusion matrix with the truth in rows and the

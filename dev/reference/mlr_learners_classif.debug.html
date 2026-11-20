@@ -12,7 +12,7 @@ error_predict:
 Probability to raise an exception during predict.
 
 error_train:
-Probability to raises an exception during train.
+Probability to raise an exception during train.
 
 message_predict:
 Probability to output a message during predict.
@@ -32,10 +32,10 @@ save_tasks:
 Saves input task in model slot during training and prediction.
 
 segfault_predict:
-Probability to provokes a segfault during predict.
+Probability to provoke a segfault during predict.
 
 segfault_train:
-Probability to provokes a segfault during train.
+Probability to provoke a segfault during train.
 
 sleep_train:
 Function returning a single number determining how many seconds
@@ -58,7 +58,16 @@ x:
 Numeric tuning parameter. Has no effect.
 
 iter:
-Integer parameter for testing hotstarting.
+Integer parameter for testing hotstarting and internal tuning.
+
+early_stopping:
+If TRUE, the iter stored in the model is drawn uniformly from 1 to iter,
+and the best validation scores are better than the final ones by 0.1.
+Requires a validation task. The default is FALSE.
+
+config_error:
+If TRUE, $train() raises an error of class Mlr3ErrorConfig.
+The default is FALSE.
 
 count_marshaling:
 If TRUE, marshal_model will increase the marshal_count
@@ -66,7 +75,7 @@ by 1 each time it is called. The default is FALSE.
 
 check_pid:
 If TRUE, the $predict() function will throw an error if the model
-was not unmarshaled in the same session that is used for prediction.)
+was not unmarshaled in the same session that is used for prediction.
 
 
 Note that segfaults may not be triggered reliably on your operating system.
@@ -77,7 +86,7 @@ error_predict:
 Probability to raise an exception during predict.
 
 error_train:
-Probability to raises an exception during train.
+Probability to raise an exception during train.
 
 message_predict:
 Probability to output a message during predict.
@@ -97,10 +106,10 @@ save_tasks:
 Saves input task in model slot during training and prediction.
 
 segfault_predict:
-Probability to provokes a segfault during predict.
+Probability to provoke a segfault during predict.
 
 segfault_train:
-Probability to provokes a segfault during train.
+Probability to provoke a segfault during train.
 
 sleep_train:
 Function returning a single number determining how many seconds
@@ -123,7 +132,16 @@ x:
 Numeric tuning parameter. Has no effect.
 
 iter:
-Integer parameter for testing hotstarting.
+Integer parameter for testing hotstarting and internal tuning.
+
+early_stopping:
+If TRUE, the iter stored in the model is drawn uniformly from 1 to iter,
+and the best validation scores are better than the final ones by 0.1.
+Requires a validation task. The default is FALSE.
+
+config_error:
+If TRUE, $train() raises an error of class Mlr3ErrorConfig.
+The default is FALSE.
 
 count_marshaling:
 If TRUE, marshal_model will increase the marshal_count
@@ -131,7 +149,7 @@ by 1 each time it is called. The default is FALSE.
 
 check_pid:
 If TRUE, the $predict() function will throw an error if the model
-was not unmarshaled in the same session that is used for prediction.)
+was not unmarshaled in the same session that is used for prediction.
 
 
 Note that segfaults may not be triggered reliably on your operating system.
@@ -185,7 +203,7 @@ The following hyperparameters trigger the following actions:</p><dl><dt>error_pr
 <dd><p>Probability to raise an exception during predict.</p></dd>
 
 <dt>error_train:</dt>
-<dd><p>Probability to raises an exception during train.</p></dd>
+<dd><p>Probability to raise an exception during train.</p></dd>
 
 <dt>message_predict:</dt>
 <dd><p>Probability to output a message during predict.</p></dd>
@@ -205,10 +223,10 @@ The following hyperparameters trigger the following actions:</p><dl><dt>error_pr
 <dd><p>Saves input task in <code>model</code> slot during training and prediction.</p></dd>
 
 <dt>segfault_predict:</dt>
-<dd><p>Probability to provokes a segfault during predict.</p></dd>
+<dd><p>Probability to provoke a segfault during predict.</p></dd>
 
 <dt>segfault_train:</dt>
-<dd><p>Probability to provokes a segfault during train.</p></dd>
+<dd><p>Probability to provoke a segfault during train.</p></dd>
 
 <dt>sleep_train:</dt>
 <dd><p>Function returning a single number determining how many seconds
@@ -231,7 +249,16 @@ to sleep during <code>$predict()</code>.</p></dd>
 <dd><p>Numeric tuning parameter. Has no effect.</p></dd>
 
 <dt>iter:</dt>
-<dd><p>Integer parameter for testing hotstarting.</p></dd>
+<dd><p>Integer parameter for testing hotstarting and internal tuning.</p></dd>
+
+<dt>early_stopping:</dt>
+<dd><p>If <code>TRUE</code>, the <code>iter</code> stored in the model is drawn uniformly from 1 to <code>iter</code>,
+and the best validation scores are better than the final ones by 0.1.
+Requires a validation task. The default is <code>FALSE</code>.</p></dd>
+
+<dt>config_error:</dt>
+<dd><p>If <code>TRUE</code>, <code>$train()</code> raises an error of class <code>Mlr3ErrorConfig</code>.
+The default is <code>FALSE</code>.</p></dd>
 
 <dt>count_marshaling:</dt>
 <dd><p>If <code>TRUE</code>, <code>marshal_model</code> will increase the <code>marshal_count</code>
@@ -239,7 +266,7 @@ by 1 each time it is called. The default is <code>FALSE</code>.</p></dd>
 
 <dt>check_pid:</dt>
 <dd><p>If <code>TRUE</code>, the <code>$predict()</code> function will throw an error if the model
-was not unmarshaled in the same session that is used for prediction.)</p></dd>
+was not unmarshaled in the same session that is used for prediction.</p></dd>
 
 
 </dl><p>Note that segfaults may not be triggered reliably on your operating system.
