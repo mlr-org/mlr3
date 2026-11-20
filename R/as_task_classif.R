@@ -47,6 +47,7 @@ as_task_classif.data.frame = function(
   ...
 ) {
   force(id)
+  assert_empty_ellipsis(...)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
   assert_choice(target, names(x))
