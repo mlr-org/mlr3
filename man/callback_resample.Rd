@@ -72,6 +72,8 @@ See also the section on parameters for more information on the stages.
 When implementing a callback, each function must have two arguments named \code{callback} and \code{context}.
 A callback can write data to the state (\verb{$state}), e.g. settings that affect the callback itself.
 We highly discourage changing the task, learner and resampling objects via the callback.
+Calling \verb{$predict()} on \code{context$learner} changes the predict time and the log stored for the resampling iteration.
+Predict with a clone of the learner instead (see examples).
 }
 \examples{
 learner = lrn("classif.rpart")
@@ -91,7 +93,8 @@ rr$learners[[1]]$state$selected_features
 # holdout task callback
 callback = callback_resample("holdout_task",
   on_resample_before_predict = function(callback, context) {
-    pred = context$learner$predict(callback$state$task)
+    # predict with a clone to keep the predict time of the iteration unchanged
+    pred = context$learner$clone()$predict(callback$state$task)
     context$data_extra = list(prediction_holdout = pred)
   }
 )
