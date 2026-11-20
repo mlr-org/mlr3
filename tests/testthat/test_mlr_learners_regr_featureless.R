@@ -13,6 +13,20 @@ test_that("regr.featureless works on featureless task", {
   expect_number(rr$aggregate())
 })
 
+test_that("regr.featureless is not robust by default", {
+  task = tsk("mtcars")
+  learner = lrn("regr.featureless")
+  expect_false(learner$param_set$default$robust)
+  expect_false(learner$param_set$values$robust)
+  expect_equal(learner$train(task)$model$location, mean(task$truth()))
+
+  learner$param_set$values$robust = NULL
+  expect_equal(learner$train(task)$model$location, mean(task$truth()))
+
+  learner$param_set$values$robust = TRUE
+  expect_equal(unname(learner$train(task)$model$location), median(task$truth()))
+})
+
 test_that("regr.featureless quantile prediction works", {
   task = tsk("mtcars")
 
