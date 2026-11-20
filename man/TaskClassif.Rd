@@ -73,6 +73,10 @@ Other Task:
     \item{\code{class_names}}{(\code{character()})\cr
 Returns all class labels of the target column.}
 
+    \item{\code{properties}}{(\code{character()})\cr
+Set of task properties, see \link{Task}.
+The properties \code{"twoclass"} and \code{"multiclass"} are calculated from the number of levels of the target column.}
+
     \item{\code{positive}}{(\code{character(1)})\cr
 Stores the positive class for binary classification tasks, and \code{NA} for multiclass tasks.
 To switch the positive class, assign a level to this field.}

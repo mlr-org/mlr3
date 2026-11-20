@@ -129,6 +129,15 @@ TaskClassif = R6Class(
       fget_key(self$col_info, i = self$target_names, j = "levels", key = "id")[[1L]]
     },
 
+    #' @field properties (`character()`)\cr
+    #' Set of task properties, see [Task].
+    #' The properties `"twoclass"` and `"multiclass"` are calculated from the number of levels of the target column.
+    properties = function(rhs) {
+      assert_ro_binding(rhs)
+      class_property = if (length(self$class_names) == 2L) "twoclass" else "multiclass"
+      c(class_property, setdiff(super$properties, c("twoclass", "multiclass")))
+    },
+
     #' @field positive (`character(1)`)\cr
     #' Stores the positive class for binary classification tasks, and `NA` for multiclass tasks.
     #' To switch the positive class, assign a level to this field.
