@@ -5,6 +5,7 @@
 \title{Callback Holdout Task}
 \description{
 This \link{CallbackResample} predicts on an additional holdout task after training.
+The prediction is not included in the predict time of the resampling iteration.
 }
 \section{Parameters}{
 

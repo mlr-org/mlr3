@@ -9,10 +9,10 @@ test_that("mlr_learners", {
     } else {
       expect_learner(l)
     }
-    if (inherits(l, "TaskClassif")) {
+    if (inherits(l, "LearnerClassif")) {
       expect_true(startsWith(l$id, "classif."))
     }
-    if (inherits(l, "TaskRegr")) {
+    if (inherits(l, "LearnerRegr")) {
       expect_true(startsWith(l$id, "regr."))
     }
   }
