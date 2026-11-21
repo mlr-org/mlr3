@@ -94,15 +94,14 @@ MeasureClassifCosts = R6Class(
       lvls = levels(prediction$truth)
       assert_set_equal(lvls, colnames(costs))
 
+      if (anyMissing(prediction$response)) {
+        error_input("Measure '%s' cannot be calculated for predictions with missing values in the response", self$id)
+      }
+
       if (is.null(weights)) {
-        confusion = table(response = prediction$response, truth = prediction$truth, useNA = "ifany")
+        confusion = table(response = prediction$response, truth = prediction$truth)
       } else {
-        confusion = tapply(
-          weights,
-          list(response = addNA(prediction$response, ifany = TRUE), truth = addNA(prediction$truth, ifany = TRUE)),
-          sum,
-          default = 0
-        )
+        confusion = tapply(weights, list(response = prediction$response, truth = prediction$truth), sum, default = 0)
       }
 
       # reorder rows / cols if necessary
