@@ -5,7 +5,7 @@
 #' @import mlr3misc
 #' @import palmerpenguins
 #' @importFrom R6 R6Class is.R6
-#' @importFrom utils data head tail getFromNamespace packageVersion
+#' @importFrom utils data head tail getFromNamespace getS3method packageVersion
 #' @importFrom graphics plot
 #' @importFrom stats predict rnorm runif sd contr.treatment model.frame terms quantile weighted.mean
 #' @importFrom uuid UUIDgenerate

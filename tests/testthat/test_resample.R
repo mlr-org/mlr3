@@ -214,6 +214,25 @@ test_that("encapsulation", {
   expect_equal(rr$learner$encapsulation[["predict"]], "evaluate")
 })
 
+test_that("encapsulation works for learners inheriting directly from Learner", {
+  LearnerGeneric = R6Class(
+    "LearnerGeneric",
+    inherit = Learner,
+    private = list(.train = function(task) stop("train failed"))
+  )
+  learner = LearnerGeneric$new(
+    "generic",
+    task_type = "classif",
+    feature_types = "numeric",
+    predict_types = "response",
+    properties = "multiclass"
+  )
+
+  rr = resample(tsk("iris"), learner, rsmp("holdout"), encapsulate = "evaluate")
+  expect_data_table(rr$errors, nrows = 1L)
+  expect_class(rr$learner$fallback, "LearnerClassifFeatureless")
+})
+
 test_that("encapsulation keeps configured fallback", {
   learner = lrn("classif.debug", error_train = 1)
   learner$encapsulate("evaluate", fallback = lrn("classif.rpart", id = "my_fallback"))
