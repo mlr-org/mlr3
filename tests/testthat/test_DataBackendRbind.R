@@ -83,3 +83,33 @@ test_that("missings and distinct count cells filled with NA", {
   task$col_roles$feature = c("x", "extra")
   expect_equal(task$missings(), c(y = 0L, x = 0L, extra = 2L))
 })
+
+test_that("missings and distinct ignore rows shadowed by b2", {
+  b1 = as_data_backend(
+    data.table(id = 1:3, x = c(NA, 2L, 3L), y = c(NA, NA, 3L), f = c("a", "b", "c")),
+    primary_key = "id"
+  )
+  b2 = as_data_backend(
+    data.table(id = 1:2, x = c(10L, NA), y = c(NA, 20L), f = c("x", "y")),
+    primary_key = "id"
+  )
+  b = DataBackendRbind$new(b1, b2)
+
+  expect_backend(b)
+  expect_equal(b$missings(1:3, c("x", "y", "f")), c(x = 1L, y = 1L, f = 0L))
+  expect_equal(b$missings(1L, c("x", "y")), c(x = 0L, y = 1L))
+  expect_equal(b$missings(c(1L, 1L), c("x", "y")), c(x = 0L, y = 2L))
+  expect_set_equal(b$distinct(1:3, "f")$f, c("x", "y", "c"))
+  expect_equal(b$distinct(1L, "f")$f, "x")
+  expect_set_equal(b$distinct(NULL, "f")$f, c("x", "y", "c"))
+
+  b1_extra = as_data_backend(data.table(id = 1:3, extra = c("p", "q", "r")), primary_key = "id")
+  b2_extra = as_data_backend(data.table(id = 1:2, x = c(10L, 20L)), primary_key = "id")
+  b_extra = DataBackendRbind$new(b1_extra, b2_extra)
+
+  expect_equal(b_extra$missings(1:3, "extra"), c(extra = 2L))
+  expect_equal(b_extra$missings(1L, "extra"), c(extra = 1L))
+  expect_set_equal(b_extra$distinct(1:3, "extra", na_rm = FALSE)$extra, c("r", NA))
+  expect_equal(b_extra$distinct(1L, "extra", na_rm = TRUE)$extra, character())
+  expect_equal(b_extra$distinct(1L, "extra", na_rm = FALSE)$extra, NA_character_)
+})
