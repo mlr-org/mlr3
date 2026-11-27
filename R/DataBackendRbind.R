@@ -41,7 +41,7 @@ DataBackendRbind = R6Class(
       b1 = private$.data$b1
       b2 = private$.data$b2
       cols = intersect(cols, self$colnames)
-      d1 = b1$distinct(rows, cols, na_rm = na_rm)
+      d1 = b1$distinct(private$.rows_b1(rows), cols, na_rm = na_rm)
       d2 = b2$distinct(rows, cols, na_rm = na_rm)
       res = set_names(map(cols, function(nn) union(d1[[nn]], d2[[nn]])), cols)
 
@@ -59,7 +59,7 @@ DataBackendRbind = R6Class(
       b1 = private$.data$b1
       b2 = private$.data$b2
       cols = intersect(cols, self$colnames)
-      m1 = as.list(b1$missings(rows, cols))
+      m1 = as.list(b1$missings(private$.rows_b1(rows), cols))
       m2 = as.list(b2$missings(rows, cols))
 
       # rows of a backend without the column are filled with NA in $data()
@@ -93,6 +93,21 @@ DataBackendRbind = R6Class(
     .calculate_hash = function() {
       data = private$.data
       calculate_hash(data$b1$hash, data$b2$hash)
+    },
+
+    # queried rows served by b1, excluding rows shadowed by b2
+    .rows_b1 = function(rows) {
+      b1 = private$.data$b1
+      b2 = private$.data$b2
+      r2 = b2$rownames
+
+      if (is.null(rows)) {
+        r1 = b1$rownames
+        b1_only = setdiff(r1, r2)
+        if (length(b1_only) == length(r1)) NULL else b1_only
+      } else {
+        rows[rows %nin% r2]
+      }
     },
 
     # number of queried rows served by each backend, rows in both backends are served by b2
